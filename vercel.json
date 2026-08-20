@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://zerkalls-admin-ofcvifvxq-suvorovnikolay19-2472s-projects.vercel.app/api/:path*"
+    }
+  ]
+}

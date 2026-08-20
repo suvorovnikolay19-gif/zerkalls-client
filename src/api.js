@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL ?? '';
+const BASE = '';
 
 export async function fetchProducts({ limit = 50, page = 1, search = '' } = {}) {
   const params = new URLSearchParams({ limit, page });
