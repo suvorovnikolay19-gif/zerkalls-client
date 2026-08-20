@@ -1,0 +1,12 @@
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fbfaf8; }
+a { color: #1a1a18; text-decoration: none; }
+a:hover { color: #6b6862; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #dcd8d1; border-radius: 8px; }
+button { font-family: inherit; }
+
+@keyframes dcFade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes dcSlide { from { transform: translateX(40px); opacity: .4 } to { transform: translateX(0); opacity: 1 } }
+@keyframes dcPop { from { transform: translateY(16px) scale(.98); opacity: 0 } to { transform: translateY(0) scale(1); opacity: 1 } }
+@keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
