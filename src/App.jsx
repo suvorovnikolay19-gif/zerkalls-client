@@ -8,6 +8,7 @@ import ProductGrid from './components/ProductGrid.jsx';
 import Footer from './components/Footer.jsx';
 import HomePage from './pages/HomePage.jsx';
 import Breadcrumbs from './components/Breadcrumbs.jsx';
+import CategoryNav from './components/CategoryNav.jsx';
 
 const CHIPS = [
   { key: 'stock', label: 'В наличии' },
@@ -27,6 +28,12 @@ const CATS = [
 
 const MATERIALS = ['Дуб', 'Латунь', 'Сталь', 'Стекло', 'Ротанг', 'Бетон'];
 
+const ENTRY_TO_SECTION = {
+  mirrors: 'Зеркала',
+  partitions: 'Перегородки',
+  stairs: 'Лестницы',
+};
+
 function pluralProducts(n) {
   if (n % 100 >= 11 && n % 100 <= 19) return 'товаров';
   const r = n % 10;
@@ -38,6 +45,8 @@ function pluralProducts(n) {
 export default function App() {
   const [page, setPage] = useState('home');
   const [entry, setEntry] = useState('catalog');
+  const [section, setSection] = useState(null);
+  const [subsection, setSubsection] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -90,7 +99,12 @@ export default function App() {
     setPriceMax('');
   };
 
-  const navigateToCatalog = (e = 'catalog') => { setEntry(e); setPage('catalog'); };
+  const navigateToCatalog = (e = 'catalog') => {
+    setEntry(e);
+    setPage('catalog');
+    setSection(ENTRY_TO_SECTION[e] ?? null);
+    setSubsection(null);
+  };
 
   const applied = [
     ...CHIPS.filter(c => chips[c.key]).map(c => ({ label: c.label, remove: () => toggleChip(c.key) })),
@@ -118,8 +132,11 @@ export default function App() {
       />
       <Breadcrumbs
         entry={entry}
+        section={section}
+        subsection={subsection}
         onGoHome={() => setPage('home')}
         onGoEntry={navigateToCatalog}
+        onClearSubsection={() => setSubsection(null)}
       />
       <FilterBar
         chips={CHIPS}
@@ -132,9 +149,15 @@ export default function App() {
         applied={applied}
         onReset={resetAll}
       />
+      <CategoryNav
+        section={section}
+        subsection={subsection}
+        onPickSection={name => { setSection(name); setSubsection(null); }}
+        onPickSubsection={name => setSubsection(name)}
+      />
       <main style={{ padding: '54px 40px 90px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 30 }}>
-          <h2 style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: '-.02em' }}>Каталог зеркал и перегородок</h2>
+          <h2 style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: '-.02em' }}>{subsection || section || 'Каталог зеркал и перегородок'}</h2>
           <span style={{ width: 1, height: 18, background: '#dcd8d1', display: 'inline-block' }} />
           <span style={{ fontSize: 14, color: '#8b877f' }}>
             {loading ? 'Загрузка...' : `${filtered.length} ${pluralProducts(filtered.length)}`}
