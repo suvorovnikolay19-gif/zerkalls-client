@@ -1,4 +1,4 @@
-export default function HeroSection({ cartCount, onOpenPanel }) {
+export default function HeroSection({ cartCount, onOpenPanel, onGoHome }) {
   return (
     <section style={{ position: 'relative', height: 620, overflow: 'hidden', background: '#8c857b' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #9b948a 0, #9b948a 14px, #918a80 14px, #918a80 28px)' }} />
@@ -27,8 +27,8 @@ export default function HeroSection({ cartCount, onOpenPanel }) {
           </div>
         </div>
         <nav style={{ display: 'flex', alignItems: 'center', gap: 26, padding: '14px 0', borderBottom: '1px solid rgba(255,255,255,.18)', fontSize: 14, color: 'rgba(255,255,255,.92)' }}>
-          <span style={{ fontSize: 15 }}>⌂</span>
-          <span style={{ cursor: 'pointer' }}>Каталог</span>
+          <span onClick={onGoHome} style={{ fontSize: 15, cursor: 'pointer' }} title="На главную">⌂</span>
+          <span style={{ cursor: 'default', color: '#e8dfae' }}>Каталог</span>
           <span style={{ cursor: 'pointer' }}>Хиты продаж</span>
           <span style={{ cursor: 'pointer' }}>Собрать комплект</span>
           <span style={{ cursor: 'pointer' }}>Лукбук</span>

@@ -1,4 +1,4 @@
-export default function FilterBar({ chips, chipStates, onToggleChip, activeCount, filteredCount, totalCount, onOpenPanel }) {
+export default function FilterBar({ chips, chipStates, onToggleChip, activeCount, filteredCount, totalCount, onOpenPanel, applied, onReset }) {
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(251,250,248,.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 40px', overflowX: 'auto' }}>
@@ -33,6 +33,25 @@ export default function FilterBar({ chips, chipStates, onToggleChip, activeCount
           {filteredCount} из {totalCount} товаров
         </div>
       </div>
+
+      {applied && applied.length > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, padding: '0 40px 16px' }}>
+          <span style={{ fontSize: 13, color: '#8b877f', marginRight: 4 }}>Применено:</span>
+          {applied.map((f, i) => (
+            <button
+              key={i}
+              onClick={f.remove}
+              style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '8px 12px 8px 14px', borderRadius: 999, background: '#efece7', fontSize: 13, color: '#33322e', cursor: 'pointer', border: 'none', transition: 'background .15s' }}
+            >
+              {f.label}
+              <span style={{ fontSize: 12, color: '#8b877f' }}>✕</span>
+            </button>
+          ))}
+          <button onClick={onReset} style={{ marginLeft: 6, fontSize: 13, color: '#8b877f', textDecoration: 'underline', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
+            Сбросить всё
+          </button>
+        </div>
+      )}
     </div>
   );
 }

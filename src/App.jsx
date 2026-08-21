@@ -6,6 +6,8 @@ import FilterPanel from './components/FilterPanel.jsx';
 import QuizModal from './components/QuizModal.jsx';
 import ProductGrid from './components/ProductGrid.jsx';
 import Footer from './components/Footer.jsx';
+import HomePage from './pages/HomePage.jsx';
+import Breadcrumbs from './components/Breadcrumbs.jsx';
 
 const CHIPS = [
   { key: 'stock', label: 'В наличии' },
@@ -34,6 +36,8 @@ function pluralProducts(n) {
 }
 
 export default function App() {
+  const [page, setPage] = useState('home');
+  const [entry, setEntry] = useState('catalog');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -86,11 +90,36 @@ export default function App() {
     setPriceMax('');
   };
 
+  const navigateToCatalog = (e = 'catalog') => { setEntry(e); setPage('catalog'); };
+
+  const applied = [
+    ...CHIPS.filter(c => chips[c.key]).map(c => ({ label: c.label, remove: () => toggleChip(c.key) })),
+    ...Object.keys(selectedCats).filter(k => selectedCats[k]).map(k => ({ label: k, remove: () => toggleCat(k) })),
+    ...Object.keys(selectedMats).filter(k => selectedMats[k]).map(k => ({ label: 'Материал: ' + k, remove: () => toggleMat(k) })),
+    ...(priceMin ? [{ label: 'от ' + priceMin + ' ₽', remove: () => setPriceMin('') }] : []),
+    ...(priceMax ? [{ label: 'до ' + priceMax + ' ₽', remove: () => setPriceMax('') }] : []),
+  ];
+
+  if (page === 'home') {
+    return (
+      <HomePage
+        onNavigateToCatalog={navigateToCatalog}
+        cartCount={cartCount}
+      />
+    );
+  }
+
   return (
     <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#fbfaf8', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
       <HeroSection
         cartCount={cartCount}
         onOpenPanel={() => setPanelOpen(true)}
+        onGoHome={() => setPage('home')}
+      />
+      <Breadcrumbs
+        entry={entry}
+        onGoHome={() => setPage('home')}
+        onGoEntry={navigateToCatalog}
       />
       <FilterBar
         chips={CHIPS}
@@ -100,6 +129,8 @@ export default function App() {
         totalCount={products.length}
         filteredCount={filtered.length}
         onOpenPanel={() => setPanelOpen(true)}
+        applied={applied}
+        onReset={resetAll}
       />
       <main style={{ padding: '54px 40px 90px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 30 }}>
