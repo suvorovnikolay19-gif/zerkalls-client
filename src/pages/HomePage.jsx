@@ -161,7 +161,75 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
   const [chatOpen, setChatOpen] = useState(false);
+  const [colorOpen, setColorOpen] = useState(false);
+  const [bgColor, setBgColor] = useState(() => {
+    try { return localStorage.getItem('site-bg') || '#fbfaf8'; } catch { return '#fbfaf8'; }
+  });
+  const colorRef = useRef(null);
   const accent = '#c9a227';
+
+  const BG_PALETTE = [
+    // Нейтральные
+    { color: '#fefefe', label: 'Белый' },
+    { color: '#f4f3f0', label: 'Светло-серый' },
+    { color: '#e6e4df', label: 'Серый' },
+    { color: '#cccac4', label: 'Тёмно-серый' },
+    { color: '#1c1c1a', label: 'Чёрный' },
+    // Кремовые
+    { color: '#fdf8f0', label: 'Кремовый светлый' },
+    { color: '#f5edd8', label: 'Кремовый' },
+    { color: '#ead8b4', label: 'Кремовый средний' },
+    { color: '#d4be88', label: 'Кремовый тёмный' },
+    { color: '#b89e5a', label: 'Янтарный' },
+    // Оранжевые
+    { color: '#fef3e8', label: 'Персиковый светлый' },
+    { color: '#fde0be', label: 'Персиковый' },
+    { color: '#f9c680', label: 'Оранжевый светлый' },
+    { color: '#f2a030', label: 'Оранжевый' },
+    { color: '#d47808', label: 'Оранжевый тёмный' },
+    // Красные
+    { color: '#fef0ee', label: 'Розово-красный светлый' },
+    { color: '#fcdad4', label: 'Коралловый светлый' },
+    { color: '#f9b4a8', label: 'Коралловый' },
+    { color: '#f27e6a', label: 'Красный' },
+    { color: '#d4462e', label: 'Красный тёмный' },
+    // Розовые
+    { color: '#fef0f5', label: 'Розовый светлый' },
+    { color: '#fcd8e8', label: 'Розовый' },
+    { color: '#f9b2ce', label: 'Розовый средний' },
+    { color: '#f27aa8', label: 'Малиновый' },
+    { color: '#cc3e7a', label: 'Малиновый тёмный' },
+    // Лиловые
+    { color: '#f8f0fe', label: 'Лавандовый светлый' },
+    { color: '#eed8fc', label: 'Лавандовый' },
+    { color: '#dbbaf8', label: 'Фиолетовый светлый' },
+    { color: '#c08ef0', label: 'Фиолетовый' },
+    { color: '#9050d8', label: 'Фиолетовый тёмный' },
+    // Синие
+    { color: '#eef2fe', label: 'Голубой светлый' },
+    { color: '#d4e2fc', label: 'Голубой' },
+    { color: '#aacaf8', label: 'Синий светлый' },
+    { color: '#6aa4f0', label: 'Синий' },
+    { color: '#2666d4', label: 'Синий тёмный' },
+    // Бирюзовые
+    { color: '#eef8f6', label: 'Мятный светлый' },
+    { color: '#c6ece4', label: 'Бирюзовый светлый' },
+    { color: '#8ed6c8', label: 'Бирюзовый' },
+    { color: '#42b4a2', label: 'Морской' },
+    { color: '#0e8270', label: 'Морской тёмный' },
+    // Зелёные
+    { color: '#eefaf0', label: 'Зелёный светлый' },
+    { color: '#c8edd0', label: 'Зелёный' },
+    { color: '#94d8a8', label: 'Зелёный средний' },
+    { color: '#50b870', label: 'Зелёный насыщенный' },
+    { color: '#189040', label: 'Зелёный тёмный' },
+    // Тёмные
+    { color: '#232320', label: 'Тёмно-серый тёплый' },
+    { color: '#1a1f2e', label: 'Тёмно-синий' },
+    { color: '#1a2418', label: 'Тёмно-зелёный' },
+    { color: '#1e1418', label: 'Тёмно-красный' },
+    { color: '#0f1825', label: 'Ночной' },
+  ];
 
   const [activeMenu, setActiveMenu] = useState(null);
 
@@ -221,6 +289,40 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, []);
 
+  useEffect(() => {
+    if (!colorOpen) return;
+    const handler = (e) => {
+      if (colorRef.current && !colorRef.current.contains(e.target)) setColorOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [colorOpen]);
+
+  const [sliderHue, setSliderHue] = useState(200);
+  const [sliderLight, setSliderLight] = useState(94);
+
+  const hslToHex = (h, s, l) => {
+    s /= 100; l /= 100;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => {
+      const k = (n + h / 30) % 12;
+      return Math.round((l - a * Math.max(-1, Math.min(k - 3, Math.min(9 - k, 1)))) * 255);
+    };
+    return '#' + [f(0), f(8), f(4)].map(v => v.toString(16).padStart(2, '0')).join('');
+  };
+
+  const applyCustomColor = (h, light) => {
+    const hex = hslToHex(h, 38, light);
+    setBgColor(hex);
+    try { localStorage.setItem('site-bg', hex); } catch {}
+  };
+
+  const pickBgColor = (color) => {
+    setBgColor(color);
+    try { localStorage.setItem('site-bg', color); } catch {}
+    setColorOpen(false);
+  };
+
   const countdown = [
     { value: pad(Math.floor(left / 86400)), label: 'дней' },
     { value: pad(Math.floor(left / 3600) % 24), label: 'часов' },
@@ -244,7 +346,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
   }
 
   return (
-    <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#fbfaf8', WebkitFontSmoothing: 'antialiased', overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: bgColor, WebkitFontSmoothing: 'antialiased', overflowX: 'hidden' }}>
 
       {/* ── Hero ── */}
       <section style={{ position: 'relative', height: 760, background: '#23221f' }}>
@@ -779,6 +881,68 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
           </div>
         </div>
       </footer>
+
+      {/* ── Выбор цвета фона ── */}
+      <div ref={colorRef} style={{ position: 'fixed', left: 26, bottom: 26, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        {colorOpen && (
+          <div style={{ marginBottom: 10, background: '#fff', borderRadius: 14, boxShadow: '0 12px 34px rgba(26,26,24,.16)', padding: '12px 14px', animation: 'hFade .15s ease', width: 310 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, color: '#8b877f', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>Цвет фона</div>
+
+            {/* Ползунок оттенка */}
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                <span style={{ fontSize: 10, color: '#8b877f' }}>Оттенок</span>
+                <div style={{ width: 20, height: 20, borderRadius: '50%', background: hslToHex(sliderHue, 38, sliderLight), border: '1.5px solid rgba(26,26,24,.15)', flexShrink: 0 }} />
+              </div>
+              <input
+                type="range" className="bg-hue-slider"
+                min={0} max={359} value={sliderHue}
+                onChange={e => { const h = Number(e.target.value); setSliderHue(h); applyCustomColor(h, sliderLight); }}
+              />
+            </div>
+
+            {/* Ползунок яркости */}
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                <span style={{ fontSize: 10, color: '#8b877f' }}>Яркость</span>
+              </div>
+              <input
+                type="range" className="bg-light-slider"
+                min={20} max={98} value={sliderLight}
+                style={{ '--hue': sliderHue }}
+                onChange={e => { const lv = Number(e.target.value); setSliderLight(lv); applyCustomColor(sliderHue, lv); }}
+              />
+            </div>
+
+            <div style={{ fontSize: 10, fontWeight: 600, color: '#8b877f', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>Готовые</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: 5 }}>
+              {BG_PALETTE.map(({ color, label }) => (
+                <button
+                  key={color}
+                  title={label}
+                  onClick={() => pickBgColor(color)}
+                  style={{
+                    width: 24, height: 24, borderRadius: '50%', border: bgColor === color ? '2.5px solid #1a1a18' : '2px solid rgba(26,26,24,.12)',
+                    background: color, cursor: 'pointer', padding: 0,
+                    boxShadow: bgColor === color ? '0 0 0 2px rgba(26,26,24,.08)' : 'none',
+                    transition: 'transform .15s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.18)'}
+                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        <div
+          onClick={() => setColorOpen(o => !o)}
+          style={{ width: 56, height: 56, borderRadius: '50%', background: '#1a1a18', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 10px 28px rgba(26,26,24,.28)', fontSize: 22, transition: 'transform .18s' }}
+          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.07)'}
+          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          🎨
+        </div>
+      </div>
 
       {/* ── Чат-пузырь ── */}
       <div style={{ position: 'fixed', right: 26, bottom: 26, zIndex: 90, display: 'flex', alignItems: 'center', gap: 12 }}>

@@ -15,3 +15,43 @@ button { font-family: inherit; }
 @keyframes hDrop { from { opacity: 0; transform: translateY(-6px) } to { opacity: 1; transform: translateY(0) } }
 @keyframes hStep { from { opacity: 0; transform: translateY(-8px) } to { opacity: 1; transform: translateY(0) } }
 @keyframes hSwap { from { opacity: 0; transform: scale(1.04) } to { opacity: 1; transform: scale(1) } }
+
+/* ── Background color sliders ── */
+.bg-hue-slider, .bg-light-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 12px; border-radius: 6px;
+  outline: none; cursor: pointer; border: none; padding: 0;
+  display: block;
+}
+.bg-hue-slider {
+  background: linear-gradient(to right,
+    hsl(0,60%,88%), hsl(20,60%,88%), hsl(40,60%,88%), hsl(60,60%,88%),
+    hsl(80,60%,88%), hsl(100,60%,88%), hsl(120,60%,88%), hsl(140,60%,88%),
+    hsl(160,60%,88%), hsl(180,60%,88%), hsl(200,60%,88%), hsl(220,60%,88%),
+    hsl(240,60%,88%), hsl(260,60%,88%), hsl(280,60%,88%), hsl(300,60%,88%),
+    hsl(320,60%,88%), hsl(340,60%,88%), hsl(360,60%,88%)
+  );
+}
+.bg-light-slider {
+  background: linear-gradient(to right,
+    hsl(var(--hue), 40%, 20%),
+    hsl(var(--hue), 40%, 50%),
+    hsl(var(--hue), 40%, 75%),
+    hsl(var(--hue), 20%, 95%)
+  );
+}
+.bg-hue-slider::-webkit-slider-thumb,
+.bg-light-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; border: 2px solid rgba(0,0,0,0.22);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.22);
+  cursor: pointer;
+}
+.bg-hue-slider::-moz-range-thumb,
+.bg-light-slider::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; border: 2px solid rgba(0,0,0,0.22);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.22);
+  cursor: pointer;
+}
