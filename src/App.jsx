@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { fetchProducts } from './api.js';
+import { useCart } from './CartContext.jsx';
+import CartDrawer from './components/CartDrawer.jsx';
 import HeroSection from './components/HeroSection.jsx';
 import FilterBar from './components/FilterBar.jsx';
 import FilterPanel from './components/FilterPanel.jsx';
@@ -51,7 +53,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const { totalCount, setIsOpen: setCartOpen, addItem } = useCart();
   const [chips, setChips] = useState({ stock: false, premium: false, sale: false, fast: false });
   const [selectedCats, setSelectedCats] = useState({});
   const [selectedMats, setSelectedMats] = useState({});
@@ -116,18 +118,23 @@ export default function App() {
 
   if (page === 'home') {
     return (
-      <HomePage
-        onNavigateToCatalog={navigateToCatalog}
-        cartCount={cartCount}
-      />
+      <>
+        <HomePage
+          onNavigateToCatalog={navigateToCatalog}
+          cartCount={totalCount}
+          onOpenCart={() => setCartOpen(true)}
+        />
+        <CartDrawer />
+      </>
     );
   }
 
   return (
     <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#fbfaf8', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
       <HeroSection
-        cartCount={cartCount}
+        cartCount={totalCount}
         onOpenPanel={() => setPanelOpen(true)}
+        onOpenCart={() => setCartOpen(true)}
         onGoHome={() => setPage('home')}
       />
       <Breadcrumbs
@@ -163,7 +170,7 @@ export default function App() {
             {loading ? 'Загрузка...' : `${filtered.length} ${pluralProducts(filtered.length)}`}
           </span>
         </div>
-        <ProductGrid products={filtered} loading={loading} onAddToCart={() => setCartCount(c => c + 1)} />
+        <ProductGrid products={filtered} loading={loading} onAddToCart={(p) => { addItem(p); setCartOpen(true); }} />
       </main>
       <Footer />
       {panelOpen && (
@@ -191,6 +198,7 @@ export default function App() {
       {quizOpen && (
         <QuizModal products={products} onClose={() => setQuizOpen(false)} />
       )}
+      <CartDrawer />
     </div>
   );
 }

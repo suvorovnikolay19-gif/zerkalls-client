@@ -29,10 +29,28 @@ const MENU = [
   ]},
 ];
 
-const CATEGORIES = [
-  { name: 'Лестницы', text: 'Винтовые, маршевые и модульные — под высоту вашего проёма.', tags: ['Дуб', 'Сталь', 'Винтовые', 'Модульные'], tint: 'rgba(58,62,64,.34)', entry: 'stairs' },
-  { name: 'Перегородки', text: 'Раздвижные, распашные, стационарные. Рифлёное и матовое стекло.', tags: ['Лофт', 'Реечные', 'Раздвижные', 'Стекло'], tint: 'rgba(74,58,44,.34)', entry: 'partitions' },
-  { name: 'Зеркала', text: 'Арочные, овальные и нестандартные формы по вашим размерам.', tags: ['Латунь', 'Арка', 'Овал', 'Под заказ'], tint: 'rgba(46,54,66,.34)', entry: 'mirrors' },
+const SERVICES = [
+  { name: 'Лазерная резка металла', text: 'Раскрой листа до 25 мм по вашим чертежам — точность 0,1 мм.', tags: ['Сталь', 'Нержавейка', 'Алюминий', 'Латунь'], tint: 'rgba(58,62,64,.34)', entry: 'catalog' },
+  { name: 'Лазерный труборез', text: 'Резка круглой и профильной трубы, готовые узлы под сварку.', tags: ['Труба', 'Профиль', 'Фаска', 'Гравировка'], tint: 'rgba(74,58,44,.34)', entry: 'catalog' },
+  { name: 'Лазерная сварка', text: 'Аккуратный шов без поводок — сборка каркасов и рам.', tags: ['Сталь', 'Нержавейка', 'Без зачистки', 'Тонкий шов'], tint: 'rgba(46,54,66,.34)', entry: 'catalog' },
+];
+
+const FAN_CARDS = [
+  { name: 'Лестницы', text: 'Винтовые, маршевые и модульные — под высоту вашего проёма.', count: '120+ моделей', entry: 'stairs' },
+  { name: 'Перегородки', text: 'Раздвижные, распашные и стационарные системы.', count: '240+ моделей', entry: 'partitions' },
+  { name: 'Зеркала', text: 'Арочные, овальные и нестандартные формы.', count: '180+ моделей', entry: 'mirrors' },
+  { name: 'Мебель', text: 'Столы, консоли, стеллажи и ширмы из массива.', count: '90+ моделей', entry: 'catalog' },
+];
+
+const PAGE_NAV = [
+  { name: 'Главная', href: '#', active: true },
+  { name: 'Каталог', href: null, entry: 'catalog' },
+  { name: 'О компании', href: '#footer' },
+  { name: 'Дилерам', href: '#footer' },
+  { name: 'Портфолио', href: '#collections' },
+  { name: 'Материалы', href: '#categories' },
+  { name: 'Дизайнерам', href: '#faq' },
+  { name: 'Контакты', href: '#footer' },
 ];
 
 const BESTSELLERS = [
@@ -156,7 +174,7 @@ const ROOM_ITEM_POS = [
   { right: '10%', bottom: '14%' },
 ];
 
-export default function HomePage({ onNavigateToCatalog, cartCount }) {
+export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart }) {
   const [slide, setSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
@@ -232,6 +250,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
   ];
 
   const [activeMenu, setActiveMenu] = useState(null);
+  const [fanHover, setFanHover] = useState(null);
 
   const [fitIdx, setFitIdx] = useState(0);
   const [fitOpen, setFitOpen] = useState(null);
@@ -405,9 +424,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
                 <span style={{ width: 16, height: 15, border: '1.4px solid currentColor', borderRadius: '50% 50% 4px 4px', display: 'inline-block' }} />
                 0
               </span>
-              <span onClick={() => onNavigateToCatalog('catalog')} style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
+              <span onClick={onOpenCart} style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
                 <span style={{ width: 16, height: 14, border: '1.4px solid currentColor', borderRadius: '3px 3px 5px 5px', display: 'inline-block' }} />
-                {cartCount > 0 ? cartCount : 0} ₽
+                {cartCount > 0 ? cartCount : ''}
               </span>
             </div>
           </div>
@@ -431,14 +450,23 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
         </div>
       </section>
 
-      {/* ── Категории ── */}
+      {/* ── Меню разделов (sticky) ── */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 4, padding: '12px 48px', background: 'rgba(251,250,248,.94)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
+        {PAGE_NAV.map((n, i) => (
+          n.href
+            ? <a key={i} href={n.href} style={{ padding: '9px 18px', borderRadius: 999, fontSize: 13.5, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
+            : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '9px 18px', borderRadius: 999, fontSize: 13.5, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
+        ))}
+      </nav>
+
+      {/* ── Услуги ── */}
       <section style={{ padding: '90px 48px 0' }}>
         <div style={{ textAlign: 'center', marginBottom: 38 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Категории</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>Лестницы, перегородки и зеркала — от готовых решений до изделий по вашим размерам</div>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Услуги</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Собственный цех в Домодедово — работаем с листом, трубой и готовыми узлами</div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
-          {CATEGORIES.map((c, i) => (
+          {SERVICES.map((c, i) => (
             <div key={i} onClick={() => onNavigateToCatalog(c.entry)} style={{ position: 'relative', display: 'block', height: 520, borderRadius: 22, overflow: 'hidden', background: '#2a2926', cursor: 'pointer' }}>
               <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, ${c.tint} 0%, rgba(20,19,17,.1) 45%, rgba(20,19,17,.72) 100%)`, pointerEvents: 'none' }} />
               <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', padding: '34px 30px', pointerEvents: 'none' }}>
@@ -455,6 +483,43 @@ export default function HomePage({ onNavigateToCatalog, cartCount }) {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Категории (fan cards) ── */}
+      <section id="categories" style={{ padding: '96px 48px 0' }}>
+        <div style={{ textAlign: 'center', marginBottom: 44 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Категории</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Лестницы, перегородки, зеркала и мебель — наведите, чтобы посмотреть примеры</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20, alignItems: 'start' }}>
+          {FAN_CARDS.map((c, i) => {
+            const hot = fanHover === i;
+            const angles = [-22, -8, 8, 22];
+            return (
+              <div
+                key={i}
+                onMouseEnter={() => setFanHover(i)}
+                onMouseLeave={() => setFanHover(v => v === i ? null : v)}
+                onClick={() => onNavigateToCatalog(c.entry)}
+                style={{ borderRadius: 22, padding: '26px 0 0', background: hot ? '#fff' : '#f4f2ee', border: '1px solid ' + (hot ? '#e4e0d9' : 'transparent'), boxShadow: hot ? '0 24px 50px rgba(26,26,24,.14)' : '0 0 0 rgba(0,0,0,0)', transform: hot ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)', transition: 'transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s ease, background .3s ease', cursor: 'pointer', willChange: 'transform' }}
+              >
+                <div style={{ position: 'relative', height: 230, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {[0, 1, 2, 3].map(j => (
+                    <div
+                      key={j}
+                      style={{ position: 'absolute', width: 132, height: 186, borderRadius: 12, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: `rotate(${hot ? angles[j] : (j - 1.5) * 3}deg) translateY(${hot ? -(6 - Math.abs(j - 1.5) * 3) : 0}px)`, transition: `transform .42s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j }}
+                    />
+                  ))}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, textAlign: 'center', padding: '26px 22px 24px' }}>
+                  <div style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-.01em' }}>{c.name}</div>
+                  <div style={{ fontSize: 13, lineHeight: 1.5, color: '#8b877f', textWrap: 'pretty' }}>{c.text}</div>
+                  <div style={{ marginTop: 4, fontSize: 12.5, fontWeight: 500, transition: 'color .3s ease', color: hot ? '#1a1a18' : '#a8a39a' }}>{c.count}</div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 

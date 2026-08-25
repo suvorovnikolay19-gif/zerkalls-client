@@ -1,4 +1,4 @@
-export default function HeroSection({ cartCount, onOpenPanel, onGoHome }) {
+export default function HeroSection({ cartCount, onOpenPanel, onGoHome, onOpenCart }) {
   return (
     <section style={{ position: 'relative', height: 620, overflow: 'hidden', background: '#8c857b' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #9b948a 0, #9b948a 14px, #918a80 14px, #918a80 28px)' }} />
@@ -14,7 +14,7 @@ export default function HeroSection({ cartCount, onOpenPanel, onGoHome }) {
             <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
             </svg>
-            <div style={{ position: 'relative', cursor: 'pointer' }} onClick={onOpenPanel}>
+            <div style={{ position: 'relative', cursor: 'pointer' }} onClick={onOpenCart}>
               <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
               </svg>
