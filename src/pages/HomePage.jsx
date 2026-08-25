@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import heroImg from '../../assets/hero-1.png';
 
 const SLIDES = [
   { title: 'МЕТР²', text: 'Винтовая лестница, умещающаяся на одном квадратном метре. Компактное решение для маленьких пространств.', cta: 'Лестницы', entry: 'stairs' },
@@ -369,7 +370,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
 
       {/* ── Hero ── */}
       <section style={{ position: 'relative', height: 760, background: '#23221f' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
+        <img src={heroImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)', pointerEvents: 'none' }} />
 
         <header
