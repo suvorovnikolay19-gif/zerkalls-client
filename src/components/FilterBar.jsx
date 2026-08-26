@@ -1,4 +1,4 @@
-export default function FilterBar({ chips, chipStates, onToggleChip, activeCount, filteredCount, totalCount, onOpenPanel, applied, onReset }) {
+export default function FilterBar({ chips, chipStates, onToggleChip, activeCount, filteredCount, totalCount, onOpenPanel, applied, onReset, compareCount, onOpenCompare }) {
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(251,250,248,.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 40px', overflowX: 'auto' }}>
@@ -29,8 +29,25 @@ export default function FilterBar({ chips, chipStates, onToggleChip, activeCount
           );
         })}
 
-        <div style={{ marginLeft: 'auto', paddingLeft: 16, fontSize: 13, color: '#8b877f', whiteSpace: 'nowrap', flex: 'none' }}>
-          {filteredCount} из {totalCount} товаров
+        <div style={{ marginLeft: 'auto', paddingLeft: 16, display: 'flex', alignItems: 'center', gap: 14, flex: 'none' }}>
+          {compareCount > 0 && (
+            <button
+              onClick={onOpenCompare}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '10px 18px', borderRadius: 999,
+                fontSize: 13, fontWeight: 500, cursor: 'pointer',
+                whiteSpace: 'nowrap', border: 'none',
+                background: compareCount === 2 ? '#1a1a18' : '#efece7',
+                color: compareCount === 2 ? '#fff' : '#33322e',
+              }}
+            >
+              ⇄ Сравнить {compareCount}/2
+            </button>
+          )}
+          <div style={{ fontSize: 13, color: '#8b877f', whiteSpace: 'nowrap' }}>
+            {filteredCount} из {totalCount} товаров
+          </div>
         </div>
       </div>
 

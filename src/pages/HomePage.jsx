@@ -1,10 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import heroImg from '../../assets/hero-1.png';
+import heroImg from '../../assets/hero-main/hero-1.png';
+import hero2Img from '../../assets/hero-main/hero-2.png';
+import hero3Img from '../../assets/hero-main/hero-3.png';
+import service1Img from '../../assets/services/1.png';
+import service2Img from '../../assets/services/2.png';
+import service3Img from '../../assets/services/3.png';
+import testImg from '../../assets/test.jpg';
+import test2Img from '../../assets/test-2.jpg';
+import test3Img from '../../assets/test-3.jpg';
+import test4Img from '../../assets/test-4.jpg';
+
+const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
 const SLIDES = [
-  { title: 'МЕТР²', text: 'Винтовая лестница, умещающаяся на одном квадратном метре. Компактное решение для маленьких пространств.', cta: 'Лестницы', entry: 'stairs' },
-  { title: 'СВЕТ', text: 'Перегородки с рифлёным стеклом — делят пространство, но не забирают дневной свет.', cta: 'Перегородки', entry: 'partitions' },
-  { title: 'ОТРАЖЕНИЕ', text: 'Зеркала нестандартной формы по вашим размерам. Гнутое стекло, латунь, ручная сборка.', cta: 'Зеркала', entry: 'mirrors' },
+  { title: 'Перегородки', text: 'Граница, которую почти не замечаешь.', cta: 'Перегородки', entry: 'partitions', image: hero2Img },
+  { title: 'Лестницы', text: 'Лестницы, которые задают уровень интерьеру.', cta: 'Лестницы', entry: 'stairs', image: hero3Img },
+  { title: 'Зеркала', text: 'У каждого интерьера — своё отражение. Найдите зеркало, которое станет частью вашей истории.', cta: 'Зеркала', entry: 'mirrors', image: heroImg },
 ];
 
 const MENU = [
@@ -31,9 +42,9 @@ const MENU = [
 ];
 
 const SERVICES = [
-  { name: 'Лазерная резка металла', text: 'Раскрой листа до 25 мм по вашим чертежам — точность 0,1 мм.', tags: ['Сталь', 'Нержавейка', 'Алюминий', 'Латунь'], tint: 'rgba(58,62,64,.34)', entry: 'catalog' },
-  { name: 'Лазерный труборез', text: 'Резка круглой и профильной трубы, готовые узлы под сварку.', tags: ['Труба', 'Профиль', 'Фаска', 'Гравировка'], tint: 'rgba(74,58,44,.34)', entry: 'catalog' },
-  { name: 'Лазерная сварка', text: 'Аккуратный шов без поводок — сборка каркасов и рам.', tags: ['Сталь', 'Нержавейка', 'Без зачистки', 'Тонкий шов'], tint: 'rgba(46,54,66,.34)', entry: 'catalog' },
+  { name: 'Лазерная резка металла', text: 'Раскрой листа до 25 мм по вашим чертежам — точность 0,1 мм.', tags: ['Сталь', 'Нержавейка', 'Алюминий', 'Латунь'], tint: 'rgba(58,62,64,.34)', entry: 'catalog', image: service1Img },
+  { name: 'Лазерный труборез', text: 'Резка круглой и профильной трубы, готовые узлы под сварку.', tags: ['Труба', 'Профиль', 'Фаска', 'Гравировка'], tint: 'rgba(74,58,44,.34)', entry: 'catalog', image: service2Img },
+  { name: 'Лазерная сварка', text: 'Аккуратный шов без поводок — сборка каркасов и рам.', tags: ['Сталь', 'Нержавейка', 'Без зачистки', 'Тонкий шов'], tint: 'rgba(46,54,66,.34)', entry: 'catalog', image: service3Img },
 ];
 
 const FAN_CARDS = [
@@ -61,6 +72,8 @@ const BESTSELLERS = [
   { title: 'Перегородка Reed, реечная', price: 'от 92 000 ₽', meta: 'Дуб, 3 секции', badge: 'Хит продаж', hot: true, rating: '4,9' },
   { title: 'Зеркало Arco, овальное', price: 'от 38 400 ₽', meta: 'Латунь, ручная сборка', badge: 'Топ рейтинга', rating: '4,7' },
   { title: 'Ширма Fold, гармошка', price: 'от 67 200 ₽', meta: 'Ротанг, 4 створки', badge: 'Часто берут', rating: '4,8' },
+  { title: 'Консоль Slim, сталь', price: 'от 60 000 ₽', meta: 'Сталь, закалённое стекло', badge: 'Новинка', rating: '4,8' },
+  { title: 'Стеллаж Frame, дуб', price: 'от 74 000 ₽', meta: 'Дуб, металл', badge: 'Выбор дизайнеров', hot: true, rating: '4,9' },
 ];
 
 const FIT_FILTERS = {
@@ -96,6 +109,8 @@ const NOVELTIES = [
   { title: 'Зеркало Nube, гнутое', price: '61 500 ₽', badge: 'Новинка', hot: true, colors: ['#c9a227', '#f0ede8'] },
   { title: 'Перегородка Loft, чёрная', price: '78 000 ₽', badge: 'Топ рейтинга', colors: ['#1a1a18', '#6b6862', '#a8a39a'] },
   { title: 'Зеркало Arch, арочное', price: '44 900 ₽', badge: 'Хит продаж', hot: true, colors: ['#8a6a3b', '#e6e2dc', '#1a1a18', '#4f6b52'] },
+  { title: 'Ширма Bamboo, натуральная', price: '49 000 ₽', badge: 'Новинка', colors: ['#b58150', '#e6d3ba'] },
+  { title: 'Зеркало Oval, латунь', price: '52 000 ₽', badge: 'Лучшая цена', hot: true, colors: ['#c9a227', '#1a1a18'] },
 ];
 
 const STATS = [
@@ -172,10 +187,10 @@ const ROOM_ITEM_POS = [
   { left: 0, top: '4%' },
   { right: '2%', top: '16%' },
   { left: '8%', bottom: '6%' },
-  { right: '10%', bottom: '14%' },
+  { right: '18%', bottom: '4%' },
 ];
 
-export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart }) {
+export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile }) {
   const [slide, setSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
@@ -370,14 +385,17 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
 
       {/* ── Hero ── */}
       <section style={{ position: 'relative', height: 760, background: '#23221f' }}>
-        <img src={heroImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+        {currentSlide.image
+          ? <img src={currentSlide.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', transition: 'opacity .6s' }} />
+          : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
+        }
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)', pointerEvents: 'none' }} />
 
         <header
           onMouseLeave={() => setActiveMenu(null)}
           style={{ position: 'relative', zIndex: 6, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '16px 24px', padding: '22px clamp(16px, 3vw, 48px)', color: '#fff' }}
         >
-          <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-.02em' }}>objects</div>
+          <div style={{ flex: 1, fontSize: 24, fontWeight: 600, letterSpacing: '-.02em' }}>objects</div>
 
           <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <nav style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', gap: 4, padding: 6, borderRadius: 999, background: 'rgba(26,26,24,.62)', backdropFilter: 'blur(10px)' }}>
@@ -418,17 +436,29 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
             })()}
           </div>
 
-          <div style={{ marginLeft: 'auto', display: 'flex', flex: 'none', alignItems: 'center', gap: 26, whiteSpace: 'nowrap' }}>
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 26, whiteSpace: 'nowrap' }}>
             <a href="tel:+79854341133" style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-.01em', color: '#fff', textDecoration: 'none', whiteSpace: 'nowrap' }}>+7 985 434-11-33</a>
-            <div style={{ display: 'flex', flex: 'none', alignItems: 'center', gap: 16, fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(255,255,255,.9)' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <span style={{ width: 16, height: 15, border: '1.4px solid currentColor', borderRadius: '50% 50% 4px 4px', display: 'inline-block' }} />
-                0
-              </span>
-              <span onClick={onOpenCart} style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
-                <span style={{ width: 16, height: 14, border: '1.4px solid currentColor', borderRadius: '3px 3px 5px 5px', display: 'inline-block' }} />
-                {cartCount > 0 ? cartCount : ''}
-              </span>
+            <div style={{ display: 'flex', flex: 'none', alignItems: 'center', gap: 22 }}>
+              <div onClick={onOpenProfile} style={{ cursor: 'pointer' }}>
+                <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <div style={{ cursor: 'pointer' }}>
+                <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </div>
+              <div onClick={onOpenCart} style={{ position: 'relative', cursor: 'pointer' }}>
+                <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                {cartCount > 0 && (
+                  <div style={{ position: 'absolute', top: -8, right: -8, minWidth: 17, height: 17, borderRadius: '50%', background: '#fff', color: '#1a1a18', fontSize: 10, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {cartCount}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </header>
@@ -452,16 +482,16 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
       </section>
 
       {/* ── Меню разделов (sticky) ── */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 4, padding: '12px 48px', background: 'rgba(251,250,248,.94)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(251,250,248,.94)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
         {PAGE_NAV.map((n, i) => (
           n.href
-            ? <a key={i} href={n.href} style={{ padding: '9px 18px', borderRadius: 999, fontSize: 13.5, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
-            : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '9px 18px', borderRadius: 999, fontSize: 13.5, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
+            ? <a key={i} href={n.href} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 15, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
+            : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 15, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
         ))}
       </nav>
 
       {/* ── Услуги ── */}
-      <section style={{ padding: '90px 48px 0' }}>
+      <section style={{ padding: '52px 48px 0' }}>
         <div style={{ textAlign: 'center', marginBottom: 38 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Услуги</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Собственный цех в Домодедово — работаем с листом, трубой и готовыми узлами</div>
@@ -469,6 +499,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
           {SERVICES.map((c, i) => (
             <div key={i} onClick={() => onNavigateToCatalog(c.entry)} style={{ position: 'relative', display: 'block', height: 520, borderRadius: 22, overflow: 'hidden', background: '#2a2926', cursor: 'pointer' }}>
+              {c.image && <img src={c.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
               <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, ${c.tint} 0%, rgba(20,19,17,.1) 45%, rgba(20,19,17,.72) 100%)`, pointerEvents: 'none' }} />
               <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', padding: '34px 30px', pointerEvents: 'none' }}>
                 <h3 style={{ margin: 0, fontSize: 34, lineHeight: 1.04, fontWeight: 500, letterSpacing: '-.02em', color: '#fff', maxWidth: 260 }}>{c.name}</h3>
@@ -509,7 +540,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
                   {[0, 1, 2, 3].map(j => (
                     <div
                       key={j}
-                      style={{ position: 'absolute', width: 132, height: 186, borderRadius: 12, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: `rotate(${hot ? angles[j] : (j - 1.5) * 3}deg) translateY(${hot ? -(6 - Math.abs(j - 1.5) * 3) : 0}px)`, transition: `transform .42s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j }}
+                      style={{ position: 'absolute', width: 132, height: 186, borderRadius: 12, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: `rotate(${hot ? angles[j] : (j - 1.5) * 3}deg) translateY(${hot ? -(6 - Math.abs(j - 1.5) * 3) : 0}px)`, transition: `transform .42s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                     />
                   ))}
                 </div>
@@ -530,14 +561,14 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Лучшие работы</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>4,9 из 5 — средняя оценка по 1 240 отзывам</div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20 }}>
           {BESTSELLERS.map((p, i) => (
             <div key={i} onClick={() => onNavigateToCatalog('bestsellers')} style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 18, background: '#fff', border: '1px solid #efece7', borderRadius: 18, cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                 <span style={{ padding: '6px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, letterSpacing: '.04em', whiteSpace: 'nowrap', background: p.hot ? accent : '#f1eee9', color: p.hot ? '#1a1a18' : '#6b6862' }}>{p.badge}</span>
                 <span style={{ fontSize: 12, color: '#8b877f', whiteSpace: 'nowrap' }}><span style={{ letterSpacing: 1, color: '#d8a12f' }}>★★★★★</span> {p.rating}</span>
               </div>
-              <div style={{ height: 210, borderRadius: 12, background: 'linear-gradient(135deg, #eae7e2 0%, #d8d4ce 100%)' }} />
+              <img src={FAN_IMGS[i % 4]} alt="" style={{ height: 210, width: '100%', borderRadius: 12, objectFit: 'cover', display: 'block' }} />
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 14 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-.01em' }}>{p.title}</div>
@@ -701,27 +732,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
 
       {/* ── Сезонная распродажа + Комнаты + Новинки + Баннер ── */}
       <section style={{ padding: '96px 48px 0' }}>
-        {/* Сезонная распродажа */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 20 }}>
-          <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 22, background: 'linear-gradient(135deg, #e7eef0 0%, #dbe6e4 100%)', padding: '46px 44px', display: 'flex', flexDirection: 'column', gap: 22 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#6d7f7c' }}>Летняя коллекция</div>
-              <h3 style={{ margin: 0, fontSize: 44, fontWeight: 500, letterSpacing: '-.03em' }}>Летняя коллекция</h3>
-              <div style={{ fontSize: 16, color: '#4d5b58' }}>До старта коллекции</div>
-            </div>
-            <div style={{ display: 'flex', gap: 12 }}>
-              {countdown.map((u, i) => (
-                <div key={i} style={{ minWidth: 78, padding: '14px 10px', borderRadius: 14, background: 'rgba(255,255,255,.72)', textAlign: 'center' }}>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 28, letterSpacing: '-.02em' }}>{u.value}</div>
-                  <div style={{ fontSize: 11, letterSpacing: '.08em', textTransform: 'uppercase', color: '#6d7f7c', marginTop: 4 }}>{u.label}</div>
-                </div>
-              ))}
-            </div>
-            <button onClick={() => onNavigateToCatalog('sale')} style={{ alignSelf: 'flex-start', marginTop: 'auto', padding: '15px 34px', borderRadius: 999, background: '#1a1a18', color: '#fff', fontSize: 14, fontWeight: 500, border: 'none', cursor: 'pointer' }}>Купить со скидкой →</button>
-          </div>
-          <div style={{ borderRadius: 22, overflow: 'hidden', minHeight: 340, background: 'linear-gradient(135deg, #d8d0c8 0%, #c8c0b8 100%)' }} />
-        </div>
-
         {/* Собрали ваш интерьер */}
         <div style={{ textAlign: 'center', margin: '96px 0 36px' }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Собрали ваш интерьер</h2>
@@ -736,10 +746,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
             >{r.name}</div>
           ))}
         </div>
-        <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', minHeight: 820, background: '#2a2926' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #302e2a 0, #302e2a 14px, #272522 14px, #272522 28px)' }} />
+        <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', minHeight: 700, background: '#2a2926' }}>
+          <img src={testImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.34) 0%, rgba(20,19,17,.1) 45%, rgba(20,19,17,.5) 100%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: 820, padding: '34px 34px 30px' }}>
+          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: 700, padding: '34px 34px 30px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, color: '#fff' }}>
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.7)' }}>{currentRoom.kicker}</div>
@@ -757,7 +767,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
                   onClick={() => onNavigateToCatalog('catalog')}
                   style={{ position: 'absolute', width: 210, display: 'flex', flexDirection: 'column', gap: 10, padding: 12, borderRadius: 16, background: 'rgba(251,250,248,.95)', backdropFilter: 'blur(8px)', boxShadow: '0 16px 36px rgba(20,19,17,.26)', pointerEvents: 'auto', cursor: 'pointer', animation: `hStep .4s cubic-bezier(.2,.8,.2,1) ${j * 0.06}s both`, ...ROOM_ITEM_POS[j % 4] }}
                 >
-                  <div style={{ height: 120, borderRadius: 10, background: 'linear-gradient(135deg, #eae7e2 0%, #d8d4ce 100%)' }} />
+                  <img src={testImg} alt="" style={{ height: 120, width: '100%', borderRadius: 10, objectFit: 'cover', display: 'block' }} />
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                     <div style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{it.kind}</div>
                     <div style={{ fontSize: 14, fontWeight: 500, letterSpacing: '-.01em' }}>{it.title}</div>
@@ -776,7 +786,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Новинки сезона</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Собственное производство — Домодедово, партия от одной штуки</div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20 }}>
           {NOVELTIES.map((p, i) => (
             <div key={i} onClick={() => onNavigateToCatalog('novelties')} style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 18, background: '#fff', border: '1px solid #efece7', borderRadius: 18, cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -787,7 +797,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
                   ))}
                 </div>
               </div>
-              <div style={{ height: 210, borderRadius: 12, background: 'linear-gradient(135deg, #eae7e2 0%, #d8d4ce 100%)' }} />
+              <img src={FAN_IMGS[i % 4]} alt="" style={{ height: 210, width: '100%', borderRadius: 12, objectFit: 'cover', display: 'block' }} />
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 14 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-.01em' }}>{p.title}</div>
@@ -859,6 +869,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart })
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gridAutoRows: 216, gap: 18 }}>
           {COLLECTIONS.map((c, i) => (
             <div key={i} onClick={() => onNavigateToCatalog('catalog')} style={{ position: 'relative', display: 'block', overflow: 'hidden', borderRadius: 20, background: c.bg, cursor: 'pointer', ...c.span }}>
+              <img src={testImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,0) 40%, rgba(20,19,17,.62) 100%)', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', left: 22, right: 22, bottom: 20, display: 'flex', gap: 12, pointerEvents: 'none', ...(Object.keys(c.span).length > 0 ? { alignItems: 'flex-end', justifyContent: 'space-between' } : { flexDirection: 'column', alignItems: 'flex-start' }) }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5, color: '#fff' }}>

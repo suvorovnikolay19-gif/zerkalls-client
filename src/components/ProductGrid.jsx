@@ -1,6 +1,6 @@
 import ProductCard from './ProductCard.jsx';
 
-export default function ProductGrid({ products, loading, onAddToCart }) {
+export default function ProductGrid({ products, loading, onAddToCart, compareIds, onToggleCompare }) {
   if (loading) {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '26px 24px' }}>
@@ -26,7 +26,13 @@ export default function ProductGrid({ products, loading, onAddToCart }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '26px 24px' }}>
       {products.map(p => (
-        <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} />
+        <ProductCard
+          key={p.id}
+          product={p}
+          onAddToCart={onAddToCart}
+          isInCompare={compareIds?.includes(p.id)}
+          onToggleCompare={onToggleCompare}
+        />
       ))}
     </div>
   );

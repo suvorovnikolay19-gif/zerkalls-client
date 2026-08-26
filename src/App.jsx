@@ -7,10 +7,13 @@ import FilterBar from './components/FilterBar.jsx';
 import FilterPanel from './components/FilterPanel.jsx';
 import QuizModal from './components/QuizModal.jsx';
 import ProductGrid from './components/ProductGrid.jsx';
+import CompareModal from './components/CompareModal.jsx';
 import Footer from './components/Footer.jsx';
 import HomePage from './pages/HomePage.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 import Breadcrumbs from './components/Breadcrumbs.jsx';
 import CategoryNav from './components/CategoryNav.jsx';
+import { MOCK_PRODUCTS } from './mock/products.js';
 
 const CHIPS = [
   { key: 'stock', label: 'В наличии' },
@@ -53,6 +56,8 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
+  const [compareItems, setCompareItems] = useState([]);
+  const [compareOpen, setCompareOpen] = useState(false);
   const { totalCount, setIsOpen: setCartOpen, addItem } = useCart();
   const [chips, setChips] = useState({ stock: false, premium: false, sale: false, fast: false });
   const [selectedCats, setSelectedCats] = useState({});
@@ -62,10 +67,23 @@ export default function App() {
 
   useEffect(() => {
     fetchProducts({ limit: 50 })
-      .then(data => setProducts(data.products || []))
-      .catch(() => setProducts([]))
+      .then(data => {
+        const list = data.products || [];
+        setProducts(list.length > 0 ? list : MOCK_PRODUCTS);
+      })
+      .catch(() => setProducts(MOCK_PRODUCTS))
       .finally(() => setLoading(false));
   }, []);
+
+  const toggleCompare = (product) => {
+    setCompareItems(prev => {
+      const has = prev.some(p => p.id === product.id);
+      if (has) return prev.filter(p => p.id !== product.id);
+      const next = prev.length >= 2 ? [prev[1], product] : [...prev, product];
+      if (next.length === 2) setCompareOpen(true);
+      return next;
+    });
+  };
 
   const filtered = useMemo(() => {
     return products.filter(p => {
@@ -110,11 +128,18 @@ export default function App() {
 
   const applied = [
     ...CHIPS.filter(c => chips[c.key]).map(c => ({ label: c.label, remove: () => toggleChip(c.key) })),
-    ...Object.keys(selectedCats).filter(k => selectedCats[k]).map(k => ({ label: k, remove: () => toggleCat(k) })),
+    ...Object.keys(selectedCats).filter(k => selectedCats[k]).map(k => {
+      const label = k.includes('|') ? k.split('|').pop() : k;
+      return { label, remove: () => toggleCat(k) };
+    }),
     ...Object.keys(selectedMats).filter(k => selectedMats[k]).map(k => ({ label: 'Материал: ' + k, remove: () => toggleMat(k) })),
     ...(priceMin ? [{ label: 'от ' + priceMin + ' ₽', remove: () => setPriceMin('') }] : []),
     ...(priceMax ? [{ label: 'до ' + priceMax + ' ₽', remove: () => setPriceMax('') }] : []),
   ];
+
+  if (page === 'profile') {
+    return <ProfilePage onGoBack={() => setPage('home')} />;
+  }
 
   if (page === 'home') {
     return (
@@ -123,6 +148,7 @@ export default function App() {
           onNavigateToCatalog={navigateToCatalog}
           cartCount={totalCount}
           onOpenCart={() => setCartOpen(true)}
+          onOpenProfile={() => setPage('profile')}
         />
         <CartDrawer />
       </>
@@ -136,6 +162,7 @@ export default function App() {
         onOpenPanel={() => setPanelOpen(true)}
         onOpenCart={() => setCartOpen(true)}
         onGoHome={() => setPage('home')}
+        onOpenProfile={() => setPage('profile')}
       />
       <Breadcrumbs
         entry={entry}
@@ -155,6 +182,8 @@ export default function App() {
         onOpenPanel={() => setPanelOpen(true)}
         applied={applied}
         onReset={resetAll}
+        compareCount={compareItems.length}
+        onOpenCompare={() => setCompareOpen(true)}
       />
       <CategoryNav
         section={section}
@@ -170,15 +199,18 @@ export default function App() {
             {loading ? 'Загрузка...' : `${filtered.length} ${pluralProducts(filtered.length)}`}
           </span>
         </div>
-        <ProductGrid products={filtered} loading={loading} onAddToCart={(p) => { addItem(p); setCartOpen(true); }} />
+        <ProductGrid
+          products={filtered}
+          loading={loading}
+          onAddToCart={(p) => { addItem(p); setCartOpen(true); }}
+          compareIds={compareItems.map(p => p.id)}
+          onToggleCompare={toggleCompare}
+        />
       </main>
       <Footer />
       {panelOpen && (
         <FilterPanel
-          cats={CATS}
           selectedCats={selectedCats}
-          materials={MATERIALS}
-          selectedMats={selectedMats}
           chips={CHIPS}
           chipStates={chips}
           priceMin={priceMin}
@@ -186,7 +218,6 @@ export default function App() {
           filteredCount={filtered.length}
           activeCount={activeCount}
           onToggleCat={toggleCat}
-          onToggleMat={toggleMat}
           onToggleChip={toggleChip}
           onPriceMin={setPriceMin}
           onPriceMax={setPriceMax}
@@ -197,6 +228,14 @@ export default function App() {
       )}
       {quizOpen && (
         <QuizModal products={products} onClose={() => setQuizOpen(false)} />
+      )}
+      {compareOpen && (
+        <CompareModal
+          items={compareItems}
+          onClose={() => setCompareOpen(false)}
+          onRemove={id => setCompareItems(prev => prev.filter(p => p.id !== id))}
+          onClear={() => { setCompareItems([]); setCompareOpen(false); }}
+        />
       )}
       <CartDrawer />
     </div>

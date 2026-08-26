@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" />
+<style>
+  html, body { margin: 0; padding: 0; background: #fbfaf8; }
+  * { box-sizing: border-box; }
+  a { color: #1a1a18; text-decoration: none; }
+  a:hover { color: #6b6862; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #dcd8d1; border-radius: 8px; }
+  @keyframes dcFade { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes dcSlide { from { transform: translateX(40px); opacity: .4 } to { transform: translateX(0); opacity: 1 } }
+  @keyframes dcPop { from { transform: translateY(16px) scale(.98); opacity: 0 } to { transform: translateY(0) scale(1); opacity: 1 } }
+</style>
+</helmet>
+<div style="font-family: 'Golos Text', Helvetica, sans-serif; color: #1a1a18; background: #fbfaf8; min-height: 100vh; -webkit-font-smoothing: antialiased">
+
+  <section style="position: relative; height: 620px; overflow: hidden; background: #8c857b">
+    <div style="position: absolute; inset: 0; background-image: repeating-linear-gradient(135deg, #9b948a 0, #9b948a 14px, #918a80 14px, #918a80 28px)"></div>
+    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .08em; color: rgba(255,255,255,.5)">hero photo — интерьер 2400×1200</div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,19,17,.42) 0%, rgba(20,19,17,.12) 38%, rgba(20,19,17,.55) 100%)"></div>
+
+    <header style="position: relative; display: flex; flex-direction: column; gap: 6px; padding: 26px 40px 0">
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <div style="font-size: 25px; font-weight: 600; letter-spacing: -.02em; color: #fff">objects</div>
+        <div style="display: flex; align-items: center; gap: 22px; color: #fff">
+          <div style="width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,.85); border-radius: 5px"></div>
+          <div style="width: 17px; height: 17px; border: 1.5px solid rgba(255,255,255,.85); border-radius: 50%"></div>
+          <div style="width: 18px; height: 18px; border: 1.5px solid rgba(255,255,255,.85); border-radius: 50% 50% 6px 6px"></div>
+          <div style="position: relative; width: 19px; height: 17px; border: 1.5px solid rgba(255,255,255,.85); border-radius: 3px 3px 6px 6px">
+            <div style="position: absolute; top: -9px; right: -9px; min-width: 17px; height: 17px; border-radius: 50%; background: #fff; color: #1a1a18; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{ cartCount }}</div>
+          </div>
+        </div>
+      </div>
+      <nav style="display: flex; align-items: center; gap: 26px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.18); font-size: 14px; color: rgba(255,255,255,.92)">
+        <span style="font-size: 15px">⌂</span>
+        <span style="cursor: pointer">Каталог</span>
+        <span style="cursor: pointer">Хиты продаж</span>
+        <span style="cursor: pointer">Собрать комплект</span>
+        <span style="cursor: pointer">Лукбук</span>
+      </nav>
+    </header>
+
+    <div style="position: absolute; left: 40px; bottom: 56px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
+      <div style="font-size: 13px; color: rgba(255,255,255,.78)">by Studio Lumen</div>
+      <h1 style="margin: 0; font-size: 66px; line-height: .96; font-weight: 400; letter-spacing: -.03em; color: #fff">Зеркала<br />и перегородки</h1>
+      <div onClick="{{ openPanel }}" style="margin-top: 8px; padding: 14px 30px; border-radius: 999px; background: #fbfaf8; color: #1a1a18; font-size: 14px; font-weight: 500; cursor: pointer" style-hover="background: #fff; transform: translateY(-1px)">Подобрать</div>
+    </div>
+  </section>
+
+  <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 18px 40px 0; font-size: 13px; color: #8b877f" data-crumbs="1">
+    <a href="Home.dc.html" style="color: #8b877f">Главная</a>
+    <sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="3">
+      <span style="display: flex; align-items: center; gap: 8px">
+        <span style="color: #c9c4bb">/</span>
+        <a href="{{ c.href }}" style="{{ c.style }}">{{ c.name }}</a>
+      </span>
+    </sc-for>
+  </div>
+
+  <div style="position: sticky; top: 0; z-index: 30; background: rgba(251,250,248,.92); backdrop-filter: blur(12px); border-bottom: 1px solid #ece9e4">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 16px 40px; overflow-x: auto">
+      <div onClick="{{ openPanel }}" style="display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: #1a1a18; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; flex: none" style-hover="background: #33322e">
+        <span style="display: flex; flex-direction: column; gap: 3px; width: 15px">
+          <span style="display: block; height: 1.5px; background: #fff; width: 15px"></span>
+          <span style="display: block; height: 1.5px; background: #fff; width: 10px"></span>
+          <span style="display: block; height: 1.5px; background: #fff; width: 13px"></span>
+        </span>
+        Все фильтры
+        <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}">
+          <span style="min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #fff; color: #1a1a18; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{ activeCount }}</span>
+        </sc-if>
+      </div>
+
+      <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+        <div onClick="{{ c.toggle }}" style="{{ c.style }}">
+          <span style="{{ c.trackStyle }}"><span style="{{ c.knobStyle }}"></span></span>
+          {{ c.label }}
+        </div>
+      </sc-for>
+
+      <div style="margin-left: auto; padding-left: 16px; font-size: 13px; color: #8b877f; white-space: nowrap; flex: none">{{ resultLabel }}</div>
+    </div>
+
+    <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 0 40px 16px">
+        <span style="font-size: 13px; color: #8b877f; margin-right: 4px">Применено:</span>
+        <sc-for list="{{ applied }}" as="f" hint-placeholder-count="3">
+          <span onClick="{{ f.remove }}" style="display: flex; align-items: center; gap: 9px; padding: 8px 12px 8px 14px; border-radius: 999px; background: #efece7; font-size: 13px; color: #33322e; cursor: pointer" style-hover="background: #e6e2dc">
+            {{ f.label }}
+            <span style="font-size: 12px; color: #8b877f">✕</span>
+          </span>
+        </sc-for>
+        <span onClick="{{ resetAll }}" style="margin-left: 6px; font-size: 13px; color: #8b877f; text-decoration: underline; cursor: pointer">Сбросить всё</span>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ isRoot }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 22px 40px 0">
+      <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px">
+        <sc-for list="{{ sections }}" as="s" hint-placeholder-count="6">
+          <div onClick="{{ s.pick }}" style="display: flex; align-items: center; gap: 12px; padding: 10px 22px 10px 12px; border-radius: 12px; background: #fff; border: 1px solid #ece9e4; box-shadow: 0 1px 2px rgba(26,26,24,.04); cursor: pointer; white-space: nowrap; flex: none" style-hover="border-color: #d5d0c8">
+            <span style="width: 34px; height: 44px; flex: none; border-radius: 6px; background-image: repeating-linear-gradient(135deg, #f2efea 0, #f2efea 6px, #e9e5de 6px, #e9e5de 12px)"></span>
+            <span style="font-size: 14px; color: #33322e">{{ s.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="width: 46px; height: 46px; flex: none; border-radius: 12px; border: 1px solid #ece9e4; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #4a4842; cursor: pointer" style-hover="border-color: #d5d0c8">→</div>
+    </div>
+  </sc-if>
+
+  <main style="padding: 40px 40px 90px">
+    <div style="display: flex; align-items: baseline; gap: 18px; margin-bottom: 30px">
+      <h2 style="margin: 0; font-size: 30px; font-weight: 500; letter-spacing: -.02em">{{ heading }}</h2>
+      <span style="width: 1px; height: 18px; background: #dcd8d1"></span>
+      <span style="font-size: 14px; color: #8b877f">Скидки до 50%</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: {{ gridCols }}; gap: 26px 24px">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+        <div style="display: flex; flex-direction: column; gap: 12px; cursor: pointer" style-hover="opacity: .92">
+          <div style="{{ p.imgStyle }}">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .06em; color: #9c968c">{{ p.imgLabel }}</span>
+            <div style="position: absolute; top: 12px; right: 12px; display: flex; gap: 6px">
+              <sc-if value="{{ p.badge }}" hint-placeholder-val="{{ false }}">
+                <span style="padding: 5px 9px; border-radius: 999px; background: rgba(255,255,255,.94); font-size: 10px; font-weight: 600; letter-spacing: .06em">{{ p.badge }}</span>
+              </sc-if>
+              <span style="padding: 5px 9px; border-radius: 999px; background: #1a1a18; color: #fff; font-size: 11px; font-weight: 600">{{ p.discount }}</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 8px">
+            <span style="font-size: 14px; font-weight: 500">{{ p.price }}</span>
+            <span style="font-size: 13px; color: #a8a39a; text-decoration: line-through">{{ p.old }}</span>
+          </div>
+          <div style="font-size: 15px; font-weight: 500; letter-spacing: -.01em">{{ p.title }}</div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8b877f">
+            <span style="letter-spacing: 2px; color: #1a1a18">{{ p.stars }}</span>
+            <span>({{ p.reviews }})</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px">
+            <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="2">
+              <span style="padding: 5px 10px; border-radius: 999px; border: 1px solid #e6e2dc; font-size: 11px; color: #6b6862">{{ t }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 70px 0; text-align: center; color: #8b877f; font-size: 15px">Ничего не найдено — снимите часть фильтров</div>
+    </sc-if>
+  </main>
+
+  <footer style="padding: 34px 40px; border-top: 1px solid #ece9e4; display: flex; justify-content: space-between; font-size: 13px; color: #8b877f">
+    <span>objects — предметы для интерьера</span>
+    <span>Доставка по России · Гарантия 5 лет</span>
+  </footer>
+
+  <sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 60; display: flex; justify-content: flex-end">
+      <div onClick="{{ closePanel }}" style="position: absolute; inset: 0; background: rgba(26,26,24,.34); animation: dcFade .18s ease"></div>
+      <div style="position: relative; width: 460px; max-width: 100%; height: 100%; background: #fbfaf8; box-shadow: -20px 0 60px rgba(26,26,24,.14); display: flex; flex-direction: column; animation: dcSlide .24s cubic-bezier(.2,.8,.2,1)">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 24px 28px; border-bottom: 1px solid #ece9e4">
+          <div style="font-size: 20px; font-weight: 500; letter-spacing: -.01em">Фильтры</div>
+          <div onClick="{{ closePanel }}" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e6e2dc; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #6b6862; cursor: pointer" style-hover="background: #f1eee9">✕</div>
+        </div>
+
+        <div style="flex: 1; overflow-y: auto; padding: 22px 28px 28px">
+          <div onClick="{{ openQuiz }}" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 16px; background: #1a1a18; color: #fff; cursor: pointer; margin-bottom: 30px" style-hover="background: #33322e">
+            <div style="width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; font-size: 14px; flex: none">✦</div>
+            <div style="display: flex; flex-direction: column; gap: 3px">
+              <div style="font-size: 15px; font-weight: 500">Умный подбор с AI ассистентом</div>
+              <div style="font-size: 12px; color: rgba(255,255,255,.62)">4 вопроса — и мы соберём подборку</div>
+            </div>
+            <div style="margin-left: auto; font-size: 16px; color: rgba(255,255,255,.7)">→</div>
+          </div>
+
+          <div style="font-size: 22px; font-weight: 500; letter-spacing: -.02em; margin-bottom: 16px">Межкомнатные перегородки</div>
+          <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 32px">
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="10">
+              <div onClick="{{ c.toggle }}" style="{{ c.style }}">
+                <span style="{{ c.dotStyle }}"></span>
+                {{ c.name }}
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #8b877f; margin-bottom: 14px">Цена, ₽</div>
+          <div style="display: flex; gap: 10px; margin-bottom: 32px">
+            <div style="flex: 1; padding: 13px 16px; border: 1px solid #e6e2dc; border-radius: 12px; background: #fff; font-size: 14px; color: #6b6862">от 12 000</div>
+            <div style="flex: 1; padding: 13px 16px; border: 1px solid #e6e2dc; border-radius: 12px; background: #fff; font-size: 14px; color: #6b6862">до 180 000</div>
+          </div>
+
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #8b877f; margin-bottom: 14px">Материал</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px">
+            <sc-for list="{{ materials }}" as="m" hint-placeholder-count="6">
+              <div onClick="{{ m.toggle }}" style="{{ m.style }}">{{ m.name }}</div>
+            </sc-for>
+          </div>
+
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #8b877f; margin-bottom: 14px">Быстрые фильтры</div>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+              <div onClick="{{ c.toggle }}" style="display: flex; align-items: center; gap: 12px; padding: 11px 2px; font-size: 15px; color: #33322e; cursor: pointer">
+                <span style="{{ c.trackStyle }}"><span style="{{ c.knobStyle }}"></span></span>
+                {{ c.label }}
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; padding: 20px 28px; border-top: 1px solid #ece9e4; background: #fbfaf8">
+          <div onClick="{{ resetAll }}" style="padding: 15px 22px; border-radius: 999px; border: 1px solid #e0dcd5; font-size: 14px; color: #6b6862; cursor: pointer" style-hover="background: #f1eee9">Сбросить</div>
+          <div onClick="{{ closePanel }}" style="flex: 1; padding: 15px 22px; border-radius: 999px; background: #1a1a18; color: #fff; font-size: 14px; font-weight: 500; text-align: center; cursor: pointer" style-hover="background: #33322e">{{ applyLabel }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ quizOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: 32px">
+      <div onClick="{{ closeQuiz }}" style="position: absolute; inset: 0; background: rgba(26,26,24,.44); animation: dcFade .18s ease"></div>
+      <div style="position: relative; width: 560px; max-width: 100%; max-height: 100%; overflow-y: auto; background: #fff; border-radius: 26px; padding: 26px 30px 30px; animation: dcPop .22s cubic-bezier(.2,.8,.2,1)">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 30px">
+          <div onClick="{{ quizBack }}" style="font-size: 20px; color: #1a1a18; cursor: pointer; width: 22px">‹</div>
+          <div style="flex: 1; display: flex; gap: 6px">
+            <sc-for list="{{ quizProgress }}" as="s" hint-placeholder-count="4">
+              <span style="{{ s.style }}"></span>
+            </sc-for>
+          </div>
+          <div onClick="{{ closeQuiz }}" style="font-size: 14px; color: #8b877f; cursor: pointer">Отмена</div>
+        </div>
+
+        <sc-if value="{{ isQuestion }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h3 style="margin: 0 0 10px; font-size: 27px; line-height: 1.18; font-weight: 500; letter-spacing: -.02em; text-wrap: pretty">{{ question.title }}</h3>
+            <div style="font-size: 15px; color: #8b877f; margin-bottom: 26px">{{ question.hint }}</div>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+              <sc-for list="{{ question.options }}" as="o" hint-placeholder-count="6">
+                <div onClick="{{ o.pick }}" style="{{ o.style }}">
+                  <div style="height: 116px; border-radius: 10px; background-image: repeating-linear-gradient(135deg, #f0ede8 0, #f0ede8 8px, #e8e4dd 8px, #e8e4dd 16px); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #a8a39a; text-align: center; padding: 6px">{{ o.img }}</div>
+                  <div style="font-size: 14px; text-align: center; color: #33322e">{{ o.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <h3 style="margin: 0 0 10px; font-size: 27px; line-height: 1.18; font-weight: 500; letter-spacing: -.02em">Подобрали 3 варианта</h3>
+            <div style="font-size: 15px; color: #8b877f; margin-bottom: 24px">{{ resultSummary }}</div>
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <sc-for list="{{ recommended }}" as="r" hint-placeholder-count="3">
+                <div style="display: flex; gap: 16px; align-items: center; padding: 12px; border: 1px solid #ece9e4; border-radius: 16px">
+                  <div style="width: 86px; height: 86px; flex: none; border-radius: 11px; background-image: repeating-linear-gradient(135deg, #f0ede8 0, #f0ede8 8px, #e8e4dd 8px, #e8e4dd 16px)"></div>
+                  <div style="display: flex; flex-direction: column; gap: 5px">
+                    <div style="font-size: 16px; font-weight: 500">{{ r.title }}</div>
+                    <div style="font-size: 13px; color: #8b877f">{{ r.why }}</div>
+                    <div style="font-size: 14px; font-weight: 500">{{ r.price }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <div onClick="{{ quizNext }}" style="{{ nextStyle }}">{{ nextLabel }}</div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#d8442f&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#d8442f&quot;,&quot;#1a1a18&quot;,&quot;#4f6b52&quot;,&quot;#8a6a3b&quot;],&quot;section&quot;:&quot;Стиль&quot;},&quot;columns&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:2,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Каталог&quot;},&quot;showBadges&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Каталог&quot;}}">
+class Component extends DCLogic {
+  state = {
+    section: null,
+    panelOpen: false, quizOpen: false, step: 0, answers: {},
+    chips: { premium: false, stock: false, sale: false, fast: false },
+    cats: {}, materials: {}
+  };
+
+  CHIPS = [
+    { key: 'premium', label: 'Премиум' },
+    { key: 'stock', label: 'В наличии' },
+    { key: 'sale', label: 'Со скидкой' },
+    { key: 'fast', label: 'Доставка за 2 дня' }
+  ];
+
+  CATS = [
+    { name: 'Лофт перегородки' }, { name: 'С декоративной плёнкой' }, { name: 'Металлические' },
+    { name: 'Реечные' }, { name: 'С рифлёным стеклом' }, { name: 'С матовым стеклом' },
+    { name: 'Дизайнерские', hot: true }, { name: 'Распашные', hot: true },
+    { name: 'Раздвижные', hot: true }, { name: 'Стационарные', hot: true },
+    { name: 'Гармошка', hot: true }, { name: 'Декоративные', hot: true },
+    { name: 'С тонированным стеклом' }
+  ];
+
+  MATERIALS = ['Дуб', 'Латунь', 'Сталь', 'Стекло', 'Ротанг', 'Бетон'];
+
+  ITEMS = [
+    { title: 'Зеркало Arco, овальное', price: '38 400 ₽', old: '54 000 ₽', discount: '-29%', badge: 'ХИТ', rating: 4.5, reviews: 12, tags: ['Латунь', 'Ручная сборка'], flags: ['premium', 'stock', 'sale'], img: 'зеркало овальное 800×1000' },
+    { title: 'Перегородка Grid, 3 секции', price: '96 000 ₽', old: '139 000 ₽', discount: '-31%', badge: '', rating: 4.5, reviews: 8, tags: ['Сталь', 'Рифлёное стекло'], flags: ['premium', 'sale', 'fast'], img: 'перегородка в интерьере' },
+    { title: 'Ширма Reed, дуб', price: '54 000 ₽', old: '72 000 ₽', discount: '-25%', badge: '', rating: 5, reviews: 5, tags: ['Дуб', 'Реечная'], flags: ['stock', 'sale'], img: 'ширма реечная' },
+    { title: 'Зеркало Nube, нестандартное', price: '61 500 ₽', old: '96 000 ₽', discount: '-36%', badge: 'NEW', rating: 4.5, reviews: 3, tags: ['Гнутое стекло', 'Под заказ'], flags: ['premium', 'sale'], img: 'зеркало волна' },
+    { title: 'Перегородка Loft, чёрная', price: '78 000 ₽', old: '116 000 ₽', discount: '-33%', badge: '', rating: 4.5, reviews: 9, tags: ['Металл', 'Лофт'], flags: ['stock', 'sale', 'fast'], img: 'лофт перегородка' },
+    { title: 'Зеркало Arch, арочное', price: '44 900 ₽', old: '56 000 ₽', discount: '-20%', badge: '', rating: 5, reviews: 14, tags: ['Дуб', 'Арка'], flags: ['stock', 'sale'], img: 'арочное зеркало' },
+    { title: 'Ширма Fold, гармошка', price: '67 200 ₽', old: '85 000 ₽', discount: '-21%', badge: '', rating: 4, reviews: 6, tags: ['Ротанг', 'Складная'], flags: ['sale', 'fast'], img: 'ширма гармошка' },
+    { title: 'Зеркало Slim, во весь рост', price: '32 900 ₽', old: '46 000 ₽', discount: '-29%', badge: '', rating: 4.5, reviews: 21, tags: ['Сталь', 'Прямоугольное'], flags: ['stock', 'sale'], img: 'зеркало в полный рост' }
+  ];
+
+  QUIZ = [
+    { title: 'Какую форму вы предпочитаете?', hint: 'Выберите вариант, который нравится больше всего',
+      options: [['Круглое', 'круглое зеркало'], ['Квадратное', 'квадратное'], ['Овальное', 'овальное'], ['Арочное', 'арка'], ['Нестандартное', 'волна'], ['Прямоугольное', 'прямоугольное']] },
+    { title: 'В каком стиле интерьер?', hint: 'Так мы подберём отделку и материал рамы',
+      options: [['Минимализм', 'минимализм'], ['Лофт', 'лофт'], ['Скандинавский', 'сканди'], ['Классика', 'классика'], ['Джапанди', 'джапанди'], ['Ар-деко', 'ар-деко']] },
+    { title: 'Где будет стоять предмет?', hint: 'Размер и крепление зависят от помещения',
+      options: [['Прихожая', 'прихожая'], ['Гостиная', 'гостиная'], ['Спальня', 'спальня'], ['Ванная', 'ванная'], ['Кабинет', 'кабинет'], ['Студия', 'студия']] },
+    { title: 'Какой бюджет комфортен?', hint: 'Покажем только то, что укладывается в сумму',
+      options: [['до 40 000 ₽', 'бюджет 1'], ['40–70 000 ₽', 'бюджет 2'], ['70–120 000 ₽', 'бюджет 3'], ['120 000+ ₽', 'бюджет 4'], ['Без ограничений', 'любой'], ['Пока не знаю', 'не знаю']] }
+  ];
+
+  SECTIONS = ['Зеркала', 'Лестницы', 'Перегородки', 'Ширмы', 'Стеклянные доски', 'Комплектующие'];
+
+  accent() { return this.props.accent ?? '#d8442f'; }
+
+  stars(r) { return '★★★★★'.slice(0, Math.round(r)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(r)); }
+
+  filtered() {
+    const c = this.state.chips;
+    const on = Object.keys(c).filter(k => c[k]);
+    return this.ITEMS.filter(p => on.every(k => p.flags.indexOf(k) >= 0));
+  }
+
+  activeCount() {
+    return Object.values(this.state.chips).filter(Boolean).length
+      + Object.values(this.state.cats).filter(Boolean).length
+      + Object.values(this.state.materials).filter(Boolean).length;
+  }
+
+  toggleMap(map, key) {
+    this.setState(s => ({ [map]: Object.assign({}, s[map], { [key]: !s[map][key] }) }));
+  }
+
+  renderVals() {
+    const a = this.accent();
+    const items = this.filtered();
+    const cols = this.props.columns ?? 4;
+    const showBadges = this.props.showBadges ?? true;
+
+    const chips = this.CHIPS.map(c => {
+      const on = this.state.chips[c.key];
+      return {
+        label: c.label,
+        toggle: () => this.toggleMap('chips', c.key),
+        style: 'display: flex; align-items: center; gap: 10px; padding: 10px 18px 10px 12px; border-radius: 999px; border: 1px solid ' + (on ? '#1a1a18' : '#e0dcd5') + '; background: ' + (on ? '#fff' : 'transparent') + '; font-size: 14px; color: #33322e; cursor: pointer; white-space: nowrap; flex: none; transition: border-color .15s',
+        trackStyle: 'position: relative; display: inline-block; width: 34px; height: 20px; border-radius: 999px; background: ' + (on ? '#1a1a18' : '#e2ded7') + '; transition: background .18s; flex: none',
+        knobStyle: 'position: absolute; top: 2px; left: ' + (on ? '16px' : '2px') + '; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .18s cubic-bezier(.2,.8,.2,1); box-shadow: 0 1px 3px rgba(0,0,0,.16)'
+      };
+    });
+
+    const cats = this.CATS.map(c => {
+      const on = !!this.state.cats[c.name];
+      return {
+        name: c.name, toggle: () => this.toggleMap('cats', c.name),
+        style: 'display: flex; align-items: center; gap: 10px; padding: 7px 10px 7px 0; font-size: 15px; cursor: pointer; color: ' + (on ? '#1a1a18' : '#4a4842') + '; font-weight: ' + (on ? '600' : '400'),
+        dotStyle: 'width: 6px; height: 6px; border-radius: 50%; flex: none; background: ' + (c.hot ? a : 'transparent')
+      };
+    });
+
+    const materials = this.MATERIALS.map(m => {
+      const on = !!this.state.materials[m];
+      return {
+        name: m, toggle: () => this.toggleMap('materials', m),
+        style: 'padding: 10px 16px; border-radius: 999px; border: 1px solid ' + (on ? '#1a1a18' : '#e0dcd5') + '; background: ' + (on ? '#1a1a18' : '#fff') + '; color: ' + (on ? '#fff' : '#4a4842') + '; font-size: 13px; cursor: pointer'
+      };
+    });
+
+    const step = this.state.step;
+    const isResult = step >= this.QUIZ.length;
+    const q = this.QUIZ[Math.min(step, this.QUIZ.length - 1)];
+    const picked = this.state.answers[step];
+
+    const question = {
+      title: q.title, hint: q.hint,
+      options: q.options.map(o => ({
+        label: o[0], img: o[1],
+        pick: () => this.setState(s => ({ answers: Object.assign({}, s.answers, { [step]: o[0] }) })),
+        style: 'display: flex; flex-direction: column; gap: 10px; padding: 10px; border-radius: 14px; background: #faf9f7; border: 1.5px solid ' + (picked === o[0] ? '#1a1a18' : 'transparent') + '; cursor: pointer; transition: border-color .15s'
+      }))
+    };
+
+    const canNext = !!picked;
+    const nextEnabled = isResult || canNext;
+
+    const applied = []
+      .concat(this.CHIPS.filter(c => this.state.chips[c.key]).map(c => ({
+        label: c.label, remove: () => this.toggleMap('chips', c.key)
+      })))
+      .concat(Object.keys(this.state.cats).filter(k => this.state.cats[k]).map(k => ({
+        label: k, remove: () => this.toggleMap('cats', k)
+      })))
+      .concat(Object.keys(this.state.materials).filter(k => this.state.materials[k]).map(k => ({
+        label: 'Материал: ' + k, remove: () => this.toggleMap('materials', k)
+      })));
+
+    const section = this.state.section;
+    const crumbs = (section
+      ? [{ name: 'Каталог', href: '#', last: false }, { name: section, href: '#', last: true }]
+      : [{ name: 'Каталог', href: '#', last: true }]
+    ).map(c => ({
+      name: c.name, href: c.href,
+      style: 'color: ' + (c.last ? '#33322e' : '#8b877f')
+    }));
+
+    return {
+      cartCount: 2,
+      applied, crumbs,
+      isRoot: !section,
+      heading: section || 'Весь каталог',
+      sections: this.SECTIONS.map(s => ({ name: s, pick: () => this.setState({ section: s }) })),
+      chips, cats, materials,
+      products: items.map(p => Object.assign({}, p, {
+        stars: this.stars(p.rating),
+        imgLabel: p.img,
+        badge: showBadges ? p.badge : '',
+        discount: showBadges ? p.discount : '',
+        imgStyle: 'position: relative; aspect-ratio: 3/4; border-radius: 4px; display: flex; align-items: center; justify-content: center; background-image: repeating-linear-gradient(135deg, #f0ede8 0, #f0ede8 10px, #e9e5de 10px, #e9e5de 20px)'
+      })),
+      gridCols: 'repeat(' + cols + ', minmax(0, 1fr))',
+      isEmpty: items.length === 0,
+      resultLabel: items.length + ' из ' + this.ITEMS.length + ' товаров',
+      activeCount: this.activeCount(), hasActive: this.activeCount() > 0,
+      applyLabel: 'Показать ' + items.length + ' товаров',
+      panelOpen: this.state.panelOpen, quizOpen: this.state.quizOpen,
+      openPanel: () => this.setState({ panelOpen: true }),
+      closePanel: () => this.setState({ panelOpen: false }),
+      resetAll: () => this.setState({ chips: { premium: false, stock: false, sale: false, fast: false }, cats: {}, materials: {} }),
+      openQuiz: () => this.setState({ quizOpen: true, panelOpen: false, step: 0, answers: {} }),
+      closeQuiz: () => this.setState({ quizOpen: false }),
+      quizBack: () => this.setState(s => s.step === 0 ? { quizOpen: false } : { step: s.step - 1 }),
+      quizNext: () => {
+        if (isResult) { this.setState({ quizOpen: false, chips: { premium: true, stock: true, sale: false, fast: false } }); return; }
+        if (canNext) this.setState(s => ({ step: s.step + 1 }));
+      },
+      isQuestion: !isResult, isResult,
+      question,
+      quizProgress: this.QUIZ.map((_, i) => ({
+        style: 'flex: 1; height: 3px; border-radius: 999px; background: ' + (i <= Math.min(step, this.QUIZ.length - 1) && (i < step || !isResult) || isResult ? '#1a1a18' : '#e6e2dc')
+      })),
+      nextLabel: isResult ? 'Смотреть подборку' : 'Далее',
+      nextStyle: 'margin-top: 28px; padding: 17px; border-radius: 14px; text-align: center; font-size: 15px; font-weight: 500; cursor: ' + (nextEnabled ? 'pointer' : 'default') + '; background: ' + (nextEnabled ? '#1a1a18' : '#f1eee9') + '; color: ' + (nextEnabled ? '#fff' : '#b3aea5'),
+      resultSummary: [this.state.answers[0], this.state.answers[1], this.state.answers[2], this.state.answers[3]].filter(Boolean).join(' · '),
+      recommended: this.ITEMS.slice(0, 3).map((p, i) => ({
+        title: p.title, price: p.price,
+        why: ['Совпадение 96% — форма и материал', 'Совпадение 91% — стиль и размер', 'Совпадение 87% — в рамках бюджета'][i]
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

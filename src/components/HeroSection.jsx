@@ -1,6 +1,6 @@
-import heroImg from '../../assets/hero-1.png';
+import heroImg from '../../assets/hero-main/hero-1.png';
 
-export default function HeroSection({ cartCount, onOpenPanel, onGoHome, onOpenCart }) {
+export default function HeroSection({ cartCount, onOpenPanel, onGoHome, onOpenCart, onOpenProfile }) {
   return (
     <section style={{ position: 'relative', height: 620, overflow: 'hidden', background: '#8c857b' }}>
       <img src={heroImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
@@ -13,9 +13,16 @@ export default function HeroSection({ cartCount, onOpenPanel, onGoHome, onOpenCa
             <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
-            <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
+            <div style={{ cursor: 'pointer' }} onClick={onOpenProfile}>
+              <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div style={{ cursor: 'pointer' }}>
+              <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
             <div style={{ position: 'relative', cursor: 'pointer' }} onClick={onOpenCart}>
               <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>

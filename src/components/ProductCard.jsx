@@ -1,3 +1,5 @@
+import testImg from '../../assets/test.jpg';
+
 function formatPrice(price) {
   return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
 }
@@ -6,7 +8,32 @@ function getChar(characteristics, ...keys) {
   return characteristics?.find(c => keys.some(k => c.name.toLowerCase().includes(k)))?.value;
 }
 
-export default function ProductCard({ product, onAddToCart }) {
+function PriceDisplay({ price, priceType, oldPrice }) {
+  if (priceType === 'request') {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontSize: 13, color: '#8b877f', fontStyle: 'italic' }}>Цена по запросу</span>
+      </div>
+    );
+  }
+  if (priceType === 'from') {
+    return (
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+        <span style={{ fontSize: 12, color: '#8b877f' }}>от</span>
+        <span style={{ fontSize: 14, fontWeight: 500 }}>{formatPrice(price)}</span>
+        {oldPrice && <span style={{ fontSize: 13, color: '#a8a39a', textDecoration: 'line-through' }}>{oldPrice}</span>}
+      </div>
+    );
+  }
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+      <span style={{ fontSize: 14, fontWeight: 500 }}>{formatPrice(price)}</span>
+      {oldPrice && <span style={{ fontSize: 13, color: '#a8a39a', textDecoration: 'line-through' }}>{oldPrice}</span>}
+    </div>
+  );
+}
+
+export default function ProductCard({ product, onAddToCart, isInCompare, onToggleCompare }) {
   const img = product.images?.[0]?.filename;
   const chars = product.characteristics || [];
 
@@ -25,16 +52,25 @@ export default function ProductCard({ product, onAddToCart }) {
       <div style={{
         position: 'relative', aspectRatio: '3/4', borderRadius: 4,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundImage: img
-          ? `url(${img})`
-          : 'repeating-linear-gradient(135deg, #f0ede8 0, #f0ede8 10px, #e9e5de 10px, #e9e5de 20px)',
+        backgroundImage: img ? `url(${img})` : `url(${testImg})`,
         backgroundSize: 'cover', backgroundPosition: 'center',
       }}>
-        {!img && (
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, letterSpacing: '.06em', color: '#9c968c', padding: '0 12px', textAlign: 'center' }}>
-            {product.name}
-          </span>
-        )}
+        <button
+          onClick={e => { e.stopPropagation(); onToggleCompare && onToggleCompare(product); }}
+          style={{
+            position: 'absolute', top: 12, left: 12,
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 11px', borderRadius: 999,
+            fontSize: 11, fontWeight: 600, letterSpacing: '.02em',
+            cursor: 'pointer', border: 'none',
+            background: isInCompare ? '#1a1a18' : 'rgba(255,255,255,.92)',
+            color: isInCompare ? '#fff' : '#33322e',
+            transition: 'background .15s',
+          }}
+        >
+          {isInCompare ? '✓' : '⇄'} {isInCompare ? 'В сравнении' : 'Сравнить'}
+        </button>
+
         {(badge || discount) && (
           <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 6 }}>
             {badge && <span style={{ padding: '5px 9px', borderRadius: 999, background: 'rgba(255,255,255,.94)', fontSize: 10, fontWeight: 600, letterSpacing: '.06em' }}>{badge}</span>}
@@ -43,10 +79,7 @@ export default function ProductCard({ product, onAddToCart }) {
         )}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-        <span style={{ fontSize: 14, fontWeight: 500 }}>{formatPrice(product.price)}</span>
-        {oldPrice && <span style={{ fontSize: 13, color: '#a8a39a', textDecoration: 'line-through' }}>{oldPrice}</span>}
-      </div>
+      <PriceDisplay price={product.price} priceType={product.priceType} oldPrice={oldPrice} />
 
       <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-.01em' }}>{product.name}</div>
 
@@ -58,14 +91,25 @@ export default function ProductCard({ product, onAddToCart }) {
         </div>
       )}
 
-      <button
-        onClick={e => { e.stopPropagation(); onAddToCart(product); }}
-        style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .15s' }}
-        onMouseEnter={e => e.currentTarget.style.background = '#f5f3f0'}
-        onMouseLeave={e => e.currentTarget.style.background = '#fff'}
-      >
-        В корзину
-      </button>
+      {product.priceType === 'request' ? (
+        <button
+          onClick={e => e.stopPropagation()}
+          style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .15s' }}
+          onMouseEnter={e => e.currentTarget.style.background = '#f5f3f0'}
+          onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+        >
+          Узнать цену
+        </button>
+      ) : (
+        <button
+          onClick={e => { e.stopPropagation(); onAddToCart(product); }}
+          style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .15s' }}
+          onMouseEnter={e => e.currentTarget.style.background = '#f5f3f0'}
+          onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+        >
+          В корзину
+        </button>
+      )}
     </div>
   );
 }
