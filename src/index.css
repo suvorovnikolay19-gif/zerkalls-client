@@ -15,6 +15,47 @@ button { font-family: inherit; }
 @keyframes hDrop { from { opacity: 0; transform: translateY(-6px) } to { opacity: 1; transform: translateY(0) } }
 @keyframes hStep { from { opacity: 0; transform: translateY(-8px) } to { opacity: 1; transform: translateY(0) } }
 @keyframes hSwap { from { opacity: 0; transform: scale(1.04) } to { opacity: 1; transform: scale(1) } }
+@keyframes slideInRight { from { transform: translateX(100%) } to { transform: translateX(0) } }
+@keyframes slideInLeft { from { transform: translateX(-100%) } to { transform: translateX(0) } }
+@keyframes slideOutLeft { from { transform: translateX(0) } to { transform: translateX(-100%) } }
+@keyframes slideOutRight { from { transform: translateX(0) } to { transform: translateX(100%) } }
+
+/* Баннер-карточки: +48px компенсирует отрицательный margin обёртки, иначе остаётся слип */
+@keyframes bannerInFromRight  { from { transform: translateX(calc(100% + 48px)) } to { transform: translateX(0) } }
+@keyframes bannerInFromLeft   { from { transform: translateX(calc(-100% - 48px)) } to { transform: translateX(0) } }
+@keyframes bannerOutToLeft    { from { transform: translateX(0) } to { transform: translateX(calc(-100% - 48px)) } }
+@keyframes bannerOutToRight   { from { transform: translateX(0) } to { transform: translateX(calc(100% + 48px)) } }
+
+
+@keyframes pulse-chat {
+  0%   { box-shadow: 0 10px 28px rgba(26,26,24,.28), 0 0 0 0 rgba(26,26,24,.45) }
+  70%  { box-shadow: 0 10px 28px rgba(26,26,24,.28), 0 0 0 14px rgba(26,26,24,0) }
+  100% { box-shadow: 0 10px 28px rgba(26,26,24,.28), 0 0 0 0 rgba(26,26,24,0) }
+}
+.chat-pulse { animation: pulse-chat 2s ease-out infinite; }
+
+/* ── Category bar hover ── */
+.cat-bar-overlay {
+  transition: background .25s ease;
+}
+button:hover .cat-bar-overlay {
+  background: rgba(20,19,17,.38) !important;
+}
+button:hover img {
+  transform: scale(1.06);
+}
+
+/* Hero button hover: primary инвертирует, secondary засвечивается */
+.hero-btn-primary {
+  transition: background .22s ease, color .22s ease, transform .26s cubic-bezier(.2,.8,.2,1) !important;
+}
+.hero-btn-primary:hover { background: #1a1a18 !important; color: #fff !important; transform: translateY(-2px) !important; }
+.hero-btn-primary:active { transform: translateY(0) scale(.985) !important; }
+.hero-btn-secondary {
+  transition: background .22s ease, transform .26s cubic-bezier(.2,.8,.2,1) !important;
+}
+.hero-btn-secondary:hover { background: rgba(255,255,255,.22) !important; transform: translateY(-2px) !important; }
+.hero-btn-secondary:active { transform: translateY(0) scale(.985) !important; }
 
 /* ── Background color sliders ── */
 .bg-hue-slider, .bg-light-slider {

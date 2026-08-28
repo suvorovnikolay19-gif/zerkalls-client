@@ -25,12 +25,17 @@ const WAYS = [
   },
 ];
 
-export default function CartDrawer() {
+export default function CartDrawer({ onCheckout }) {
   const { items, removeItem, updateQuantity, isOpen, setIsOpen, totalPrice } = useCart();
   const [step, setStep] = useState('cart');
   const [way, setWay] = useState(null);
 
   const close = () => { setIsOpen(false); setStep('cart'); setWay(null); };
+
+  const goCheckout = () => {
+    close();
+    if (onCheckout) onCheckout();
+  };
 
   if (!isOpen) return null;
 
@@ -78,7 +83,7 @@ export default function CartDrawer() {
                     <span style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.02em' }}>{fmt(totalPrice)}</span>
                   </div>
                   <button
-                    onClick={() => setStep('checkout')}
+                    onClick={goCheckout}
                     style={{ width: '100%', padding: 14, borderRadius: 12, background: '#1a1a18', color: '#fff', fontSize: 15, fontWeight: 500, border: 'none', cursor: 'pointer' }}
                   >
                     Оформить заказ

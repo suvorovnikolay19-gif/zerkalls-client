@@ -11,6 +11,7 @@ import CompareModal from './components/CompareModal.jsx';
 import Footer from './components/Footer.jsx';
 import HomePage from './pages/HomePage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+import CheckoutPage from './pages/CheckoutPage.jsx';
 import Breadcrumbs from './components/Breadcrumbs.jsx';
 import CategoryNav from './components/CategoryNav.jsx';
 import { MOCK_PRODUCTS } from './mock/products.js';
@@ -141,6 +142,16 @@ export default function App() {
     return <ProfilePage onGoBack={() => setPage('home')} />;
   }
 
+  if (page === 'checkout') {
+    return (
+      <CheckoutPage
+        onGoHome={() => setPage('home')}
+        onGoStore={() => navigateToCatalog('catalog')}
+        cartCount={totalCount}
+      />
+    );
+  }
+
   if (page === 'home') {
     return (
       <>
@@ -149,8 +160,9 @@ export default function App() {
           cartCount={totalCount}
           onOpenCart={() => setCartOpen(true)}
           onOpenProfile={() => setPage('profile')}
+          onOpenCheckout={() => setPage('checkout')}
         />
-        <CartDrawer />
+        <CartDrawer onCheckout={() => setPage('checkout')} />
       </>
     );
   }
@@ -237,7 +249,7 @@ export default function App() {
           onClear={() => { setCompareItems([]); setCompareOpen(false); }}
         />
       )}
-      <CartDrawer />
+      <CartDrawer onCheckout={() => setPage('checkout')} />
     </div>
   );
 }

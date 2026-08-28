@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import heroImg from '../../assets/hero-main/hero-1.png';
+import bgImg from '../../assets/background.png';
 import hero2Img from '../../assets/hero-main/hero-2.png';
 import hero3Img from '../../assets/hero-main/hero-3.png';
 import service1Img from '../../assets/services/1.png';
@@ -17,6 +18,38 @@ const SLIDES = [
   { title: 'Лестницы', text: 'Лестницы, которые задают уровень интерьеру.', cta: 'Лестницы', entry: 'stairs', image: hero3Img },
   { title: 'Зеркала', text: 'У каждого интерьера — своё отражение. Найдите зеркало, которое станет частью вашей истории.', cta: 'Зеркала', entry: 'mirrors', image: heroImg },
 ];
+
+const CAT_BAR = [
+  { name: 'Перегородки', count: '240+ моделей', entry: 'partitions', image: hero2Img },
+  { name: 'Лестницы',    count: '120+ моделей', entry: 'stairs',     image: hero3Img },
+  { name: 'Зеркала',     count: '180+ моделей', entry: 'mirrors',    image: heroImg  },
+  { name: 'Мебель',      count: '90+ моделей',  entry: 'catalog',    image: testImg  },
+  { name: 'Услуги',      count: 'Свой цех',     entry: 'catalog',    image: service1Img },
+];
+
+const SLIDE_CATS = {
+  partitions: [
+    { name: 'Раздвижные',    count: '84 модели',  entry: 'partitions', image: testImg },
+    { name: 'Распашные',     count: '52 модели',  entry: 'partitions', image: test2Img },
+    { name: 'Стационарные',  count: '61 модель',  entry: 'partitions', image: test3Img },
+    { name: 'Гармошка',      count: '24 модели',  entry: 'partitions', image: test4Img },
+    { name: 'Реечные',       count: '38 моделей', entry: 'partitions', image: testImg },
+  ],
+  stairs: [
+    { name: 'Винтовые',          count: '26 моделей', entry: 'stairs', image: test2Img },
+    { name: 'Маршевые',          count: '41 модель',  entry: 'stairs', image: test3Img },
+    { name: 'Модульные',         count: '33 модели',  entry: 'stairs', image: test4Img },
+    { name: 'Из дуба',           count: '38 моделей', entry: 'stairs', image: testImg },
+    { name: 'На металлокаркасе', count: '44 модели',  entry: 'stairs', image: test2Img },
+  ],
+  mirrors: [
+    { name: 'Круглые',      count: '42 модели',  entry: 'mirrors', image: test3Img },
+    { name: 'Овальные',     count: '38 моделей', entry: 'mirrors', image: test4Img },
+    { name: 'Арочные',      count: '31 модель',  entry: 'mirrors', image: testImg },
+    { name: 'С подсветкой', count: '36 моделей', entry: 'mirrors', image: test2Img },
+    { name: 'Для ванной',   count: '38 моделей', entry: 'mirrors', image: test3Img },
+  ],
+};
 
 const MENU = [
   { name: 'Перегородки', cta: 'Все перегородки', entry: 'partitions', groups: [
@@ -38,6 +71,9 @@ const MENU = [
     { name: 'Категория', options: ['Столы', 'Консоли', 'Стеллажи', 'Ширмы'] },
     { name: 'Материал', options: ['Дерево', 'Металл', 'Камень'] },
     { name: 'Помещение', options: ['Гостиная', 'Спальня', 'Кабинет'] },
+  ]},
+  { name: 'Услуги', cta: 'Все услуги', entry: 'catalog', groups: [
+    { name: 'Обработка металла', options: ['Лазерная резка металла', 'Лазерный труборез', 'Лазерная сварка'] },
   ]},
 ];
 
@@ -178,6 +214,49 @@ const FOOTER_COLS = [
   { title: 'Помощь', links: ['Гарантия', 'Доставка и монтаж', 'Возврат', 'Карта сайта'] },
 ];
 
+const LEVELS = [
+  { name: 'Перегородки', cards: [
+    { name: 'Раздвижные', count: '84 модели', price: 'от 62 000 ₽' },
+    { name: 'Распашные', count: '52 модели', price: 'от 48 000 ₽' },
+    { name: 'Стационарные', count: '61 модель', price: 'от 54 000 ₽' },
+    { name: 'Гармошка', count: '24 модели', price: 'от 67 000 ₽' },
+    { name: 'Реечные', count: '38 моделей', price: 'от 71 000 ₽' },
+    { name: 'С рифлёным стеклом', count: '71 модель', price: 'от 78 000 ₽' },
+    { name: 'Лофт', count: '62 модели', price: 'от 74 000 ₽' },
+    { name: 'Для влажных зон', count: '14 моделей', price: 'от 82 000 ₽' },
+  ]},
+  { name: 'Зеркала', cards: [
+    { name: 'Круглые', count: '42 модели', price: 'от 21 000 ₽' },
+    { name: 'Овальные', count: '38 моделей', price: 'от 26 000 ₽' },
+    { name: 'Арочные', count: '31 модель', price: 'от 34 000 ₽' },
+    { name: 'В полный рост', count: '25 моделей', price: 'от 29 000 ₽' },
+    { name: 'С подсветкой', count: '36 моделей', price: 'от 38 000 ₽' },
+    { name: 'В латунной раме', count: '28 моделей', price: 'от 44 000 ₽' },
+    { name: 'Нестандартной формы', count: '17 моделей', price: 'от 52 000 ₽' },
+    { name: 'Для ванной', count: '38 моделей', price: 'от 24 000 ₽' },
+  ]},
+  { name: 'Лестницы', cards: [
+    { name: 'Винтовые', count: '26 моделей', price: 'от 148 000 ₽' },
+    { name: 'Маршевые', count: '41 модель', price: 'от 172 000 ₽' },
+    { name: 'Модульные', count: '33 модели', price: 'от 96 000 ₽' },
+    { name: 'С площадкой', count: '18 моделей', price: 'от 186 000 ₽' },
+    { name: 'Из дуба', count: '38 моделей', price: 'от 164 000 ₽' },
+    { name: 'На металлокаркасе', count: '44 модели', price: 'от 132 000 ₽' },
+    { name: 'Со стеклом', count: '29 моделей', price: 'от 198 000 ₽' },
+    { name: 'Для мансарды', count: '21 модель', price: 'от 88 000 ₽' },
+  ]},
+  { name: 'Мебель', cards: [
+    { name: 'Столы', count: '34 модели', price: 'от 46 000 ₽' },
+    { name: 'Консоли', count: '21 модель', price: 'от 32 000 ₽' },
+    { name: 'Стеллажи', count: '27 моделей', price: 'от 54 000 ₽' },
+    { name: 'Тумбы', count: '18 моделей', price: 'от 28 000 ₽' },
+    { name: 'Ширмы', count: '19 моделей', price: 'от 41 000 ₽' },
+    { name: 'Из массива', count: '52 модели', price: 'от 38 000 ₽' },
+    { name: 'На металлокаркасе', count: '38 моделей', price: 'от 34 000 ₽' },
+    { name: 'С камнем', count: '14 моделей', price: 'от 72 000 ₽' },
+  ]},
+];
+
 const STEP_MS = 6500;
 const SLIDE_MS = 7000;
 
@@ -190,11 +269,10 @@ const ROOM_ITEM_POS = [
   { right: '18%', bottom: '4%' },
 ];
 
-export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile }) {
+export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout }) {
   const [slide, setSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
-  const [chatOpen, setChatOpen] = useState(false);
   const [colorOpen, setColorOpen] = useState(false);
   const [bgColor, setBgColor] = useState(() => {
     try { return localStorage.getItem('site-bg') || '#fbfaf8'; } catch { return '#fbfaf8'; }
@@ -265,8 +343,13 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     { color: '#0f1825', label: 'Ночной' },
   ];
 
+  const [levelTab, setLevelTab] = useState(0);
+  const [lvlPos, setLvlPos] = useState(0);
+  const pageRef = useRef(null);
+
   const [activeMenu, setActiveMenu] = useState(null);
   const [fanHover, setFanHover] = useState(null);
+  const [fanBtnHover, setFanBtnHover] = useState(null);
 
   const [fitIdx, setFitIdx] = useState(0);
   const [fitOpen, setFitOpen] = useState(null);
@@ -275,6 +358,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [fitExtra, setFitExtra] = useState([]);
 
   const [bannerIdx, setBannerIdx] = useState(0);
+  const [prevBannerIdx, setPrevBannerIdx] = useState(null);
+  const [bannerDir, setBannerDir] = useState(1);
+  const [prevSlideIdx, setPrevSlideIdx] = useState(null);
+  const [heroDir, setHeroDir] = useState(1);
   const [needOpen, setNeedOpen] = useState(false);
   const [need, setNeed] = useState(null);
 
@@ -291,6 +378,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const stepIdxRef = useRef(0);
   const stepProgressRef = useRef(0);
   const slideIdxRef = useRef(0);
+
+  const levelTabRefs = useRef([]);
+  const pillRef = useRef(null);
+  const pillInitialized = useRef(false);
 
   useEffect(() => {
     const loop = () => {
@@ -313,8 +404,11 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       if (now - slideBaseRef.current >= SLIDE_MS) {
         slideBaseRef.current = now;
-        const next = (slideIdxRef.current + 1) % SLIDES.length;
+        const curr = slideIdxRef.current;
+        const next = (curr + 1) % SLIDES.length;
         slideIdxRef.current = next;
+        setPrevSlideIdx(curr);
+        setHeroDir(1);
         setSlide(next);
       }
 
@@ -324,6 +418,92 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, []);
 
+  // Reveal + hover animations (from MainAndCatalog-v1 pattern)
+  useEffect(() => {
+    const page = pageRef.current;
+    if (!page) return;
+
+    const seen = new WeakSet();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const d = el.dataset.rd || '0';
+        el.style.transition = `opacity .6s cubic-bezier(.2,.8,.2,1) ${d}s, transform .6s cubic-bezier(.2,.8,.2,1) ${d}s`;
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+
+    const observe = (el, delay) => {
+      if (!el || seen.has(el)) return;
+      const st = el.getAttribute('style') || '';
+      if (st.includes('position: fixed') || st.includes('position: sticky')) return;
+      seen.add(el);
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.willChange = 'opacity, transform';
+      el.dataset.rd = delay.toFixed(2);
+      io.observe(el);
+    };
+
+    // Skip hero (first section), animate direct children of all other sections
+    Array.from(page.querySelectorAll('section')).slice(1).forEach(sec => {
+      const ss = sec.getAttribute('style') || '';
+      if (ss.includes('sticky') || ss.includes('fixed')) return;
+      Array.from(sec.children).forEach((child, ci) => {
+        const cs = child.getAttribute('style') || '';
+        if (cs.includes('sticky') || cs.includes('fixed')) return;
+        observe(child, ci * 0.06);
+      });
+    });
+
+    const footer = page.querySelector('footer');
+    if (footer) observe(footer, 0);
+
+    // Hover animations — mirrors dc.html pattern: targets all interactive elements by cursor:pointer
+    const hovered = new WeakSet();
+    const addHover = () => {
+      page.querySelectorAll('button, a, [style*="cursor: pointer"]').forEach(el => {
+        if (hovered.has(el)) return;
+        if (el.closest('#categories')) return; // fan cards have their own transform
+        const st = el.getAttribute('style') || '';
+        if (st.includes('transform:')) return; // skip elements with own transforms
+        hovered.add(el);
+        const isRound = st.includes('border-radius: 50%') || el.style.borderRadius === '50%';
+        const cur = el.style.transition || '';
+        el.style.transition = (cur ? cur + ', ' : '') + 'transform .26s cubic-bezier(.2,.8,.2,1), filter .26s ease';
+        el.addEventListener('mouseenter', () => {
+          el.style.transform = isRound ? 'scale(1.08)' : 'translateY(-2px)';
+          el.style.filter = 'brightness(1.03)';
+        });
+        el.addEventListener('mouseleave', () => { el.style.transform = ''; el.style.filter = ''; });
+        el.addEventListener('mousedown', () => { el.style.transform = isRound ? 'scale(.96)' : 'translateY(0) scale(.985)'; });
+        el.addEventListener('mouseup', () => { el.style.transform = isRound ? 'scale(1.08)' : 'translateY(-2px)'; });
+      });
+    };
+
+    addHover();
+    // Re-apply hover when DOM changes (e.g. menus open)
+    const mo = new MutationObserver(addHover);
+    mo.observe(page, { childList: true, subtree: true });
+
+    return () => { io.disconnect(); mo.disconnect(); };
+  }, []);
+
+  useEffect(() => {
+    if (prevBannerIdx === null) return;
+    const t = setTimeout(() => setPrevBannerIdx(null), 600);
+    return () => clearTimeout(t);
+  }, [prevBannerIdx, bannerIdx]);
+
+  useEffect(() => {
+    if (prevSlideIdx === null) return;
+    const t = setTimeout(() => setPrevSlideIdx(null), 600);
+    return () => clearTimeout(t);
+  }, [prevSlideIdx, slide]);
+
   useEffect(() => {
     if (!colorOpen) return;
     const handler = (e) => {
@@ -332,6 +512,25 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [colorOpen]);
+
+  useEffect(() => {
+    const tab = levelTabRefs.current[levelTab];
+    const pill = pillRef.current;
+    if (!tab || !pill) return;
+    if (!pillInitialized.current) {
+      pill.style.transition = 'none';
+      pill.style.left = tab.offsetLeft + 'px';
+      pill.style.width = tab.offsetWidth + 'px';
+      pill.style.opacity = '1';
+      pillInitialized.current = true;
+      requestAnimationFrame(() => {
+        if (pill) pill.style.transition = 'left .32s cubic-bezier(.2,.8,.2,1), width .32s cubic-bezier(.2,.8,.2,1)';
+      });
+    } else {
+      pill.style.left = tab.offsetLeft + 'px';
+      pill.style.width = tab.offsetWidth + 'px';
+    }
+  }, [levelTab]);
 
   const [sliderHue, setSliderHue] = useState(200);
   const [sliderLight, setSliderLight] = useState(94);
@@ -381,15 +580,42 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   }
 
   return (
-    <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: bgColor, WebkitFontSmoothing: 'antialiased', overflowX: 'hidden' }}>
+    <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: bgColor, backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', backgroundPosition: 'center top', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed', WebkitFontSmoothing: 'antialiased', overflowX: 'hidden' }}>
 
       {/* ── Hero ── */}
-      <section style={{ position: 'relative', height: 760, background: '#23221f' }}>
-        {currentSlide.image
-          ? <img src={currentSlide.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', transition: 'opacity .6s' }} />
-          : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
-        }
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)', pointerEvents: 'none' }} />
+      <section style={{ position: 'relative', height: 760, background: '#23221f', overflow: 'hidden' }}>
+        {prevSlideIdx !== null && (
+          <div key={`sp-${prevSlideIdx}`} style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', animation: `${heroDir > 0 ? 'slideOutLeft' : 'slideOutRight'} .55s cubic-bezier(.4,0,.2,1) forwards` }}>
+            {SLIDES[prevSlideIdx].image
+              ? <img src={SLIDES[prevSlideIdx].image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+              : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
+            }
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '60px 48px 0', textAlign: 'center' }}>
+              <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{SLIDES[prevSlideIdx].title}</h1>
+              <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{SLIDES[prevSlideIdx].text}</div>
+              <div style={{ display: 'flex', gap: 14, marginTop: 12 }}>
+                <button className="hero-btn-primary" style={{ padding: '15px 42px', background: '#fbfaf8', color: '#1a1a18', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>Каталог</button>
+                <button className="hero-btn-secondary" style={{ padding: '15px 42px', border: '1px solid rgba(255,255,255,.7)', color: '#fff', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer' }}>{SLIDES[prevSlideIdx].cta}</button>
+              </div>
+            </div>
+          </div>
+        )}
+        <div key={`sc-${slide}`} style={{ position: 'absolute', inset: 0, zIndex: 1, animation: prevSlideIdx !== null ? `${heroDir > 0 ? 'slideInRight' : 'slideInLeft'} .55s cubic-bezier(.4,0,.2,1) forwards` : 'none' }}>
+          {currentSlide.image
+            ? <img src={currentSlide.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+            : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
+          }
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '60px 48px 0', textAlign: 'center', pointerEvents: 'none' }}>
+            <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{currentSlide.title}</h1>
+            <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{currentSlide.text}</div>
+            <div style={{ display: 'flex', gap: 14, marginTop: 12, pointerEvents: 'auto' }}>
+              <button className="hero-btn-primary" onClick={() => onNavigateToCatalog('catalog')} style={{ padding: '15px 42px', background: '#fbfaf8', color: '#1a1a18', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>Каталог</button>
+              <button className="hero-btn-secondary" onClick={() => onNavigateToCatalog(currentSlide.entry)} style={{ padding: '15px 42px', border: '1px solid rgba(255,255,255,.7)', color: '#fff', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer' }}>{currentSlide.cta}</button>
+            </div>
+          </div>
+        </div>
 
         <header
           onMouseLeave={() => setActiveMenu(null)}
@@ -398,12 +624,12 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           <div style={{ flex: 1, fontSize: 24, fontWeight: 600, letterSpacing: '-.02em' }}>objects</div>
 
           <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <nav style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', gap: 4, padding: 6, borderRadius: 999, background: 'rgba(26,26,24,.62)', backdropFilter: 'blur(10px)' }}>
+            <nav style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', justifyContent: 'center', gap: 4, padding: 6, borderRadius: 999, background: 'rgba(26,26,24,.62)', backdropFilter: 'blur(10px)' }}>
               {MENU.map(m => (
                 <div
                   key={m.name}
                   onMouseEnter={() => setActiveMenu(m.name)}
-                  style={{ padding: '11px 22px', borderRadius: 999, fontSize: 13, fontWeight: 500, letterSpacing: '.04em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap', background: activeMenu === m.name ? 'rgba(255,255,255,.16)' : 'transparent', color: '#fff', transition: 'background .18s' }}
+                  style={{ padding: '11px 16px', borderRadius: 999, fontSize: 13, fontWeight: 500, letterSpacing: '.04em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap', background: activeMenu === m.name ? 'rgba(255,255,255,.16)' : 'transparent', color: '#fff', transition: 'background .18s' }}
                 >
                   {m.name}
                 </div>
@@ -463,30 +689,22 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           </div>
         </header>
 
-        <div style={{ position: 'absolute', inset: 0, zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '0 48px', textAlign: 'center', pointerEvents: 'none' }}>
-          <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{currentSlide.title}</h1>
-          <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{currentSlide.text}</div>
-          <div style={{ display: 'flex', gap: 14, marginTop: 12, pointerEvents: 'auto' }}>
-            <button onClick={() => onNavigateToCatalog('catalog')} style={{ padding: '15px 42px', background: '#fbfaf8', color: '#1a1a18', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>Каталог</button>
-            <button onClick={() => onNavigateToCatalog(currentSlide.entry)} style={{ padding: '15px 42px', border: '1px solid rgba(255,255,255,.7)', color: '#fff', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer' }}>{currentSlide.cta}</button>
-          </div>
-        </div>
-
-        <div onClick={() => { const n = (slide + SLIDES.length - 1) % SLIDES.length; slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, left: 24, top: '50%', width: 44, height: 44, marginTop: -22, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer' }}>‹</div>
-        <div onClick={() => { const n = (slide + 1) % SLIDES.length; slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, right: 24, top: '50%', width: 44, height: 44, marginTop: -22, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer' }}>›</div>
-        <div style={{ position: 'absolute', zIndex: 4, left: 0, right: 0, bottom: 26, display: 'flex', justifyContent: 'center', gap: 9 }}>
+        <div onClick={() => { const curr = slideIdxRef.current; const n = (curr + SLIDES.length - 1) % SLIDES.length; setPrevSlideIdx(curr); setHeroDir(-1); slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, left: 24, top: '50%', width: 56, height: 56, marginTop: -28, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, cursor: 'pointer' }}>‹</div>
+        <div onClick={() => { const curr = slideIdxRef.current; const n = (curr + 1) % SLIDES.length; setPrevSlideIdx(curr); setHeroDir(1); slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, right: 24, top: '50%', width: 56, height: 56, marginTop: -28, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, cursor: 'pointer' }}>›</div>
+        <div style={{ position: 'absolute', zIndex: 4, left: 0, right: 0, bottom: 36, display: 'flex', justifyContent: 'center', gap: 9 }}>
           {SLIDES.map((_, i) => (
-            <span key={i} onClick={() => { slideIdxRef.current = i; slideBaseRef.current = Date.now(); setSlide(i); }} style={{ width: i === slide ? 26 : 9, height: 9, borderRadius: 999, background: i === slide ? '#fff' : 'rgba(255,255,255,.5)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
+            <span key={i} onClick={() => { const curr = slideIdxRef.current; setPrevSlideIdx(curr); setHeroDir(i > curr ? 1 : -1); slideIdxRef.current = i; slideBaseRef.current = Date.now(); setSlide(i); }} style={{ width: i === slide ? 26 : 9, height: 9, borderRadius: 999, background: i === slide ? '#fff' : 'rgba(255,255,255,.5)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
           ))}
         </div>
+
       </section>
 
       {/* ── Меню разделов (sticky) ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(251,250,248,.94)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
         {PAGE_NAV.map((n, i) => (
           n.href
-            ? <a key={i} href={n.href} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 15, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
-            : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 15, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
+            ? <a key={i} href={n.href} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
+            : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
         ))}
       </nav>
 
@@ -548,6 +766,12 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   <div style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-.01em' }}>{c.name}</div>
                   <div style={{ fontSize: 13, lineHeight: 1.5, color: '#8b877f', textWrap: 'pretty' }}>{c.text}</div>
                   <div style={{ marginTop: 4, fontSize: 12.5, fontWeight: 500, transition: 'color .3s ease', color: hot ? '#1a1a18' : '#a8a39a' }}>{c.count}</div>
+                  <button
+                    onMouseEnter={e => { e.stopPropagation(); setFanBtnHover(i); }}
+                    onMouseLeave={e => { e.stopPropagation(); setFanBtnHover(null); }}
+                    onClick={e => { e.stopPropagation(); onNavigateToCatalog(c.entry); }}
+                    style={{ marginTop: 6, padding: '10px 28px', borderRadius: 999, border: '1.5px solid #1a1a18', background: fanBtnHover === i ? '#1a1a18' : '#fff', color: fanBtnHover === i ? '#fff' : '#1a1a18', fontSize: 13, fontWeight: 500, cursor: 'pointer', transition: 'background .2s ease, color .2s ease' }}
+                  >Смотреть</button>
                 </div>
               </div>
             );
@@ -584,6 +808,71 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           <button onClick={() => onNavigateToCatalog('bestsellers')} style={{ padding: '15px 32px', borderRadius: 999, border: '1px solid #ddd8d1', fontSize: 14, color: '#33322e', background: 'transparent', cursor: 'pointer' }}>Смотреть все лучшие товары</button>
         </div>
 
+        {/* Что вам нужно? */}
+        <div style={{ marginTop: 96, padding: '56px 44px 60px', borderRadius: 28, background: '#141311', color: '#fff', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', marginBottom: 40 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 620 }}>
+              <h2 style={{ margin: 0, fontSize: 54, lineHeight: 1.02, fontWeight: 500, letterSpacing: '-.035em', color: '#fff', textWrap: 'pretty' }}>Что вам нужно?</h2>
+              <div style={{ fontSize: 15, lineHeight: 1.55, color: 'rgba(255,255,255,.6)', maxWidth: 380 }}>Выберите направление — покажем разделы каталога внутри него</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10, padding: 5, borderRadius: 999, background: 'rgba(255,255,255,.08)', alignSelf: 'flex-start' }}>
+                {LEVELS.map((l, i) => (
+                  <div
+                    key={i}
+                    onClick={() => { setLevelTab(i); setLvlPos(0); }}
+                    style={{ padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: levelTab === i ? '#fff' : 'transparent', color: levelTab === i ? '#1a1a18' : 'rgba(255,255,255,.7)', transition: 'background .18s, color .18s', userSelect: 'none' }}
+                  >{l.name}</div>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 12 }}>
+              <div style={{ fontSize: 14, color: 'rgba(255,255,255,.6)' }}>Нужен совет по выбору?</div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <a href="https://t.me" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#2b9fe3', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
+                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✈</span>
+                  Написать в Telegram
+                </a>
+                <a href="https://max.ru" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#7c5cf0', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
+                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✉</span>
+                  Написать в MAX
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ position: 'relative' }}>
+            <div onClick={() => setLvlPos(p => Math.max(0, p - 1))} style={{ position: 'absolute', zIndex: 3, left: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>←</div>
+            <div onClick={() => setLvlPos(p => Math.min(Math.max(0, LEVELS[levelTab].cards.length - 4), p + 1))} style={{ position: 'absolute', zIndex: 3, right: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>→</div>
+            <div style={{ overflow: 'hidden' }}>
+              <div style={{ display: 'flex', gap: 14, transition: 'transform .38s cubic-bezier(.2,.8,.2,1)', transform: `translateX(calc(${-lvlPos} * (25% + 3.5px)))` }}>
+                {LEVELS[levelTab].cards.map((c, i) => (
+                  <div
+                    key={`${levelTab}-${i}`}
+                    onClick={() => onNavigateToCatalog('catalog')}
+                    style={{ position: 'relative', height: 280, borderRadius: 18, overflow: 'hidden', background: '#1c1b18', flexShrink: 0, width: 'calc(25% - 10.5px)', cursor: 'pointer' }}
+                  >
+                    <img src={FAN_IMGS[i % 4]} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45 }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.22) 0%, rgba(20,19,17,.72) 100%)' }} />
+                    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%', padding: '26px 24px 24px' }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
+                        <h3 style={{ margin: 0, fontSize: 22, lineHeight: 1.1, fontWeight: 500, letterSpacing: '-.02em', maxWidth: 200, textWrap: 'pretty', color: '#fff' }}>{c.name}</h3>
+                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, opacity: .55, color: '#fff', flexShrink: 0 }}>{String(i + 1).padStart(2, '0')}</span>
+                      </div>
+                      <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13.5, opacity: .72, color: '#fff' }}>
+                        <span>{c.count}</span>
+                        <span>{c.price}</span>
+                      </div>
+                      <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 14, color: '#fff' }}>
+                        <span style={{ fontSize: 13.5, borderBottom: '1px solid currentColor', paddingBottom: 2 }}>Смотреть раздел →</span>
+                        <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>↗</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Примерочная */}
         <div style={{ marginTop: 96 }}>
           <div style={{ textAlign: 'center', marginBottom: 34 }}>
@@ -601,34 +890,32 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'stretch', gap: 1, background: '#ece9e4', borderTop: '1px solid #e4e0d9' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, justifyContent: 'center', padding: '20px 28px', background: '#fff', minWidth: 230 }}>
-                <div style={{ fontSize: 16, fontWeight: 500, letterSpacing: '-.01em' }}>{fitItem.title}</div>
-                <div style={{ fontSize: 14, color: '#6b6862' }}>{fitItem.price}</div>
-              </div>
+            <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f1eee8' }}>
+                <span style={{ paddingLeft: 8, fontSize: 16, color: '#33322e', whiteSpace: 'nowrap' }}>Мне нужно</span>
 
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '16px 24px', background: '#fff', overflow: 'visible', position: 'relative' }}>
                 {fitKeys.map(k => {
                   const open = fitOpen === k;
+                  const isExtra = fitExtra.includes(k);
                   return (
                     <div key={k} style={{ position: 'relative', flexShrink: 0 }}>
-                      <div
-                        onClick={() => { setFitOpen(open ? null : k); setAddFilterOpen(false); }}
-                        style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '9px 16px', borderRadius: 12, border: '1px solid ' + (open ? '#1a1a18' : '#e6e2dc'), background: '#fff', cursor: 'pointer', whiteSpace: 'nowrap' }}
-                      >
-                        <span style={{ fontSize: 11, color: '#8b877f' }}>{k}</span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#33322e' }}>
-                          {fitValues[k] || 'Любой'}
-                          <span style={{ fontSize: 12, color: '#8b877f', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px 10px 16px', borderRadius: 999, background: '#fff', border: '1px solid ' + (open ? '#1a1a18' : '#ddd8d1'), cursor: 'pointer' }}>
+                        <span onClick={() => { setFitOpen(open ? null : k); setAddFilterOpen(false); }} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <span style={{ fontSize: 15, color: '#1a1a18', whiteSpace: 'nowrap' }}>{fitValues[k] || 'Любой'}</span>
+                          <span style={{ fontSize: 13, color: '#8b877f', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
                         </span>
+                        {isExtra && (
+                          <span onClick={() => { setFitExtra(e => e.filter(x => x !== k)); setFitOpen(null); }} style={{ fontSize: 14, color: '#a8a39a', cursor: 'pointer' }}>✕</span>
+                        )}
                       </div>
                       {open && (
-                        <div style={{ position: 'absolute', zIndex: 5, left: 0, bottom: 'calc(100% + 8px)', minWidth: 190, padding: 8, borderRadius: 14, background: '#fff', border: '1px solid #ece9e4', boxShadow: '0 14px 34px rgba(26,26,24,.14)', animation: 'hDrop .18s ease' }}>
+                        <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 210, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
+                          <div style={{ padding: '8px 12px 10px', fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{k}</div>
                           {FIT_FILTERS[k].map(o => (
                             <div
                               key={o}
                               onClick={() => { setFitValues(v => ({ ...v, [k]: o })); setFitOpen(null); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }}
-                              style={{ padding: '10px 12px', borderRadius: 9, fontSize: 14, cursor: 'pointer', color: fitValues[k] === o ? '#1a1a18' : '#4a4842', fontWeight: fitValues[k] === o ? 600 : 400, background: fitValues[k] === o ? '#f4f2ee' : 'transparent' }}
+                              style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, cursor: 'pointer', color: fitValues[k] === o ? '#1a1a18' : '#33322e', fontWeight: fitValues[k] === o ? 600 : 400, background: fitValues[k] === o ? '#f4f2ee' : 'transparent' }}
                             >{o}</div>
                           ))}
                         </div>
@@ -638,28 +925,21 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 })}
 
                 <div style={{ position: 'relative', flexShrink: 0 }}>
-                  <div
-                    onClick={() => { setAddFilterOpen(o => !o); setFitOpen(null); }}
-                    style={{ width: 42, height: 42, borderRadius: 12, border: '1px dashed #d5d0c8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, color: '#6b6862', cursor: 'pointer' }}
-                  >+</div>
+                  <div onClick={() => { setAddFilterOpen(o => !o); setFitOpen(null); }} style={{ width: 46, height: 46, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, color: '#33322e', cursor: 'pointer' }}>+</div>
                   {addFilterOpen && (
-                    <div style={{ position: 'absolute', zIndex: 5, left: 0, bottom: 'calc(100% + 8px)', minWidth: 200, padding: 8, borderRadius: 14, background: '#fff', border: '1px solid #ece9e4', boxShadow: '0 14px 34px rgba(26,26,24,.14)', animation: 'hDrop .18s ease' }}>
+                    <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 220, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
                       {addable.length === 0
                         ? <div style={{ padding: '10px 12px', fontSize: 13, color: '#8b877f' }}>Все фильтры добавлены</div>
                         : addable.map(k => (
-                          <div
-                            key={k}
-                            onClick={() => { setFitExtra(e => [...e, k]); setFitValues(v => ({ ...v, [k]: FIT_FILTERS[k][0] })); setAddFilterOpen(false); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }}
-                            style={{ padding: '10px 12px', borderRadius: 9, fontSize: 14, color: '#33322e', cursor: 'pointer' }}
-                          >{k}</div>
+                          <div key={k} onClick={() => { setFitExtra(e => [...e, k]); setFitValues(v => ({ ...v, [k]: FIT_FILTERS[k][0] })); setAddFilterOpen(false); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }} style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, color: '#33322e', cursor: 'pointer' }}>{k}</div>
                         ))
                       }
                     </div>
                   )}
                 </div>
-              </div>
 
-              <button onClick={() => onNavigateToCatalog('catalog')} style={{ display: 'flex', alignItems: 'center', padding: '20px 34px', background: '#1a1a18', color: '#fff', fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', border: 'none', cursor: 'pointer' }}>Настроить и купить</button>
+                <button onClick={() => onNavigateToCatalog('catalog')} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 30px', borderRadius: 14, background: '#fff', fontSize: 15, fontWeight: 500, color: '#1a1a18', whiteSpace: 'nowrap', border: 'none', cursor: 'pointer' }}>Найти <span style={{ fontSize: 15 }}>→</span></button>
+              </div>
             </div>
           </div>
         </div>
@@ -812,51 +1092,65 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           <button onClick={() => onNavigateToCatalog('novelties')} style={{ padding: '15px 32px', borderRadius: 999, border: '1px solid #ddd8d1', fontSize: 14, color: '#33322e', background: 'transparent', cursor: 'pointer' }}>Смотреть все новинки</button>
         </div>
 
-        {/* Баннер-слайдер */}
-        <div style={{ position: 'relative', marginTop: 90, borderRadius: 24, overflow: 'hidden', minHeight: 620, background: currentBanner.bg }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + currentBanner.tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, minHeight: 620, maxWidth: 700, padding: '72px 100px' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{currentBanner.kicker}</div>
-            <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{currentBanner.title}</h3>
-            <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{currentBanner.text}</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10, flexWrap: 'wrap' }}>
-              <div style={{ position: 'relative' }}>
-                <div
-                  onClick={() => setNeedOpen(o => !o)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e', cursor: 'pointer' }}
-                >
-                  <span>{need || 'Мне нужна перегородка для…'}</span>
-                  <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
-                </div>
-                {needOpen && (
-                  <div style={{ position: 'absolute', zIndex: 6, top: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
-                    {currentBanner.options.map(o => (
-                      <div
-                        key={o[0]}
-                        onClick={() => { setNeed(o[0]); setNeedOpen(false); }}
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 14px', borderRadius: 10, fontSize: 14, cursor: 'pointer', color: need === o[0] ? '#1a1a18' : '#4a4842', background: need === o[0] ? '#f4f2ee' : 'transparent' }}
-                      >
-                        <span>{o[0]}</span>
-                        {o[1] && <span style={{ fontSize: 12, color: '#a8a39a', whiteSpace: 'nowrap' }}>{o[1]}</span>}
-                      </div>
-                    ))}
-                  </div>
-                )}
+        {/* Баннер-слайдер: overflow:clip на обёртке с neg.margin — карточки летят как объекты, видны до края страницы */}
+        <div style={{ overflow: 'clip', margin: '12px -48px 0' }}>
+         <div style={{ position: 'relative', height: 620, margin: '0 48px' }}>
+          {prevBannerIdx !== null && (
+            <div key={`bp-${prevBannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: BANNERS[prevBannerIdx].bg, pointerEvents: 'none', zIndex: 1, animation: `${bannerDir > 0 ? 'bannerOutToLeft' : 'bannerOutToRight'} .4s linear forwards` }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + BANNERS[prevBannerIdx].tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)' }} />
+              <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, height: '100%', maxWidth: 700, padding: '72px 100px' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{BANNERS[prevBannerIdx].kicker}</div>
+                <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].title}</h3>
+                <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].text}</div>
               </div>
-              <button
-                onClick={() => onNavigateToCatalog('catalog')}
-                style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? '#fbfaf8' : 'rgba(255,255,255,.18)', color: need ? '#1a1a18' : 'rgba(255,255,255,.86)', backdropFilter: 'blur(6px)', border: 'none', cursor: 'pointer' }}
-              >Подобрать</button>
+            </div>
+          )}
+          <div key={`bc-${bannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: currentBanner.bg, zIndex: 0, animation: prevBannerIdx !== null ? `${bannerDir > 0 ? 'bannerInFromRight' : 'bannerInFromLeft'} .4s linear both` : 'none' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + currentBanner.tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, height: '100%', maxWidth: 700, padding: '72px 100px' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{currentBanner.kicker}</div>
+              <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{currentBanner.title}</h3>
+              <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{currentBanner.text}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10, flexWrap: 'wrap' }}>
+                <div style={{ position: 'relative' }}>
+                  <div
+                    onClick={() => setNeedOpen(o => !o)}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e', cursor: 'pointer' }}
+                  >
+                    <span>{need || 'Мне нужна перегородка для…'}</span>
+                    <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                  </div>
+                  {needOpen && (
+                    <div style={{ position: 'absolute', zIndex: 6, top: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
+                      {currentBanner.options.map(o => (
+                        <div
+                          key={o[0]}
+                          onClick={() => { setNeed(o[0]); setNeedOpen(false); }}
+                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 14px', borderRadius: 10, fontSize: 14, cursor: 'pointer', color: need === o[0] ? '#1a1a18' : '#4a4842', background: need === o[0] ? '#f4f2ee' : 'transparent' }}
+                        >
+                          <span>{o[0]}</span>
+                          {o[1] && <span style={{ fontSize: 12, color: '#a8a39a', whiteSpace: 'nowrap' }}>{o[1]}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={() => onNavigateToCatalog('catalog')}
+                  style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? '#fbfaf8' : 'rgba(255,255,255,.18)', color: need ? '#1a1a18' : 'rgba(255,255,255,.86)', backdropFilter: 'blur(6px)', border: 'none', cursor: 'pointer' }}
+                >Подобрать</button>
+              </div>
             </div>
           </div>
 
-          <div onClick={() => { setBannerIdx(i => (i + BANNERS.length - 1) % BANNERS.length); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>‹</div>
-          <div onClick={() => { setBannerIdx(i => (i + 1) % BANNERS.length); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>›</div>
-          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8 }}>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + BANNERS.length - 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(-1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>‹</div>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>›</div>
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8, zIndex: 3 }}>
             {BANNERS.map((_, i) => (
-              <span key={i} onClick={() => { setBannerIdx(i); setNeedOpen(false); setNeed(null); }} style={{ width: i === bannerIdx ? 24 : 8, height: 8, borderRadius: 999, background: i === bannerIdx ? '#fff' : 'rgba(255,255,255,.45)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
+              <span key={i} onClick={() => { const curr = bannerIdx; setPrevBannerIdx(curr); setBannerDir(i > curr ? 1 : -1); setBannerIdx(i); setNeedOpen(false); setNeed(null); }} style={{ width: i === bannerIdx ? 24 : 8, height: 8, borderRadius: 999, background: i === bannerIdx ? '#fff' : 'rgba(255,255,255,.45)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
             ))}
           </div>
+         </div>
         </div>
       </section>
 
@@ -960,7 +1254,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </footer>
 
       {/* ── Выбор цвета фона ── */}
-      <div ref={colorRef} style={{ position: 'fixed', left: 26, bottom: 26, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <div ref={colorRef} style={{ position: 'fixed', right: 26, bottom: 96, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
         {colorOpen && (
           <div style={{ marginBottom: 10, background: '#fff', borderRadius: 14, boxShadow: '0 12px 34px rgba(26,26,24,.16)', padding: '12px 14px', animation: 'hFade .15s ease', width: 310 }}>
             <div style={{ fontSize: 10, fontWeight: 600, color: '#8b877f', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>Цвет фона</div>
@@ -1021,13 +1315,15 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </div>
 
-      {/* ── Чат-пузырь ── */}
+      {/* ── Кнопка корзины/оформления ── */}
       <div style={{ position: 'fixed', right: 26, bottom: 26, zIndex: 90, display: 'flex', alignItems: 'center', gap: 12 }}>
-        {chatOpen && (
-          <div style={{ padding: '14px 18px', borderRadius: 16, background: '#fff', boxShadow: '0 12px 34px rgba(26,26,24,.16)', fontSize: 14, color: '#33322e', maxWidth: 240, animation: 'hFade .2s ease' }}>Здравствуйте! Подскажем по размерам и срокам — напишите нам.</div>
+        {cartCount > 0 && (
+          <div style={{ padding: '14px 18px', borderRadius: 16, background: '#fff', boxShadow: '0 12px 34px rgba(26,26,24,.16)', fontSize: 14, color: '#33322e', maxWidth: 240, animation: 'hFade .2s ease' }}>
+            {cartCount} {cartCount === 1 ? 'товар' : cartCount < 5 ? 'товара' : 'товаров'} в корзине — оформить?
+          </div>
         )}
-        <div onClick={() => setChatOpen(o => !o)} style={{ width: 56, height: 56, flexShrink: 0, borderRadius: '50%', background: '#1a1a18', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 10px 28px rgba(26,26,24,.28)', fontSize: 20, transition: 'transform .18s' }}>
-          {chatOpen ? '✕' : '✉'}
+        <div onClick={onOpenCheckout} className="chat-pulse" style={{ width: 56, height: 56, flexShrink: 0, borderRadius: '50%', background: '#1a1a18', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 20, transition: 'transform .18s' }}>
+          ✉
         </div>
       </div>
     </div>
