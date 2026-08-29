@@ -988,13 +988,88 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           </div>
         </div>
 
+        {/* Примерочная */}
+        <div style={{ marginTop: 96 }}>
+          <div style={{ textAlign: 'center', marginBottom: 34 }}>
+            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Примерочная</h2>
+            <div style={{ fontSize: 15, color: '#8b877f' }}>Крутите каталог и меняйте параметры — подборка обновляется на ходу</div>
+          </div>
+          <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: 'linear-gradient(180deg, #f4f2ee 0%, #e9e6e0 100%)' }}>
+            <div style={{ position: 'relative', height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, padding: '0 80px' }}>
+              <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
+              <div style={{ flex: '0 1 440px', minWidth: 0, height: 420, borderRadius: 16, background: 'linear-gradient(135deg, #e0ddd8 0%, #ccc8c2 100%)' }} />
+              <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
+
+              <div onClick={() => { setFitIdx(i => (i + FIT_ITEMS.length - 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>‹</div>
+              <div onClick={() => { setFitIdx(i => (i + 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
+              <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
+            </div>
+
+            <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f1eee8' }}>
+                <span style={{ paddingLeft: 8, fontSize: 16, color: '#33322e', whiteSpace: 'nowrap' }}>Мне нужно</span>
+
+                {fitKeys.map(k => {
+                  const open = fitOpen === k;
+                  const isExtra = fitExtra.includes(k);
+                  return (
+                    <div key={k} style={{ position: 'relative', flexShrink: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px 10px 16px', borderRadius: 999, background: '#fff', border: '1px solid ' + (open ? '#1a1a18' : '#ddd8d1'), cursor: 'pointer' }}>
+                        <span onClick={() => { setFitOpen(open ? null : k); setAddFilterOpen(false); }} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <span style={{ fontSize: 15, color: '#1a1a18', whiteSpace: 'nowrap' }}>{fitValues[k] || 'Любой'}</span>
+                          <span style={{ fontSize: 13, color: '#8b877f', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                        </span>
+                        {isExtra && (
+                          <span onClick={() => { setFitExtra(e => e.filter(x => x !== k)); setFitOpen(null); }} style={{ fontSize: 14, color: '#a8a39a', cursor: 'pointer' }}>✕</span>
+                        )}
+                      </div>
+                      {open && (
+                        <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 210, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
+                          <div style={{ padding: '8px 12px 10px', fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{k}</div>
+                          {FIT_FILTERS[k].map(o => (
+                            <div
+                              key={o}
+                              onClick={() => { setFitValues(v => ({ ...v, [k]: o })); setFitOpen(null); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }}
+                              style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, cursor: 'pointer', color: fitValues[k] === o ? '#1a1a18' : '#33322e', fontWeight: fitValues[k] === o ? 600 : 400, background: fitValues[k] === o ? '#f4f2ee' : 'transparent' }}
+                            >{o}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div style={{ position: 'relative', flexShrink: 0 }}>
+                  <div onClick={() => { setAddFilterOpen(o => !o); setFitOpen(null); }} style={{ width: 46, height: 46, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, color: '#33322e', cursor: 'pointer' }}>+</div>
+                  {addFilterOpen && (
+                    <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 220, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
+                      {addable.length === 0
+                        ? <div style={{ padding: '10px 12px', fontSize: 13, color: '#8b877f' }}>Все фильтры добавлены</div>
+                        : addable.map(k => (
+                          <div key={k} onClick={() => { setFitExtra(e => [...e, k]); setFitValues(v => ({ ...v, [k]: FIT_FILTERS[k][0] })); setAddFilterOpen(false); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }} style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, color: '#33322e', cursor: 'pointer' }}>{k}</div>
+                        ))
+                      }
+                    </div>
+                  )}
+                </div>
+
+                <button onClick={() => onNavigateToCatalog('catalog')} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 30px', borderRadius: 14, background: '#fff', fontSize: 15, fontWeight: 500, color: '#1a1a18', whiteSpace: 'nowrap', border: 'none', cursor: 'pointer' }}>Найти <span style={{ fontSize: 15 }}>→</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Заголовок + Что вам нужно? ── */}
+        <div style={{ marginTop: 96, textAlign: 'center', marginBottom: 40 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Что вам нужно?</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Выберите категорию — покажем разделы каталога и поможем с выбором</div>
+        </div>
+
         {/* Что вам нужно? */}
-        <div style={{ marginTop: 96, padding: '56px 44px 60px', borderRadius: 28, background: '#141311', color: '#fff', overflow: 'hidden' }}>
+        <div style={{ padding: '56px 44px 60px', borderRadius: 28, background: '#141311', color: '#fff', overflow: 'hidden' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', marginBottom: 40 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 620 }}>
-              <h2 style={{ margin: 0, fontSize: 54, lineHeight: 1.02, fontWeight: 500, letterSpacing: '-.035em', color: '#fff', textWrap: 'pretty' }}>Что вам нужно?</h2>
-              <div style={{ fontSize: 15, lineHeight: 1.55, color: 'rgba(255,255,255,.6)', maxWidth: 380 }}>Выберите направление — покажем разделы каталога внутри него</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10, padding: 5, borderRadius: 999, background: 'rgba(255,255,255,.08)', alignSelf: 'flex-start' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(255,255,255,.08)', alignSelf: 'flex-start' }}>
                 {LEVELS.map((l, i) => (
                   <div
                     key={i}
@@ -1074,77 +1149,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   </div>
                 );
               })}
-            </div>
-          </div>
-        </div>
-
-        {/* Примерочная */}
-        <div style={{ marginTop: 96 }}>
-          <div style={{ textAlign: 'center', marginBottom: 34 }}>
-            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Примерочная</h2>
-            <div style={{ fontSize: 15, color: '#8b877f' }}>Крутите каталог и меняйте параметры — подборка обновляется на ходу</div>
-          </div>
-          <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: 'linear-gradient(180deg, #f4f2ee 0%, #e9e6e0 100%)' }}>
-            <div style={{ position: 'relative', height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, padding: '0 80px' }}>
-              <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
-              <div style={{ flex: '0 1 440px', minWidth: 0, height: 420, borderRadius: 16, background: 'linear-gradient(135deg, #e0ddd8 0%, #ccc8c2 100%)' }} />
-              <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
-
-              <div onClick={() => { setFitIdx(i => (i + FIT_ITEMS.length - 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>‹</div>
-              <div onClick={() => { setFitIdx(i => (i + 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
-              <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
-            </div>
-
-            <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
-              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f1eee8' }}>
-                <span style={{ paddingLeft: 8, fontSize: 16, color: '#33322e', whiteSpace: 'nowrap' }}>Мне нужно</span>
-
-                {fitKeys.map(k => {
-                  const open = fitOpen === k;
-                  const isExtra = fitExtra.includes(k);
-                  return (
-                    <div key={k} style={{ position: 'relative', flexShrink: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px 10px 16px', borderRadius: 999, background: '#fff', border: '1px solid ' + (open ? '#1a1a18' : '#ddd8d1'), cursor: 'pointer' }}>
-                        <span onClick={() => { setFitOpen(open ? null : k); setAddFilterOpen(false); }} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <span style={{ fontSize: 15, color: '#1a1a18', whiteSpace: 'nowrap' }}>{fitValues[k] || 'Любой'}</span>
-                          <span style={{ fontSize: 13, color: '#8b877f', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
-                        </span>
-                        {isExtra && (
-                          <span onClick={() => { setFitExtra(e => e.filter(x => x !== k)); setFitOpen(null); }} style={{ fontSize: 14, color: '#a8a39a', cursor: 'pointer' }}>✕</span>
-                        )}
-                      </div>
-                      {open && (
-                        <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 210, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
-                          <div style={{ padding: '8px 12px 10px', fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{k}</div>
-                          {FIT_FILTERS[k].map(o => (
-                            <div
-                              key={o}
-                              onClick={() => { setFitValues(v => ({ ...v, [k]: o })); setFitOpen(null); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }}
-                              style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, cursor: 'pointer', color: fitValues[k] === o ? '#1a1a18' : '#33322e', fontWeight: fitValues[k] === o ? 600 : 400, background: fitValues[k] === o ? '#f4f2ee' : 'transparent' }}
-                            >{o}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                <div style={{ position: 'relative', flexShrink: 0 }}>
-                  <div onClick={() => { setAddFilterOpen(o => !o); setFitOpen(null); }} style={{ width: 46, height: 46, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, color: '#33322e', cursor: 'pointer' }}>+</div>
-                  {addFilterOpen && (
-                    <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 220, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
-                      {addable.length === 0
-                        ? <div style={{ padding: '10px 12px', fontSize: 13, color: '#8b877f' }}>Все фильтры добавлены</div>
-                        : addable.map(k => (
-                          <div key={k} onClick={() => { setFitExtra(e => [...e, k]); setFitValues(v => ({ ...v, [k]: FIT_FILTERS[k][0] })); setAddFilterOpen(false); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }} style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, color: '#33322e', cursor: 'pointer' }}>{k}</div>
-                        ))
-                      }
-                    </div>
-                  )}
-                </div>
-
-                <button onClick={() => onNavigateToCatalog('catalog')} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 30px', borderRadius: 14, background: '#fff', fontSize: 15, fontWeight: 500, color: '#1a1a18', whiteSpace: 'nowrap', border: 'none', cursor: 'pointer' }}>Найти <span style={{ fontSize: 15 }}>→</span></button>
-              </div>
             </div>
           </div>
         </div>
