@@ -257,6 +257,29 @@ const LEVELS = [
   ]},
 ];
 
+const PT_BANNERS = [
+  { kicker: 'Производство', title: 'Свой цех, а не перепродажа', text: 'Лазерная резка, стекло и сварка на одной площадке в Домодедово — контролируем каждый этап и держим срок.', tags: ['Цех 2 400 м²', 'Точность 0,1 мм', 'Срок от 10 дней'], stat: '12 лет', statLabel: 'на рынке', align: 'left', tint: 'rgba(20,19,17,.72)' },
+  { kicker: 'Материалы', title: 'Дуб, сталь, латунь и стекло', text: 'Только сертифицированное сырьё с паспортами. Образцы покрытий отправляем партнёрам бесплатно.', tags: ['Массив дуба', 'Триплекс 8–10 мм', 'Порошковая покраска'], stat: '40+', statLabel: 'покрытий в палитре', align: 'right', tint: 'rgba(28,26,22,.7)' },
+  { kicker: 'Партнёрам', title: 'Проект ведёт один человек', text: 'От эскиза и сметы до монтажа — личный менеджер, приоритет в производстве и защита проекта на 90 дней.', tags: ['Скидка до 32%', 'Отсрочка 45 дней', 'Гарантия 5 лет'], stat: '9 400', statLabel: 'сданных проектов', align: 'left', tint: 'rgba(18,20,22,.72)' },
+];
+
+const PT_PRIVILEGES = [
+  'Дилерская скидка до 32% и защита проекта на 90 дней',
+  'Агентское вознаграждение дизайнерам — до 15% с заказа',
+  'Приоритет в производстве и отдельная линия срочных заказов',
+  'Образцы материалов и покрытий бесплатно',
+  'Готовые 3D-модели, чертежи и спецификации под ваши проекты',
+  'Персональный менеджер и техподдержка на монтаже',
+];
+
+const PT_STATS = [
+  { value: '32%', label: 'дилерская скидка' },
+  { value: '10', label: 'дней производство' },
+  { value: '240', label: 'активных партнёров' },
+];
+
+const PT_ROLES = ['Дизайнер', 'Стройка', 'Салон', 'Подрядчик'];
+
 const STEP_MS = 6500;
 const SLIDE_MS = 7000;
 
@@ -274,6 +297,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
   const [colorOpen, setColorOpen] = useState(false);
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
   const [bgColor, setBgColor] = useState(() => {
     try { return localStorage.getItem('site-bg') || '#fbfaf8'; } catch { return '#fbfaf8'; }
   });
@@ -369,6 +393,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [stepProgress, setStepProgress] = useState(0);
 
   const [roomIdx, setRoomIdx] = useState(0);
+
+  const [ptBannerIdx, setPtBannerIdx] = useState(0);
+  const [ptSent, setPtSent] = useState(false);
+  const [ptRole, setPtRole] = useState('Дизайнер');
 
   const rafRef = useRef(null);
   const t0Ref = useRef(Date.now());
@@ -808,6 +836,158 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           <button onClick={() => onNavigateToCatalog('bestsellers')} style={{ padding: '15px 32px', borderRadius: 999, border: '1px solid #ddd8d1', fontSize: 14, color: '#33322e', background: 'transparent', cursor: 'pointer' }}>Смотреть все лучшие товары</button>
         </div>
 
+        {/* ── Для партнёров ── */}
+        <div style={{ marginTop: 96, display: 'flex', flexDirection: 'column', gap: 22 }}>
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Для партнёров</h2>
+            <div style={{ fontSize: 15, color: '#8b877f' }}>Дизайнерам, салонам и подрядчикам — условия, привилегии и подключение за один день</div>
+          </div>
+
+          {/* Hero-карточка */}
+          <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 24, background: '#141311', color: '#fff', height: 420 }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(102deg, #141311 0%, #141311 54%, rgba(20,19,17,.74) 74%, rgba(20,19,17,.4) 100%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', left: 40, top: 34, zIndex: 2, fontSize: 15, lineHeight: 1.4, color: 'rgba(255,255,255,.9)', maxWidth: 260 }}>Зеркала, перегородки и лестницы<br />для дизайнеров и подрядчиков.</div>
+            <div style={{ position: 'absolute', left: 0, right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, padding: '0 40px' }}>
+              <div style={{ width: 116, height: 116, flexShrink: 0, borderRadius: 26, background: '#fff', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 62, fontWeight: 700, letterSpacing: '-.06em' }}>o</div>
+              <div style={{ fontSize: 'clamp(60px, 8vw, 108px)', lineHeight: .9, fontWeight: 700, letterSpacing: '-.05em' }}>objects</div>
+            </div>
+            <div style={{ position: 'absolute', left: 40, right: 40, bottom: 30, zIndex: 2, display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap', gap: '22px 56px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 16.5, fontWeight: 500, letterSpacing: '-.01em' }}>
+                <span>+7 985 434-11-33</span>
+                <span style={{ color: 'rgba(255,255,255,.82)' }}>objects.ru/partners</span>
+              </div>
+              <div style={{ marginLeft: 'auto', display: 'flex', flexWrap: 'wrap', gap: '22px 44px' }}>
+                {[{ label: 'Почта', value: 'partners@objects.ru' }, { label: 'Производство', value: 'Домодедово, ИНТЕГРА, стр. 3' }, { label: 'Мессенджеры', value: 'Telegram · MAX' }].map(v => (
+                  <div key={v.label} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <div style={{ fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.48)' }}>{v.label}</div>
+                    <div style={{ fontSize: 15.5, fontWeight: 500, letterSpacing: '-.01em', whiteSpace: 'nowrap' }}>{v.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Слайдер баннеров */}
+          <div style={{ position: 'relative' }}>
+            <div style={{ overflow: 'hidden', borderRadius: 24 }}>
+              <div style={{ display: 'flex', willChange: 'transform', transform: `translateX(${-ptBannerIdx * 100}%)`, transition: 'transform .55s cubic-bezier(.2,.8,.2,1)' }}>
+                {PT_BANNERS.map((b, i) => {
+                  const right = b.align === 'right';
+                  return (
+                    <div key={i} style={{ position: 'relative', flex: '0 0 100%', overflow: 'hidden', borderRadius: 24, aspectRatio: '21/9', background: '#23221f', color: '#fff' }}>
+                      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: `linear-gradient(${right ? '260deg' : '100deg'}, ${b.tint} 0%, rgba(20,19,17,.5) 52%, rgba(20,19,17,.16) 100%)` }} />
+                      <div style={{ position: 'absolute', [right ? 'right' : 'left']: '5%', top: '50%', transform: 'translateY(-50%)', zIndex: 2, display: 'flex', flexDirection: 'column', gap: 14, maxWidth: '54%', alignItems: right ? 'flex-end' : 'flex-start', textAlign: right ? 'right' : 'left' }}>
+                        <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.58)' }}>{b.kicker}</div>
+                        <h3 style={{ margin: 0, fontSize: 'clamp(34px, 3.6vw, 56px)', lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.035em' }}>{b.title}</h3>
+                        <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.8)', maxWidth: 460 }}>{b.text}</div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 6 }}>
+                          {b.tags.map(t => <span key={t} style={{ padding: '9px 16px', borderRadius: 999, background: 'rgba(255,255,255,.16)', backdropFilter: 'blur(6px)', fontSize: 13 }}>{t}</span>)}
+                        </div>
+                      </div>
+                      <div style={{ position: 'absolute', zIndex: 2, bottom: 34, [right ? 'left' : 'right']: '5%', display: 'flex', flexDirection: 'column', gap: 4, textAlign: right ? 'left' : 'right', alignItems: right ? 'flex-start' : 'flex-end' }}>
+                        <div style={{ fontSize: 'clamp(40px, 4.6vw, 68px)', fontWeight: 600, letterSpacing: '-.045em', lineHeight: 1 }}>{b.stat}</div>
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,.6)' }}>{b.statLabel}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div onClick={() => setPtBannerIdx(i => (i + PT_BANNERS.length - 1) % PT_BANNERS.length)} style={{ position: 'absolute', zIndex: 3, left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(251,250,248,.94)', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.28)' }}>←</div>
+            <div onClick={() => setPtBannerIdx(i => (i + 1) % PT_BANNERS.length)} style={{ position: 'absolute', zIndex: 3, right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(251,250,248,.94)', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.28)' }}>→</div>
+            <div style={{ position: 'absolute', zIndex: 3, left: 0, right: 0, bottom: 22, display: 'flex', justifyContent: 'center', gap: 8 }}>
+              {PT_BANNERS.map((_, i) => (
+                <span key={i} onClick={() => setPtBannerIdx(i)} style={{ width: i === ptBannerIdx ? 26 : 9, height: 9, borderRadius: 999, cursor: 'pointer', transition: 'width .25s', background: i === ptBannerIdx ? '#fff' : 'rgba(255,255,255,.5)', display: 'inline-block' }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Форма и привилегии */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 30, padding: '34px 36px 36px', borderRadius: 24, background: '#1a1a18', color: '#fff' }}>
+            {/* Колонка 1: QR + кнопки */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 22, minWidth: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)' }}>Партнёрам</div>
+                <h2 style={{ margin: 0, fontSize: 34, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>Стать партнёром</h2>
+                <div style={{ fontSize: 14.5, lineHeight: 1.5, color: 'rgba(255,255,255,.62)' }}>Отсканируйте код или напишите — подключим за один день, без вступительных взносов.</div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10, maxWidth: 300 }}>
+                {[{ name: 'Telegram', color: '#2b9fe3' }, { name: 'MAX', color: '#7c5cf0' }].map(q => (
+                  <div key={q.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '14px 10px 12px', borderRadius: 14, background: 'rgba(255,255,255,.07)' }}>
+                    <div style={{ width: '100%', aspectRatio: 1, padding: 7, borderRadius: 10, background: '#fff' }}>
+                      <div style={{ width: '100%', height: '100%', backgroundColor: '#1a1a18', backgroundImage: 'repeating-conic-gradient(#1a1a18 0% 25%, #fff 0% 50%)', backgroundSize: '12px 12px' }} />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, fontWeight: 500 }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: q.color, display: 'inline-block' }} />
+                      {q.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 9, maxWidth: 340 }}>
+                {[{ label: 'Написать в Telegram', icon: '✈', href: 'https://t.me', color: '#2b9fe3' }, { label: 'Написать в MAX', icon: '✉', href: 'https://max.ru', color: '#7c5cf0' }].map(c => (
+                  <a key={c.label} href={c.href} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px', borderRadius: 14, background: c.color, color: '#fff', fontSize: 14.5, fontWeight: 500, textDecoration: 'none' }}>
+                    <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>{c.icon}</span>
+                    {c.label}
+                    <span style={{ marginLeft: 'auto', fontSize: 15, opacity: .7 }}>→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Колонка 2: Привилегии + статистика */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
+              <div style={{ fontSize: 17, fontWeight: 600, letterSpacing: '-.015em' }}>Особые привилегии</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+                {PT_PRIVILEGES.map(p => (
+                  <div key={p} style={{ display: 'flex', alignItems: 'flex-start', gap: 11 }}>
+                    <span style={{ width: 18, height: 18, flexShrink: 0, marginTop: 1, borderRadius: '50%', background: 'rgba(255,255,255,.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>✓</span>
+                    <span style={{ minWidth: 0, fontSize: 13.5, lineHeight: 1.45, color: 'rgba(255,255,255,.84)' }}>{p}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ height: 1, background: 'rgba(255,255,255,.12)', margin: '6px 0' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12 }}>
+                {PT_STATS.map(s => (
+                  <div key={s.label} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    <div style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-.03em', lineHeight: 1 }}>{s.value}</div>
+                    <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,.56)' }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Колонка 3: Форма заявки */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                <div style={{ fontSize: 20, fontWeight: 600, letterSpacing: '-.02em' }}>Оставьте заявку</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,.58)' }}>Пришлём условия, прайс и каталог в вашем формате</div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+                {[{ label: 'Имя и фамилия', icon: '☺' }, { label: 'Компания или студия', icon: '▤' }, { label: 'Телефон', icon: '☏' }, { label: 'E-mail', icon: '✉' }].map(f => (
+                  <div key={f.label} style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '14px 16px', border: '1px solid rgba(255,255,255,.16)', borderRadius: 12, background: 'rgba(255,255,255,.05)' }}>
+                    <span style={{ flexShrink: 0, fontSize: 13.5, color: 'rgba(255,255,255,.4)' }}>{f.icon}</span>
+                    <span style={{ minWidth: 0, fontSize: 14, color: 'rgba(255,255,255,.5)' }}>{f.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+                {PT_ROLES.map(r => (
+                  <div key={r} onClick={() => setPtRole(r)} style={{ padding: '10px 16px', borderRadius: 999, fontSize: 13, cursor: 'pointer', transition: 'background .18s, border-color .18s, color .18s', border: '1px solid ' + (ptRole === r ? '#fff' : 'rgba(255,255,255,.2)'), background: ptRole === r ? '#fff' : 'transparent', color: ptRole === r ? '#1a1a18' : 'rgba(255,255,255,.75)' }}>{r}</div>
+                ))}
+              </div>
+              <button onClick={() => setPtSent(true)} style={{ padding: 17, borderRadius: 12, background: '#fff', color: '#1a1a18', fontSize: 15, fontWeight: 500, textAlign: 'center', cursor: 'pointer', border: 'none', width: '100%' }}>Отправить заявку</button>
+              <div style={{ fontSize: 11.5, lineHeight: 1.5, color: 'rgba(255,255,255,.42)' }}>Нажимая кнопку, вы соглашаетесь с <a href="#" style={{ color: 'rgba(255,255,255,.8)', textDecoration: 'underline' }}>политикой конфиденциальности</a></div>
+              {ptSent && (
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 16px', borderRadius: 12, background: 'rgba(255,255,255,.09)', fontSize: 13.5, lineHeight: 1.45, color: 'rgba(255,255,255,.9)', animation: 'pFade .24s ease' }}>
+                  <span style={{ width: 22, height: 22, flexShrink: 0, borderRadius: '50%', background: '#fff', color: '#1a1a18', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✓</span>
+                  Заявка отправлена — менеджер свяжется с вами и пришлёт условия.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Что вам нужно? */}
         <div style={{ marginTop: 96, padding: '56px 44px 60px', borderRadius: 28, background: '#141311', color: '#fff', overflow: 'hidden' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', marginBottom: 40 }}>
@@ -840,35 +1020,60 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           </div>
 
           <div style={{ position: 'relative' }}>
-            <div onClick={() => setLvlPos(p => Math.max(0, p - 1))} style={{ position: 'absolute', zIndex: 3, left: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>←</div>
-            <div onClick={() => setLvlPos(p => Math.min(Math.max(0, LEVELS[levelTab].cards.length - 4), p + 1))} style={{ position: 'absolute', zIndex: 3, right: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>→</div>
-            <div style={{ overflow: 'hidden' }}>
-              <div style={{ display: 'flex', gap: 14, transition: 'transform .38s cubic-bezier(.2,.8,.2,1)', transform: `translateX(calc(${-lvlPos} * (25% + 3.5px)))` }}>
-                {LEVELS[levelTab].cards.map((c, i) => (
+            <div onClick={() => setLvlPos(p => (p + LEVELS[levelTab].cards.length - 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, left: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>←</div>
+            <div onClick={() => setLvlPos(p => (p + 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, right: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>→</div>
+            <div style={{ position: 'relative', height: 430 }}>
+              {LEVELS[levelTab].cards.map((c, j) => {
+                const n = LEVELS[levelTab].cards.length;
+                let d = j - lvlPos;
+                if (d > n / 2) d -= n;
+                if (d < -n / 2) d += n;
+                const ad = Math.abs(d);
+                const hot = d === 0;
+                const near = ad <= 1;
+                return (
                   <div
-                    key={`${levelTab}-${i}`}
-                    onClick={() => onNavigateToCatalog('catalog')}
-                    style={{ position: 'relative', height: 280, borderRadius: 18, overflow: 'hidden', background: '#1c1b18', flexShrink: 0, width: 'calc(25% - 10.5px)', cursor: 'pointer' }}
+                    key={`${levelTab}-${j}`}
+                    onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog('catalog')}
+                    style={{
+                      position: 'absolute', top: '50%', left: '50%',
+                      width: 'min(560px, 92%)', height: hot ? 390 : 340,
+                      display: 'flex', flexDirection: 'column',
+                      borderRadius: 22, overflow: 'hidden', cursor: 'pointer',
+                      willChange: 'transform',
+                      transform: `translate(calc(-50% + ${d * 340}px), -50%) scale(${hot ? 1 : 0.92})`,
+                      opacity: near ? (hot ? 1 : 0.5) : 0,
+                      pointerEvents: near ? 'auto' : 'none',
+                      zIndex: 10 - ad,
+                      background: hot ? 'linear-gradient(135deg, #2b2a26 0%, #191815 100%)' : '#1c1b18',
+                      color: '#fff',
+                      border: `1px solid ${hot ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.07)'}`,
+                      boxShadow: hot ? '0 34px 70px rgba(0,0,0,.55)' : '0 16px 34px rgba(0,0,0,.3)',
+                      transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, height .5s cubic-bezier(.2,.8,.2,1), background .4s ease, box-shadow .4s ease',
+                    }}
                   >
-                    <img src={FAN_IMGS[i % 4]} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45 }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.22) 0%, rgba(20,19,17,.72) 100%)' }} />
-                    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%', padding: '26px 24px 24px' }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
-                        <h3 style={{ margin: 0, fontSize: 22, lineHeight: 1.1, fontWeight: 500, letterSpacing: '-.02em', maxWidth: 200, textWrap: 'pretty', color: '#fff' }}>{c.name}</h3>
-                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, opacity: .55, color: '#fff', flexShrink: 0 }}>{String(i + 1).padStart(2, '0')}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '30px 30px 0' }}>
+                      <div style={{ width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, background: hot ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.09)' }}>◈</div>
+                      <h3 style={{ margin: 0, fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
+                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: hot ? 'rgba(255,255,255,.78)' : 'rgba(255,255,255,.5)' }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
+                    </div>
+                    <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12, padding: '18px 20px', background: hot ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderRadius: 999, background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff' }}>
+                        <span style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>▤</span>
+                        <span style={{ fontSize: 14, fontWeight: 600 }}>{c.count}</span>
+                        <span style={{ fontSize: 12, opacity: .6, whiteSpace: 'nowrap' }}>{c.price}</span>
                       </div>
-                      <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13.5, opacity: .72, color: '#fff' }}>
-                        <span>{c.count}</span>
-                        <span>{c.price}</span>
-                      </div>
-                      <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 14, color: '#fff' }}>
-                        <span style={{ fontSize: 13.5, borderBottom: '1px solid currentColor', paddingBottom: 2 }}>Смотреть раздел →</span>
-                        <span style={{ width: 34, height: 34, flexShrink: 0, borderRadius: '50%', border: '1px solid rgba(255,255,255,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>↗</span>
+                      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 54, height: 44, flexShrink: 0, borderRadius: 10, overflow: 'hidden', background: 'rgba(255,255,255,.1)' }} />
+                        <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 20px 11px 12px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff', border: 'none', cursor: 'pointer' }}>
+                          <span style={{ width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>→</span>
+                          Перейти
+                        </button>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -1312,6 +1517,42 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
         >
           🎨
+        </div>
+      </div>
+
+      {/* ── Гамбургер-меню навигации ── */}
+      <div style={{ position: 'fixed', left: 26, bottom: 26, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        {hamburgerOpen && (
+          <div style={{ marginBottom: 10, background: '#1a1a18', borderRadius: 18, boxShadow: '0 12px 34px rgba(26,26,24,.3)', padding: 8, animation: 'hFade .18s ease', display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {PAGE_NAV.map((n, i) => (
+              n.href
+                ? <a
+                    key={i}
+                    href={n.href}
+                    onClick={() => setHamburgerOpen(false)}
+                    style={{ display: 'block', padding: '12px 20px', borderRadius: 12, fontSize: 15, fontWeight: 500, textDecoration: 'none', background: n.active ? 'rgba(255,255,255,.18)' : 'transparent', color: '#fff', whiteSpace: 'nowrap', transition: 'background .15s' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,.14)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = n.active ? 'rgba(255,255,255,.18)' : 'transparent'; }}
+                  >{n.name}</a>
+                : <span
+                    key={i}
+                    onClick={() => { onNavigateToCatalog(n.entry); setHamburgerOpen(false); }}
+                    style={{ display: 'block', padding: '12px 20px', borderRadius: 12, fontSize: 15, fontWeight: 500, cursor: 'pointer', background: 'transparent', color: '#fff', whiteSpace: 'nowrap', transition: 'background .15s' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,.14)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                  >{n.name}</span>
+            ))}
+          </div>
+        )}
+        <div
+          onClick={() => setHamburgerOpen(o => !o)}
+          style={{ width: 56, height: 56, borderRadius: '50%', background: '#1a1a18', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 10px 28px rgba(26,26,24,.28)', gap: 5, transition: 'transform .18s' }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.07)'; }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
+        >
+          <span style={{ display: 'block', width: 20, height: 2, background: '#fff', borderRadius: 2, transition: 'transform .22s', transform: hamburgerOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
+          <span style={{ display: 'block', width: 20, height: 2, background: '#fff', borderRadius: 2, transition: 'opacity .22s', opacity: hamburgerOpen ? 0 : 1 }} />
+          <span style={{ display: 'block', width: 20, height: 2, background: '#fff', borderRadius: 2, transition: 'transform .22s', transform: hamburgerOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
         </div>
       </div>
 
