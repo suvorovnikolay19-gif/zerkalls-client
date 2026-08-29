@@ -1150,33 +1150,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
-      {/* ── Почему нас выбирают ── */}
-      <section style={{ padding: '96px 48px 0' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 20 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 22, padding: 30, borderRadius: 22, background: '#1a1a18', color: '#fff' }}>
-            <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.01em' }}>Почему нас выбирают</div>
-            <div style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,.66)', textWrap: 'pretty' }}>Свой цех, конструкторы и монтажники в штате. Считаем проект по фото и размерам, привозим готовое изделие и ставим за один визит.</div>
-            <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 46, height: 46, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 500, letterSpacing: '.02em' }}>АЛ</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <div style={{ fontSize: 14, fontWeight: 500 }}>Анна Литвинова</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.55)' }}>ведущий дизайнер-технолог</div>
-              </div>
-            </div>
-            <a href="#footer" style={{ padding: 15, borderRadius: 12, background: '#fbfaf8', color: '#1a1a18', fontSize: 14, fontWeight: 500, textAlign: 'center', textDecoration: 'none' }}>Обсудить проект</a>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 20 }}>
-            {STATS.map((s, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 30, borderRadius: 22, background: '#fff', border: '1px solid #efece7' }}>
-                <div style={{ fontSize: 52, fontWeight: 500, letterSpacing: '-.04em', lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 15, fontWeight: 500 }}>{s.label}</div>
-                <div style={{ fontSize: 13, lineHeight: 1.55, color: '#8b877f', textWrap: 'pretty' }}>{s.text}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Как мы работаем ── */}
       <section style={{ padding: '96px 48px 0' }}>
         <div style={{ textAlign: 'center', marginBottom: 42 }}>
