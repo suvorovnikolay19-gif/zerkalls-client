@@ -738,9 +738,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Услуги ── */}
       <section style={{ padding: '52px 48px 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: 38 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Услуги</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>Собственный цех в Домодедово — работаем с листом, трубой и готовыми узлами</div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, marginBottom: 38 }}>
+          <div style={{ fontSize: 20, color: '#8b877f', letterSpacing: '.03em', whiteSpace: 'nowrap' }}>Благодаря собственному производству, наши</div>
+          <h2 style={{ margin: 0, fontSize: 'clamp(56px, 8vw, 96px)', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', lineHeight: 1, flexShrink: 0 }}>Услуги</h2>
+          <div style={{ fontSize: 20, color: '#8b877f', letterSpacing: '.03em', whiteSpace: 'nowrap' }}>Собственный цех в Домодедово — без посредников</div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
           {SERVICES.map((c, i) => (
@@ -765,28 +766,28 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
       {/* ── Категории (fan cards) ── */}
-      <section id="categories" style={{ padding: '96px 48px 0' }}>
+      <section id="categories" style={{ padding: '96px 48px 0', overflow: 'visible' }}>
         <div style={{ textAlign: 'center', marginBottom: 44 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Категории</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Лестницы, перегородки, зеркала и мебель — наведите, чтобы посмотреть примеры</div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20, alignItems: 'start', overflow: 'visible' }}>
           {FAN_CARDS.map((c, i) => {
             const hot = fanHover === i;
-            const angles = [-22, -8, 8, 22];
+            const angles = [-26, -9, 9, 26];
             return (
               <div
                 key={i}
                 onMouseEnter={() => setFanHover(i)}
                 onMouseLeave={() => setFanHover(v => v === i ? null : v)}
                 onClick={() => onNavigateToCatalog(c.entry)}
-                style={{ borderRadius: 22, padding: '26px 0 0', background: hot ? '#fff' : '#f4f2ee', border: '1px solid ' + (hot ? '#e4e0d9' : 'transparent'), boxShadow: hot ? '0 24px 50px rgba(26,26,24,.14)' : '0 0 0 rgba(0,0,0,0)', transform: hot ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)', transition: 'transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s ease, background .3s ease', cursor: 'pointer', willChange: 'transform' }}
+                style={{ borderRadius: 24, padding: '34px 0 0', background: hot ? '#fff' : '#f4f2ee', border: '1px solid ' + (hot ? '#e4e0d9' : 'transparent'), boxShadow: hot ? '0 32px 64px rgba(26,26,24,.16)' : '0 0 0 rgba(0,0,0,0)', transition: 'box-shadow .38s ease, background .3s ease', cursor: 'pointer', zIndex: hot ? 20 : 1, position: 'relative' }}
               >
-                <div style={{ position: 'relative', height: 230, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'relative', height: 230, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
                   {[0, 1, 2, 3].map(j => (
                     <div
                       key={j}
-                      style={{ position: 'absolute', width: 132, height: 186, borderRadius: 12, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: `rotate(${hot ? angles[j] : (j - 1.5) * 3}deg) translateY(${hot ? -(6 - Math.abs(j - 1.5) * 3) : 0}px)`, transition: `transform .42s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                      style={{ position: 'absolute', width: i === 0 ? 185 : 132, height: i === 0 ? 260 : 186, borderRadius: i === 0 ? 18 : 12, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: hot ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)` : `rotate(${(j - 1.5) * 3}deg)`, transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                     />
                   ))}
                 </div>
