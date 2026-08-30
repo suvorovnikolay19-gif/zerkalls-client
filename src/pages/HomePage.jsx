@@ -776,58 +776,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
             const hot = fanHover === i;
             const angles = [-26, -9, 9, 26];
 
-            if (i >= 2) {
-              const FOLDER = "M17,0 H170 A17,17 0 0 1 186,17 V24 A17,17 0 0 0 201,41 H284 A17,17 0 0 1 300,57 V183 A17,17 0 0 1 284,200 H17 A17,17 0 0 1 0,183 V17 A17,17 0 0 1 17,0 Z";
-              const FOLDER_IN = "M15,0 H168 A15,15 0 0 1 183,15 V24 A15,15 0 0 0 200,39 H283 A15,15 0 0 1 297,55 V182 A15,15 0 0 1 283,198 H15 A15,15 0 0 1 0,182 V15 A15,15 0 0 1 15,0 Z";
-              return (
-                <div
-                  key={i}
-                  onMouseEnter={() => setFanHover(i)}
-                  onMouseLeave={() => setFanHover(v => v === i ? null : v)}
-                  onClick={() => onNavigateToCatalog(c.entry)}
-                  style={{ position: 'relative', cursor: 'pointer', transition: 'transform .55s cubic-bezier(.2,.8,.25,1)', transform: hot ? 'scale(1.04)' : 'scale(1)' }}
-                >
-                  <div style={{ position: 'relative', height: 280, overflow: 'visible' }}>
-                    {[0, 1, 2, 3].map(j => (
-                      <div
-                        key={j}
-                        style={{
-                          position: 'absolute', left: '50%', bottom: 40, marginLeft: -66,
-                          width: 132, height: 186, borderRadius: 12, overflow: 'hidden',
-                          backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center',
-                          backgroundColor: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`,
-                          boxShadow: '0 10px 26px rgba(26,26,24,.18)',
-                          transformOrigin: '50% 118%',
-                          transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`,
-                          zIndex: j,
-                          transform: hot
-                            ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)`
-                            : `rotate(${(j - 1.5) * 3}deg)`,
-                        }}
-                      />
-                    ))}
-                    <div style={{ position: 'absolute', bottom: 0, left: '50%', marginLeft: -150, width: 300, height: 200, filter: 'drop-shadow(0 20px 32px rgba(26,26,20,.2))', zIndex: 10 }}>
-                      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', clipPath: `path('${FOLDER}')`, backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)', background: i === 2 ? 'linear-gradient(163deg,rgba(80,60,110,.96) 0%,rgba(70,60,100,.94) 20%,rgba(100,90,130,.92) 42%,rgba(120,110,160,.9) 70%,rgba(140,130,180,.92) 100%)' : 'linear-gradient(163deg,rgba(125,106,156,.58) 0%,rgba(111,106,134,.5) 20%,rgba(150,148,166,.44) 42%,rgba(255,255,255,.42) 70%,rgba(255,255,255,.5) 100%)' }} />
-                      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', clipPath: `path('${FOLDER}')`, background: 'radial-gradient(120% 80% at 22% 8%,rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(255,255,255,.55) 0 1.5px,rgba(255,255,255,0) 1.5px)' }} />
-                      <div style={{ position: 'absolute', inset: 1, pointerEvents: 'none', clipPath: `path('${FOLDER_IN}')`, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.45)' }} />
-                      <div style={{ position: 'absolute', inset: 0, padding: '62px 20px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                          <span style={{ fontSize: 17, fontWeight: 600, color: i === 2 ? '#fff' : '#2a2533', letterSpacing: '.01em' }}>{c.name}</span>
-                          <span style={{ fontSize: 13, color: i === 2 ? 'rgba(255,255,255,.6)' : 'rgba(42,37,51,.45)' }}>{c.count}</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 8, height: 40, padding: '0 8px 0 18px', borderRadius: 999, background: '#1c1a22', color: '#f4f4f6', fontSize: 13, fontWeight: 600, letterSpacing: '.02em' }}>
-                            Смотреть
-                            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: 999, background: '#f4f4f6', color: '#1c1a22', fontSize: 14, fontWeight: 800 }}>→</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
             return (
               <div
                 key={i}
@@ -840,7 +788,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   {[0, 1, 2, 3].map(j => (
                     <div
                       key={j}
-                      style={{ position: 'absolute', width: i === 0 ? 185 : 132, height: i === 0 ? 260 : 186, borderRadius: i === 0 ? 18 : 12, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: hot ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)` : `rotate(${(j - 1.5) * 3}deg)`, transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                      style={{ position: 'absolute', width: 185, height: 260, borderRadius: 18, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: hot ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)` : `rotate(${(j - 1.5) * 3}deg)`, transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                     />
                   ))}
                 </div>
@@ -861,99 +809,169 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
-      {/* ── Лучшие работы ── */}
+      {/* ── Продукция которую мы производим ── */}
       <section style={{ padding: '96px 48px 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: 38 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Лучшие работы</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>4,9 из 5 — средняя оценка по 1 240 отзывам</div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20 }}>
-          {BESTSELLERS.map((p, i) => (
-            <div key={i} onClick={() => onNavigateToCatalog('bestsellers')} style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 18, background: '#fff', border: '1px solid #efece7', borderRadius: 18, cursor: 'pointer' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-                <span style={{ padding: '6px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, letterSpacing: '.04em', whiteSpace: 'nowrap', background: p.hot ? accent : '#f1eee9', color: p.hot ? '#1a1a18' : '#6b6862' }}>{p.badge}</span>
-                <span style={{ fontSize: 12, color: '#8b877f', whiteSpace: 'nowrap' }}><span style={{ letterSpacing: 1, color: '#d8a12f' }}>★★★★★</span> {p.rating}</span>
-              </div>
-              <img src={FAN_IMGS[i % 4]} alt="" style={{ height: 210, width: '100%', borderRadius: 12, objectFit: 'cover', display: 'block' }} />
-              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 14 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-.01em' }}>{p.title}</div>
-                  <div style={{ fontSize: 13, color: '#8b877f' }}>{p.meta}</div>
-                  <div style={{ fontSize: 15, color: '#33322e' }}>{p.price}</div>
-                </div>
-                <div style={{ width: 36, height: 36, flexShrink: 0, borderRadius: 10, border: '1px solid #e6e2dc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#4a4842' }}>+</div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 34 }}>
-          <button onClick={() => onNavigateToCatalog('bestsellers')} style={{ padding: '15px 32px', borderRadius: 999, border: '1px solid #ddd8d1', fontSize: 14, color: '#33322e', background: 'transparent', cursor: 'pointer' }}>Смотреть все лучшие товары</button>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Продукция которую мы производим</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Выберите категорию — покажем разделы каталога и поможем с выбором</div>
         </div>
 
-        {/* ── Для партнёров ── */}
-        <div style={{ marginTop: 96, display: 'flex', flexDirection: 'column', gap: 22 }}>
-          <div style={{ textAlign: 'center', marginBottom: 16 }}>
-            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Для партнёров</h2>
-            <div style={{ fontSize: 15, color: '#8b877f' }}>Дизайнерам, салонам и подрядчикам — условия, привилегии и подключение за один день</div>
-          </div>
-
-          {/* Hero-карточка */}
-          <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 24, background: '#141311', color: '#fff', height: 420 }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(102deg, #141311 0%, #141311 54%, rgba(20,19,17,.74) 74%, rgba(20,19,17,.4) 100%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'absolute', left: 40, top: 34, zIndex: 2, fontSize: 15, lineHeight: 1.4, color: 'rgba(255,255,255,.9)', maxWidth: 260 }}>Зеркала, перегородки и лестницы<br />для дизайнеров и подрядчиков.</div>
-            <div style={{ position: 'absolute', left: 0, right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, padding: '0 40px' }}>
-              <div style={{ width: 116, height: 116, flexShrink: 0, borderRadius: 26, background: '#fff', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 62, fontWeight: 700, letterSpacing: '-.06em' }}>o</div>
-              <div style={{ fontSize: 'clamp(60px, 8vw, 108px)', lineHeight: .9, fontWeight: 700, letterSpacing: '-.05em' }}>objects</div>
-            </div>
-            <div style={{ position: 'absolute', left: 40, right: 40, bottom: 30, zIndex: 2, display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap', gap: '22px 56px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 16.5, fontWeight: 500, letterSpacing: '-.01em' }}>
-                <span>+7 985 434-11-33</span>
-                <span style={{ color: 'rgba(255,255,255,.82)' }}>objects.ru/partners</span>
-              </div>
-              <div style={{ marginLeft: 'auto', display: 'flex', flexWrap: 'wrap', gap: '22px 44px' }}>
-                {[{ label: 'Почта', value: 'partners@objects.ru' }, { label: 'Производство', value: 'Домодедово, ИНТЕГРА, стр. 3' }, { label: 'Мессенджеры', value: 'Telegram · MAX' }].map(v => (
-                  <div key={v.label} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    <div style={{ fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.48)' }}>{v.label}</div>
-                    <div style={{ fontSize: 15.5, fontWeight: 500, letterSpacing: '-.01em', whiteSpace: 'nowrap' }}>{v.value}</div>
-                  </div>
+        <div style={{ padding: '56px 44px 60px', borderRadius: 28, background: '#f4f2ee', color: '#1a1a18', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', marginBottom: 40 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 620 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(26,26,24,.08)', alignSelf: 'flex-start' }}>
+                {LEVELS.map((l, i) => (
+                  <div
+                    key={i}
+                    onClick={() => { setLevelTab(i); setLvlPos(0); }}
+                    style={{ padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: levelTab === i ? '#1a1a18' : 'transparent', color: levelTab === i ? '#fff' : 'rgba(26,26,24,.55)', transition: 'background .18s, color .18s', userSelect: 'none' }}
+                  >{l.name}</div>
                 ))}
               </div>
             </div>
-          </div>
-
-          {/* Слайдер баннеров */}
-          <div style={{ position: 'relative' }}>
-            <div style={{ overflow: 'hidden', borderRadius: 24 }}>
-              <div style={{ display: 'flex', willChange: 'transform', transform: `translateX(${-ptBannerIdx * 100}%)`, transition: 'transform .55s cubic-bezier(.2,.8,.2,1)' }}>
-                {PT_BANNERS.map((b, i) => {
-                  const right = b.align === 'right';
-                  return (
-                    <div key={i} style={{ position: 'relative', flex: '0 0 100%', overflow: 'hidden', borderRadius: 24, aspectRatio: '21/9', background: '#23221f', color: '#fff' }}>
-                      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: `linear-gradient(${right ? '260deg' : '100deg'}, ${b.tint} 0%, rgba(20,19,17,.5) 52%, rgba(20,19,17,.16) 100%)` }} />
-                      <div style={{ position: 'absolute', [right ? 'right' : 'left']: '5%', top: '50%', transform: 'translateY(-50%)', zIndex: 2, display: 'flex', flexDirection: 'column', gap: 14, maxWidth: '54%', alignItems: right ? 'flex-end' : 'flex-start', textAlign: right ? 'right' : 'left' }}>
-                        <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.58)' }}>{b.kicker}</div>
-                        <h3 style={{ margin: 0, fontSize: 'clamp(34px, 3.6vw, 56px)', lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.035em' }}>{b.title}</h3>
-                        <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.8)', maxWidth: 460 }}>{b.text}</div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 6 }}>
-                          {b.tags.map(t => <span key={t} style={{ padding: '9px 16px', borderRadius: 999, background: 'rgba(255,255,255,.16)', backdropFilter: 'blur(6px)', fontSize: 13 }}>{t}</span>)}
-                        </div>
-                      </div>
-                      <div style={{ position: 'absolute', zIndex: 2, bottom: 34, [right ? 'left' : 'right']: '5%', display: 'flex', flexDirection: 'column', gap: 4, textAlign: right ? 'left' : 'right', alignItems: right ? 'flex-start' : 'flex-end' }}>
-                        <div style={{ fontSize: 'clamp(40px, 4.6vw, 68px)', fontWeight: 600, letterSpacing: '-.045em', lineHeight: 1 }}>{b.stat}</div>
-                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,.6)' }}>{b.statLabel}</div>
-                      </div>
-                    </div>
-                  );
-                })}
+            <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 12 }}>
+              <div style={{ fontSize: 14, color: '#8b877f' }}>Нужен совет по выбору?</div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <a href="https://t.me" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#2b9fe3', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
+                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✈</span>
+                  Написать в Telegram
+                </a>
+                <a href="https://max.ru" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#7c5cf0', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
+                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✉</span>
+                  Написать в MAX
+                </a>
               </div>
             </div>
-            <div onClick={() => setPtBannerIdx(i => (i + PT_BANNERS.length - 1) % PT_BANNERS.length)} style={{ position: 'absolute', zIndex: 3, left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(251,250,248,.94)', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.28)' }}>←</div>
-            <div onClick={() => setPtBannerIdx(i => (i + 1) % PT_BANNERS.length)} style={{ position: 'absolute', zIndex: 3, right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(251,250,248,.94)', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.28)' }}>→</div>
-            <div style={{ position: 'absolute', zIndex: 3, left: 0, right: 0, bottom: 22, display: 'flex', justifyContent: 'center', gap: 8 }}>
-              {PT_BANNERS.map((_, i) => (
-                <span key={i} onClick={() => setPtBannerIdx(i)} style={{ width: i === ptBannerIdx ? 26 : 9, height: 9, borderRadius: 999, cursor: 'pointer', transition: 'width .25s', background: i === ptBannerIdx ? '#fff' : 'rgba(255,255,255,.5)', display: 'inline-block' }} />
-              ))}
+          </div>
+
+          <div style={{ position: 'relative' }}>
+            <div onClick={() => setLvlPos(p => (p + LEVELS[levelTab].cards.length - 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, left: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: '#fff', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.14)' }}>←</div>
+            <div onClick={() => setLvlPos(p => (p + 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, right: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: '#fff', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.14)' }}>→</div>
+            <div style={{ position: 'relative', height: 430 }}>
+              {LEVELS[levelTab].cards.map((c, j) => {
+                const n = LEVELS[levelTab].cards.length;
+                let d = j - lvlPos;
+                if (d > n / 2) d -= n;
+                if (d < -n / 2) d += n;
+                const ad = Math.abs(d);
+                const hot = d === 0;
+                const near = ad <= 1;
+                return (
+                  <div
+                    key={`${levelTab}-${j}`}
+                    onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog('catalog')}
+                    style={{
+                      position: 'absolute', top: '50%', left: '50%',
+                      width: 'min(560px, 92%)', height: hot ? 390 : 340,
+                      display: 'flex', flexDirection: 'column',
+                      borderRadius: 22, overflow: 'hidden', cursor: 'pointer',
+                      willChange: 'transform',
+                      transform: `translate(calc(-50% + ${d * 340}px), -50%) scale(${hot ? 1 : 0.92})`,
+                      opacity: near ? (hot ? 1 : 0.5) : 0,
+                      pointerEvents: near ? 'auto' : 'none',
+                      zIndex: 10 - ad,
+                      background: hot ? 'linear-gradient(135deg, #2b2a26 0%, #191815 100%)' : '#1c1b18',
+                      color: '#fff',
+                      border: `1px solid ${hot ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.07)'}`,
+                      boxShadow: hot ? '0 34px 70px rgba(0,0,0,.55)' : '0 16px 34px rgba(0,0,0,.3)',
+                      transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, height .5s cubic-bezier(.2,.8,.2,1), background .4s ease, box-shadow .4s ease',
+                    }}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '30px 30px 0' }}>
+                      <div style={{ width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, background: hot ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.09)' }}>◈</div>
+                      <h3 style={{ margin: 0, fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
+                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: hot ? 'rgba(255,255,255,.78)' : 'rgba(255,255,255,.5)' }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
+                    </div>
+                    <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12, padding: '18px 20px', background: hot ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderRadius: 999, background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff' }}>
+                        <span style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>▤</span>
+                        <span style={{ fontSize: 14, fontWeight: 600 }}>{c.count}</span>
+                        <span style={{ fontSize: 12, opacity: .6, whiteSpace: 'nowrap' }}>{c.price}</span>
+                      </div>
+                      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 54, height: 44, flexShrink: 0, borderRadius: 10, overflow: 'hidden', background: 'rgba(255,255,255,.1)' }} />
+                        <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 20px 11px 12px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff', border: 'none', cursor: 'pointer' }}>
+                          <span style={{ width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>→</span>
+                          Перейти
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Примерочная ── */}
+      <section style={{ padding: '96px 48px 0' }}>
+        <div style={{ textAlign: 'center', marginBottom: 34 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Примерочная</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Крутите каталог и меняйте параметры — подборка обновляется на ходу</div>
+        </div>
+        <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: 'linear-gradient(180deg, #f4f2ee 0%, #e9e6e0 100%)' }}>
+          <div style={{ position: 'relative', height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, padding: '0 80px' }}>
+            <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
+            <div style={{ flex: '0 1 440px', minWidth: 0, height: 420, borderRadius: 16, background: 'linear-gradient(135deg, #e0ddd8 0%, #ccc8c2 100%)' }} />
+            <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
+            <div onClick={() => { setFitIdx(i => (i + FIT_ITEMS.length - 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>‹</div>
+            <div onClick={() => { setFitIdx(i => (i + 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
+            <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
+          </div>
+          <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
+            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f1eee8' }}>
+              <span style={{ paddingLeft: 8, fontSize: 16, color: '#33322e', whiteSpace: 'nowrap' }}>Мне нужно</span>
+              {fitKeys.map(k => {
+                const open = fitOpen === k;
+                const isExtra = fitExtra.includes(k);
+                return (
+                  <div key={k} style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px 10px 16px', borderRadius: 999, background: '#fff', border: '1px solid ' + (open ? '#1a1a18' : '#ddd8d1'), cursor: 'pointer' }}>
+                      <span onClick={() => { setFitOpen(open ? null : k); setAddFilterOpen(false); }} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontSize: 15, color: '#1a1a18', whiteSpace: 'nowrap' }}>{fitValues[k] || 'Любой'}</span>
+                        <span style={{ fontSize: 13, color: '#8b877f', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                      </span>
+                      {isExtra && (
+                        <span onClick={() => { setFitExtra(e => e.filter(x => x !== k)); setFitOpen(null); }} style={{ fontSize: 14, color: '#a8a39a', cursor: 'pointer' }}>✕</span>
+                      )}
+                    </div>
+                    {open && (
+                      <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 210, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
+                        <div style={{ padding: '8px 12px 10px', fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{k}</div>
+                        {FIT_FILTERS[k].map(o => (
+                          <div key={o} onClick={() => { setFitValues(v => ({ ...v, [k]: o })); setFitOpen(null); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }} style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, cursor: 'pointer', color: fitValues[k] === o ? '#1a1a18' : '#33322e', fontWeight: fitValues[k] === o ? 600 : 400, background: fitValues[k] === o ? '#f4f2ee' : 'transparent' }}>{o}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              <div style={{ position: 'relative', flexShrink: 0 }}>
+                <div onClick={() => { setAddFilterOpen(o => !o); setFitOpen(null); }} style={{ width: 46, height: 46, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, color: '#33322e', cursor: 'pointer' }}>+</div>
+                {addFilterOpen && (
+                  <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 220, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
+                    {addable.length === 0
+                      ? <div style={{ padding: '10px 12px', fontSize: 13, color: '#8b877f' }}>Все фильтры добавлены</div>
+                      : addable.map(k => (
+                        <div key={k} onClick={() => { setFitExtra(e => [...e, k]); setFitValues(v => ({ ...v, [k]: FIT_FILTERS[k][0] })); setAddFilterOpen(false); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }} style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, color: '#33322e', cursor: 'pointer' }}>{k}</div>
+                      ))
+                    }
+                  </div>
+                )}
+              </div>
+              <button onClick={() => onNavigateToCatalog('catalog')} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 30px', borderRadius: 14, background: '#fff', fontSize: 15, fontWeight: 500, color: '#1a1a18', whiteSpace: 'nowrap', border: 'none', cursor: 'pointer' }}>Найти <span style={{ fontSize: 15 }}>→</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Стать партнёром ── */}
+      <section style={{ padding: '96px 48px 0' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Для партнёров</h2>
+            <div style={{ fontSize: 15, color: '#8b877f' }}>Дизайнерам, салонам и подрядчикам — условия, привилегии и подключение за один день</div>
           </div>
 
           {/* Форма и привилегии */}
@@ -1042,170 +1060,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           </div>
         </div>
 
-        {/* Примерочная */}
-        <div style={{ marginTop: 96 }}>
-          <div style={{ textAlign: 'center', marginBottom: 34 }}>
-            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Примерочная</h2>
-            <div style={{ fontSize: 15, color: '#8b877f' }}>Крутите каталог и меняйте параметры — подборка обновляется на ходу</div>
-          </div>
-          <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: 'linear-gradient(180deg, #f4f2ee 0%, #e9e6e0 100%)' }}>
-            <div style={{ position: 'relative', height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, padding: '0 80px' }}>
-              <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
-              <div style={{ flex: '0 1 440px', minWidth: 0, height: 420, borderRadius: 16, background: 'linear-gradient(135deg, #e0ddd8 0%, #ccc8c2 100%)' }} />
-              <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
-
-              <div onClick={() => { setFitIdx(i => (i + FIT_ITEMS.length - 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>‹</div>
-              <div onClick={() => { setFitIdx(i => (i + 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
-              <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
-            </div>
-
-            <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
-              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f1eee8' }}>
-                <span style={{ paddingLeft: 8, fontSize: 16, color: '#33322e', whiteSpace: 'nowrap' }}>Мне нужно</span>
-
-                {fitKeys.map(k => {
-                  const open = fitOpen === k;
-                  const isExtra = fitExtra.includes(k);
-                  return (
-                    <div key={k} style={{ position: 'relative', flexShrink: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px 10px 16px', borderRadius: 999, background: '#fff', border: '1px solid ' + (open ? '#1a1a18' : '#ddd8d1'), cursor: 'pointer' }}>
-                        <span onClick={() => { setFitOpen(open ? null : k); setAddFilterOpen(false); }} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <span style={{ fontSize: 15, color: '#1a1a18', whiteSpace: 'nowrap' }}>{fitValues[k] || 'Любой'}</span>
-                          <span style={{ fontSize: 13, color: '#8b877f', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
-                        </span>
-                        {isExtra && (
-                          <span onClick={() => { setFitExtra(e => e.filter(x => x !== k)); setFitOpen(null); }} style={{ fontSize: 14, color: '#a8a39a', cursor: 'pointer' }}>✕</span>
-                        )}
-                      </div>
-                      {open && (
-                        <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 210, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
-                          <div style={{ padding: '8px 12px 10px', fontSize: 11, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{k}</div>
-                          {FIT_FILTERS[k].map(o => (
-                            <div
-                              key={o}
-                              onClick={() => { setFitValues(v => ({ ...v, [k]: o })); setFitOpen(null); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }}
-                              style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, cursor: 'pointer', color: fitValues[k] === o ? '#1a1a18' : '#33322e', fontWeight: fitValues[k] === o ? 600 : 400, background: fitValues[k] === o ? '#f4f2ee' : 'transparent' }}
-                            >{o}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                <div style={{ position: 'relative', flexShrink: 0 }}>
-                  <div onClick={() => { setAddFilterOpen(o => !o); setFitOpen(null); }} style={{ width: 46, height: 46, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, color: '#33322e', cursor: 'pointer' }}>+</div>
-                  {addFilterOpen && (
-                    <div style={{ position: 'absolute', zIndex: 6, left: 0, bottom: 'calc(100% + 10px)', minWidth: 220, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 40px rgba(26,26,24,.16)', animation: 'hDrop .18s ease' }}>
-                      {addable.length === 0
-                        ? <div style={{ padding: '10px 12px', fontSize: 13, color: '#8b877f' }}>Все фильтры добавлены</div>
-                        : addable.map(k => (
-                          <div key={k} onClick={() => { setFitExtra(e => [...e, k]); setFitValues(v => ({ ...v, [k]: FIT_FILTERS[k][0] })); setAddFilterOpen(false); setFitIdx(i => (i + 1) % FIT_ITEMS.length); }} style={{ padding: '11px 12px', borderRadius: 10, fontSize: 14.5, color: '#33322e', cursor: 'pointer' }}>{k}</div>
-                        ))
-                      }
-                    </div>
-                  )}
-                </div>
-
-                <button onClick={() => onNavigateToCatalog('catalog')} style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 30px', borderRadius: 14, background: '#fff', fontSize: 15, fontWeight: 500, color: '#1a1a18', whiteSpace: 'nowrap', border: 'none', cursor: 'pointer' }}>Найти <span style={{ fontSize: 15 }}>→</span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Заголовок + Что вам нужно? ── */}
-        <div style={{ marginTop: 96, textAlign: 'center', marginBottom: 40 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Что вам нужно?</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>Выберите категорию — покажем разделы каталога и поможем с выбором</div>
-        </div>
-
-        {/* Что вам нужно? */}
-        <div style={{ padding: '56px 44px 60px', borderRadius: 28, background: '#141311', color: '#fff', overflow: 'hidden' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', marginBottom: 40 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 620 }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(255,255,255,.08)', alignSelf: 'flex-start' }}>
-                {LEVELS.map((l, i) => (
-                  <div
-                    key={i}
-                    onClick={() => { setLevelTab(i); setLvlPos(0); }}
-                    style={{ padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: levelTab === i ? '#fff' : 'transparent', color: levelTab === i ? '#1a1a18' : 'rgba(255,255,255,.7)', transition: 'background .18s, color .18s', userSelect: 'none' }}
-                  >{l.name}</div>
-                ))}
-              </div>
-            </div>
-            <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 12 }}>
-              <div style={{ fontSize: 14, color: 'rgba(255,255,255,.6)' }}>Нужен совет по выбору?</div>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <a href="https://t.me" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#2b9fe3', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
-                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✈</span>
-                  Написать в Telegram
-                </a>
-                <a href="https://max.ru" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#7c5cf0', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
-                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✉</span>
-                  Написать в MAX
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ position: 'relative' }}>
-            <div onClick={() => setLvlPos(p => (p + LEVELS[levelTab].cards.length - 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, left: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>←</div>
-            <div onClick={() => setLvlPos(p => (p + 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, right: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.92)', color: '#141311', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.4)' }}>→</div>
-            <div style={{ position: 'relative', height: 430 }}>
-              {LEVELS[levelTab].cards.map((c, j) => {
-                const n = LEVELS[levelTab].cards.length;
-                let d = j - lvlPos;
-                if (d > n / 2) d -= n;
-                if (d < -n / 2) d += n;
-                const ad = Math.abs(d);
-                const hot = d === 0;
-                const near = ad <= 1;
-                return (
-                  <div
-                    key={`${levelTab}-${j}`}
-                    onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog('catalog')}
-                    style={{
-                      position: 'absolute', top: '50%', left: '50%',
-                      width: 'min(560px, 92%)', height: hot ? 390 : 340,
-                      display: 'flex', flexDirection: 'column',
-                      borderRadius: 22, overflow: 'hidden', cursor: 'pointer',
-                      willChange: 'transform',
-                      transform: `translate(calc(-50% + ${d * 340}px), -50%) scale(${hot ? 1 : 0.92})`,
-                      opacity: near ? (hot ? 1 : 0.5) : 0,
-                      pointerEvents: near ? 'auto' : 'none',
-                      zIndex: 10 - ad,
-                      background: hot ? 'linear-gradient(135deg, #2b2a26 0%, #191815 100%)' : '#1c1b18',
-                      color: '#fff',
-                      border: `1px solid ${hot ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.07)'}`,
-                      boxShadow: hot ? '0 34px 70px rgba(0,0,0,.55)' : '0 16px 34px rgba(0,0,0,.3)',
-                      transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, height .5s cubic-bezier(.2,.8,.2,1), background .4s ease, box-shadow .4s ease',
-                    }}
-                  >
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '30px 30px 0' }}>
-                      <div style={{ width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, background: hot ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.09)' }}>◈</div>
-                      <h3 style={{ margin: 0, fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
-                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: hot ? 'rgba(255,255,255,.78)' : 'rgba(255,255,255,.5)' }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
-                    </div>
-                    <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12, padding: '18px 20px', background: hot ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderRadius: 999, background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff' }}>
-                        <span style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>▤</span>
-                        <span style={{ fontSize: 14, fontWeight: 600 }}>{c.count}</span>
-                        <span style={{ fontSize: 12, opacity: .6, whiteSpace: 'nowrap' }}>{c.price}</span>
-                      </div>
-                      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ width: 54, height: 44, flexShrink: 0, borderRadius: 10, overflow: 'hidden', background: 'rgba(255,255,255,.1)' }} />
-                        <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 20px 11px 12px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff', border: 'none', cursor: 'pointer' }}>
-                          <span style={{ width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>→</span>
-                          Перейти
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ── Как мы работаем ── */}
@@ -1246,9 +1100,49 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
-      {/* ── Сезонная распродажа + Комнаты + Новинки + Баннер ── */}
+      {/* ── Материалы ── */}
       <section style={{ padding: '96px 48px 0' }}>
-        {/* Собрали ваш интерьер */}
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Материалы</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Дуб, сталь, стекло и латунь — только сертифицированное сырьё с паспортами качества</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20 }}>
+          {[
+            { name: 'Массив дуба', text: 'Европейский и российский дуб — сухая выдержка, шлифовка и масло-воск' },
+            { name: 'Сталь и нержавейка', text: 'Холодный прокат, профиль и труба — лазерная резка 0,1 мм' },
+            { name: 'Стекло триплекс', text: 'Закалённое и триплекс 8–10 мм, рифлёное, матовое, тонированное' },
+            { name: 'Латунь и медь', text: 'Литые и тянутые профили, полировка и патинирование под заказ' },
+          ].map((m, i) => (
+            <div key={i} style={{ padding: '32px 28px', borderRadius: 20, background: '#f4f2ee', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.01em' }}>{m.name}</div>
+              <div style={{ fontSize: 14, lineHeight: 1.55, color: '#8b877f' }}>{m.text}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Производство ── */}
+      <section style={{ padding: '96px 48px 0' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Производство</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Собственный цех 2 400 м² в Домодедово — от раскроя до монтажа без посредников</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
+          {[
+            { title: 'Лазерная резка', text: 'Раскрой листа до 25 мм и профильной трубы — точность 0,1 мм, чертёж в работу за 1 день' },
+            { title: 'Сварка и сборка', text: 'Лазерная сварка без поводок, аккуратный шов без зачистки, контроль технолога на каждом узле' },
+            { title: 'Покраска и отделка', text: 'Порошковое покрытие 40+ цветов, масло-воск, патина — гарантия покрытия 5 лет' },
+          ].map((p, i) => (
+            <div key={i} style={{ padding: '36px 32px', borderRadius: 20, background: '#1a1a18', color: '#fff', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.01em' }}>{p.title}</div>
+              <div style={{ fontSize: 14, lineHeight: 1.55, color: 'rgba(255,255,255,.62)' }}>{p.text}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PLACEHOLDER_REMOVE_START ── */}
+      <section style={{ padding: '96px 48px 0', display: 'none' }}>
         <div style={{ textAlign: 'center', margin: '96px 0 36px' }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Собрали ваш интерьер</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Готовые комнаты — и все предметы, из которых они собраны</div>
@@ -1390,8 +1284,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
-      {/* ── Готовые подборки ── */}
-      <section id="collections" style={{ padding: '96px 48px 0' }}>
+      {/* ── Готовые подборки (скрыто) ── */}
+      <section id="collections" style={{ padding: '96px 48px 0', display: 'none' }}>
         <div style={{ textAlign: 'center', marginBottom: 38 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Готовые подборки</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Комплекты под конкретное помещение — быстрее, чем собирать поштучно</div>
@@ -1433,6 +1327,58 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* ── Баннеры перед футером ── */}
+      <section style={{ padding: '96px 48px 0' }}>
+        <div style={{ overflow: 'clip', margin: '0 -48px' }}>
+         <div style={{ position: 'relative', height: 620, margin: '0 48px' }}>
+          {prevBannerIdx !== null && (
+            <div key={`bp-${prevBannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: BANNERS[prevBannerIdx].bg, pointerEvents: 'none', zIndex: 1, animation: `${bannerDir > 0 ? 'bannerOutToLeft' : 'bannerOutToRight'} .4s linear forwards` }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + BANNERS[prevBannerIdx].tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)' }} />
+              <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, height: '100%', maxWidth: 700, padding: '72px 100px' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{BANNERS[prevBannerIdx].kicker}</div>
+                <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].title}</h3>
+                <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].text}</div>
+              </div>
+            </div>
+          )}
+          <div key={`bc2-${bannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: currentBanner.bg, zIndex: 0, animation: prevBannerIdx !== null ? `${bannerDir > 0 ? 'bannerInFromRight' : 'bannerInFromLeft'} .4s linear both` : 'none' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + currentBanner.tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, height: '100%', maxWidth: 700, padding: '72px 100px' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{currentBanner.kicker}</div>
+              <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{currentBanner.title}</h3>
+              <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{currentBanner.text}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10, flexWrap: 'wrap' }}>
+                <div style={{ position: 'relative' }}>
+                  <div onClick={() => setNeedOpen(o => !o)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e', cursor: 'pointer' }}>
+                    <span>{need || 'Мне нужна перегородка для…'}</span>
+                    <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                  </div>
+                  {needOpen && (
+                    <div style={{ position: 'absolute', zIndex: 6, top: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
+                      {currentBanner.options.map(o => (
+                        <div key={o[0]} onClick={() => { setNeed(o[0]); setNeedOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 14px', borderRadius: 10, fontSize: 14, cursor: 'pointer', color: need === o[0] ? '#1a1a18' : '#4a4842', background: need === o[0] ? '#f4f2ee' : 'transparent' }}>
+                          <span>{o[0]}</span>
+                          {o[1] && <span style={{ fontSize: 12, color: '#a8a39a', whiteSpace: 'nowrap' }}>{o[1]}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button onClick={() => onNavigateToCatalog('catalog')} style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? '#fbfaf8' : 'rgba(255,255,255,.18)', color: need ? '#1a1a18' : 'rgba(255,255,255,.86)', backdropFilter: 'blur(6px)', border: 'none', cursor: 'pointer' }}>Подобрать</button>
+              </div>
+            </div>
+          </div>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + BANNERS.length - 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(-1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>‹</div>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>›</div>
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8, zIndex: 3 }}>
+            {BANNERS.map((_, i) => (
+              <span key={i} onClick={() => { const curr = bannerIdx; setPrevBannerIdx(curr); setBannerDir(i > curr ? 1 : -1); setBannerIdx(i); setNeedOpen(false); setNeed(null); }} style={{ width: i === bannerIdx ? 24 : 8, height: 8, borderRadius: 999, background: i === bannerIdx ? '#fff' : 'rgba(255,255,255,.45)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
+            ))}
+          </div>
+         </div>
         </div>
       </section>
 
