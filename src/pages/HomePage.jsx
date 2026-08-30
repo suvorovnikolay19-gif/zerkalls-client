@@ -775,6 +775,59 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           {FAN_CARDS.map((c, i) => {
             const hot = fanHover === i;
             const angles = [-26, -9, 9, 26];
+
+            if (i >= 2) {
+              const FOLDER = "M17,0 H170 A17,17 0 0 1 186,17 V24 A17,17 0 0 0 201,41 H284 A17,17 0 0 1 300,57 V183 A17,17 0 0 1 284,200 H17 A17,17 0 0 1 0,183 V17 A17,17 0 0 1 17,0 Z";
+              const FOLDER_IN = "M15,0 H168 A15,15 0 0 1 183,15 V24 A15,15 0 0 0 200,39 H283 A15,15 0 0 1 297,55 V182 A15,15 0 0 1 283,198 H15 A15,15 0 0 1 0,182 V15 A15,15 0 0 1 15,0 Z";
+              return (
+                <div
+                  key={i}
+                  onMouseEnter={() => setFanHover(i)}
+                  onMouseLeave={() => setFanHover(v => v === i ? null : v)}
+                  onClick={() => onNavigateToCatalog(c.entry)}
+                  style={{ position: 'relative', cursor: 'pointer', transition: 'transform .55s cubic-bezier(.2,.8,.25,1)', transform: hot ? 'scale(1.04)' : 'scale(1)' }}
+                >
+                  <div style={{ position: 'relative', height: 280, overflow: 'visible' }}>
+                    {[0, 1, 2, 3].map(j => (
+                      <div
+                        key={j}
+                        style={{
+                          position: 'absolute', left: '50%', bottom: 40, marginLeft: -66,
+                          width: 132, height: 186, borderRadius: 12, overflow: 'hidden',
+                          backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center',
+                          backgroundColor: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`,
+                          boxShadow: '0 10px 26px rgba(26,26,24,.18)',
+                          transformOrigin: '50% 118%',
+                          transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`,
+                          zIndex: j,
+                          transform: hot
+                            ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)`
+                            : `rotate(${(j - 1.5) * 3}deg)`,
+                        }}
+                      />
+                    ))}
+                    <div style={{ position: 'absolute', bottom: 0, left: '50%', marginLeft: -150, width: 300, height: 200, filter: 'drop-shadow(0 20px 32px rgba(26,26,20,.2))', zIndex: 10 }}>
+                      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', clipPath: `path('${FOLDER}')`, backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)', background: i === 2 ? 'linear-gradient(163deg,rgba(80,60,110,.96) 0%,rgba(70,60,100,.94) 20%,rgba(100,90,130,.92) 42%,rgba(120,110,160,.9) 70%,rgba(140,130,180,.92) 100%)' : 'linear-gradient(163deg,rgba(125,106,156,.58) 0%,rgba(111,106,134,.5) 20%,rgba(150,148,166,.44) 42%,rgba(255,255,255,.42) 70%,rgba(255,255,255,.5) 100%)' }} />
+                      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', clipPath: `path('${FOLDER}')`, background: 'radial-gradient(120% 80% at 22% 8%,rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(255,255,255,.55) 0 1.5px,rgba(255,255,255,0) 1.5px)' }} />
+                      <div style={{ position: 'absolute', inset: 1, pointerEvents: 'none', clipPath: `path('${FOLDER_IN}')`, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.45)' }} />
+                      <div style={{ position: 'absolute', inset: 0, padding: '62px 20px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                          <span style={{ fontSize: 17, fontWeight: 600, color: i === 2 ? '#fff' : '#2a2533', letterSpacing: '.01em' }}>{c.name}</span>
+                          <span style={{ fontSize: 13, color: i === 2 ? 'rgba(255,255,255,.6)' : 'rgba(42,37,51,.45)' }}>{c.count}</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 8, height: 40, padding: '0 8px 0 18px', borderRadius: 999, background: '#1c1a22', color: '#f4f4f6', fontSize: 13, fontWeight: 600, letterSpacing: '.02em' }}>
+                            Смотреть
+                            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: 999, background: '#f4f4f6', color: '#1c1a22', fontSize: 14, fontWeight: 800 }}>→</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <div
                 key={i}
