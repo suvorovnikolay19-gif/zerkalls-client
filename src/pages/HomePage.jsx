@@ -783,19 +783,19 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 onMouseEnter={() => setFanHover(i)}
                 onMouseLeave={() => setFanHover(v => v === i ? null : v)}
                 onClick={() => onNavigateToCatalog(c.entry)}
-                style={{ borderRadius: 24, padding: '34px 0 0', background: hot ? '#fff' : '#f4f2ee', border: '1px solid ' + (hot ? '#e4e0d9' : 'transparent'), boxShadow: hot ? '0 32px 64px rgba(26,26,24,.16)' : '0 0 0 rgba(0,0,0,0)', transition: 'box-shadow .38s ease, background .3s ease', cursor: 'pointer', zIndex: hot ? 20 : 1, position: 'relative' }}
+                style={{ borderRadius: 24, padding: '22px 0 0', background: hot ? '#fff' : '#f4f2ee', border: '1px solid ' + (hot ? '#e4e0d9' : 'transparent'), boxShadow: hot ? '0 32px 64px rgba(26,26,24,.16)' : '0 0 0 rgba(0,0,0,0)', transition: 'box-shadow .38s ease, background .3s ease', cursor: 'pointer', zIndex: hot ? 20 : 1, position: 'relative' }}
               >
-                <div style={{ position: 'relative', height: 230, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
+                <div style={{ position: 'relative', height: 190, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
                   {[0, 1, 2, 3].map(j => (
                     <div
                       key={j}
-                      style={{ position: 'absolute', width: 185, height: 260, borderRadius: 18, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: hot ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)` : `rotate(${(j - 1.5) * 3}deg)`, transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                      style={{ position: 'absolute', width: 150, height: 210, borderRadius: 14, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: hot ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)` : `rotate(${(j - 1.5) * 3}deg)`, transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                     />
                   ))}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, textAlign: 'center', padding: '26px 22px 24px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textAlign: 'center', padding: '20px 18px 20px' }}>
                   <div style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-.01em' }}>{c.name}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.5, color: '#8b877f', textWrap: 'pretty' }}>{c.text}</div>
+                  <div style={{ fontSize: 13, lineHeight: 1.5, color: '#8b877f', textWrap: 'pretty', minHeight: 40 }}>{c.text}</div>
                   <div style={{ marginTop: 4, fontSize: 12.5, fontWeight: 500, transition: 'color .3s ease', color: hot ? '#1a1a18' : '#a8a39a' }}>{c.count}</div>
                   <button
                     onMouseEnter={e => { e.stopPropagation(); setFanBtnHover(i); }}
