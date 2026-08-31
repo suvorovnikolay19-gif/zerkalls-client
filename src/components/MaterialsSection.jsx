@@ -248,16 +248,16 @@ export default function MaterialsSection() {
           {hasMore && (
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 30 }}>
               <div
-                onClick={() => setLimit(l => l + PER_PAGE)}
                 style={{
                   height: 44, padding: '0 30px', borderRadius: 22, background: '#fff',
                   boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.16)', color: '#211d19',
-                  fontSize: 13, display: 'flex', alignItems: 'center', cursor: 'pointer',
-                  transition: 'box-shadow .18s',
+                  fontSize: 13, display: 'flex', alignItems: 'center',
+                  opacity: 0.4, cursor: 'default',
                 }}
               >Смотреть больше</div>
             </div>
           )}
+
         </div>
       </div>
     </section>
