@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import MaterialsSection from '../components/MaterialsSection.jsx';
 import heroImg from '../../assets/hero-main/hero-1.png';
 import bgImg from '../../assets/background.png';
 import hero2Img from '../../assets/hero-main/hero-2.png';
@@ -1100,26 +1101,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
-      {/* ── Материалы ── */}
-      <section style={{ padding: '96px 48px 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Материалы</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>Дуб, сталь, стекло и латунь — только сертифицированное сырьё с паспортами качества</div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20 }}>
-          {[
-            { name: 'Массив дуба', text: 'Европейский и российский дуб — сухая выдержка, шлифовка и масло-воск' },
-            { name: 'Сталь и нержавейка', text: 'Холодный прокат, профиль и труба — лазерная резка 0,1 мм' },
-            { name: 'Стекло триплекс', text: 'Закалённое и триплекс 8–10 мм, рифлёное, матовое, тонированное' },
-            { name: 'Латунь и медь', text: 'Литые и тянутые профили, полировка и патинирование под заказ' },
-          ].map((m, i) => (
-            <div key={i} style={{ padding: '32px 28px', borderRadius: 20, background: '#f4f2ee', display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.01em' }}>{m.name}</div>
-              <div style={{ fontSize: 14, lineHeight: 1.55, color: '#8b877f' }}>{m.text}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* ── Материалы и отделки ── */}
+      <MaterialsSection />
 
       {/* ── Производство ── */}
       <section style={{ padding: '96px 48px 0' }}>
