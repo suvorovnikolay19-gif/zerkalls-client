@@ -128,17 +128,9 @@ const CARDS_V2_DATA = [
     ],
     images: [catTestImg, catTestImg, catTestImg],
   },
-  { title: 'Услуги', cta: 'Смотреть все', entry: 'catalog',
-    items: [
-      { name: 'Лазерная резка металла', desc: 'Раскрой листа до 25 мм по вашим чертежам — точность 0,1 мм.' },
-      { name: 'Лазерный труборез', desc: 'Резка круглой и профильной трубы, готовые узлы под сварку.' },
-      { name: 'Лазерная сварка', desc: 'Аккуратный шов без поводок — сборка каркасов и рам.' },
-    ],
-    images: [catTestImg, catTestImg, catTestImg],
-  },
 ];
 
-const CARDS_V2_OFFSETS = ['0px', '-56px', '34px', '-24px', '18px'];
+const CARDS_V2_OFFSETS = ['0px', '-56px', '34px', '-24px'];
 
 const PAGE_NAV = [
   { name: 'Главная', href: '#', active: true },
@@ -790,9 +782,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </nav>
 
       {/* ── Категории (cards-v2) ── */}
-      <section id="categories" style={{ padding: '96px 48px 32px', background: '#ffffff' }}>
+      <section id="categories" style={{ padding: '96px 48px 80px', background: '#ffffff' }}>
         <div style={{ maxWidth: 1840, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 64 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 20, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24, alignItems: 'start' }}>
             {CARDS_V2_DATA.map((card, ci) => {
               const active = cardIdx[ci];
               const dir = cardDir[ci];
@@ -806,7 +798,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               return (
                 <article key={ci} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci] }}>
                   <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
-                    <div style={{ position: 'relative', height: 440, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
+                    <div style={{ position: 'relative', height: 600, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
 
                       {card.items.map((item, i) => {
                         let rel = i - active;
@@ -868,10 +860,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
-      {/* ── Баннер после категорий ── */}
-      <div style={{ lineHeight: 0 }}>
-        <img src={bgCategoryImg} alt="" style={{ width: '100%', display: 'block', borderRadius: '0 0 24px 24px', boxShadow: '0 20px 60px rgba(26,26,24,0.12)' }} />
-      </div>
 
       {/* ── Услуги ── */}
       <section style={{ padding: '52px 48px 0' }}>
