@@ -11,7 +11,7 @@ import testImg from '../../assets/test.jpg';
 import test2Img from '../../assets/test-2.jpg';
 import test3Img from '../../assets/test-3.jpg';
 import test4Img from '../../assets/test-4.jpg';
-import bgCategoryImg from '../../assets/background-category.png';
+import bgCategoryImg from '../../assets/background-category-v2.png';
 import catTestImg from '../../assets/categories/test.png';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
@@ -102,7 +102,7 @@ const CARDS_V2_DATA = [
       { name: 'Маршевые лестницы', desc: 'Прямые и поворотные марши, облицовка дубом или бетоном по вашему проекту.' },
       { name: 'Модульные на металлокаркасе', desc: DESC },
     ],
-    images: [test2Img, test3Img, test4Img],
+    images: [catTestImg, catTestImg, catTestImg],
   },
   { title: 'Перегородки', cta: 'Смотреть все', entry: 'partitions',
     items: [
@@ -110,7 +110,7 @@ const CARDS_V2_DATA = [
       { name: 'Распашные с рифлёным стеклом', desc: DESC },
       { name: 'Стационарные лофт', desc: 'Жёсткая конструкция из стального профиля, идеальна для зонирования открытых пространств.' },
     ],
-    images: [hero2Img, testImg, test2Img],
+    images: [catTestImg, catTestImg, catTestImg],
   },
   { title: 'Зеркала', cta: 'Смотреть все', entry: 'mirrors',
     items: [
@@ -118,7 +118,7 @@ const CARDS_V2_DATA = [
       { name: 'Зеркала с подсветкой', desc: 'Тёплый или холодный LED-контур, сенсор и антизапотевание — под ключ.' },
       { name: 'Овальные в латунной раме', desc: 'Ручная сборка, полированная латунь или матовое золото на выбор.' },
     ],
-    images: [heroImg, test3Img, test4Img],
+    images: [catTestImg, catTestImg, catTestImg],
   },
   { title: 'Мебель', cta: 'Смотреть все', entry: 'catalog',
     items: [
@@ -126,7 +126,7 @@ const CARDS_V2_DATA = [
       { name: 'Консоли и полки', desc: 'Навесные и напольные консоли из стали и дерева, размер под ваш проём.' },
       { name: 'Стеллажи и стеновые системы', desc: DESC },
     ],
-    images: [testImg, test2Img, test3Img],
+    images: [catTestImg, catTestImg, catTestImg],
   },
   { title: 'Услуги', cta: 'Смотреть все', entry: 'catalog',
     items: [
@@ -134,7 +134,7 @@ const CARDS_V2_DATA = [
       { name: 'Лазерный труборез', desc: 'Резка круглой и профильной трубы, готовые узлы под сварку.' },
       { name: 'Лазерная сварка', desc: 'Аккуратный шов без поводок — сборка каркасов и рам.' },
     ],
-    images: [service1Img, service2Img, service3Img],
+    images: [catTestImg, catTestImg, catTestImg],
   },
 ];
 
@@ -806,7 +806,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               return (
                 <article key={ci} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci] }}>
                   <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
-                    <div style={{ position: 'relative', height: 600, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
+                    <div style={{ position: 'relative', height: 440, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
 
                       {card.items.map((item, i) => {
                         let rel = i - active;
