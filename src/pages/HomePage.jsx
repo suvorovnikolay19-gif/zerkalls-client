@@ -11,6 +11,8 @@ import testImg from '../../assets/test.jpg';
 import test2Img from '../../assets/test-2.jpg';
 import test3Img from '../../assets/test-3.jpg';
 import test4Img from '../../assets/test-4.jpg';
+import bgCategoryImg from '../../assets/background-category.png';
+import catTestImg from '../../assets/categories/test.png';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
@@ -90,6 +92,53 @@ const FAN_CARDS = [
   { name: 'Зеркала', text: 'Арочные, овальные и нестандартные формы.', count: '180+ моделей', entry: 'mirrors' },
   { name: 'Мебель', text: 'Столы, консоли, стеллажи и ширмы из массива.', count: '90+ моделей', entry: 'catalog' },
 ];
+
+const DESC = 'Каркас из профильной стали с порошковым покрытием, стекло 8 мм закалённое. Замер и монтаж входят в стоимость.';
+
+const CARDS_V2_DATA = [
+  { title: 'Лестницы', cta: 'Смотреть все', entry: 'stairs',
+    items: [
+      { name: 'Винтовые лестницы', desc: 'Элегантные конструкции для любого проёма — металл, дуб, нержавеющая сталь под заказ.' },
+      { name: 'Маршевые лестницы', desc: 'Прямые и поворотные марши, облицовка дубом или бетоном по вашему проекту.' },
+      { name: 'Модульные на металлокаркасе', desc: DESC },
+    ],
+    images: [test2Img, test3Img, test4Img],
+  },
+  { title: 'Перегородки', cta: 'Смотреть все', entry: 'partitions',
+    items: [
+      { name: 'Раздвижные системы', desc: 'Плавный ход по рельсу, стекло 8–10 мм, регулируемые доводчики в комплекте.' },
+      { name: 'Распашные с рифлёным стеклом', desc: DESC },
+      { name: 'Стационарные лофт', desc: 'Жёсткая конструкция из стального профиля, идеальна для зонирования открытых пространств.' },
+    ],
+    images: [hero2Img, testImg, test2Img],
+  },
+  { title: 'Зеркала', cta: 'Смотреть все', entry: 'mirrors',
+    items: [
+      { name: 'Арочные зеркала', desc: 'Классическая арка или нестандартная геометрия — вырезаем по эскизу за три дня.' },
+      { name: 'Зеркала с подсветкой', desc: 'Тёплый или холодный LED-контур, сенсор и антизапотевание — под ключ.' },
+      { name: 'Овальные в латунной раме', desc: 'Ручная сборка, полированная латунь или матовое золото на выбор.' },
+    ],
+    images: [heroImg, test3Img, test4Img],
+  },
+  { title: 'Мебель', cta: 'Смотреть все', entry: 'catalog',
+    items: [
+      { name: 'Обеденные столы', desc: 'Массив дуба или слэб на металлических ногах — от 2 000 мм в ширину.' },
+      { name: 'Консоли и полки', desc: 'Навесные и напольные консоли из стали и дерева, размер под ваш проём.' },
+      { name: 'Стеллажи и стеновые системы', desc: DESC },
+    ],
+    images: [testImg, test2Img, test3Img],
+  },
+  { title: 'Услуги', cta: 'Смотреть все', entry: 'catalog',
+    items: [
+      { name: 'Лазерная резка металла', desc: 'Раскрой листа до 25 мм по вашим чертежам — точность 0,1 мм.' },
+      { name: 'Лазерный труборез', desc: 'Резка круглой и профильной трубы, готовые узлы под сварку.' },
+      { name: 'Лазерная сварка', desc: 'Аккуратный шов без поводок — сборка каркасов и рам.' },
+    ],
+    images: [service1Img, service2Img, service3Img],
+  },
+];
+
+const CARDS_V2_OFFSETS = ['0px', '-56px', '34px', '-24px', '18px'];
 
 const PAGE_NAV = [
   { name: 'Главная', href: '#', active: true },
@@ -375,6 +424,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [activeMenu, setActiveMenu] = useState(null);
   const [fanHover, setFanHover] = useState(null);
   const [fanBtnHover, setFanBtnHover] = useState(null);
+  const [cardIdx, setCardIdx] = useState([0, 0, 0, 0]);
+  const [cardDir, setCardDir] = useState([1, 1, 1, 1]);
 
   const [fitIdx, setFitIdx] = useState(0);
   const [fitOpen, setFitOpen] = useState(null);
@@ -398,6 +449,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [ptBannerIdx, setPtBannerIdx] = useState(0);
   const [ptSent, setPtSent] = useState(false);
   const [ptRole, setPtRole] = useState('Дизайнер');
+  const [chatOpen, setChatOpen] = useState(false);
 
   const rafRef = useRef(null);
   const t0Ref = useRef(Date.now());
@@ -609,7 +661,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   }
 
   return (
-    <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: bgColor, backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', backgroundPosition: 'center top', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed', WebkitFontSmoothing: 'antialiased', overflowX: 'hidden' }}>
+    <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: '#ffffff', WebkitFontSmoothing: 'antialiased' }}>
 
       {/* ── Hero ── */}
       <section style={{ position: 'relative', height: 760, background: '#23221f', overflow: 'hidden' }}>
@@ -729,13 +781,97 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
       {/* ── Меню разделов (sticky) ── */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(251,250,248,.94)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(255,255,255,.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e8' }}>
         {PAGE_NAV.map((n, i) => (
           n.href
             ? <a key={i} href={n.href} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
             : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
         ))}
       </nav>
+
+      {/* ── Категории (cards-v2) ── */}
+      <section id="categories" style={{ padding: '96px 48px 32px', background: '#ffffff' }}>
+        <div style={{ maxWidth: 1840, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 64 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: 20, alignItems: 'start' }}>
+            {CARDS_V2_DATA.map((card, ci) => {
+              const active = cardIdx[ci];
+              const dir = cardDir[ci];
+              const n = card.items.length;
+
+              const moveCard = (d) => {
+                setCardIdx(prev => { const next = [...prev]; next[ci] = (next[ci] + d + n) % n; return next; });
+                setCardDir(prev => { const next = [...prev]; next[ci] = d; return next; });
+              };
+
+              return (
+                <article key={ci} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci] }}>
+                  <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
+                    <div style={{ position: 'relative', height: 600, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
+
+                      {card.items.map((item, i) => {
+                        let rel = i - active;
+                        if (rel > n / 2) rel -= n;
+                        if (rel < -n / 2) rel += n;
+                        const on = rel === 0;
+                        const side = on ? dir : (rel > 0 ? 1 : -1);
+                        const away = on ? 0 : (Math.abs(rel) === 1 ? side : side * 1.4);
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              position: 'absolute', inset: 0,
+                              transition: 'transform 680ms cubic-bezier(0.16,1,0.3,1), opacity 480ms ease, filter 680ms ease',
+                              willChange: 'transform',
+                              transform: on ? 'translate3d(0,0,0) rotate(0deg) scale(1)' : `translate3d(${away * 116}%, ${Math.abs(away) * 26}px, 0) rotate(${away * 9}deg) scale(0.8)`,
+                              opacity: on ? 1 : 0,
+                              filter: on ? 'blur(0px)' : 'blur(6px)',
+                              zIndex: on ? 2 : 1,
+                              backgroundImage: `url(${card.images[i]})`,
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              backgroundColor: '#e8e5e0',
+                            }}
+                          />
+                        );
+                      })}
+
+                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 320, zIndex: 4, pointerEvents: 'none', background: 'linear-gradient(to top, rgba(26,26,24,0.5), rgba(26,26,24,0))' }} />
+
+                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 6, backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)', maskImage: 'linear-gradient(to top, #000 45%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, #000 45%, transparent 100%)' }}>
+                        <div style={{ position: 'relative', height: 320 }}>
+                          {card.items.map((item, i) => {
+                            const on = i === active;
+                            return (
+                              <div key={i} style={{ position: 'absolute', inset: 0, padding: '30px 24px 82px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-end', gap: 10, textAlign: 'left', pointerEvents: on ? 'auto' : 'none', opacity: on ? 1 : 0, transition: 'opacity 320ms ease', zIndex: on ? 2 : 1 }}>
+                                <span style={{ fontSize: 23, fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, color: '#fff', transition: 'transform 620ms cubic-bezier(0.16,1,0.3,1), opacity 420ms ease', transitionDelay: on ? '140ms' : '0ms', transform: on ? 'translateY(0)' : 'translateY(24px)', opacity: on ? 1 : 0 }}>{item.name}</span>
+                                <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: 'rgba(255,255,255,0.76)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', transition: 'transform 620ms cubic-bezier(0.16,1,0.3,1), opacity 420ms ease', transitionDelay: on ? '210ms' : '0ms', transform: on ? 'translateY(0)' : 'translateY(30px)', opacity: on ? 1 : 0 }}>{item.desc}</p>
+                              </div>
+                            );
+                          })}
+                          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '0 24px 24px', zIndex: 4 }}>
+                            <button
+                              onClick={() => onNavigateToCatalog(card.entry)}
+                              style={{ width: '100%', height: 48, borderRadius: 999, border: 'none', background: 'rgba(255,255,255,0.96)', color: '#1a1a18', fontFamily: 'inherit', fontSize: 14, fontWeight: 700, letterSpacing: '0.01em', cursor: 'pointer', transition: 'background 200ms ease, transform 200ms ease' }}
+                            >Смотреть ещё</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div onClick={() => moveCard(-1)} style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '65%', zIndex: 7, cursor: 'pointer' }} />
+                      <div onClick={() => moveCard(1)} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '65%', zIndex: 7, cursor: 'pointer' }} />
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Баннер после категорий ── */}
+      <div style={{ lineHeight: 0 }}>
+        <img src={bgCategoryImg} alt="" style={{ width: '100%', display: 'block', borderRadius: '0 0 24px 24px', boxShadow: '0 20px 60px rgba(26,26,24,0.12)' }} />
+      </div>
 
       {/* ── Услуги ── */}
       <section style={{ padding: '52px 48px 0' }}>
@@ -763,50 +899,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* ── Категории (fan cards) ── */}
-      <section id="categories" style={{ padding: '96px 48px 0', overflow: 'visible' }}>
-        <div style={{ textAlign: 'center', marginBottom: 44 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Категории</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>Лестницы, перегородки, зеркала и мебель — наведите, чтобы посмотреть примеры</div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 20, alignItems: 'start', overflow: 'visible' }}>
-          {FAN_CARDS.map((c, i) => {
-            const hot = fanHover === i;
-            const angles = [-26, -9, 9, 26];
-
-            return (
-              <div
-                key={i}
-                onMouseEnter={() => setFanHover(i)}
-                onMouseLeave={() => setFanHover(v => v === i ? null : v)}
-                onClick={() => onNavigateToCatalog(c.entry)}
-                style={{ borderRadius: 24, padding: '22px 0 0', background: hot ? '#fff' : '#f4f2ee', border: '1px solid ' + (hot ? '#e4e0d9' : 'transparent'), boxShadow: hot ? '0 32px 64px rgba(26,26,24,.16)' : '0 0 0 rgba(0,0,0,0)', transition: 'box-shadow .38s ease, background .3s ease', cursor: 'pointer', zIndex: hot ? 20 : 1, position: 'relative' }}
-              >
-                <div style={{ position: 'relative', height: 190, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
-                  {[0, 1, 2, 3].map(j => (
-                    <div
-                      key={j}
-                      style={{ position: 'absolute', width: 150, height: 210, borderRadius: 14, overflow: 'hidden', background: `hsl(${30 + j * 8}, 12%, ${80 - j * 4}%)`, boxShadow: '0 10px 26px rgba(26,26,24,.18)', transformOrigin: '50% 118%', transform: hot ? `rotate(${angles[j]}deg) scale(1.28) translateY(-12px)` : `rotate(${(j - 1.5) * 3}deg)`, transition: `transform .44s cubic-bezier(.2,.8,.2,1) ${j * 0.03}s`, zIndex: j, backgroundImage: `url(${FAN_IMGS[j]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-                    />
-                  ))}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textAlign: 'center', padding: '20px 18px 20px' }}>
-                  <div style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-.01em' }}>{c.name}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.5, color: '#8b877f', textWrap: 'pretty', minHeight: 40 }}>{c.text}</div>
-                  <div style={{ marginTop: 4, fontSize: 12.5, fontWeight: 500, transition: 'color .3s ease', color: hot ? '#1a1a18' : '#a8a39a' }}>{c.count}</div>
-                  <button
-                    onMouseEnter={e => { e.stopPropagation(); setFanBtnHover(i); }}
-                    onMouseLeave={e => { e.stopPropagation(); setFanBtnHover(null); }}
-                    onClick={e => { e.stopPropagation(); onNavigateToCatalog(c.entry); }}
-                    style={{ marginTop: 6, padding: '10px 28px', borderRadius: 999, border: '1.5px solid #1a1a18', background: fanBtnHover === i ? '#1a1a18' : '#fff', color: fanBtnHover === i ? '#fff' : '#1a1a18', fontSize: 13, fontWeight: 500, cursor: 'pointer', transition: 'background .2s ease, color .2s ease' }}
-                  >Смотреть</button>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </section>
 
@@ -1418,68 +1510,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </footer>
 
-      {/* ── Выбор цвета фона ── */}
-      <div ref={colorRef} style={{ position: 'fixed', right: 26, bottom: 96, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-        {colorOpen && (
-          <div style={{ marginBottom: 10, background: '#fff', borderRadius: 14, boxShadow: '0 12px 34px rgba(26,26,24,.16)', padding: '12px 14px', animation: 'hFade .15s ease', width: 310 }}>
-            <div style={{ fontSize: 10, fontWeight: 600, color: '#8b877f', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>Цвет фона</div>
-
-            {/* Ползунок оттенка */}
-            <div style={{ marginBottom: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 10, color: '#8b877f' }}>Оттенок</span>
-                <div style={{ width: 20, height: 20, borderRadius: '50%', background: hslToHex(sliderHue, 38, sliderLight), border: '1.5px solid rgba(26,26,24,.15)', flexShrink: 0 }} />
-              </div>
-              <input
-                type="range" className="bg-hue-slider"
-                min={0} max={359} value={sliderHue}
-                onChange={e => { const h = Number(e.target.value); setSliderHue(h); applyCustomColor(h, sliderLight); }}
-              />
-            </div>
-
-            {/* Ползунок яркости */}
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                <span style={{ fontSize: 10, color: '#8b877f' }}>Яркость</span>
-              </div>
-              <input
-                type="range" className="bg-light-slider"
-                min={20} max={98} value={sliderLight}
-                style={{ '--hue': sliderHue }}
-                onChange={e => { const lv = Number(e.target.value); setSliderLight(lv); applyCustomColor(sliderHue, lv); }}
-              />
-            </div>
-
-            <div style={{ fontSize: 10, fontWeight: 600, color: '#8b877f', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>Готовые</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: 5 }}>
-              {BG_PALETTE.map(({ color, label }) => (
-                <button
-                  key={color}
-                  title={label}
-                  onClick={() => pickBgColor(color)}
-                  style={{
-                    width: 24, height: 24, borderRadius: '50%', border: bgColor === color ? '2.5px solid #1a1a18' : '2px solid rgba(26,26,24,.12)',
-                    background: color, cursor: 'pointer', padding: 0,
-                    boxShadow: bgColor === color ? '0 0 0 2px rgba(26,26,24,.08)' : 'none',
-                    transition: 'transform .15s',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.18)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        <div
-          onClick={() => setColorOpen(o => !o)}
-          style={{ width: 56, height: 56, borderRadius: '50%', background: '#1a1a18', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 10px 28px rgba(26,26,24,.28)', fontSize: 22, transition: 'transform .18s' }}
-          onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.07)'}
-          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-        >
-          🎨
-        </div>
-      </div>
-
       {/* ── Гамбургер-меню навигации ── */}
       <div style={{ position: 'fixed', left: 26, bottom: 26, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         {hamburgerOpen && (
@@ -1516,16 +1546,43 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </div>
 
-      {/* ── Кнопка корзины/оформления ── */}
-      <div style={{ position: 'fixed', right: 26, bottom: 26, zIndex: 90, display: 'flex', alignItems: 'center', gap: 12 }}>
-        {cartCount > 0 && (
-          <div style={{ padding: '14px 18px', borderRadius: 16, background: '#fff', boxShadow: '0 12px 34px rgba(26,26,24,.16)', fontSize: 14, color: '#33322e', maxWidth: 240, animation: 'hFade .2s ease' }}>
-            {cartCount} {cartCount === 1 ? 'товар' : cartCount < 5 ? 'товара' : 'товаров'} в корзине — оформить?
-          </div>
+      {/* ── Кнопка связи ── */}
+      <div style={{ position: 'fixed', right: 26, bottom: 26, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+        {chatOpen && (
+          <>
+            {[
+              { icon: '✈', label: 'Telegram',       color: '#2b9fe3', href: 'https://t.me' },
+              { icon: '✉', label: 'MAX',             color: '#7c5cf0', href: 'https://max.ru' },
+              { icon: '☏', label: 'Позвонить',       color: '#3a8a4f', href: 'tel:+79854341133' },
+              { icon: '◎', label: 'Заказать звонок', color: '#1a1a18', href: '#' },
+            ].map((b, i) => (
+              <a
+                key={i}
+                href={b.href}
+                className="chat-pulse"
+                title={b.label}
+                style={{
+                  width: 52, height: 52, borderRadius: '50%', background: b.color,
+                  color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 19, flexShrink: 0, textDecoration: 'none',
+                  animation: `chatBtnIn .28s cubic-bezier(.2,.8,.2,1) ${(3 - i) * 0.07}s both`,
+                  boxShadow: '0 8px 22px rgba(26,26,24,.22)',
+                }}
+              >{b.icon}</a>
+            ))}
+          </>
         )}
-        <div onClick={onOpenCheckout} className="chat-pulse" style={{ width: 56, height: 56, flexShrink: 0, borderRadius: '50%', background: '#1a1a18', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 20, transition: 'transform .18s' }}>
-          ✉
-        </div>
+        <div
+          onClick={() => setChatOpen(o => !o)}
+          className={chatOpen ? '' : 'chat-pulse'}
+          style={{
+            width: 56, height: 56, borderRadius: '50%', background: '#1a1a18',
+            color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', fontSize: chatOpen ? 20 : 19, flexShrink: 0,
+            transition: 'transform .22s, font-size .18s',
+            boxShadow: '0 10px 28px rgba(26,26,24,.28)',
+          }}
+        >{chatOpen ? '✕' : '✉'}</div>
       </div>
     </div>
   );
