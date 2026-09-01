@@ -13,6 +13,7 @@ import test3Img from '../../assets/test-3.jpg';
 import test4Img from '../../assets/test-4.jpg';
 import bgCategoryImg from '../../assets/background-category-v2.png';
 import catTestImg from '../../assets/categories/test.png';
+import animMp4 from '../../assets/categories/anim.mp4';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
@@ -418,6 +419,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [fanBtnHover, setFanBtnHover] = useState(null);
   const [cardIdx, setCardIdx] = useState([0, 0, 0, 0]);
   const [cardDir, setCardDir] = useState([1, 1, 1, 1]);
+  const [catCardHover, setCatCardHover] = useState(null);
+  const cardVideoRefs = useRef([]);
 
   const [fitIdx, setFitIdx] = useState(0);
   const [fitOpen, setFitOpen] = useState(null);
@@ -795,11 +798,30 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 setCardDir(prev => { const next = [...prev]; next[ci] = d; return next; });
               };
 
+              const isHovered = catCardHover === ci;
+
               return (
-                <article key={ci} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci] }}>
+                <article
+                  key={ci}
+                  style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci] }}
+                  onMouseEnter={() => { setCatCardHover(ci); cardVideoRefs.current[ci]?.play(); }}
+                  onMouseLeave={() => { setCatCardHover(null); cardVideoRefs.current[ci]?.pause(); }}
+                >
                   <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
                     <div style={{ position: 'relative', height: 600, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
 
+                      {/* Видео — снизу, всегда в DOM, проигрывается при hover */}
+                      <video
+                        ref={el => { cardVideoRefs.current[ci] = el; }}
+                        src={animMp4}
+                        muted
+                        playsInline
+                        preload="auto"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, display: 'block' }}
+                      />
+
+                      {/* Слой с фото — плавно исчезает при hover */}
+                      <div style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: isHovered ? 0 : 1, transition: 'opacity 400ms ease' }}>
                       {card.items.map((item, i) => {
                         let rel = i - active;
                         if (rel > n / 2) rel -= n;
@@ -826,10 +848,11 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                           />
                         );
                       })}
+                      </div>{/* конец фото-слоя */}
 
-                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 320, zIndex: 4, pointerEvents: 'none', background: 'linear-gradient(to top, rgba(26,26,24,0.5), rgba(26,26,24,0))' }} />
+                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 320, zIndex: 10, pointerEvents: 'none', background: 'linear-gradient(to top, rgba(26,26,24,0.5), rgba(26,26,24,0))' }} />
 
-                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 6, backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)', maskImage: 'linear-gradient(to top, #000 45%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, #000 45%, transparent 100%)' }}>
+                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 12, backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)', maskImage: 'linear-gradient(to top, #000 45%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, #000 45%, transparent 100%)' }}>
                         <div style={{ position: 'relative', height: 320 }}>
                           {card.items.map((item, i) => {
                             const on = i === active;
@@ -849,8 +872,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                         </div>
                       </div>
 
-                      <div onClick={() => moveCard(-1)} style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '65%', zIndex: 7, cursor: 'pointer' }} />
-                      <div onClick={() => moveCard(1)} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '65%', zIndex: 7, cursor: 'pointer' }} />
+                      <div onClick={() => moveCard(-1)} style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '65%', zIndex: 14, cursor: 'pointer' }} />
+                      <div onClick={() => moveCard(1)} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '65%', zIndex: 14, cursor: 'pointer' }} />
                     </div>
                   </div>
                 </article>
