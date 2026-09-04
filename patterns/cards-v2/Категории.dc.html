@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: oklch(0.93 0.006 90); }
+  a { color: oklch(0.55 0.11 55); text-decoration: none; }
+  a:hover { color: oklch(0.45 0.11 55); }
+</style>
+</helmet>
+<section style="font-family: Manrope, Helvetica, sans-serif; background: oklch(0.93 0.006 90); padding: 96px 48px 120px; color: oklch(0.22 0.008 90);">
+  <div style="max-width: 1840px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px; align-items: start;">
+      <sc-for list="{{ cards }}" as="card" hint-placeholder-count="4">
+        <article style="width: 100%; display: flex; flex-direction: column; gap: 18px; margin-top: {{ card.offset }};">
+          <h3 style="margin: 0 0 -2px; padding: 0 6px; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase;">{{ card.title }}</h3>
+          <div style="position: relative; border-radius: 30px; overflow: hidden; background: oklch(0.26 0.006 90); box-shadow: 0 34px 64px -32px oklch(0.3 0.01 90 / 0.55);">
+
+            <div style="position: relative; height: 600px; overflow: hidden; border-radius: 30px; background: oklch(0.9 0.005 90);">
+              <sc-for list="{{ card.items }}" as="item" hint-placeholder-count="3">
+                <div style="position: absolute; inset: 0; transition: transform 680ms cubic-bezier(0.16, 1, 0.3, 1), opacity 480ms ease, filter 680ms ease; will-change: transform; transform: {{ item.transform }}; opacity: {{ item.opacity }}; filter: {{ item.filter }}; z-index: {{ item.z }}; background-color: oklch(0.9 0.005 90); background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url({{ item.img }});"></div>
+              </sc-for>
+
+              <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 320px; z-index: 4; pointer-events: none; background: linear-gradient(to top, oklch(0.2 0.01 90 / 0.5), oklch(0.2 0.01 90 / 0));"></div>
+
+              <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; backdrop-filter: blur(18px) saturate(1.15); -webkit-backdrop-filter: blur(18px) saturate(1.15); mask-image: linear-gradient(to top, oklch(0 0 0) 45%, oklch(0 0 0 / 0) 100%); -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 100%);">
+                <div style="position: relative; height: 320px;">
+                  <sc-for list="{{ card.items }}" as="item" hint-placeholder-count="3">
+                    <div style="position: absolute; inset: 0; padding: 30px 24px 82px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 10px; text-align: left; pointer-events: {{ item.pe }}; opacity: {{ item.lowerOpacity }}; transition: opacity 320ms ease; z-index: {{ item.z }};">
+                      <span style="font-size: 23px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; color: oklch(1 0 0); transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1), opacity 420ms ease; transition-delay: {{ item.d2 }}; transform: {{ item.r2 }}; opacity: {{ item.lowerOpacity }};">{{ item.name }}</span>
+                      <p style="margin: 0; font-size: 13px; line-height: 1.5; color: oklch(1 0 0 / 0.76); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1), opacity 420ms ease; transition-delay: {{ item.d3 }}; transform: {{ item.r3 }}; opacity: {{ item.lowerOpacity }};">{{ item.desc }}</p>
+                    </div>
+                  </sc-for>
+                  <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 0 24px 24px; z-index: 4;">
+                    <button type="button" style="width: 100%; height: 48px; border-radius: 999px; border: none; background: oklch(1 0 0 / 0.96); color: oklch(0.2 0.008 90); font-family: inherit; font-size: 14px; font-weight: 700; letter-spacing: 0.01em; cursor: pointer; transition: background 200ms ease, transform 200ms ease;" style-hover="background: oklch(1 0 0); transform: translateY(-1px);">Смотреть ещё</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 6px;">
+            <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.04em;">{{ card.counter }}</span>
+            <span style="font-size: 12px; color: oklch(0.5 0.008 90);">{{ card.cta }}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;stagger&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Раскладка&quot;}}">
+const D = "Каркас из профильной стали с порошковым покрытием, стекло 8 мм закалённое. Замер и монтаж входят в стоимость.";
+
+const DATA = [
+  { title: "Зеркала", cta: "Смотреть все",
+    items: [
+      { name: "Модель «Гранд»", spec: "1800 × 900 мм", desc: D },
+      { name: "Модель «Норд»", spec: "1200 × 700 мм", desc: D },
+      { name: "Модель «Сити»", spec: "2000 × 1000 мм", desc: D }
+    ] },
+  { title: "Лестницы", cta: "Смотреть все",
+    items: [
+      { name: "Марш «Атриум»", spec: "3 марша, дуб", desc: D },
+      { name: "Марш «Лофт»", spec: "монокосоур", desc: D },
+      { name: "Марш «Спираль»", spec: "винтовая", desc: D },
+      { name: "Марш «Минима»", spec: "консольная", desc: D }
+    ] },
+  { title: "Перегородки", cta: "Смотреть все",
+    items: [
+      { name: "Система «Ригель»", spec: "5 секций + дверь", desc: D },
+      { name: "Система «Слайд»", spec: "раздвижная", desc: D },
+      { name: "Система «Блэк»", spec: "витраж, 2 уровня", desc: D }
+    ] },
+  { title: "Мебель", cta: "Смотреть все",
+    items: [
+      { name: "Стол «Индастри»", spec: "2400 × 900 мм", desc: D },
+      { name: "Стеллаж «Грид»", spec: "6 уровней", desc: D },
+      { name: "Консоль «Тонк»", spec: "1400 × 400 мм", desc: D }
+    ] }
+];
+
+const IMGS = {
+  "Зеркала": "uploads/pasted-1788258610383-0.png",
+  "Мебель": "uploads/pasted-1788258634006-0.png",
+  "Лестницы": "uploads/pasted-1788259040701-0.png",
+  "Перегородки": "uploads/pasted-1788258287566-0.png"
+};
+
+const OFFSETS = ["0px", "-56px", "34px", "-24px"];
+
+class Component extends DCLogic {
+  state = { idx: [0, 0, 0, 0], dir: [1, 1, 1, 1] };
+
+  move(ci, d) {
+    this.setState(s => {
+      const idx = s.idx.slice(), dir = s.dir.slice();
+      const n = DATA[ci].items.length;
+      idx[ci] = (idx[ci] + d + n) % n;
+      dir[ci] = d;
+      return { idx, dir };
+    });
+  }
+
+  renderVals() {
+    const stagger = this.props.stagger ?? true;
+    const cards = DATA.map((c, ci) => {
+      const active = this.state.idx[ci];
+      const dir = this.state.dir[ci];
+      const n = c.items.length;
+      const items = c.items.map((it, i) => {
+        let rel = i - active;
+        if (rel > n / 2) rel -= n;
+        if (rel < -n / 2) rel += n;
+        const on = rel === 0;
+        const side = on ? dir : (rel > 0 ? 1 : -1);
+        const away = on ? 0 : (Math.abs(rel) === 1 ? side : side * 1.4);
+        return {
+          ...it,
+          img: IMGS[c.title],
+          transform: on ? "translate3d(0,0,0) rotate(0deg) scale(1)"
+            : "translate3d(" + (away * 116) + "%, " + Math.abs(away) * 26 + "px, 0) rotate(" + (away * 9) + "deg) scale(0.8)",
+          opacity: on ? 1 : 0,
+          filter: on ? "blur(0px)" : "blur(6px)",
+          lowerOpacity: on ? 1 : 0,
+          pe: on ? "auto" : "none",
+          z: on ? 2 : 1,
+          r1: on ? "translateY(0)" : "translateY(18px)",
+          r2: on ? "translateY(0)" : "translateY(24px)",
+          r3: on ? "translateY(0)" : "translateY(30px)",
+          d1: on ? "80ms" : "0ms",
+          d2: on ? "140ms" : "0ms",
+          d3: on ? "210ms" : "0ms"
+        };
+      });
+      return {
+        ...c,
+        items,
+        offset: stagger ? OFFSETS[ci] : "0px",
+        dots: c.items.map((_, i) => ({
+          w: i === active ? "20px" : "5px",
+          bg: i === active ? "oklch(0.93 0.004 90)" : "oklch(0.45 0.006 90)",
+          wLight: i === active ? "18px" : "5px",
+          bgLight: i === active ? "oklch(1 0 0 / 0.95)" : "oklch(1 0 0 / 0.4)"
+        })),
+        counter: String(active + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0"),
+        prev: () => this.move(ci, -1),
+        next: () => this.move(ci, 1)
+      };
+    });
+    return { cards };
+  }
+}
+
+</script>
+</body>
+</html>

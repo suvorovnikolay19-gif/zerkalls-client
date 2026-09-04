@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff;color:#1a1a1a;font-family:Manrope,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#8a6b3d;text-decoration:none}
+  a:hover{color:#5d472a}
+  ::selection{background:#e8e2d6}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#fff;box-sizing:border-box;padding:40px 20px 48px">
+  <div style="text-align:center;margin:0 0 32px">
+    <h1 style="font-size:56px;font-weight:400;letter-spacing:-1.6px;margin:0;line-height:1">Материалы</h1>
+    <div style="font-size:13px;color:#6d6459;margin-top:10px">Стекло, зеркало и отделки профилей — {{ totalCount }} позиций</div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,64px);align-items:stretch;width:100%;margin:0">
+
+    <div style="{{ previewStyle }}">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,14,0.10) 0%,rgba(20,17,14,0) 40%,rgba(20,17,14,0.42) 100%)"></div>
+      <div style="position:absolute;top:24px;left:24px;writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.9)">{{ previewGroup }}</div>
+      <div style="position:relative;margin-top:auto;padding:24px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+        <div style="display:flex;flex-direction:column">
+          <div style="font-size:22px;font-weight:500;letter-spacing:-0.3px;color:#fff">{{ previewName }}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);margin-top:4px">{{ previewCode }}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex:0 0 auto">
+          <div onClick="{{ prev }}" style="font-size:15px;color:rgba(255,255,255,0.85);cursor:pointer;user-select:none;letter-spacing:-1px" style-hover="color:#fff">⟵</div>
+          <div style="font-size:15px;font-style:italic;color:#fff;letter-spacing:0.5px">{{ counter }}</div>
+          <div onClick="{{ next }}" style="font-size:15px;color:rgba(255,255,255,0.85);cursor:pointer;user-select:none;letter-spacing:-1px" style-hover="color:#fff">⟶</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1 1 64%;min-width:0">
+      <div style="display:flex;gap:12px;margin:0 0 26px;padding:14px;background:#f4f3f1;border-radius:8px;flex-wrap:wrap;align-items:center">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+          <div style="position:relative">
+            <div onClick="{{ f.toggle }}" style="{{ f.buttonStyle }}"><span>{{ f.value }}</span><span style="color:#9a9084;font-size:11px">⌄</span></div>
+            <sc-if value="{{ f.isOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:44px;left:0;min-width:210px;background:#fff;border-radius:8px;box-shadow:0 12px 34px rgba(30,25,20,0.16);padding:6px;z-index:12">
+                <sc-for list="{{ f.options }}" as="o" hint-placeholder-count="4">
+                  <div onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div onClick="{{ resetFilters }}" style="height:38px;padding:0 14px;display:flex;align-items:center;font-size:12px;color:#8a8073;cursor:pointer" style-hover="color:#1a1a1a">Сбросить</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px">
+        <sc-for list="{{ pageItems }}" as="item" hint-placeholder-count="10">
+          <div style="{{ item.cardStyle }}">
+            <div style="position:relative;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;padding:10px 10px 12px">
+              <div style="{{ item.circleStyle }}"></div>
+              <div style="font-size:9px;letter-spacing:0.8px;text-transform:uppercase;color:#a09689;margin-top:14px">{{ item.kind }}</div>
+              <div style="font-size:13px;font-weight:500;letter-spacing:-0.2px;margin-top:4px;text-align:center;line-height:1.15;color:#211d19;text-wrap:balance;min-height:32px;display:flex;align-items:center;flex:0 0 auto">{{ item.name }}</div>
+              <div style="font-size:9px;color:#8a8073;margin-top:1px;text-align:center;line-height:1.35;margin-bottom:10px">{{ item.group }}</div>
+              <div onClick="{{ item.open }}" style="{{ item.buttonStyle }}">Посмотреть</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:60px 0;text-align:center;font-size:14px;color:#8a8073">По выбранным фильтрам ничего не найдено</div>
+      </sc-if>
+
+      <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;justify-content:center;margin-top:30px">
+          <div style="height:44px;padding:0 30px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.16);color:#211d19;font-size:13px;display:flex;align-items:center;cursor:pointer;transition:box-shadow .18s,background .18s" style-hover="box-shadow:inset 0 0 0 1px #241f1c">Смотреть больше</div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1520,&quot;height&quot;:900}}">
+const RAW = [
+  {s:'Стекло', g:'Прозрачное безопасное стекло', tone:'Светлый', items:[
+    ['GT05','Соле','linear-gradient(135deg,#f2f2f0,#dcdcd8 60%,#c9c9c4)'],
+    ['GT01','Прозрачное','linear-gradient(135deg,#f7f8f8,#e7eae9 60%,#dfe3e2)'],
+    ['GT11','Рифлёное','repeating-linear-gradient(90deg,#eef0ee 0 4px,#dadedb 4px 8px)']]},
+  {s:'Стекло', g:'Прозрачное безопасное стекло', tone:'Тёмный', items:[
+    ['GT15','Соле Серое','linear-gradient(135deg,#8c9aa6,#5d6b78 70%,#46525d)'],
+    ['GT14','Сетка Чёрная','repeating-linear-gradient(45deg,#4a4a4a 0 3px,#2e2e2e 3px 6px),#3a3a3a']]},
+  {s:'Стекло', g:'Прозрачное безопасное стекло', tone:'Бронза', items:[
+    ['GT16','Соле Коричневое','linear-gradient(135deg,#c9a978,#a3814e 70%,#7d6035)'],
+    ['GT13','Сетка Золотая','repeating-linear-gradient(45deg,#cbb489 0 3px,#b39c6f 3px 6px),#c2ab80']]},
+  {s:'Стекло', g:'Матовое безопасное стекло', tone:'Светлый', items:[
+    ['GS14','Сатинато Соле','repeating-linear-gradient(90deg,#eceeec 0 5px,#dfe2df 5px 10px)'],
+    ['GS04','Сатинато Белое','linear-gradient(160deg,#f6f6f4,#e6e6e2)']]},
+  {s:'Стекло', g:'Матовое безопасное стекло', tone:'Тёмный', items:[
+    ['GS08','Сатинато Серое','linear-gradient(160deg,#c6c8c8,#9ea1a1)']]},
+  {s:'Стекло', g:'Матовое безопасное стекло', tone:'Бронза', items:[
+    ['GS09','Сатинато Бронзовое','linear-gradient(160deg,#cbbda6,#a6957c)']]},
+  {s:'Стекло', g:'Зеркало', tone:'Светлый', items:[
+    ['M01','Зеркало','linear-gradient(120deg,#f0f2f3,#cfd6d9 45%,#eef1f2 60%,#c6ced2)']]},
+  {s:'Отделки профилей', g:'Алюминиевые поверхности', tone:'Светлый', items:[
+    ['AL09','Хром Матовый','linear-gradient(130deg,#e8e8e6,#bdbdb8 55%,#d8d8d4)']]},
+  {s:'Отделки профилей', g:'Алюминиевые поверхности', tone:'Тёмный', items:[
+    ['AL06','Свинцовый','linear-gradient(130deg,#585a58,#3e403e)'],
+    ['AL08','Чёрный','linear-gradient(130deg,#242424,#131313)'],
+    ['AL07','Тёмно-коричневый','linear-gradient(130deg,#2a2018,#170f09)']]},
+  {s:'Отделки профилей', g:'Алюминиевые поверхности', tone:'Бронза', items:[
+    ['AL05','Бронза','linear-gradient(130deg,#4a4327,#332e18)'],
+    ['AL02','Шампань','linear-gradient(130deg,#6b6440,#514c2c)'],
+    ['AL04','Нежная Бронза','linear-gradient(130deg,#6f6a3d,#565229)']]},
+  {s:'Отделки профилей', g:'Отделки МДФ', tone:'Светлый', items:[
+    ['MD01','Белый матовый','linear-gradient(130deg,#f4f4f2,#e2e2de)'],
+    ['MD03','Дуб натуральный','repeating-linear-gradient(100deg,#c7a473 0 6px,#bb9765 6px 12px)']]},
+  {s:'Отделки профилей', g:'Отделки МДФ', tone:'Тёмный', items:[
+    ['MD02','Графит','linear-gradient(130deg,#4b4d4f,#333537)'],
+    ['MD05','Венге','repeating-linear-gradient(100deg,#3a2b22 0 6px,#2d211a 6px 12px)']]},
+  {s:'Отделки профилей', g:'Отделки МДФ', tone:'Бронза', items:[
+    ['MD04','Орех','repeating-linear-gradient(100deg,#7c5636 0 6px,#6c4a2e 6px 12px)']]}
+];
+
+const FLAT = [];
+RAW.forEach(g => g.items.forEach(it => FLAT.push({
+  code:it[0], name:it[1], css:it[2], group:g.g, section:g.s, tone:g.tone
+})));
+
+const FILTERS = [
+  {key:'section', label:'Категория', options:['Все категории','Стекло','Отделки профилей']},
+  {key:'group',   label:'Тип',       options:['Любой тип','Прозрачное безопасное стекло','Матовое безопасное стекло','Зеркало','Алюминиевые поверхности','Отделки МДФ']},
+  {key:'tone',    label:'Тон',       options:['Любой тон','Светлый','Тёмный','Бронза']}
+];
+
+const PER_PAGE = 10;
+
+class Component extends DCLogic {
+  state = {section:0, group:0, tone:0, openMenu:null, limit:10, selected:0};
+
+  matches(){
+    const s = this.state;
+    return FLAT.filter(f =>
+      (s.section === 0 || f.section === FILTERS[0].options[s.section]) &&
+      (s.group === 0 || f.group === FILTERS[1].options[s.group]) &&
+      (s.tone === 0 || f.tone === FILTERS[2].options[s.tone]));
+  }
+  step(d){
+    const list = this.matches();
+    if(!list.length) return;
+    const cur = list.findIndex(f => f.code === (this.current() || {}).code);
+    const i = ((cur < 0 ? 0 : cur) + d + list.length) % list.length;
+    this.setState(s => ({selected:FLAT.indexOf(list[i]), limit:Math.max(s.limit, Math.ceil((i + 1) / PER_PAGE) * PER_PAGE)}));
+  }
+  current(){ return FLAT[this.state.selected]; }
+
+  renderVals(){
+    const st = this.state;
+    const list = this.matches();
+    const cur = this.current() || FLAT[0];
+    const limit = Math.max(PER_PAGE, st.limit || PER_PAGE);
+    const pageItems = list.slice(0, limit);
+    const curPos = list.findIndex(f => f.code === cur.code);
+    const pad = n => String(n).padStart(2, '0');
+
+    const card = sel => `position:relative;background:#fff;border-radius:26px;overflow:hidden;box-shadow:${sel ? 'inset 0 0 0 1.5px #241f1c, 0 12px 26px rgba(30,25,20,0.12)' : 'inset 0 0 0 1px rgba(0,0,0,0.08)'};transition:box-shadow .18s,transform .18s`;
+
+    return {
+      totalCount: FLAT.length,
+      resultCount: list.length,
+      isEmpty: list.length === 0,
+      counter: `${pad(curPos < 0 ? 1 : curPos + 1)} / ${pad(list.length)}`,
+      previewStyle: `flex:0 1 30%;min-width:240px;align-self:stretch;min-height:min(78vh,700px);position:relative;display:flex;flex-direction:column;overflow:hidden;background:${cur.css};background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06);transition:background .25s`,
+      previewName: cur.name,
+      previewCode: `${cur.code} · ${cur.group}`,
+      previewGroup: cur.section,
+
+      filters: FILTERS.map(f => {
+        const idx = st[f.key];
+        const active = idx !== 0;
+        return {
+          value: f.options[idx],
+          isOpen: st.openMenu === f.key,
+          buttonStyle: `height:38px;padding:0 16px;border-radius:19px;background:#fff;display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;box-shadow:inset 0 0 0 1px ${active ? '#241f1c' : 'rgba(0,0,0,0.10)'};color:#211d19;white-space:nowrap`,
+          toggle: () => this.setState(s => ({openMenu:s.openMenu === f.key ? null : f.key})),
+          options: f.options.map((o, i) => ({
+            label: o,
+            style: `padding:9px 12px;border-radius:6px;font-size:13px;cursor:pointer;color:${i === idx ? '#211d19' : '#5d574f'};background:${i === idx ? '#f1efec' : 'transparent'}`,
+            pick: () => this.setState({[f.key]:i, openMenu:null, limit:PER_PAGE})
+          }))
+        };
+      }),
+      resetFilters: () => this.setState({section:0, group:0, tone:0, page:0, openMenu:null}),
+
+      pageItems: pageItems.map(f => {
+        const sel = f.code === cur.code;
+        return {
+          code: f.code, name: f.name, group: f.group,
+          kind: f.section,
+          cardStyle: card(sel),
+          circleStyle: `width:100%;aspect-ratio:1;border-radius:50%;background:${f.css};background-size:cover;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06)`,
+          buttonStyle: `margin-top:auto;width:100%;height:30px;border-radius:15px;background:${sel ? '#8a6b3d' : '#241f1c'};color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s`,
+          open: () => this.setState({selected:FLAT.indexOf(f)})
+        };
+      }),
+
+      hasMore: list.length > limit,
+      showMore: () => this.setState({limit:limit + PER_PAGE}),
+
+      prev: () => this.step(-1),
+      next: () => this.step(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

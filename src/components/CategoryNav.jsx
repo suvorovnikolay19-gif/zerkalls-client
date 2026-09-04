@@ -1,3 +1,5 @@
+import catNobg1 from '../../assets/categories-nobg/1.png';
+
 const SECTIONS = [
   { name: 'Зеркала' },
   { name: 'Перегородки' },
@@ -30,13 +32,10 @@ export default function CategoryNav({ section, subsection, onPickSection, onPick
               background: '#fff', border: '1px solid #ece9e4',
               boxShadow: '0 1px 2px rgba(26,26,24,.04)',
               cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
-              fontSize: 14, color: '#33322e', fontFamily: 'inherit',
+              fontSize: 16, color: '#33322e', fontFamily: 'inherit',
             }}
           >
-            <span style={{
-              width: 34, height: 44, flexShrink: 0, borderRadius: 6, display: 'inline-block',
-              backgroundImage: 'repeating-linear-gradient(135deg, #f2efea 0, #f2efea 6px, #e9e5de 6px, #e9e5de 12px)',
-            }} />
+            <img src={catNobg1} alt="" style={{ width: 48, height: 56, flexShrink: 0, objectFit: 'contain' }} />
             {s.name}
           </button>
         ))}
@@ -64,10 +63,7 @@ export default function CategoryNav({ section, subsection, onPickSection, onPick
               transition: 'border-color .15s, background .15s, color .15s',
             }}
           >
-            <span style={{
-              width: 34, height: 44, flexShrink: 0, borderRadius: 6, display: 'inline-block',
-              backgroundImage: 'repeating-linear-gradient(135deg, #f2efea 0, #f2efea 6px, #e9e5de 6px, #e9e5de 12px)',
-            }} />
+            <img src={catNobg1} alt="" style={{ width: 48, height: 56, flexShrink: 0, objectFit: 'contain' }} />
             {name}
           </button>
         );

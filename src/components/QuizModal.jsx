@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import catNobg1 from '../../assets/categories-nobg/1.png';
 
 const QUIZ = [
   {
@@ -74,8 +75,8 @@ export default function QuizModal({ products, onClose }) {
                   onClick={() => setAnswers(a => ({ ...a, [step]: opt }))}
                   style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 10, borderRadius: 14, background: '#faf9f7', border: `1.5px solid ${picked === opt ? '#1a1a18' : 'transparent'}`, cursor: 'pointer', transition: 'border-color .15s', textAlign: 'left' }}
                 >
-                  <div style={{ height: 116, borderRadius: 10, backgroundImage: 'repeating-linear-gradient(135deg, #f0ede8 0, #f0ede8 8px, #e8e4dd 8px, #e8e4dd 16px)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'JetBrains Mono', monospace", fontSize: 9.5, color: '#a8a39a', textAlign: 'center', padding: 6 }}>
-                    {opt.toLowerCase()}
+                  <div style={{ height: 116, borderRadius: 10, background: '#f5f3f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={catNobg1} alt="" style={{ width: 80, height: 80, objectFit: 'contain' }} />
                   </div>
                   <div style={{ fontSize: 14, textAlign: 'center', color: '#33322e' }}>{opt}</div>
                 </button>

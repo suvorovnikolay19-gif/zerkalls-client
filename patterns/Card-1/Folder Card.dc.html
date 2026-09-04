@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: #f4f4f6; }
+  a { color: #4a4459; }
+  a:hover { color: #1c1a22; }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 24px;background:#f4f4f6;font-family:Manrope,Helvetica,sans-serif">
+  <div onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" style="width:660px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .55s cubic-bezier(.2,.8,.25,1);transform:{{ blockT }}">
+    <div style="position:relative;width:660px;height:400px;display:flex;align-items:flex-end;justify-content:center">
+
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="5">
+        <div style="position:absolute;left:50%;bottom:104px;width:148px;height:198px;margin-left:-74px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 20px 44px rgba(30,26,45,.2);transform-origin:50% 340px;transition:transform .7s cubic-bezier(.2,.85,.24,1);z-index:{{ c.z }};transform:{{ c.t }}">
+          <image-slot id="{{ c.id }}" shape="rect" placeholder="{{ c.ph }}"></image-slot>
+        </div>
+      </sc-for>
+
+      <div style="position:relative;z-index:10;width:330px;height:220px;filter:drop-shadow(0 26px 40px rgba(40,34,60,.18))">
+        <div style="position:absolute;inset:0;pointer-events:none;clip-path:path('M18,0 H186 A18,18 0 0 1 204,18 V26 A18,18 0 0 0 222,44 H312 A18,18 0 0 1 330,62 V202 A18,18 0 0 1 312,220 H18 A18,18 0 0 1 0,202 V18 A18,18 0 0 1 18,0 Z');backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);background:linear-gradient(163deg,rgba(125,106,156,.58) 0%,rgba(111,106,134,.5) 20%,rgba(150,148,166,.44) 42%,rgba(255,255,255,.42) 70%,rgba(255,255,255,.5) 100%)"></div>
+        <div style="position:absolute;inset:0;pointer-events:none;clip-path:path('M18,0 H186 A18,18 0 0 1 204,18 V26 A18,18 0 0 0 222,44 H312 A18,18 0 0 1 330,62 V202 A18,18 0 0 1 312,220 H18 A18,18 0 0 1 0,202 V18 A18,18 0 0 1 18,0 Z');background:radial-gradient(120% 80% at 22% 8%,rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(255,255,255,.55) 0 1.5px,rgba(255,255,255,0) 1.5px)"></div>
+        <div style="position:absolute;inset:1.5px;pointer-events:none;clip-path:path('M17,0 H184 A17,17 0 0 1 201,17 V26 A17,17 0 0 0 218,43 H310 A17,17 0 0 1 327,60 V199 A17,17 0 0 1 310,216 H17 A17,17 0 0 1 0,199 V17 A17,17 0 0 1 17,0 Z');box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)"></div>
+        <div style="position:absolute;inset:0;padding:34px 26px 24px;display:flex;flex-direction:column;justify-content:space-between">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;flex-direction:column">
+              <span style="font-size:13px;font-weight:600;color:#2a2533;letter-spacing:.01em">Tulus</span>
+              <span style="font-size:12px;font-weight:500;color:rgba(42,37,51,.45)">Monokrom</span>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <span style="font-size:13px;font-weight:600;color:#2a2533">Gery &amp; Gany</span>
+              <span style="font-size:12px;font-weight:500;color:rgba(42,37,51,.45)">Rusuh</span>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <span style="font-size:13px;font-weight:600;color:#2a2533">Nadhif Basalamah</span>
+              <span style="font-size:12px;font-weight:500;color:rgba(42,37,51,.45)">Penjaga Sampai Selamanya</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <span style="font-size:10px;font-weight:500;color:rgba(42,37,51,.4)">*Creativestyle.</span>
+            <a href="#" style="display:flex;align-items:center;gap:8px;height:44px;padding:0 8px 0 18px;border-radius:999px;background:#1c1a22;color:#f4f4f6;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.02em;transition:transform .3s ease,background .3s ease" style-hover="background:#332e40;transform:translateY(-2px)">
+              Перейти
+              <span style="display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:#f4f4f6;color:#1c1a22;font-size:14px;font-weight:800;line-height:1">&#8594;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 style="margin:0;font-size:60px;line-height:1;font-weight:800;letter-spacing:-.03em;color:#1c1a22">STORY MUSIC</h1>
+    <span style="margin-top:10px;padding:7px 22px;border-radius:999px;background:#e6e6ea;font-size:14px;font-weight:600;color:rgba(28,26,34,.55)">2026</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:620}}">
+class Component extends DCLogic {
+  state = { hover: false };
+  renderVals() {
+    const h = this.state.hover;
+    return {
+      enter: () => this.setState({ hover: true }),
+      leave: () => this.setState({ hover: false }),
+      blockT: h ? 'scale(1.05)' : 'scale(1)',
+      cards: [-1.5, -0.5, 0.5, 1.5].map((i, n) => {
+        const idx = n + 1;
+        const rest = i * 4.5;
+        const open = i * 25;
+        const scale = h ? 1.06 : 0.97;
+        return {
+          id: 'fc-' + idx,
+          ph: 'обложка ' + idx,
+          z: 4 - Math.abs(i),
+          t: 'rotate(' + (h ? open : rest) + 'deg) translateY(' + (h ? -34 : 0) + 'px) scale(' + scale + ')'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

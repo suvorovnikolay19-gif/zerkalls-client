@@ -16,7 +16,7 @@ export default function Breadcrumbs({ entry, section, subsection, onGoHome, onGo
   if (subsection) crumbs.push({ name: subsection });
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, padding: '18px 40px 0', fontSize: 13, color: '#8b877f' }}>
+    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '22px 40px 0', fontSize: 16, color: '#8b877f' }}>
       <span onClick={onGoHome} style={{ cursor: 'pointer', color: '#8b877f' }}>Главная</span>
       {crumbs.map((c, i) => {
         const isLast = i === crumbs.length - 1;

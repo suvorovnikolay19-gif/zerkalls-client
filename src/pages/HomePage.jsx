@@ -14,6 +14,7 @@ import test4Img from '../../assets/test-4.jpg';
 import bgCategoryImg from '../../assets/background-category-v2.png';
 import catTestImg from '../../assets/categories/test.png';
 import animMp4 from '../../assets/categories/anim.mp4';
+import catNobg1 from '../../assets/categories-nobg/1.png';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
@@ -335,7 +336,7 @@ const ROOM_ITEM_POS = [
   { right: '18%', bottom: '4%' },
 ];
 
-export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout }) {
+export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout, fromCatalog }) {
   const [slide, setSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
@@ -423,6 +424,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const cardVideoRefs = useRef([]);
 
   const [fitIdx, setFitIdx] = useState(0);
+  const [prevFitIdx, setPrevFitIdx] = useState(null);
+  const [fitDir, setFitDir] = useState(1);
   const [fitOpen, setFitOpen] = useState(null);
   const [addFilterOpen, setAddFilterOpen] = useState(false);
   const [fitValues, setFitValues] = useState({ 'Тип': 'Раздвижная', 'Цвет': 'Графит', 'Размер': '900×2100' });
@@ -445,6 +448,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [ptSent, setPtSent] = useState(false);
   const [ptRole, setPtRole] = useState('Дизайнер');
   const [chatOpen, setChatOpen] = useState(false);
+  const [navActiveIdx, setNavActiveIdx] = useState(0);
+  const homeNavItemRefs = useRef([]);
+  const homeNavPillRef = useRef(null);
 
   const rafRef = useRef(null);
   const t0Ref = useRef(Date.now());
@@ -590,6 +596,38 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   }, [colorOpen]);
 
   useEffect(() => {
+    const pill = homeNavPillRef.current;
+    const activeEl = homeNavItemRefs.current[0];
+    if (!pill || !activeEl) return;
+    pill.style.transition = 'none';
+    pill.style.left = activeEl.offsetLeft + 'px';
+    pill.style.width = activeEl.offsetWidth + 'px';
+    requestAnimationFrame(() => {
+      if (pill) pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
+    });
+  }, []);
+
+  useEffect(() => {
+    const pill = homeNavPillRef.current;
+    const activeEl = homeNavItemRefs.current[navActiveIdx];
+    if (!pill || !activeEl) return;
+    pill.style.left = activeEl.offsetLeft + 'px';
+    pill.style.width = activeEl.offsetWidth + 'px';
+  }, [navActiveIdx]);
+
+  const handlePageNavClick = (n, i) => {
+    if (i === navActiveIdx) return;
+    setNavActiveIdx(i);
+    setTimeout(() => {
+      if (n.entry) onNavigateToCatalog(n.entry);
+      else if (n.href && n.href !== '#') {
+        const el = document.querySelector(n.href);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 380);
+  };
+
+  useEffect(() => {
     const tab = levelTabRefs.current[levelTab];
     const pill = pillRef.current;
     if (!tab || !pill) return;
@@ -656,7 +694,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   }
 
   return (
-    <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: '#ffffff', WebkitFontSmoothing: 'antialiased' }}>
+    <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: '#ffffff', WebkitFontSmoothing: 'antialiased', animation: fromCatalog ? 'homeEnterFromCatalog .52s cubic-bezier(.22,1,.36,1) forwards' : 'none' }}>
 
       {/* ── Hero ── */}
       <section style={{ position: 'relative', height: 760, background: '#23221f', overflow: 'hidden' }}>
@@ -725,8 +763,11 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                             <span
                               key={o}
                               onClick={() => { onNavigateToCatalog(m.entry); setActiveMenu(null); }}
-                              style={{ padding: '8px 14px', borderRadius: 9, background: 'rgba(255,255,255,.08)', fontSize: 14, color: '#fff', whiteSpace: 'nowrap', cursor: 'pointer' }}
-                            >{o}</span>
+                              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 14px', borderRadius: 9, background: 'rgba(255,255,255,.08)', fontSize: 16, color: '#fff', whiteSpace: 'nowrap', cursor: 'pointer' }}
+                            >
+                              <img src={catNobg1} alt="" style={{ width: 40, height: 40, objectFit: 'contain', flexShrink: 0 }} />
+                              {o}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -740,28 +781,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
           <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 26, whiteSpace: 'nowrap' }}>
             <a href="tel:+79854341133" style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-.01em', color: '#fff', textDecoration: 'none', whiteSpace: 'nowrap' }}>+7 985 434-11-33</a>
-            <div style={{ display: 'flex', flex: 'none', alignItems: 'center', gap: 22 }}>
-              <div onClick={onOpenProfile} style={{ cursor: 'pointer' }}>
-                <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-              </div>
-              <div style={{ cursor: 'pointer' }}>
-                <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
-              </div>
-              <div onClick={onOpenCart} style={{ position: 'relative', cursor: 'pointer' }}>
-                <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-                </svg>
-                {cartCount > 0 && (
-                  <div style={{ position: 'absolute', top: -8, right: -8, minWidth: 17, height: 17, borderRadius: '50%', background: '#fff', color: '#1a1a18', fontSize: 10, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {cartCount}
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
         </header>
 
@@ -776,18 +795,30 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
       {/* ── Меню разделов (sticky) ── */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(255,255,255,.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e8' }}>
-        {PAGE_NAV.map((n, i) => (
-          n.href
-            ? <a key={i} href={n.href} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', textDecoration: 'none', background: n.active ? '#1a1a18' : 'transparent', color: n.active ? '#fff' : '#4a4842', transition: 'background .15s' }}>{n.name}</a>
-            : <span key={i} onClick={() => onNavigateToCatalog(n.entry)} style={{ padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', cursor: 'pointer', background: 'transparent', color: '#4a4842', transition: 'background .15s' }}>{n.name}</span>
-        ))}
-      </nav>
+      <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e8' }}>
+        <nav style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px' }}>
+          <div ref={homeNavPillRef} style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', height: 44, background: '#1a1a18', borderRadius: 999, pointerEvents: 'none', zIndex: 0 }} />
+          {PAGE_NAV.map((n, i) => (
+            <span
+              key={i}
+              ref={el => { homeNavItemRefs.current[i] = el; }}
+              onClick={() => handlePageNavClick(n, i)}
+              style={{ position: 'relative', zIndex: 1, padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', cursor: i === 0 ? 'default' : 'pointer', color: navActiveIdx === i ? '#fff' : '#4a4842', transition: 'color .28s', userSelect: 'none' }}
+            >
+              {n.name}
+            </span>
+          ))}
+        </nav>
+      </div>
 
       {/* ── Категории (cards-v2) ── */}
-      <section id="categories" style={{ padding: '96px 48px 80px', background: '#ffffff' }}>
-        <div style={{ maxWidth: 1840, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 64 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24, alignItems: 'start' }}>
+      <section id="categories" style={{ padding: '48px 48px 80px', background: '#ffffff' }}>
+        <div style={{ maxWidth: 1840, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 48 }}>
+          <div style={{ textAlign: 'center' }}>
+            <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Категории</h2>
+            <div style={{ fontSize: 15, color: '#8b877f' }}>Перегородки, лестницы, зеркала и мебель — изготовим по вашим размерам с гарантией 5 лет</div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24, alignItems: 'start', paddingTop: 56 }}>
             {CARDS_V2_DATA.map((card, ci) => {
               const active = cardIdx[ci];
               const dir = cardDir[ci];
@@ -803,12 +834,13 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               return (
                 <article
                   key={ci}
-                  style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci] }}
+                  className={isHovered ? 'cat-card-hovered' : 'cat-card-idle'}
+                  style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci], animationDelay: `${[0, 1.2, 0.6, 1.8][ci]}s` }}
                   onMouseEnter={() => { setCatCardHover(ci); cardVideoRefs.current[ci]?.play(); }}
                   onMouseLeave={() => { setCatCardHover(null); cardVideoRefs.current[ci]?.pause(); }}
                 >
                   <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
-                    <div style={{ position: 'relative', height: 600, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
+                    <div style={{ position: 'relative', height: 460, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
 
                       {/* Видео — снизу, всегда в DOM, проигрывается при hover */}
                       <video
@@ -852,7 +884,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
                       <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 320, zIndex: 10, pointerEvents: 'none', background: 'linear-gradient(to top, rgba(26,26,24,0.5), rgba(26,26,24,0))' }} />
 
-                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 12, backdropFilter: 'blur(18px) saturate(1.15)', WebkitBackdropFilter: 'blur(18px) saturate(1.15)', maskImage: 'linear-gradient(to top, #000 45%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to top, #000 45%, transparent 100%)' }}>
+                      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 12 }}>
                         <div style={{ position: 'relative', height: 320 }}>
                           {card.items.map((item, i) => {
                             const on = i === active;
@@ -886,10 +918,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Услуги ── */}
       <section style={{ padding: '52px 48px 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, marginBottom: 38 }}>
-          <div style={{ fontSize: 20, color: '#8b877f', letterSpacing: '.03em', whiteSpace: 'nowrap' }}>Благодаря собственному производству, наши</div>
-          <h2 style={{ margin: 0, fontSize: 'clamp(56px, 8vw, 96px)', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', lineHeight: 1, flexShrink: 0 }}>Услуги</h2>
-          <div style={{ fontSize: 20, color: '#8b877f', letterSpacing: '.03em', whiteSpace: 'nowrap' }}>Собственный цех в Домодедово — без посредников</div>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Не ищем подходящее — производим нужное</h2>
+          <div style={{ fontSize: 15, color: '#8b877f' }}>Собственный цех в Домодедово — лазерная резка, сварка и монтаж без посредников</div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
           {SERVICES.map((c, i) => (
@@ -966,39 +997,30 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                     onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog('catalog')}
                     style={{
                       position: 'absolute', top: '50%', left: '50%',
-                      width: 'min(560px, 92%)', height: hot ? 390 : 340,
+                      width: 'min(560px, 92%)', height: 390,
                       display: 'flex', flexDirection: 'column',
                       borderRadius: 22, overflow: 'hidden', cursor: 'pointer',
-                      willChange: 'transform',
-                      transform: `translate(calc(-50% + ${d * 340}px), -50%) scale(${hot ? 1 : 0.92})`,
-                      opacity: near ? (hot ? 1 : 0.5) : 0,
+                      willChange: 'transform, opacity',
+                      transform: `translate(calc(-50% + ${d * 340}px), -50%) scale(${hot ? 1 : 0.88})`,
+                      opacity: near ? (hot ? 1 : 0.45) : 0,
                       pointerEvents: near ? 'auto' : 'none',
                       zIndex: 10 - ad,
-                      background: hot ? 'linear-gradient(135deg, #2b2a26 0%, #191815 100%)' : '#1c1b18',
+                      background: 'linear-gradient(135deg, #2b2a26 0%, #191815 100%)',
                       color: '#fff',
-                      border: `1px solid ${hot ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.07)'}`,
+                      border: '1px solid rgba(255,255,255,.1)',
                       boxShadow: hot ? '0 34px 70px rgba(0,0,0,.55)' : '0 16px 34px rgba(0,0,0,.3)',
-                      transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, height .5s cubic-bezier(.2,.8,.2,1), background .4s ease, box-shadow .4s ease',
+                      transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, box-shadow .5s ease',
                     }}
                   >
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '30px 30px 0' }}>
-                      <div style={{ width: 48, height: 48, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, background: hot ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.09)' }}>◈</div>
+                    <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10, padding: '0 30px 20px' }}>
                       <h3 style={{ margin: 0, fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
-                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: hot ? 'rgba(255,255,255,.78)' : 'rgba(255,255,255,.5)' }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.02em', color: 'rgba(255,255,255,.5)' }}>{c.count}</div>
+                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: 'rgba(255,255,255,.65)' }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
                     </div>
-                    <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12, padding: '18px 20px', background: hot ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderRadius: 999, background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff' }}>
-                        <span style={{ width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>▤</span>
-                        <span style={{ fontSize: 14, fontWeight: 600 }}>{c.count}</span>
-                        <span style={{ fontSize: 12, opacity: .6, whiteSpace: 'nowrap' }}>{c.price}</span>
-                      </div>
-                      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ width: 54, height: 44, flexShrink: 0, borderRadius: 10, overflow: 'hidden', background: 'rgba(255,255,255,.1)' }} />
-                        <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 20px 11px 12px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: hot ? '#fff' : 'rgba(255,255,255,.12)', color: hot ? '#1a1a18' : '#fff', border: 'none', cursor: 'pointer' }}>
-                          <span style={{ width: 26, height: 26, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, background: hot ? '#1a1a18' : 'rgba(255,255,255,.2)', color: '#fff' }}>→</span>
-                          Перейти
-                        </button>
-                      </div>
+                    <div style={{ padding: '18px 20px', background: 'rgba(255,255,255,.06)' }}>
+                      <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', padding: '11px 20px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: '#fff', color: '#1a1a18', border: 'none', cursor: 'pointer' }}>
+                        Перейти
+                      </button>
                     </div>
                   </div>
                 );
@@ -1016,11 +1038,34 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
         <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: 'linear-gradient(180deg, #f4f2ee 0%, #e9e6e0 100%)' }}>
           <div style={{ position: 'relative', height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, padding: '0 80px' }}>
-            <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
-            <div style={{ flex: '0 1 440px', minWidth: 0, height: 420, borderRadius: 16, background: 'linear-gradient(135deg, #e0ddd8 0%, #ccc8c2 100%)' }} />
-            <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 180, height: 300, opacity: .22, borderRadius: 14, backgroundImage: 'repeating-linear-gradient(135deg, #ded9d2 0, #ded9d2 8px, #d3cec7 8px, #d3cec7 16px)' }} />
-            <div onClick={() => { setFitIdx(i => (i + FIT_ITEMS.length - 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>‹</div>
-            <div onClick={() => { setFitIdx(i => (i + 1) % FIT_ITEMS.length); setFitOpen(null); setAddFilterOpen(false); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
+            <div style={{ flex: 1, position: 'relative', height: 460 }}>
+              {[-2, -1, 0, 1, 2].map(d => {
+                const n = FIT_ITEMS.length;
+                const idx = ((fitIdx + d) % n + n) % n;
+                const hot = d === 0;
+                const side = Math.abs(d) === 1;
+                const hidden = Math.abs(d) === 2;
+                return (
+                  <img
+                    key={idx}
+                    src={catNobg1}
+                    alt=""
+                    style={{
+                      position: 'absolute', top: '50%', left: '50%',
+                      width: 620, height: 620,
+                      objectFit: 'contain',
+                      transform: `translate(calc(-50% + ${d * 540}px), -50%) scale(${hot ? 1 : side ? 0.6 : 0.45})`,
+                      opacity: hot ? 1 : side ? 0.35 : 0,
+                      transition: 'transform .45s cubic-bezier(.2,.8,.2,1), opacity .45s ease',
+                      pointerEvents: 'none',
+                      zIndex: hot ? 2 : side ? 1 : 0,
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <div onClick={() => { const cur = fitIdx; const next = (cur + FIT_ITEMS.length - 1) % FIT_ITEMS.length; setFitDir(-1); setPrevFitIdx(cur); setFitIdx(next); setFitOpen(null); setAddFilterOpen(false); setTimeout(() => setPrevFitIdx(null), 420); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>‹</div>
+            <div onClick={() => { const cur = fitIdx; const next = (cur + 1) % FIT_ITEMS.length; setFitDir(1); setPrevFitIdx(cur); setFitIdx(next); setFitOpen(null); setAddFilterOpen(false); setTimeout(() => setPrevFitIdx(null), 420); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
             <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
           </div>
           <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
@@ -1111,27 +1156,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               </div>
             </div>
 
-            {/* Колонка 2: Привилегии + статистика */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
-              <div style={{ fontSize: 17, fontWeight: 600, letterSpacing: '-.015em' }}>Особые привилегии</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-                {PT_PRIVILEGES.map(p => (
-                  <div key={p} style={{ display: 'flex', alignItems: 'flex-start', gap: 11 }}>
-                    <span style={{ width: 18, height: 18, flexShrink: 0, marginTop: 1, borderRadius: '50%', background: 'rgba(255,255,255,.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>✓</span>
-                    <span style={{ minWidth: 0, fontSize: 13.5, lineHeight: 1.45, color: 'rgba(255,255,255,.84)' }}>{p}</span>
-                  </div>
-                ))}
-              </div>
-              <div style={{ height: 1, background: 'rgba(255,255,255,.12)', margin: '6px 0' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12 }}>
-                {PT_STATS.map(s => (
-                  <div key={s.label} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <div style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-.03em', lineHeight: 1 }}>{s.value}</div>
-                    <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,.56)' }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Колонка 2: пусто */}
+            <div style={{ minWidth: 0 }} />
 
             {/* Колонка 3: Форма заявки */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>

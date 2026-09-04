@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { fetchProducts } from './api.js';
 import { useCart } from './CartContext.jsx';
 import CartDrawer from './components/CartDrawer.jsx';
@@ -60,6 +60,10 @@ export default function App() {
   const [compareItems, setCompareItems] = useState([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const { totalCount, setIsOpen: setCartOpen, addItem } = useCart();
+  const [fromHome, setFromHome] = useState(false);
+  const [fromCatalog, setFromCatalog] = useState(false);
+  const catalogNavPillRef = useRef(null);
+  const catalogNavItemRefs = useRef([]);
   const [chips, setChips] = useState({ stock: false, premium: false, sale: false, fast: false });
   const [selectedCats, setSelectedCats] = useState({});
   const [selectedMats, setSelectedMats] = useState({});
@@ -121,11 +125,63 @@ export default function App() {
   };
 
   const navigateToCatalog = (e = 'catalog') => {
+    if (page === 'home') setFromHome(true);
     setEntry(e);
     setPage('catalog');
     setSection(ENTRY_TO_SECTION[e] ?? null);
     setSubsection(null);
   };
+
+  useEffect(() => {
+    if (!fromHome) return;
+    const t = setTimeout(() => setFromHome(false), 700);
+    return () => clearTimeout(t);
+  }, [fromHome]);
+
+  useEffect(() => {
+    if (!fromCatalog) return;
+    const t = setTimeout(() => setFromCatalog(false), 700);
+    return () => clearTimeout(t);
+  }, [fromCatalog]);
+
+  const goToHome = () => {
+    const pill = catalogNavPillRef.current;
+    const glavnayaEl = catalogNavItemRefs.current[0];
+    if (pill && glavnayaEl) {
+      pill.style.left = glavnayaEl.offsetLeft + 'px';
+      pill.style.width = glavnayaEl.offsetWidth + 'px';
+    }
+    setTimeout(() => {
+      setFromCatalog(true);
+      setPage('home');
+    }, 380);
+  };
+
+  useEffect(() => {
+    if (page !== 'catalog') return;
+    const pill = catalogNavPillRef.current;
+    const glavnayaEl = catalogNavItemRefs.current[0];
+    const catalogEl = catalogNavItemRefs.current[1];
+    if (!pill || !glavnayaEl || !catalogEl) return;
+    if (fromHome) {
+      pill.style.transition = 'none';
+      pill.style.left = glavnayaEl.offsetLeft + 'px';
+      pill.style.width = glavnayaEl.offsetWidth + 'px';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (!pill) return;
+        pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
+        pill.style.left = catalogEl.offsetLeft + 'px';
+        pill.style.width = catalogEl.offsetWidth + 'px';
+      }));
+    } else {
+      pill.style.transition = 'none';
+      pill.style.left = catalogEl.offsetLeft + 'px';
+      pill.style.width = catalogEl.offsetWidth + 'px';
+      requestAnimationFrame(() => {
+        if (pill) pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
+      });
+    }
+  }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const applied = [
     ...CHIPS.filter(c => chips[c.key]).map(c => ({ label: c.label, remove: () => toggleChip(c.key) })),
@@ -161,6 +217,7 @@ export default function App() {
           onOpenCart={() => setCartOpen(true)}
           onOpenProfile={() => setPage('profile')}
           onOpenCheckout={() => setPage('checkout')}
+          fromCatalog={fromCatalog}
         />
         <CartDrawer onCheckout={() => setPage('checkout')} />
       </>
@@ -169,13 +226,33 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#fbfaf8', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
-      <HeroSection
-        cartCount={totalCount}
-        onOpenPanel={() => setPanelOpen(true)}
-        onOpenCart={() => setCartOpen(true)}
-        onGoHome={() => setPage('home')}
-        onOpenProfile={() => setPage('profile')}
-      />
+      <div style={{ position: 'sticky', top: 0, zIndex: 40 }}>
+        <div style={{ animation: fromHome ? 'catalogNavIn .48s cubic-bezier(.22,1,.36,1) forwards' : 'none' }}>
+          <nav style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(255,255,255,.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e8' }}>
+            <div ref={catalogNavPillRef} style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', height: 44, background: '#1a1a18', borderRadius: 999, pointerEvents: 'none', zIndex: 0 }} />
+            {[
+              { name: 'Главная', action: goToHome },
+              { name: 'Каталог', action: () => navigateToCatalog('catalog') },
+              { name: 'О компании' },
+              { name: 'Дилерам' },
+              { name: 'Портфолио' },
+              { name: 'Материалы' },
+              { name: 'Дизайнерам' },
+              { name: 'Контакты' },
+            ].map((n, i) => (
+              <span
+                key={n.name}
+                ref={el => { catalogNavItemRefs.current[i] = el; }}
+                onClick={n.action}
+                style={{ position: 'relative', zIndex: 1, padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', cursor: n.action ? 'pointer' : 'default', color: i === 1 ? '#fff' : '#4a4842', transition: 'color .28s' }}
+              >
+                {n.name}
+              </span>
+            ))}
+          </nav>
+        </div>
+      </div>
+      <div style={{ animation: fromHome ? 'catalogContentIn .55s .12s cubic-bezier(.22,1,.36,1) both' : 'none' }}>
       <Breadcrumbs
         entry={entry}
         section={section}
@@ -220,6 +297,7 @@ export default function App() {
         />
       </main>
       <Footer />
+      </div>
       {panelOpen && (
         <FilterPanel
           selectedCats={selectedCats}

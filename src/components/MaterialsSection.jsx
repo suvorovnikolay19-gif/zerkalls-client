@@ -217,17 +217,15 @@ export default function MaterialsSection() {
                 >
                   <div style={{ boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 10px 12px' }}>
                     <div style={{
-                      width: '100%', aspectRatio: '1', borderRadius: '50%',
+                      width: '80%', aspectRatio: '1', borderRadius: '50%',
                       background: f.css, backgroundSize: 'cover',
                       boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.06)',
                     }} />
-                    <div style={{ fontSize: 9, letterSpacing: .8, textTransform: 'uppercase', color: '#a09689', marginTop: 14 }}>{f.section}</div>
                     <div style={{ fontSize: 13, fontWeight: 500, letterSpacing: '-.2px', marginTop: 4, textAlign: 'center', lineHeight: 1.15, color: '#211d19', minHeight: 32, display: 'flex', alignItems: 'center' }}>{f.name}</div>
-                    <div style={{ fontSize: 9, color: '#8a8073', marginTop: 1, textAlign: 'center', lineHeight: 1.35, marginBottom: 10 }}>{f.group}</div>
                     <div
                       onClick={() => setSelectedCode(f.code)}
                       style={{
-                        marginTop: 'auto', width: '100%', height: 30, borderRadius: 15,
+                        marginTop: 'auto', width: '100%', height: 40, borderRadius: 15,
                         background: sel ? '#8a6b3d' : '#241f1c', color: '#fff',
                         fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         cursor: 'pointer', transition: 'background .18s',

@@ -79,8 +79,6 @@ export default function ProductCard({ product, onAddToCart, isInCompare, onToggl
         )}
       </div>
 
-      <PriceDisplay price={product.price} priceType={product.priceType} oldPrice={oldPrice} />
-
       <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-.01em' }}>{product.name}</div>
 
       {tags.length > 0 && (
@@ -91,25 +89,14 @@ export default function ProductCard({ product, onAddToCart, isInCompare, onToggl
         </div>
       )}
 
-      {product.priceType === 'request' ? (
-        <button
-          onClick={e => e.stopPropagation()}
-          style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .15s' }}
-          onMouseEnter={e => e.currentTarget.style.background = '#f5f3f0'}
-          onMouseLeave={e => e.currentTarget.style.background = '#fff'}
-        >
-          Узнать цену
-        </button>
-      ) : (
-        <button
-          onClick={e => { e.stopPropagation(); onAddToCart(product); }}
-          style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .15s' }}
-          onMouseEnter={e => e.currentTarget.style.background = '#f5f3f0'}
-          onMouseLeave={e => e.currentTarget.style.background = '#fff'}
-        >
-          В корзину
-        </button>
-      )}
+      <button
+        onClick={e => e.stopPropagation()}
+        style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .18s, color .18s, border-color .18s' }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#1a1a18'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#1a1a18'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#33322e'; e.currentTarget.style.borderColor = '#e0dcd5'; }}
+      >
+        Заказать
+      </button>
     </div>
   );
 }

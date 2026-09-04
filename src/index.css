@@ -39,6 +39,40 @@ button { font-family: inherit; }
 }
 .chat-pulse { animation: pulse-chat 2s ease-out infinite; }
 
+@keyframes catCardWobble {
+  0%   { transform: scale(1.025) rotate(0deg); }
+  25%  { transform: scale(1.028) rotate(-0.35deg); }
+  50%  { transform: scale(1.025) rotate(0deg); }
+  75%  { transform: scale(1.028) rotate(0.35deg); }
+  100% { transform: scale(1.025) rotate(0deg); }
+}
+@keyframes fitInRight  { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fitOutLeft  { from { transform: translateX(0);    opacity: 1; } to { transform: translateX(-100%); opacity: 0; } }
+@keyframes fitInLeft   { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fitOutRight { from { transform: translateX(0);    opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+
+@keyframes catalogNavIn {
+  from { transform: translateY(56px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes catalogContentIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes homeEnterFromCatalog {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes catFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.cat-card-idle    { animation: catFloat 4s ease-in-out infinite; }
+.cat-card-hovered { animation: catFloat 4s ease-in-out infinite; }
+.cat-card-idle    > div:first-child { transition: transform 360ms cubic-bezier(.2,.8,.2,1); transform: scale(1); }
+.cat-card-hovered > div:first-child { transition: transform 360ms cubic-bezier(.2,.8,.2,1); transform: scale(1.03); }
+
 /* ── Category bar hover ── */
 .cat-bar-overlay {
   transition: background .25s ease;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import catNobg1 from '../../assets/categories-nobg/1.png';
 
 const FILTER_CATS = [
   { name: 'Перегородки', icon: '▥', groups: [
@@ -106,12 +107,7 @@ export default function FilterPanel({
                     marginRight: -1,
                   }}
                 >
-                  <span style={{
-                    width: 30, height: 30, flexShrink: 0, borderRadius: 8,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14,
-                    background: on ? '#1a1a18' : '#efece7',
-                    color: on ? '#fff' : '#6b6862',
-                  }}>{c.icon}</span>
+                  <img src={catNobg1} alt="" style={{ width: 36, height: 36, flexShrink: 0, objectFit: 'contain' }} />
                   <span style={{ flex: 1 }}>{c.name}</span>
                   {n > 0 && (
                     <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 999, background: '#1a1a18', color: '#fff', fontSize: 11, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
