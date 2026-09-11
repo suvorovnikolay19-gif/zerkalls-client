@@ -12,9 +12,68 @@ import test2Img from '../../assets/test-2.jpg';
 import test3Img from '../../assets/test-3.jpg';
 import test4Img from '../../assets/test-4.jpg';
 import bgCategoryImg from '../../assets/background-category-v2.png';
-import catTestImg from '../../assets/categories/test.png';
-import animMp4 from '../../assets/categories/anim.mp4';
+import catImg_1 from '../../assets/categories/1.png';
+import catAnim1 from '../../assets/categories/1.mp4';
+import catImg_2 from '../../assets/categories/2.jpg';
+import catImg_3 from '../../assets/categories/3.jpg';
+import catImg_4 from '../../assets/categories/4.jpg';
 import catNobg1 from '../../assets/categories-nobg/1.png';
+import catImg0 from '../../assets/test.jpg';
+import catImg1 from '../../assets/test-2.jpg';
+import catImg2 from '../../assets/test-3.jpg';
+import catImg4 from '../../assets/test-4.jpg';
+import catImg6 from '../../assets/mirrors.jpg';
+import catImg7 from '../../assets/stairs.jpg';
+import catImg8 from '../../assets/furniture.jpg';
+import catImg9 from '../../assets/partitions.jpg';
+import catImg10 from '../../assets/test.jpg';
+import catImg11 from '../../assets/test-2.jpg';
+import catImg14 from '../../assets/test-3.jpg';
+import catImg15 from '../../assets/test-4.jpg';
+
+import part01 from '../../assets/categories-1/partitions/01_Fixed_LOFT_Partitions.jpg';
+import part02 from '../../assets/categories-1/partitions/02_LOFT_Partitions_with_Hinged_Doors.jpg';
+import part03 from '../../assets/categories-1/partitions/03_Sliding_LOFT_Partitions.jpg';
+import part04 from '../../assets/categories-1/partitions/04_Folding_LOFT_Partitions.jpg';
+import part05 from '../../assets/categories-1/partitions/05_Pivot_Partitions.jpg';
+import part06 from '../../assets/categories-1/partitions/06_Rotating_Louver_Partitions.jpg';
+import part07 from '../../assets/categories-1/partitions/07_Swinging_LOFT_Partitions.jpg';
+import part08 from '../../assets/categories-1/partitions/08_Movable_Transformable_Walls.jpg';
+import part09 from '../../assets/categories-1/partitions/09_Vertical_Retractable_Partitions.jpg';
+import part10 from '../../assets/categories-1/partitions/10_Standalone_LOFT_Doors.jpg';
+import part11 from '../../assets/categories-1/partitions/11_LOFT_Screens.jpg';
+import part12 from '../../assets/categories-1/partitions/12_Metal_Slat_Partitions.jpg';
+import part13 from '../../assets/categories-1/partitions/13_Metal_Rod_Partitions.jpg';
+import part14 from '../../assets/categories-1/partitions/14_Metal_Mesh_Partitions.jpg';
+import part15 from '../../assets/categories-1/partitions/15_Expanded_Metal_Partitions.jpg';
+import part16 from '../../assets/categories-1/partitions/16_Perforated_Metal_Partitions.jpg';
+import part17 from '../../assets/categories-1/partitions/17_Laser_Cut_Decorative_Metal_Partitions.jpg';
+import part18 from '../../assets/categories-1/partitions/18_Cable_String_Partitions.jpg';
+import part19 from '../../assets/categories-1/partitions/19_Chain_Curtains_Metal_Curtains.jpg';
+import part20 from '../../assets/categories-1/partitions/20_Suspended_Decorative_Partitions.jpg';
+import part21 from '../../assets/categories-1/partitions/21_Shelving_Partitions.jpg';
+import part22 from '../../assets/categories-1/partitions/22_Library_Partitions.jpg';
+import part23 from '../../assets/categories-1/partitions/23_TV_Media_Partitions.jpg';
+import part24 from '../../assets/categories-1/partitions/24_Workspace_Partitions.jpg';
+import part25 from '../../assets/categories-1/partitions/25_Plant_Partitions.jpg';
+import part26 from '../../assets/categories-1/partitions/26_Display_Partitions.jpg';
+import part27 from '../../assets/categories-1/partitions/27_Wine_Bar_Partitions.jpg';
+import part28 from '../../assets/categories-1/partitions/28_Partitions_with_Built_In_Furniture.jpg';
+import part29 from '../../assets/categories-1/partitions/29_Mobile_LOFT_Partitions.jpg';
+import part30 from '../../assets/categories-1/partitions/30_Acoustic_Partitions.jpg';
+import part31 from '../../assets/categories-1/partitions/31_Functional_Interactive_Partitions.png';
+import part32 from '../../assets/categories-1/partitions/32_Partitions_with_Integrated_Utilities.png';
+import part33 from '../../assets/categories-1/partitions/33_Illuminated_LOFT_Partitions.png';
+import part34 from '../../assets/categories-1/partitions/34_Modular_Partition_Systems.png';
+import part35 from '../../assets/categories-1/partitions/35_Room_in_Room_Systems.png';
+import part36 from '../../assets/categories-1/partitions/36_LOFT_Walk_In_Wardrobes.png';
+import part37 from '../../assets/categories-1/partitions/37_LOFT_Shower_Partitions.png';
+import part38 from '../../assets/categories-1/partitions/38_Kitchen_Living_Room_Partitions.png';
+import part39 from '../../assets/categories-1/partitions/39_Bedroom_Studio_Partitions.png';
+import part40 from '../../assets/categories-1/partitions/40_Office_LOFT_Partitions.png';
+import part41 from '../../assets/categories-1/partitions/41_Restaurant_HoReCa_Partitions.png';
+import part42 from '../../assets/categories-1/partitions/42_Retail_Showroom_Partitions.png';
+import part43 from '../../assets/categories-1/partitions/43_Special_Technical_LOFT_Systems.png';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
@@ -104,7 +163,7 @@ const CARDS_V2_DATA = [
       { name: 'Маршевые лестницы', desc: 'Прямые и поворотные марши, облицовка дубом или бетоном по вашему проекту.' },
       { name: 'Модульные на металлокаркасе', desc: DESC },
     ],
-    images: [catTestImg, catTestImg, catTestImg],
+    images: [catImg_1, catImg_1, catImg_1],
   },
   { title: 'Перегородки', cta: 'Смотреть все', entry: 'partitions',
     items: [
@@ -112,7 +171,7 @@ const CARDS_V2_DATA = [
       { name: 'Распашные с рифлёным стеклом', desc: DESC },
       { name: 'Стационарные лофт', desc: 'Жёсткая конструкция из стального профиля, идеальна для зонирования открытых пространств.' },
     ],
-    images: [catTestImg, catTestImg, catTestImg],
+    images: [catImg_2, catImg_2, catImg_2],
   },
   { title: 'Зеркала', cta: 'Смотреть все', entry: 'mirrors',
     items: [
@@ -120,7 +179,7 @@ const CARDS_V2_DATA = [
       { name: 'Зеркала с подсветкой', desc: 'Тёплый или холодный LED-контур, сенсор и антизапотевание — под ключ.' },
       { name: 'Овальные в латунной раме', desc: 'Ручная сборка, полированная латунь или матовое золото на выбор.' },
     ],
-    images: [catTestImg, catTestImg, catTestImg],
+    images: [catImg_3, catImg_3, catImg_3],
   },
   { title: 'Мебель', cta: 'Смотреть все', entry: 'catalog',
     items: [
@@ -128,7 +187,7 @@ const CARDS_V2_DATA = [
       { name: 'Консоли и полки', desc: 'Навесные и напольные консоли из стали и дерева, размер под ваш проём.' },
       { name: 'Стеллажи и стеновые системы', desc: DESC },
     ],
-    images: [catTestImg, catTestImg, catTestImg],
+    images: [catImg_4, catImg_4, catImg_4],
   },
 ];
 
@@ -258,46 +317,85 @@ const FOOTER_COLS = [
   { title: 'Помощь', links: ['Гарантия', 'Доставка и монтаж', 'Возврат', 'Карта сайта'] },
 ];
 
+const CAT1_IMGS = [catImg0, catImg1, catImg2, catImg2, catImg4, catImg6, catImg6, catImg7, catImg8, catImg9, catImg10, catImg11, catImg11, catImg14, catImg14, catImg15];
+
+const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
+
 const LEVELS = [
   { name: 'Перегородки', cards: [
-    { name: 'Раздвижные', count: '84 модели', price: 'от 62 000 ₽' },
-    { name: 'Распашные', count: '52 модели', price: 'от 48 000 ₽' },
-    { name: 'Стационарные', count: '61 модель', price: 'от 54 000 ₽' },
-    { name: 'Гармошка', count: '24 модели', price: 'от 67 000 ₽' },
-    { name: 'Реечные', count: '38 моделей', price: 'от 71 000 ₽' },
-    { name: 'С рифлёным стеклом', count: '71 модель', price: 'от 78 000 ₽' },
-    { name: 'Лофт', count: '62 модели', price: 'от 74 000 ₽' },
-    { name: 'Для влажных зон', count: '14 моделей', price: 'от 82 000 ₽' },
+    { name: 'Стационарные LOFT-перегородки', count: '61 модель', price: 'от 54 000 ₽', image: PARTITION_IMGS[0] },
+    { name: 'Перегородки с распашными дверями', count: '52 модели', price: 'от 48 000 ₽', image: PARTITION_IMGS[1] },
+    { name: 'Раздвижные LOFT-перегородки', count: '84 модели', price: 'от 62 000 ₽', image: PARTITION_IMGS[2] },
+    { name: 'Складные LOFT-перегородки', count: '24 модели', price: 'от 67 000 ₽', image: PARTITION_IMGS[3] },
+    { name: 'Pivot / поворотные перегородки', count: '18 моделей', price: 'от 86 000 ₽', image: PARTITION_IMGS[4] },
+    { name: 'Поворотные ламели и жалюзийные перегородки', count: '22 модели', price: 'от 74 000 ₽', image: PARTITION_IMGS[5] },
+    { name: 'Маятниковые LOFT-перегородки', count: '16 моделей', price: 'от 79 000 ₽', image: PARTITION_IMGS[6] },
+    { name: 'Парковочные / трансформируемые стены', count: '12 моделей', price: 'от 94 000 ₽', image: PARTITION_IMGS[7] },
+    { name: 'Вертикально трансформируемые перегородки', count: '9 моделей', price: 'от 112 000 ₽', image: PARTITION_IMGS[8] },
+    { name: 'Отдельные LOFT-двери', count: '43 модели', price: 'от 38 000 ₽', image: PARTITION_IMGS[9] },
+    { name: 'LOFT-ширмы', count: '19 моделей', price: 'от 41 000 ₽', image: PARTITION_IMGS[10] },
+    { name: 'Реечные металлические перегородки', count: '38 моделей', price: 'от 71 000 ₽', image: PARTITION_IMGS[11] },
+    { name: 'Прутковые перегородки', count: '14 моделей', price: 'от 58 000 ₽', image: PARTITION_IMGS[12] },
+    { name: 'Сетчатые металлические перегородки', count: '17 моделей', price: 'от 63 000 ₽', image: PARTITION_IMGS[13] },
+    { name: 'ПВЛ / Expanded Metal', count: '11 моделей', price: 'от 52 000 ₽', image: PARTITION_IMGS[14] },
+    { name: 'Перфорированные металлические перегородки', count: '26 моделей', price: 'от 68 000 ₽', image: PARTITION_IMGS[15] },
+    { name: 'Laser-cut / декоративная резка металла', count: '33 модели', price: 'от 76 000 ₽', image: PARTITION_IMGS[16] },
+    { name: 'Тросовые / струнные перегородки', count: '21 модель', price: 'от 44 000 ₽', image: PARTITION_IMGS[17] },
+    { name: 'Цепные / металлические занавесы', count: '8 моделей', price: 'от 36 000 ₽', image: PARTITION_IMGS[18] },
+    { name: 'Подвесные декоративные перегородки', count: '15 моделей', price: 'от 48 000 ₽', image: PARTITION_IMGS[19] },
+    { name: 'Перегородки-стеллажи', count: '27 моделей', price: 'от 82 000 ₽', image: PARTITION_IMGS[20] },
+    { name: 'Перегородки-библиотеки', count: '13 моделей', price: 'от 96 000 ₽', image: PARTITION_IMGS[21] },
+    { name: 'Перегородки с ТВ / медиазоной', count: '11 моделей', price: 'от 124 000 ₽', image: PARTITION_IMGS[22] },
+    { name: 'Перегородки с рабочим местом', count: '9 моделей', price: 'от 108 000 ₽', image: PARTITION_IMGS[23] },
+    { name: 'Перегородки с растениями', count: '7 моделей', price: 'от 92 000 ₽', image: PARTITION_IMGS[24] },
+    { name: 'Перегородки-витрины', count: '14 моделей', price: 'от 88 000 ₽', image: PARTITION_IMGS[25] },
+    { name: 'Винные / барные перегородки', count: '16 моделей', price: 'от 104 000 ₽', image: PARTITION_IMGS[26] },
+    { name: 'Перегородки со встроенной мебелью', count: '12 моделей', price: 'от 136 000 ₽', image: PARTITION_IMGS[27] },
+    { name: 'Мобильные LOFT-перегородки', count: '29 моделей', price: 'от 56 000 ₽', image: PARTITION_IMGS[28] },
+    { name: 'Акустические перегородки', count: '18 моделей', price: 'от 84 000 ₽', image: PARTITION_IMGS[29] },
+    { name: 'Рабочие / интерактивные перегородки', count: '10 моделей', price: 'от 116 000 ₽', image: PARTITION_IMGS[30] },
+    { name: 'Перегородки с инженерными функциями', count: '8 моделей', price: 'от 148 000 ₽', image: PARTITION_IMGS[31] },
+    { name: 'Световые LOFT-перегородки', count: '14 моделей', price: 'от 128 000 ₽', image: PARTITION_IMGS[32] },
+    { name: 'Модульные системы-конструкторы', count: '34 модели', price: 'от 72 000 ₽', image: PARTITION_IMGS[33] },
+    { name: 'Room-in-room / «комната в комнате»', count: '11 моделей', price: 'от 164 000 ₽', image: PARTITION_IMGS[34] },
+    { name: 'LOFT-гардеробные', count: '22 модели', price: 'от 118 000 ₽', image: PARTITION_IMGS[35] },
+    { name: 'Душевые LOFT-перегородки', count: '14 моделей', price: 'от 82 000 ₽', image: PARTITION_IMGS[36] },
+    { name: 'Перегородки для кухни и кухни-гостиной', count: '19 моделей', price: 'от 76 000 ₽', image: PARTITION_IMGS[37] },
+    { name: 'Перегородки для спальни / студии', count: '31 модель', price: 'от 68 000 ₽', image: PARTITION_IMGS[38] },
+    { name: 'Офисные LOFT-перегородки', count: '40 моделей', price: 'от 86 000 ₽', image: PARTITION_IMGS[39] },
+    { name: 'Ресторанные / HoReCa перегородки', count: '23 модели', price: 'от 94 000 ₽', image: PARTITION_IMGS[40] },
+    { name: 'Торговые / showroom-перегородки', count: '17 моделей', price: 'от 102 000 ₽', image: PARTITION_IMGS[41] },
+    { name: 'Технические специальные LOFT-системы', count: '6 моделей', price: 'от 186 000 ₽', image: PARTITION_IMGS[42] },
   ]},
   { name: 'Зеркала', cards: [
-    { name: 'Круглые', count: '42 модели', price: 'от 21 000 ₽' },
-    { name: 'Овальные', count: '38 моделей', price: 'от 26 000 ₽' },
-    { name: 'Арочные', count: '31 модель', price: 'от 34 000 ₽' },
-    { name: 'В полный рост', count: '25 моделей', price: 'от 29 000 ₽' },
-    { name: 'С подсветкой', count: '36 моделей', price: 'от 38 000 ₽' },
-    { name: 'В латунной раме', count: '28 моделей', price: 'от 44 000 ₽' },
-    { name: 'Нестандартной формы', count: '17 моделей', price: 'от 52 000 ₽' },
-    { name: 'Для ванной', count: '38 моделей', price: 'от 24 000 ₽' },
+    { name: 'Круглые', count: '42 модели', price: 'от 21 000 ₽', image: CAT1_IMGS[8] },
+    { name: 'Овальные', count: '38 моделей', price: 'от 26 000 ₽', image: CAT1_IMGS[9] },
+    { name: 'Арочные', count: '31 модель', price: 'от 34 000 ₽', image: CAT1_IMGS[10] },
+    { name: 'В полный рост', count: '25 моделей', price: 'от 29 000 ₽', image: CAT1_IMGS[11] },
+    { name: 'С подсветкой', count: '36 моделей', price: 'от 38 000 ₽', image: CAT1_IMGS[12] },
+    { name: 'В латунной раме', count: '28 моделей', price: 'от 44 000 ₽', image: CAT1_IMGS[13] },
+    { name: 'Нестандартной формы', count: '17 моделей', price: 'от 52 000 ₽', image: CAT1_IMGS[14] },
+    { name: 'Для ванной', count: '38 моделей', price: 'от 24 000 ₽', image: CAT1_IMGS[15] },
   ]},
   { name: 'Лестницы', cards: [
-    { name: 'Винтовые', count: '26 моделей', price: 'от 148 000 ₽' },
-    { name: 'Маршевые', count: '41 модель', price: 'от 172 000 ₽' },
-    { name: 'Модульные', count: '33 модели', price: 'от 96 000 ₽' },
-    { name: 'С площадкой', count: '18 моделей', price: 'от 186 000 ₽' },
-    { name: 'Из дуба', count: '38 моделей', price: 'от 164 000 ₽' },
-    { name: 'На металлокаркасе', count: '44 модели', price: 'от 132 000 ₽' },
-    { name: 'Со стеклом', count: '29 моделей', price: 'от 198 000 ₽' },
-    { name: 'Для мансарды', count: '21 модель', price: 'от 88 000 ₽' },
+    { name: 'Винтовые', count: '26 моделей', price: 'от 148 000 ₽', image: CAT1_IMGS[4] },
+    { name: 'Маршевые', count: '41 модель', price: 'от 172 000 ₽', image: CAT1_IMGS[5] },
+    { name: 'Модульные', count: '33 модели', price: 'от 96 000 ₽', image: CAT1_IMGS[6] },
+    { name: 'С площадкой', count: '18 моделей', price: 'от 186 000 ₽', image: CAT1_IMGS[7] },
+    { name: 'Из дуба', count: '38 моделей', price: 'от 164 000 ₽', image: CAT1_IMGS[0] },
+    { name: 'На металлокаркасе', count: '44 модели', price: 'от 132 000 ₽', image: CAT1_IMGS[1] },
+    { name: 'Со стеклом', count: '29 моделей', price: 'от 198 000 ₽', image: CAT1_IMGS[2] },
+    { name: 'Для мансарды', count: '21 модель', price: 'от 88 000 ₽', image: CAT1_IMGS[3] },
   ]},
   { name: 'Мебель', cards: [
-    { name: 'Столы', count: '34 модели', price: 'от 46 000 ₽' },
-    { name: 'Консоли', count: '21 модель', price: 'от 32 000 ₽' },
-    { name: 'Стеллажи', count: '27 моделей', price: 'от 54 000 ₽' },
-    { name: 'Тумбы', count: '18 моделей', price: 'от 28 000 ₽' },
-    { name: 'Ширмы', count: '19 моделей', price: 'от 41 000 ₽' },
-    { name: 'Из массива', count: '52 модели', price: 'от 38 000 ₽' },
-    { name: 'На металлокаркасе', count: '38 моделей', price: 'от 34 000 ₽' },
-    { name: 'С камнем', count: '14 моделей', price: 'от 72 000 ₽' },
+    { name: 'Столы', count: '34 модели', price: 'от 46 000 ₽', image: CAT1_IMGS[12] },
+    { name: 'Консоли', count: '21 модель', price: 'от 32 000 ₽', image: CAT1_IMGS[13] },
+    { name: 'Стеллажи', count: '27 моделей', price: 'от 54 000 ₽', image: CAT1_IMGS[14] },
+    { name: 'Тумбы', count: '18 моделей', price: 'от 28 000 ₽', image: CAT1_IMGS[15] },
+    { name: 'Ширмы', count: '19 моделей', price: 'от 41 000 ₽', image: CAT1_IMGS[8] },
+    { name: 'Из массива', count: '52 модели', price: 'от 38 000 ₽', image: CAT1_IMGS[9] },
+    { name: 'На металлокаркасе', count: '38 моделей', price: 'от 34 000 ₽', image: CAT1_IMGS[10] },
+    { name: 'С камнем', count: '14 моделей', price: 'от 72 000 ₽', image: CAT1_IMGS[11] },
   ]},
 ];
 
@@ -836,21 +934,22 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   key={ci}
                   className={isHovered ? 'cat-card-hovered' : 'cat-card-idle'}
                   style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci], animationDelay: `${[0, 1.2, 0.6, 1.8][ci]}s` }}
-                  onMouseEnter={() => { setCatCardHover(ci); cardVideoRefs.current[ci]?.play(); }}
+                  onMouseEnter={() => { setCatCardHover(ci); const v = cardVideoRefs.current[ci]; if (v) { v.currentTime = 0; v.play(); } }}
                   onMouseLeave={() => { setCatCardHover(null); cardVideoRefs.current[ci]?.pause(); }}
                 >
                   <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
                     <div style={{ position: 'relative', height: 460, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
 
-                      {/* Видео — снизу, всегда в DOM, проигрывается при hover */}
-                      <video
-                        ref={el => { cardVideoRefs.current[ci] = el; }}
-                        src={animMp4}
-                        muted
-                        playsInline
-                        preload="auto"
-                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, display: 'block' }}
-                      />
+                      {ci === 0 && (
+                        <video
+                          ref={el => { cardVideoRefs.current[ci] = el; }}
+                          src={catAnim1}
+                          muted
+                          playsInline
+                          preload="auto"
+                          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, display: 'block' }}
+                        />
+                      )}
 
                       {/* Слой с фото — плавно исчезает при hover */}
                       <div style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: isHovered ? 0 : 1, transition: 'opacity 400ms ease' }}>
@@ -898,7 +997,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                           <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '0 24px 24px', zIndex: 4 }}>
                             <button
                               onClick={() => onNavigateToCatalog(card.entry)}
-                              style={{ width: '100%', height: 48, borderRadius: 999, border: 'none', background: 'rgba(255,255,255,0.96)', color: '#1a1a18', fontFamily: 'inherit', fontSize: 14, fontWeight: 700, letterSpacing: '0.01em', cursor: 'pointer', transition: 'background 200ms ease, transform 200ms ease' }}
+                              style={{ width: '100%', height: 48, borderRadius: 999, border: 'none', background: isHovered ? '#1a1a18' : 'rgba(255,255,255,0.96)', color: isHovered ? '#fff' : '#1a1a18', fontFamily: 'inherit', fontSize: 14, fontWeight: 700, letterSpacing: '0.01em', cursor: 'pointer', transition: 'background 300ms ease, color 300ms ease, transform 200ms ease' }}
                             >Смотреть ещё</button>
                           </div>
                         </div>
@@ -982,7 +1081,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           <div style={{ position: 'relative' }}>
             <div onClick={() => setLvlPos(p => (p + LEVELS[levelTab].cards.length - 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, left: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: '#fff', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.14)' }}>←</div>
             <div onClick={() => setLvlPos(p => (p + 1) % LEVELS[levelTab].cards.length)} style={{ position: 'absolute', zIndex: 3, right: -22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: '#fff', color: '#1a1a18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, cursor: 'pointer', boxShadow: '0 10px 26px rgba(0,0,0,.14)' }}>→</div>
-            <div style={{ position: 'relative', height: 430 }}>
+            <div style={{ position: 'relative', height: 580 }}>
               {LEVELS[levelTab].cards.map((c, j) => {
                 const n = LEVELS[levelTab].cards.length;
                 let d = j - lvlPos;
@@ -997,28 +1096,26 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                     onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog('catalog')}
                     style={{
                       position: 'absolute', top: '50%', left: '50%',
-                      width: 'min(560px, 92%)', height: 390,
+                      width: 'min(520px, 88%)', height: 560,
                       display: 'flex', flexDirection: 'column',
                       borderRadius: 22, overflow: 'hidden', cursor: 'pointer',
                       willChange: 'transform, opacity',
-                      transform: `translate(calc(-50% + ${d * 340}px), -50%) scale(${hot ? 1 : 0.88})`,
-                      opacity: near ? (hot ? 1 : 0.45) : 0,
+                      transform: `translate(calc(-50% + ${d * 480}px), -50%) scale(${hot ? 1 : 0.86})`,
+                      opacity: near ? (hot ? 1 : 0.72) : 0,
                       pointerEvents: near ? 'auto' : 'none',
                       zIndex: 10 - ad,
-                      background: 'linear-gradient(135deg, #2b2a26 0%, #191815 100%)',
+                      background: '#1a1a18',
                       color: '#fff',
-                      border: '1px solid rgba(255,255,255,.1)',
                       boxShadow: hot ? '0 34px 70px rgba(0,0,0,.55)' : '0 16px 34px rgba(0,0,0,.3)',
                       transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, box-shadow .5s ease',
                     }}
                   >
-                    <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10, padding: '0 30px 20px' }}>
-                      <h3 style={{ margin: 0, fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
-                      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.02em', color: 'rgba(255,255,255,.5)' }}>{c.count}</div>
-                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: 'rgba(255,255,255,.65)' }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
-                    </div>
-                    <div style={{ padding: '18px 20px', background: 'rgba(255,255,255,.06)' }}>
-                      <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', padding: '11px 20px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: '#fff', color: '#1a1a18', border: 'none', cursor: 'pointer' }}>
+                    {c.image && <img src={c.image} alt={c.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
+                    <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(10,10,8,.85) 28%)', padding: '48px 30px 0' }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.02em', color: 'rgba(255,255,255,.5)', marginBottom: 8 }}>{c.count}</div>
+                      <h3 style={{ margin: '0 0 8px', fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
+                      <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: 'rgba(255,255,255,.65)', marginBottom: 20 }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
+                      <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', padding: '16px 20px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: '#fff', color: '#1a1a18', border: 'none', cursor: 'pointer', marginBottom: 20 }}>
                         Перейти
                       </button>
                     </div>
@@ -1027,6 +1124,32 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               })}
             </div>
           </div>
+          {(() => {
+            const n = LEVELS[levelTab].cards.length;
+            const activeDot = Math.round((lvlPos / (n - 1)) * 4);
+            return (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, paddingTop: 24, paddingBottom: 8 }}>
+                {[0,1,2,3,4].map(i => {
+                  const active = i === activeDot;
+                  return (
+                    <div
+                      key={i}
+                      onClick={() => setLvlPos(Math.round((i / 4) * (n - 1)))}
+                      style={{
+                        width: active ? 28 : 8,
+                        height: 8,
+                        borderRadius: 999,
+                        background: active ? '#1a1a18' : 'rgba(26,26,24,.2)',
+                        cursor: 'pointer',
+                        flexShrink: 0,
+                        transition: 'width .38s cubic-bezier(.2,.8,.2,1), background .38s ease',
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       </section>
 
@@ -1335,7 +1458,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
 
         {/* Баннер-слайдер: overflow:clip на обёртке с neg.margin — карточки летят как объекты, видны до края страницы */}
-        <div style={{ overflow: 'clip', margin: '12px -48px 0' }}>
+        <div style={{ overflowX: 'clip', overflowY: 'visible', margin: '12px -48px 0' }}>
          <div style={{ position: 'relative', height: 620, margin: '0 48px' }}>
           {prevBannerIdx !== null && (
             <div key={`bp-${prevBannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: BANNERS[prevBannerIdx].bg, pointerEvents: 'none', zIndex: 1, animation: `${bannerDir > 0 ? 'bannerOutToLeft' : 'bannerOutToRight'} .4s linear forwards` }}>
@@ -1344,10 +1467,17 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{BANNERS[prevBannerIdx].kicker}</div>
                 <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].title}</h3>
                 <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].text}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e' }}>
+                    <span>{need || 'Мне нужна перегородка для…'}</span>
+                    <span style={{ fontSize: 13, color: '#8b877f' }}>⌄</span>
+                  </div>
+                  <div style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? 'rgba(251,250,248,.96)' : 'rgba(255,255,255,.15)', color: need ? '#1a1a18' : '#fff', border: '1.5px solid rgba(255,255,255,.35)' }}>Подобрать</div>
+                </div>
               </div>
             </div>
           )}
-          <div key={`bc-${bannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: currentBanner.bg, zIndex: 0, animation: prevBannerIdx !== null ? `${bannerDir > 0 ? 'bannerInFromRight' : 'bannerInFromLeft'} .4s linear both` : 'none' }}>
+          <div key={`bc-${bannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: currentBanner.bg, zIndex: 2, animation: prevBannerIdx !== null ? `${bannerDir > 0 ? 'bannerInFromRight' : 'bannerInFromLeft'} .4s linear both` : 'none' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + currentBanner.tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)', pointerEvents: 'none' }} />
             <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, height: '100%', maxWidth: 700, padding: '72px 100px' }}>
               <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{currentBanner.kicker}</div>
@@ -1360,10 +1490,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                     style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e', cursor: 'pointer' }}
                   >
                     <span>{need || 'Мне нужна перегородка для…'}</span>
-                    <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                    <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
                   </div>
                   {needOpen && (
-                    <div style={{ position: 'absolute', zIndex: 6, top: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
+                    <div style={{ position: 'absolute', zIndex: 10, bottom: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 -8px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
                       {currentBanner.options.map(o => (
                         <div
                           key={o[0]}
@@ -1379,15 +1509,15 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 </div>
                 <button
                   onClick={() => onNavigateToCatalog('catalog')}
-                  style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? '#fbfaf8' : 'rgba(255,255,255,.18)', color: need ? '#1a1a18' : 'rgba(255,255,255,.86)', backdropFilter: 'blur(6px)', border: 'none', cursor: 'pointer' }}
+                  style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? 'rgba(251,250,248,.96)' : 'rgba(255,255,255,.15)', color: need ? '#1a1a18' : '#fff', border: '1.5px solid rgba(255,255,255,.35)', cursor: 'pointer' }}
                 >Подобрать</button>
               </div>
             </div>
           </div>
 
-          <div onClick={() => { const curr = bannerIdx; const n = (curr + BANNERS.length - 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(-1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>‹</div>
-          <div onClick={() => { const curr = bannerIdx; const n = (curr + 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>›</div>
-          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8, zIndex: 3 }}>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + BANNERS.length - 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(-1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 3 }}>‹</div>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 3 }}>›</div>
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8, zIndex: 4 }}>
             {BANNERS.map((_, i) => (
               <span key={i} onClick={() => { const curr = bannerIdx; setPrevBannerIdx(curr); setBannerDir(i > curr ? 1 : -1); setBannerIdx(i); setNeedOpen(false); setNeed(null); }} style={{ width: i === bannerIdx ? 24 : 8, height: 8, borderRadius: 999, background: i === bannerIdx ? '#fff' : 'rgba(255,255,255,.45)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
             ))}
@@ -1444,7 +1574,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Баннеры перед футером ── */}
       <section style={{ padding: '96px 48px 0' }}>
-        <div style={{ overflow: 'clip', margin: '0 -48px' }}>
+        <div style={{ overflowX: 'clip', overflowY: 'visible', margin: '0 -48px' }}>
          <div style={{ position: 'relative', height: 620, margin: '0 48px' }}>
           {prevBannerIdx !== null && (
             <div key={`bp-${prevBannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: BANNERS[prevBannerIdx].bg, pointerEvents: 'none', zIndex: 1, animation: `${bannerDir > 0 ? 'bannerOutToLeft' : 'bannerOutToRight'} .4s linear forwards` }}>
@@ -1453,10 +1583,17 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{BANNERS[prevBannerIdx].kicker}</div>
                 <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].title}</h3>
                 <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].text}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e' }}>
+                    <span>{need || 'Мне нужна перегородка для…'}</span>
+                    <span style={{ fontSize: 13, color: '#8b877f' }}>⌄</span>
+                  </div>
+                  <div style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? 'rgba(251,250,248,.96)' : 'rgba(255,255,255,.15)', color: need ? '#1a1a18' : '#fff', border: '1.5px solid rgba(255,255,255,.35)' }}>Подобрать</div>
+                </div>
               </div>
             </div>
           )}
-          <div key={`bc2-${bannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: currentBanner.bg, zIndex: 0, animation: prevBannerIdx !== null ? `${bannerDir > 0 ? 'bannerInFromRight' : 'bannerInFromLeft'} .4s linear both` : 'none' }}>
+          <div key={`bc2-${bannerIdx}`} style={{ position: 'absolute', inset: 0, borderRadius: 24, overflow: 'hidden', background: currentBanner.bg, zIndex: 2, animation: prevBannerIdx !== null ? `${bannerDir > 0 ? 'bannerInFromRight' : 'bannerInFromLeft'} .4s linear both` : 'none' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, ' + currentBanner.tint + ' 0%, rgba(20,19,17,.3) 62%, rgba(20,19,17,.1) 100%)', pointerEvents: 'none' }} />
             <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18, height: '100%', maxWidth: 700, padding: '72px 100px' }}>
               <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{currentBanner.kicker}</div>
@@ -1466,10 +1603,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 <div style={{ position: 'relative' }}>
                   <div onClick={() => setNeedOpen(o => !o)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e', cursor: 'pointer' }}>
                     <span>{need || 'Мне нужна перегородка для…'}</span>
-                    <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
+                    <span style={{ fontSize: 13, color: '#8b877f', transform: needOpen ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform .18s', display: 'inline-block' }}>⌄</span>
                   </div>
                   {needOpen && (
-                    <div style={{ position: 'absolute', zIndex: 6, top: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 18px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
+                    <div style={{ position: 'absolute', zIndex: 10, bottom: 'calc(100% + 8px)', left: 0, minWidth: 340, padding: 8, borderRadius: 16, background: '#fff', boxShadow: '0 -8px 44px rgba(26,26,24,.24)', animation: 'hDrop .18s ease' }}>
                       {currentBanner.options.map(o => (
                         <div key={o[0]} onClick={() => { setNeed(o[0]); setNeedOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 14px', borderRadius: 10, fontSize: 14, cursor: 'pointer', color: need === o[0] ? '#1a1a18' : '#4a4842', background: need === o[0] ? '#f4f2ee' : 'transparent' }}>
                           <span>{o[0]}</span>
@@ -1479,13 +1616,13 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                     </div>
                   )}
                 </div>
-                <button onClick={() => onNavigateToCatalog('catalog')} style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? '#fbfaf8' : 'rgba(255,255,255,.18)', color: need ? '#1a1a18' : 'rgba(255,255,255,.86)', backdropFilter: 'blur(6px)', border: 'none', cursor: 'pointer' }}>Подобрать</button>
+                <button onClick={() => onNavigateToCatalog('catalog')} style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? 'rgba(251,250,248,.96)' : 'rgba(255,255,255,.15)', color: need ? '#1a1a18' : '#fff', border: '1.5px solid rgba(255,255,255,.35)', cursor: 'pointer' }}>Подобрать</button>
               </div>
             </div>
           </div>
-          <div onClick={() => { const curr = bannerIdx; const n = (curr + BANNERS.length - 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(-1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>‹</div>
-          <div onClick={() => { const curr = bannerIdx; const n = (curr + 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 2 }}>›</div>
-          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8, zIndex: 3 }}>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + BANNERS.length - 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(-1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', left: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 3 }}>‹</div>
+          <div onClick={() => { const curr = bannerIdx; const n = (curr + 1) % BANNERS.length; setPrevBannerIdx(curr); setBannerDir(1); setBannerIdx(n); setNeedOpen(false); setNeed(null); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -26, width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,.22)', backdropFilter: 'blur(6px)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, cursor: 'pointer', zIndex: 3 }}>›</div>
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', gap: 8, zIndex: 4 }}>
             {BANNERS.map((_, i) => (
               <span key={i} onClick={() => { const curr = bannerIdx; setPrevBannerIdx(curr); setBannerDir(i > curr ? 1 : -1); setBannerIdx(i); setNeedOpen(false); setNeed(null); }} style={{ width: i === bannerIdx ? 24 : 8, height: 8, borderRadius: 999, background: i === bannerIdx ? '#fff' : 'rgba(255,255,255,.45)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
             ))}
