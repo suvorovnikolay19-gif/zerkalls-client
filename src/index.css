@@ -1,5 +1,6 @@
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: #ffffff; }
+html { margin: 0; padding: 0; background: #ffffff; scrollbar-gutter: stable; }
+body { margin: 0; padding: 0; background: #ffffff; }
 a { color: #1a1a18; text-decoration: none; }
 a:hover { color: #6b6862; }
 ::-webkit-scrollbar { width: 8px; height: 8px; }

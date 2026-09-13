@@ -714,10 +714,14 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     const activeEl = homeNavItemRefs.current[0];
     if (!pill || !activeEl) return;
     pill.style.transition = 'none';
+    pill.style.opacity = '0';
     pill.style.left = activeEl.offsetLeft + 'px';
     pill.style.width = activeEl.offsetWidth + 'px';
     requestAnimationFrame(() => {
-      if (pill) pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
+      if (pill) {
+        pill.style.opacity = '1';
+        pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
+      }
     });
   }, []);
 
@@ -953,7 +957,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       {/* ── Меню разделов (sticky) ── */}
       <div style={{ position: 'sticky', top: 0, zIndex: 40, background: 'rgba(255,255,255,.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e8' }}>
         <nav style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px' }}>
-          <div ref={homeNavPillRef} style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', height: 44, background: '#1a1a18', borderRadius: 999, pointerEvents: 'none', zIndex: 0 }} />
+          <div ref={homeNavPillRef} style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', height: 44, background: '#1a1a18', borderRadius: 999, pointerEvents: 'none', zIndex: 0, opacity: 0 }} />
           {PAGE_NAV.map((n, i) => (
             <span
               key={i}
@@ -1622,10 +1626,12 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{BANNERS[prevBannerIdx].kicker}</div>
                 <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].title}</h3>
                 <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].text}</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e' }}>
-                    <span>{need || 'Мне нужна перегородка для…'}</span>
-                    <span style={{ fontSize: 13, color: '#8b877f' }}>⌄</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10, flexWrap: 'wrap' }}>
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e' }}>
+                      <span>{need || 'Мне нужна перегородка для…'}</span>
+                      <span style={{ fontSize: 13, color: '#8b877f', transform: 'rotate(180deg)', display: 'inline-block' }}>⌄</span>
+                    </div>
                   </div>
                   <div style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? 'rgba(251,250,248,.96)' : 'rgba(255,255,255,.15)', color: need ? '#1a1a18' : '#fff', border: '1.5px solid rgba(255,255,255,.35)' }}>Подобрать</div>
                 </div>
@@ -1738,10 +1744,12 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.66)' }}>{BANNERS[prevBannerIdx].kicker}</div>
                 <h3 style={{ margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 600, letterSpacing: '-.03em', color: '#fff', textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].title}</h3>
                 <div style={{ fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.82)', maxWidth: 460, textWrap: 'pretty' }}>{BANNERS[prevBannerIdx].text}</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e' }}>
-                    <span>{need || 'Мне нужна перегородка для…'}</span>
-                    <span style={{ fontSize: 13, color: '#8b877f' }}>⌄</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 10, flexWrap: 'wrap' }}>
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, minWidth: 340, padding: '15px 20px', borderRadius: 12, background: 'rgba(251,250,248,.96)', fontSize: 15, color: '#33322e' }}>
+                      <span>{need || 'Мне нужна перегородка для…'}</span>
+                      <span style={{ fontSize: 13, color: '#8b877f', transform: 'rotate(180deg)', display: 'inline-block' }}>⌄</span>
+                    </div>
                   </div>
                   <div style={{ padding: '16px 34px', borderRadius: 12, fontSize: 15, fontWeight: 500, background: need ? 'rgba(251,250,248,.96)' : 'rgba(255,255,255,.15)', color: need ? '#1a1a18' : '#fff', border: '1.5px solid rgba(255,255,255,.35)' }}>Подобрать</div>
                 </div>
