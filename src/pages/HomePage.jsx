@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import MaterialsSection from '../components/MaterialsSection.jsx';
+import HeroTree from '../components/HeroTree.jsx';
 import heroImg from '../../assets/hero-main/hero-1.png';
 import bgImg from '../../assets/background.png';
 import hero2Img from '../../assets/hero-main/hero-2.png';
@@ -192,6 +193,13 @@ const CARDS_V2_DATA = [
 ];
 
 const CARDS_V2_OFFSETS = ['0px', '-56px', '34px', '-24px'];
+
+const HOME_SUBCATS = {
+  'Лестницы':    ['Винтовые', 'Маршевые', 'Модульные', 'Из дуба', 'На металлокаркасе', 'Для мансарды'],
+  'Перегородки': ['Раздвижные', 'Распашные', 'Лофт', 'Реечные', 'Стационарные', 'Декоративные'],
+  'Зеркала':     ['Круглые', 'Овальные', 'Арочные', 'С подсветкой', 'Во весь рост', 'Нестандартные'],
+  'Мебель':      ['Столы', 'Консоли', 'Стеллажи', 'Тумбы', 'Ширмы', 'Из массива'],
+};
 
 const PAGE_NAV = [
   { name: 'Главная', href: '#', active: true },
@@ -519,6 +527,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [cardIdx, setCardIdx] = useState([0, 0, 0, 0]);
   const [cardDir, setCardDir] = useState([1, 1, 1, 1]);
   const [catCardHover, setCatCardHover] = useState(null);
+  const [catCardLast, setCatCardLast] = useState(null);
   const cardVideoRefs = useRef([]);
 
   const [fitIdx, setFitIdx] = useState(0);
@@ -549,6 +558,13 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [navActiveIdx, setNavActiveIdx] = useState(0);
   const homeNavItemRefs = useRef([]);
   const homeNavPillRef = useRef(null);
+
+  const [heroTreeActive, setHeroTreeActive] = useState(false);
+  const [heroTreeChosen, setHeroTreeChosen] = useState(false);
+  const [triggerHover, setTriggerHover] = useState(false);
+  const heroTreeRef = useRef(null);
+  const heroSectionRef = useRef(null);
+  const triggerBtnRef = useRef(null);
 
   const rafRef = useRef(null);
   const t0Ref = useRef(Date.now());
@@ -795,7 +811,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: '#ffffff', WebkitFontSmoothing: 'antialiased', animation: fromCatalog ? 'homeEnterFromCatalog .52s cubic-bezier(.22,1,.36,1) forwards' : 'none' }}>
 
       {/* ── Hero ── */}
-      <section style={{ position: 'relative', height: 760, background: '#23221f', overflow: 'hidden' }}>
+      <section ref={heroSectionRef} style={{ position: 'relative', height: 760, background: '#23221f', overflow: 'hidden' }} onMouseLeave={() => heroTreeRef.current?.reset()}>
         {prevSlideIdx !== null && (
           <div key={`sp-${prevSlideIdx}`} style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', animation: `${heroDir > 0 ? 'slideOutLeft' : 'slideOutRight'} .55s cubic-bezier(.4,0,.2,1) forwards` }}>
             {SLIDES[prevSlideIdx].image
@@ -803,12 +819,14 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
             }
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)' }} />
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '60px 48px 0', textAlign: 'center' }}>
-              <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{SLIDES[prevSlideIdx].title}</h1>
-              <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{SLIDES[prevSlideIdx].text}</div>
-              <div style={{ display: 'flex', gap: 14, marginTop: 12 }}>
-                <button className="hero-btn-primary" style={{ padding: '15px 42px', background: '#fbfaf8', color: '#1a1a18', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>Каталог</button>
-                <button className="hero-btn-secondary" style={{ padding: '15px 42px', border: '1px solid rgba(255,255,255,.7)', color: '#fff', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer' }}>{SLIDES[prevSlideIdx].cta}</button>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '60px 48px 0', textAlign: 'center', pointerEvents: 'none' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, width: '100%' }}>
+                <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{SLIDES[prevSlideIdx].title}</h1>
+                <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{SLIDES[prevSlideIdx].text}</div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, marginTop: 4 }}>
+                <button style={{ padding: '19px 52px', borderRadius: 999, background: (triggerHover || heroTreeActive) ? '#fff' : 'rgba(22,21,15,0.34)', border: (triggerHover || heroTreeActive) ? '1px solid #fff' : '1px solid rgba(255,255,255,0.62)', color: (triggerHover || heroTreeActive) ? '#16150f' : '#fff', fontSize: '15px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', whiteSpace: 'nowrap', backdropFilter: 'blur(4px)', transform: 'translateX(0)', outline: 'none', fontFamily: 'inherit', cursor: 'pointer' }}>Что сейчас важнее</button>
+                <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', opacity: heroTreeActive ? 0 : 1 }}>наведись</div>
               </div>
             </div>
           </div>
@@ -820,14 +838,54 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           }
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '60px 48px 0', textAlign: 'center', pointerEvents: 'none' }}>
-            <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{currentSlide.title}</h1>
-            <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{currentSlide.text}</div>
-            <div style={{ display: 'flex', gap: 14, marginTop: 12, pointerEvents: 'auto' }}>
-              <button className="hero-btn-primary" onClick={() => onNavigateToCatalog('catalog')} style={{ padding: '15px 42px', background: '#fbfaf8', color: '#1a1a18', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}>Каталог</button>
-              <button className="hero-btn-secondary" onClick={() => onNavigateToCatalog(currentSlide.entry)} style={{ padding: '15px 42px', border: '1px solid rgba(255,255,255,.7)', color: '#fff', fontSize: 13, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', background: 'transparent', cursor: 'pointer' }}>{currentSlide.cta}</button>
+            {/* title + subtitle — fade and slide up when tree opens */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, width: '100%', opacity: heroTreeActive ? 0 : 1, transform: heroTreeActive ? 'translateY(-46px)' : 'translateY(0)', transition: 'opacity 500ms ease, transform 700ms cubic-bezier(0.22,0.9,0.16,1)' }}>
+              <h1 style={{ margin: 0, maxWidth: 'calc(100% - 200px)', fontSize: 'clamp(56px, 9vw, 132px)', lineHeight: .88, fontWeight: 600, letterSpacing: '-.04em', color: '#fff' }}>{currentSlide.title}</h1>
+              <div style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.86)', textWrap: 'pretty' }}>{currentSlide.text}</div>
+            </div>
+            {/* trigger button — fades only when user has made a choice */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, marginTop: 4, pointerEvents: heroTreeChosen ? 'none' : 'auto', opacity: heroTreeChosen ? 0 : 1, transition: 'opacity 400ms ease' }}>
+              <button
+                ref={triggerBtnRef}
+                onMouseEnter={() => {
+                  setTriggerHover(true);
+                  const btn = triggerBtnRef.current;
+                  const hero = heroSectionRef.current;
+                  if (btn && hero) {
+                    const br = btn.getBoundingClientRect();
+                    const hr = hero.getBoundingClientRect();
+                    heroTreeRef.current?.openTree(
+                      br.left + br.width / 2 - hr.left,
+                      br.top + br.height / 2 - hr.top
+                    );
+                  } else {
+                    heroTreeRef.current?.openTree();
+                  }
+                }}
+                onMouseLeave={() => setTriggerHover(false)}
+                style={{
+                  padding: '19px 52px', borderRadius: 999,
+                  background: (triggerHover || heroTreeActive) ? '#fff' : 'rgba(22,21,15,0.34)',
+                  border: (triggerHover || heroTreeActive) ? '1px solid #fff' : '1px solid rgba(255,255,255,0.62)',
+                  color: (triggerHover || heroTreeActive) ? '#16150f' : '#fff',
+                  fontSize: '15px', fontWeight: 600, letterSpacing: '0.14em',
+                  textTransform: 'uppercase', whiteSpace: 'nowrap', cursor: 'pointer',
+                  backdropFilter: 'blur(4px)',
+                  transition: 'background 260ms cubic-bezier(0.22,0.9,0.16,1), border-color 260ms cubic-bezier(0.22,0.9,0.16,1), color 260ms cubic-bezier(0.22,0.9,0.16,1)',
+                  transform: 'translateX(0)',
+                  outline: 'none', fontFamily: 'inherit',
+                }}
+              >Что сейчас важнее</button>
+              <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', animation: 'htBlink 1.9s ease-in-out infinite', pointerEvents: 'none', opacity: heroTreeActive ? 0 : 1, transition: 'opacity 300ms ease' }}>наведись</div>
             </div>
           </div>
         </div>
+
+        {/* Extra overlay darkens when tree is active */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none', background: heroTreeActive ? 'rgba(14,13,11,0.58)' : 'transparent', transition: 'background 700ms ease' }} />
+
+        {/* Decision tree */}
+        <HeroTree ref={heroTreeRef} onNavigateToCatalog={onNavigateToCatalog} onActiveChange={setHeroTreeActive} onChoiceMade={setHeroTreeChosen} />
 
         <header
           onMouseLeave={() => setActiveMenu(null)}
@@ -882,9 +940,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           </div>
         </header>
 
-        <div onClick={() => { const curr = slideIdxRef.current; const n = (curr + SLIDES.length - 1) % SLIDES.length; setPrevSlideIdx(curr); setHeroDir(-1); slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, left: 24, top: '50%', width: 56, height: 56, marginTop: -28, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, cursor: 'pointer' }}>‹</div>
-        <div onClick={() => { const curr = slideIdxRef.current; const n = (curr + 1) % SLIDES.length; setPrevSlideIdx(curr); setHeroDir(1); slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, right: 24, top: '50%', width: 56, height: 56, marginTop: -28, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, cursor: 'pointer' }}>›</div>
-        <div style={{ position: 'absolute', zIndex: 4, left: 0, right: 0, bottom: 36, display: 'flex', justifyContent: 'center', gap: 9 }}>
+        <div onClick={() => { const curr = slideIdxRef.current; const n = (curr + SLIDES.length - 1) % SLIDES.length; setPrevSlideIdx(curr); setHeroDir(-1); slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, left: 24, top: '50%', width: 56, height: 56, marginTop: -28, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, cursor: 'pointer', opacity: heroTreeActive ? 0 : 1, pointerEvents: heroTreeActive ? 'none' : 'auto', transition: 'opacity 400ms ease' }}>‹</div>
+        <div onClick={() => { const curr = slideIdxRef.current; const n = (curr + 1) % SLIDES.length; setPrevSlideIdx(curr); setHeroDir(1); slideIdxRef.current = n; slideBaseRef.current = Date.now(); setSlide(n); }} style={{ position: 'absolute', zIndex: 4, right: 24, top: '50%', width: 56, height: 56, marginTop: -28, borderRadius: '50%', background: 'rgba(26,26,24,.72)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, cursor: 'pointer', opacity: heroTreeActive ? 0 : 1, pointerEvents: heroTreeActive ? 'none' : 'auto', transition: 'opacity 400ms ease' }}>›</div>
+        <div style={{ position: 'absolute', zIndex: 4, left: 0, right: 0, bottom: 36, display: 'flex', justifyContent: 'center', gap: 9, opacity: heroTreeActive ? 0 : 1, transition: 'opacity 400ms ease' }}>
           {SLIDES.map((_, i) => (
             <span key={i} onClick={() => { const curr = slideIdxRef.current; setPrevSlideIdx(curr); setHeroDir(i > curr ? 1 : -1); slideIdxRef.current = i; slideBaseRef.current = Date.now(); setSlide(i); }} style={{ width: i === slide ? 26 : 9, height: 9, borderRadius: 999, background: i === slide ? '#fff' : 'rgba(255,255,255,.5)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
           ))}
@@ -911,12 +969,22 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Категории (cards-v2) ── */}
       <section id="categories" style={{ padding: '48px 48px 80px', background: '#ffffff' }}>
-        <div style={{ maxWidth: 1840, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 48 }}>
-          <div style={{ textAlign: 'center' }}>
+        <div style={{ position: 'relative', maxWidth: 1840, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 48 }}>
+
+          {/* Заголовок — улетает при наведении */}
+          <div style={{
+            textAlign: 'center',
+            opacity: catCardHover !== null ? 0 : 1,
+            transform: catCardHover !== null ? 'translateY(-22px) scale(0.95)' : 'translateY(0px) scale(1)',
+            transition: 'opacity 380ms ease, transform 520ms cubic-bezier(0.22,1,0.36,1)',
+            pointerEvents: catCardHover !== null ? 'none' : 'auto',
+          }}>
             <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Категории</h2>
             <div style={{ fontSize: 15, color: '#8b877f' }}>Перегородки, лестницы, зеркала и мебель — изготовим по вашим размерам с гарантией 5 лет</div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24, alignItems: 'start', paddingTop: 56 }}>
+
+
+          <div className={catCardHover !== null ? 'cat-cards-stop' : ''} style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24, alignItems: 'start', paddingTop: 72 }}>
             {CARDS_V2_DATA.map((card, ci) => {
               const active = cardIdx[ci];
               const dir = cardDir[ci];
@@ -933,10 +1001,97 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 <article
                   key={ci}
                   className={isHovered ? 'cat-card-hovered' : 'cat-card-idle'}
-                  style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, marginTop: CARDS_V2_OFFSETS[ci], animationDelay: `${[0, 1.2, 0.6, 1.8][ci]}s` }}
-                  onMouseEnter={() => { setCatCardHover(ci); const v = cardVideoRefs.current[ci]; if (v) { v.currentTime = 0; v.play(); } }}
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 18,
+                    marginTop: CARDS_V2_OFFSETS[ci],
+                    animationDelay: `${[0, 1.2, 0.6, 1.8][ci]}s`,
+                    filter: catCardHover !== null && !isHovered
+                      ? 'brightness(0.35) saturate(0.5)'
+                      : 'brightness(1) saturate(1)',
+                    transition: 'filter 380ms ease',
+                  }}
+                  onMouseEnter={() => { setCatCardHover(ci); setCatCardLast(ci); const v = cardVideoRefs.current[ci]; if (v) { v.currentTime = 0; v.play(); } }}
                   onMouseLeave={() => { setCatCardHover(null); cardVideoRefs.current[ci]?.pause(); }}
                 >
+                  {/* Панель подкатегорий — прямо над карточкой */}
+                  {(() => {
+                    const subs = HOME_SUBCATS[card.title] || [];
+                    return (
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: 0,
+                        right: 0,
+                        paddingBottom: 10,
+                        zIndex: 20,
+                        opacity: isHovered ? 1 : 0,
+                        transform: isHovered ? 'translateY(0px)' : 'translateY(8px)',
+                        transition: 'opacity 300ms ease, transform 400ms cubic-bezier(0.22,1,0.36,1)',
+                        pointerEvents: isHovered ? 'auto' : 'none',
+                      }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+                          {subs.map((sub, si) => (
+                            <button
+                              key={sub}
+                              onClick={() => onNavigateToCatalog(card.entry)}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                padding: '7px 16px 7px 7px',
+                                borderRadius: 999,
+                                background: 'rgba(255,255,255,0.92)',
+                                backdropFilter: 'blur(8px)',
+                                border: '1px solid rgba(26,26,24,0.12)',
+                                color: '#1a1a18',
+                                fontSize: 14,
+                                fontFamily: 'inherit',
+                                cursor: 'pointer',
+                                whiteSpace: 'nowrap',
+                                opacity: isHovered ? 1 : 0,
+                                transform: isHovered ? 'translateY(0px)' : 'translateY(8px)',
+                                transition: `opacity 300ms ease ${si * 25}ms, transform 380ms cubic-bezier(0.22,1,0.36,1) ${si * 25}ms, background 140ms ease`,
+                              }}
+                              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,1)'; }}
+                              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.92)'; }}
+                            >
+                              <img src={catNobg1} alt="" style={{ width: 34, height: 34, objectFit: 'contain', flexShrink: 0 }} />
+                              {sub}
+                            </button>
+                          ))}
+                          <button
+                            onClick={() => onNavigateToCatalog(card.entry)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 8,
+                              padding: '7px 18px 7px 7px',
+                              borderRadius: 999,
+                              background: '#1a1a18',
+                              border: '1px solid #1a1a18',
+                              color: '#fff',
+                              fontSize: 14,
+                              fontFamily: 'inherit',
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                              opacity: isHovered ? 1 : 0,
+                              transform: isHovered ? 'translateY(0px)' : 'translateY(8px)',
+                              transition: `opacity 300ms ease ${subs.length * 25}ms, transform 380ms cubic-bezier(0.22,1,0.36,1) ${subs.length * 25}ms, background 140ms ease`,
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = '#333'; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = '#1a1a18'; }}
+                          >
+                            <span style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>→</span>
+                            Все {card.title.toLowerCase()}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })()}
                   <div style={{ position: 'relative', borderRadius: 30, overflow: 'hidden', background: '#2a2926', boxShadow: '0 34px 64px -32px rgba(26,26,24,0.55)' }}>
                     <div style={{ position: 'relative', height: 460, overflow: 'hidden', borderRadius: 30, background: '#e8e5e0' }}>
 

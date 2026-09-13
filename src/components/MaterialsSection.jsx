@@ -73,6 +73,7 @@ export default function MaterialsSection() {
   const [openMenu, setOpenMenu] = useState(null);
   const [limit, setLimit] = useState(PER_PAGE);
   const [selectedCode, setSelectedCode] = useState(FLAT[0].code);
+  const [lightMode, setLightMode] = useState('day');
 
   const matches = FLAT.filter(f =>
     (filterIdx.section === 0 || f.section === FILTERS[0].options[filterIdx.section]) &&
@@ -131,8 +132,40 @@ export default function MaterialsSection() {
           transition: 'background .25s',
         }}>
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(20,17,14,.10) 0%,rgba(20,17,14,0) 40%,rgba(20,17,14,.42) 100%)' }} />
-          <div style={{ position: 'absolute', top: 24, left: 24, writingMode: 'vertical-rl', transform: 'rotate(180deg)', fontSize: 10, letterSpacing: 1.4, textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>
-            {cur.section}
+          {lightMode === 'night' && (
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,8,6,0.55)', transition: 'background .3s', pointerEvents: 'none' }} />
+          )}
+          <div style={{ position: 'absolute', top: 18, left: 18, display: 'flex', flexDirection: 'column', gap: 8, zIndex: 2 }}>
+            <button
+              title="Дневной свет"
+              onClick={() => setLightMode('day')}
+              style={{
+                width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
+                background: lightMode === 'day' ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.28)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 17, boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                transition: 'background .18s',
+              }}
+            ><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block' }}>
+                <circle cx="8" cy="8" r="3" fill={lightMode === 'day' ? '#1a1612' : 'rgba(255,255,255,0.85)'} />
+                {[0,45,90,135,180,225,270,315].map(a => {
+                  const r = Math.PI * a / 180;
+                  return <line key={a} x1={8 + Math.cos(r)*5} y1={8 + Math.sin(r)*5} x2={8 + Math.cos(r)*7} y2={8 + Math.sin(r)*7} stroke={lightMode === 'day' ? '#1a1612' : 'rgba(255,255,255,0.85)'} strokeWidth="1.5" strokeLinecap="round" />;
+                })}
+              </svg></button>
+            <button
+              title="Ночной"
+              onClick={() => setLightMode('night')}
+              style={{
+                width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
+                background: lightMode === 'night' ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.28)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 17, boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                transition: 'background .18s',
+              }}
+            ><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block' }}>
+                <path d="M12 9.5A5 5 0 0 1 6.5 4a5 5 0 0 0 0 8 5 5 0 0 0 5.5-2.5z" fill={lightMode === 'night' ? '#1a1612' : 'rgba(255,255,255,0.85)'} />
+              </svg></button>
           </div>
           <div style={{ position: 'relative', marginTop: 'auto', padding: 24, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>

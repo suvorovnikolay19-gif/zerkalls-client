@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: oklch(0.17 0.008 85); }
+  a { color: oklch(0.96 0.01 85); }
+  a:hover { color: oklch(0.88 0.02 85); }
+  @keyframes popIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.82); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+  @keyframes lineIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes blink { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+</style>
+</helmet>
+<div style="position: relative; width: 100%; height: 100vh; min-height: 560px; background: oklch(0.17 0.008 85); color: oklch(0.96 0.01 85); font-family: 'Space Grotesk', Helvetica, sans-serif; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 28px 32px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: oklch(0.66 0.01 85); z-index: 3;">
+    <span>Карта решений</span>
+    <span style="cursor: pointer;" onClick="{{ reset }}">↺ Сбросить</span>
+  </div>
+
+  <div style="position: relative; flex: 1; min-height: 380px; overflow: hidden;" ref="{{ stageRef }}">
+    <div style="position: absolute; inset: 0; background-image: radial-gradient(oklch(0.30 0.01 85) 1px, transparent 1px); background-size: 32px 32px; opacity: 0.5;"></div>
+    <div style="position: absolute; left: 50%; top: 50%; width: 0; height: 0; transition: transform 900ms cubic-bezier(0.22, 0.9, 0.16, 1);"><div style="{{ world }}">
+      <sc-for list="{{ edges }}" as="e" hint-placeholder-count="0">
+        <div style="{{ e.style }}"></div>
+      </sc-for>
+      <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="1">
+        <div style="{{ n.wrap }}" onMouseEnter="{{ n.enter }}">
+          <div style="{{ n.btn }}" style-hover="{{ n.btnHover }}">{{ n.label }}</div>
+          <sc-if value="{{ n.hint }}" hint-placeholder-val="{{ false }}">
+            <div style="position: absolute; left: 50%; top: calc(100% + 14px); transform: translateX(-50%); white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.7 0.01 85); animation: blink 1.8s ease-in-out infinite;">{{ caption }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div></div>
+    <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 50%, transparent 42%, oklch(0.17 0.008 85 / 0.92) 88%);"></div>
+  </div>
+
+  <div style="position: relative; z-index: 3; border-top: 1px solid oklch(0.28 0.01 85); background: oklch(0.17 0.008 85); padding: 20px 32px 28px; display: flex; flex-direction: column; gap: 14px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: oklch(0.66 0.01 85);">
+      <span>Процесс продвижения</span>
+      <span style="{{ pctStyle }}">{{ pct }}</span>
+    </div>
+    <div style="position: relative; height: 2px; background: oklch(0.28 0.01 85);">
+      <div style="{{ barStyle }}"></div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; min-height: 30px;">
+      <sc-for list="{{ trail }}" as="t" hint-placeholder-count="2">
+        <div style="{{ t.style }}">{{ t.label }}</div>
+      </sc-for>
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ true }}">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: oklch(0.52 0.01 85);">путь пока пустой</div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#c2f24a&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#c2f24a&quot;,&quot;#7ab8ff&quot;,&quot;#ff8a5c&quot;,&quot;#e9e4d8&quot;]},&quot;nodeGap&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:230,&quot;min&quot;:170,&quot;max&quot;:340,&quot;step&quot;:10,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;autoReveal&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;caption&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;наведись&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Перейти в каталог →&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const TREE = {
+  start: { q: 'С чего начинается движение?', a: [
+    { t: 'У меня есть идея', to: 'idea' },
+    { t: 'Ищу направление', to: 'search' },
+    { t: 'Продукт уже есть', to: 'product' } ] },
+  idea: { q: 'Что мешает начать?', a: [
+    { t: 'Нет команды', to: 'team' },
+    { t: 'Нет денег', to: 'money' },
+    { t: 'Нет уверенности', to: 'doubt' } ] },
+  search: { q: 'Что тебе ближе?', a: [
+    { t: 'Делать руками', to: 'craft' },
+    { t: 'Работать с людьми', to: 'team' },
+    { t: 'Считать и считать', to: 'money' } ] },
+  product: { q: 'Что сейчас важнее?', a: [
+    { t: 'Первые клиенты', to: 'clients' },
+    { t: 'Рост выручки', to: 'money' },
+    { t: 'Команда', to: 'team' } ] },
+  team: { q: 'Кого ищешь первым?', a: [
+    { t: 'Партнёра', to: 'end' },
+    { t: 'Инженера', to: 'end' },
+    { t: 'Дизайнера', to: 'end' } ] },
+  money: { q: 'Откуда деньги?', a: [
+    { t: 'От клиентов', to: 'clients' },
+    { t: 'От инвестора', to: 'end' },
+    { t: 'Свои', to: 'end' } ] },
+  doubt: { q: 'Что проверим первым?', a: [
+    { t: 'Спрос', to: 'clients' },
+    { t: 'Себя', to: 'end' } ] },
+  craft: { q: 'Что сделаешь за неделю?', a: [
+    { t: 'Прототип', to: 'clients' },
+    { t: 'Лендинг', to: 'clients' } ] },
+  clients: { q: 'Как найдёшь первых?', a: [
+    { t: 'Вручную, по одному', to: 'end' },
+    { t: 'Через контент', to: 'end' } ] },
+  end: { q: 'Маршрут собран', a: [] }
+};
+const DEPTH = 4;
+
+class Component extends DCLogic {
+  state = { chain: [], open: false, h: 0, w: 0 };
+
+  observe(el) {
+    if (this.stage === el) return;
+    this.stage = el;
+    if (this.ro) this.ro.disconnect();
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    this.ro = new ResizeObserver(es => {
+      const r = es[0].contentRect;
+      if (Math.abs(r.height - this.state.h) > 2 || Math.abs(r.width - this.state.w) > 2) {
+        this.setState({ h: r.height, w: r.width });
+      }
+    });
+    this.ro.observe(el);
+  }
+
+  componentWillUnmount() { if (this.ro) this.ro.disconnect(); }
+
+  // радиус круга подстраивается под реальный размер сцены, чтобы веер всегда влезал
+  gap() {
+    const want = Number(this.props.nodeGap ?? 230);
+    const h = this.state.h || 640, w = this.state.w || 1000;
+    return Math.max(148, Math.min(want, h / 2 - 76, w / 2 - 200));
+  }
+
+  // приблизительная полуширина пилюли по длине текста
+  half(text, per, pad) { return (text.length * per + pad) / 2; }
+
+  build() {
+    const gap = this.gap();
+    const TAU = Math.PI * 2;
+    const chain = this.state.chain;
+    const levels = [];
+    let x = 0, y = 0, dir = 0, key = 'start';
+
+    for (let i = 0; i <= chain.length; i++) {
+      const node = TREE[key] || TREE.end;
+      const lvl = { key, node, x, y, i, answers: [] };
+      const k = node.a.length;
+      if (k) {
+        const qHalf = this.half(node.q, 10.6, 62);
+        const halves = node.a.map(a => this.half(a.t, 8.3, 50));
+        const FAN = { 1: [0], 2: [-0.58, 0.58], 3: [-0.95, 0, 0.95], 4: [-1.3, -0.44, 0.44, 1.3] };
+        const fan = FAN[k] || node.a.map((_, j) => (j - (k - 1) / 2) * 0.6);
+        const clear = Math.max(66, gap * 0.5); // постоянный зазор между краями пилюль
+        for (let j = 0; j < k; j++) {
+          const ang = i === 0 ? -Math.PI / 2 + (TAU * j) / k : dir + fan[j];
+          const c = Math.abs(Math.cos(ang)), s = Math.abs(Math.sin(ang));
+          // радиус считается от краёв, а не от центров — воздух везде одинаковый
+          const r = (qHalf + halves[j]) * c + 53 * s + clear;
+          // орбита слегка сплюснута по вертикали — композиция шире и спокойнее
+          const dx = Math.cos(ang) * r, dy = Math.sin(ang) * r * 0.78;
+          lvl.answers.push(Object.assign({}, node.a[j], {
+            j, ang, r, half: halves[j], clear,
+            lineAng: Math.atan2(dy, dx), dist: Math.hypot(dx, dy),
+            x: x + dx, y: y + dy
+          }));
+        }
+      }
+      levels.push(lvl);
+      if (i < chain.length) {
+        const ch = lvl.answers[chain[i]];
+        if (!ch) break;
+        x = ch.x; y = ch.y; dir = ch.ang; key = ch.to;
+      }
+    }
+    return levels;
+  }
+
+  renderVals() {
+    const accent = this.props.accent || '#c2f24a';
+    const autoReveal = this.props.autoReveal ?? false;
+    const levels = this.build();
+    const chain = this.state.chain;
+    const last = levels[levels.length - 1];
+    const nodes = [];
+    const edges = [];
+
+    const wrapAt = (x, y, z) => ({ position: 'absolute', left: x + 'px', top: y + 'px', transform: 'translate(-50%, -50%)', zIndex: z, animation: 'popIn 420ms cubic-bezier(0.22,0.9,0.16,1) both' });
+
+    const lastIdx = levels.length - 1;
+    levels.forEach((lvl, i) => {
+      const isActive = i === lastIdx;
+      const back = lastIdx - i; // насколько узел позади активного
+      const fade = isActive ? 1 : Math.max(0.22, 0.6 - (back - 1) * 0.14);
+      const qHalf = this.half(lvl.node.q, 10.6, 62);
+      // узлы, уехавшие за кадр, не рисуем — никаких обрезанных пилюль по краям
+      const offX = Math.abs(lvl.x - last.x) > (this.state.w || 1000) / 2 - 40;
+      const offY = Math.abs(lvl.y - last.y) > (this.state.h || 640) / 2 - 30;
+      const visible = isActive || (!offX && !offY);
+
+      if (visible) nodes.push({
+        label: lvl.node.q,
+        hint: isActive && !this.state.open && lvl.node.a.length > 0,
+        enter: () => {
+          if (isActive) this.setState({ open: true });
+          else this.setState({ chain: chain.slice(0, i), open: true });
+        },
+        wrap: wrapAt(lvl.x, lvl.y, isActive ? 30 : 24 - back),
+        btn: {
+          padding: isActive ? '19px 30px' : '11px 18px',
+          borderRadius: '999px',
+          border: '1px solid ' + (isActive ? accent : 'oklch(0.32 0.01 85)'),
+          background: isActive ? 'oklch(0.22 0.012 85)' : 'oklch(0.195 0.008 85)',
+          color: isActive ? 'oklch(0.97 0.01 85)' : 'oklch(0.70 0.01 85)',
+          fontSize: isActive ? '21px' : '13px',
+          fontWeight: isActive ? 500 : 400,
+          letterSpacing: isActive ? '-0.01em' : '0',
+          whiteSpace: 'nowrap',
+          cursor: isActive ? 'default' : 'pointer',
+          opacity: fade,
+          boxShadow: isActive ? '0 0 0 7px ' + accent + '14, 0 22px 60px -24px ' + accent + '55' : 'none',
+          transition: 'all 500ms cubic-bezier(0.22,0.9,0.16,1)'
+        },
+        btnHover: isActive ? {} : { opacity: 1, borderColor: accent, color: 'oklch(0.94 0.01 85)' }
+      });
+
+      const showFan = isActive ? this.state.open : false;
+      lvl.answers.forEach((a) => {
+        const chosen = i < chain.length && chain[i] === a.j;
+        if (!chosen && !showFan) return;
+        if (!visible) return; // не оставляем линии от скрытых узлов
+
+        // линия идёт от края вопроса до края ответа, а не из-под пилюль
+        const c = Math.abs(Math.cos(a.lineAng)), s = Math.abs(Math.sin(a.lineAng));
+        const pHalf = isActive ? qHalf : this.half(lvl.node.q, 6.7, 40);
+        const inA = pHalf * c + (isActive ? 30 : 20) * s + 11;
+        const inB = a.half * c + 23 * s + 11;
+        const len = Math.max(a.dist - inA - inB, 14);
+        edges.push({
+          style: {
+            position: 'absolute', left: lvl.x + 'px', top: lvl.y + 'px',
+            width: len + 'px', height: '1px',
+            transformOrigin: '0 50%',
+            transform: 'rotate(' + a.lineAng + 'rad) translateX(' + inA + 'px)',
+            background: chosen
+              ? 'linear-gradient(90deg, ' + accent + '00, ' + accent + 'cc)'
+              : 'linear-gradient(90deg, oklch(0.38 0.01 85 / 0), oklch(0.46 0.01 85 / 0.9))',
+            opacity: chosen ? Math.max(0.3, fade) : 0.7,
+            zIndex: 5,
+            animation: 'lineIn 600ms ease both',
+            transition: 'opacity 400ms ease'
+          }
+        });
+        if (chosen) return;
+
+        nodes.push({
+          label: a.t,
+          hint: false,
+          enter: () => this.setState({ chain: chain.slice(0, i).concat(a.j), open: autoReveal }),
+          wrap: wrapAt(a.x, a.y, 12),
+          btn: {
+            padding: '14px 23px',
+            borderRadius: '999px',
+            border: '1px solid oklch(0.34 0.01 85)',
+            background: 'oklch(0.205 0.008 85)',
+            color: 'oklch(0.82 0.01 85)',
+            fontSize: '16px',
+            fontWeight: 400,
+            whiteSpace: 'nowrap',
+            cursor: 'pointer',
+            transition: 'all 260ms cubic-bezier(0.22,0.9,0.16,1)'
+          },
+          btnHover: {
+            borderColor: accent,
+            background: 'oklch(0.24 0.012 85)',
+            color: 'oklch(0.99 0.005 85)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 14px 34px -18px ' + accent + '88'
+          }
+        });
+      });
+    });
+
+    const done = last.key === 'end';
+    if (done) {
+      nodes.push({
+        label: this.props.ctaLabel || 'Перейти в каталог →',
+        hint: false,
+        cta: true,
+        enter: () => {},
+        wrap: Object.assign(wrapAt(last.x, last.y + 120, 40), { animation: 'popIn 500ms cubic-bezier(0.22,0.9,0.16,1) 220ms both' }),
+        btn: {
+          padding: '20px 34px',
+          borderRadius: '999px',
+          border: '1px solid ' + accent,
+          background: accent,
+          color: 'oklch(0.17 0.008 85)',
+          fontSize: '18px',
+          fontWeight: 600,
+          letterSpacing: '-0.01em',
+          whiteSpace: 'nowrap',
+          cursor: 'pointer',
+          boxShadow: '0 20px 60px -20px ' + accent + '99',
+          transition: 'all 300ms ease'
+        },
+        btnHover: { transform: 'translateY(-2px)', boxShadow: '0 26px 70px -22px ' + accent + 'cc' }
+      });
+    }
+    const p = done ? 1 : Math.min(chain.length / DEPTH, 0.96);
+    const trail = chain.map((idx, i) => ({
+      label: (i + 1) + '. ' + (levels[i].answers[idx] ? levels[i].answers[idx].t : '—'),
+      style: {
+        fontFamily: "'IBM Plex Mono', monospace", fontSize: '13px',
+        padding: '6px 12px', borderRadius: '4px',
+        border: '1px solid ' + (i === chain.length - 1 ? accent : 'oklch(0.30 0.01 85)'),
+        color: i === chain.length - 1 ? accent : 'oklch(0.72 0.01 85)'
+      }
+    }));
+
+    return {
+      nodes, edges, trail,
+      empty: chain.length === 0,
+      caption: this.props.caption || 'наведись',
+      world: { position: 'absolute', left: 0, top: 0, width: 0, height: 0, transform: 'translate(' + -last.x + 'px, ' + -last.y + 'px)', transition: 'transform 900ms cubic-bezier(0.22,0.9,0.16,1)' },
+      pct: done ? 'Маршрут собран' : Math.round(p * 100) + '%',
+      pctStyle: { color: done ? accent : 'oklch(0.66 0.01 85)' },
+      barStyle: { position: 'absolute', left: 0, top: 0, height: '2px', width: p * 100 + '%', background: accent, transition: 'width 700ms cubic-bezier(0.22,0.9,0.16,1)' },
+      stageRef: el => this.observe(el),
+      reset: () => this.setState({ chain: [], open: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" />
+<script src="./image-slot.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #f7f6f3; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { opacity: .74; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #dcd8d1; border-radius: 8px; }
+  @keyframes coFade { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
+</style>
+</helmet>
+<div style="font-family: 'Golos Text', Helvetica, sans-serif; color: #1a1a18; background: #f7f6f3; min-height: 100vh; -webkit-font-smoothing: antialiased">
+
+  <header style="background: #fff; border-bottom: 1px solid #ece9e4">
+    <div style="display: flex; align-items: center; gap: 34px; padding: 20px 40px">
+      <a href="Home.dc.html" style="display: flex; flex-direction: column; gap: 3px">
+        <div style="font-size: 26px; font-weight: 600; letter-spacing: -.02em">objects</div>
+        <div style="font-size: 9.5px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #a8a39a">премиум декор для дома</div>
+      </a>
+      <nav style="display: flex; align-items: center; gap: 26px; margin-left: 22px; font-size: 14.5px; color: #33322e">
+        <a href="Store.dc.html" style="display: flex; align-items: center; gap: 6px">Каталог <span style="font-size: 11px; color: #a8a39a">⌄</span></a>
+        <a href="Home.dc.html#collections">Коллекции</a>
+        <a href="Store.dc.html">Новинки</a>
+        <a href="Store.dc.html">Акции</a>
+        <a href="Home.dc.html#footer">О бренде</a>
+        <a href="Home.dc.html#faq">Журнал</a>
+        <a href="Home.dc.html#footer">Контакты</a>
+      </nav>
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 26px">
+        <div style="display: flex; flex-direction: column; gap: 2px; align-items: flex-end">
+          <a href="tel:+78005553210" style="display: flex; align-items: center; gap: 9px; font-size: 16.5px; font-weight: 500; letter-spacing: -.01em">☏ 8 (800) 555-32-10</a>
+          <div style="font-size: 12.5px; color: #a8a39a">Ежедневно 9:00 – 21:00</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; border: 1px solid #e6e2dc; border-radius: 14px; background: #fff; cursor: pointer" style-hover="border-color: #cfcac1">
+          <span style="position: relative; font-size: 17px">⊞<span style="position: absolute; top: -8px; right: -10px; min-width: 18px; height: 18px; border-radius: 50%; background: #1a1a18; color: #fff; font-size: 10.5px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{ count }}</span></span>
+          <span style="font-size: 15px; font-weight: 500">{{ total }}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="display: flex; align-items: center; gap: 12px; padding: 20px 40px 0; font-size: 13px; color: #a8a39a">
+    <a href="Home.dc.html">Главная</a>
+    <span>›</span>
+    <a href="Store.dc.html">Корзина</a>
+    <span>›</span>
+    <span style="color: #6b6862">Оформление заказа</span>
+  </div>
+
+  <main style="display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 26px; align-items: start; padding: 22px 40px 60px">
+    <div style="display: flex; flex-direction: column; gap: 22px">
+      <div>
+        <h1 style="margin: 0 0 8px; font-size: 46px; font-weight: 700; letter-spacing: -.035em">Оформление заказа</h1>
+        <div style="font-size: 15px; color: #8b877f">Выберите удобный способ оформления заказа</div>
+      </div>
+
+      <div style="padding: 28px 30px 30px; background: #fff; border: 1px solid #ece9e4; border-radius: 18px">
+        <div style="font-size: 21px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 22px">Как вы хотите оформить заказ?</div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px">
+          <sc-for list="{{ ways }}" as="w" hint-placeholder-count="3">
+            <div onClick="{{ w.pick }}" style="{{ w.cardStyle }}">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+                <div style="{{ w.iconStyle }}">{{ w.icon }}</div>
+                <div style="{{ w.radioStyle }}">{{ w.radioMark }}</div>
+              </div>
+              <div style="font-size: 16.5px; font-weight: 600; letter-spacing: -.01em; text-wrap: pretty">{{ w.title }}</div>
+              <div style="font-size: 13.5px; line-height: 1.5; color: #8b877f; text-wrap: pretty">{{ w.text }}</div>
+              <sc-if value="{{ w.hasChips }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; gap: 10px; margin-top: 4px">
+                  <div style="display: flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; background: #f1eee9; font-size: 13px; color: #1a1a18; cursor: pointer">
+                    <span style="width: 20px; height: 20px; border-radius: 50%; background: #1a1a18; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center">✆</span>
+                    WhatsApp
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; background: #f1eee9; font-size: 13px; color: #33322e; cursor: pointer">
+                    <span style="width: 20px; height: 20px; border-radius: 50%; background: #33322e; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center">✈</span>
+                    Telegram
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ isMessenger }}" hint-placeholder-val="{{ true }}">
+          <div style="position: relative; overflow: hidden; display: flex; align-items: center; gap: 30px; margin-top: 26px; padding: 40px 40px 38px; border-radius: 18px; background: #f4f2ee; animation: coFade .28s cubic-bezier(.2,.8,.2,1)">
+            <div style="width: 92px; height: 92px; flex: none; border-radius: 50%; background: #e8e4dd; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #1a1a18">✉</div>
+            <div style="display: flex; flex-direction: column; gap: 14px; max-width: 470px">
+              <h2 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -.025em">Оформление через мессенджер</h2>
+              <div style="font-size: 15px; line-height: 1.55; color: #6b6862; text-wrap: pretty">Свяжитесь с нами в удобном мессенджере — мы быстро ответим, поможем с выбором и оформим заказ за вас.</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 18px 28px; border-radius: 12px; background: #1a1a18; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #33322e">
+                  <span style="width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.22); display: flex; align-items: center; justify-content: center; font-size: 13px">✆</span>
+                  Написать в WhatsApp
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 18px 28px; border-radius: 12px; background: #33322e; color: #fff; font-size: 15px; font-weight: 500; cursor: pointer" style-hover="background: #4a4842">
+                  <span style="width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.22); display: flex; align-items: center; justify-content: center; font-size: 13px">✈</span>
+                  Написать в Telegram
+                </div>
+              </div>
+              <div onClick="{{ resetWay }}" style="display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 14px; color: #1a1a18; cursor: pointer">↔ Выбрать другой способ</div>
+            </div>
+            <div style="margin-left: auto; width: 260px; height: 250px; flex: none">
+              <image-slot id="checkout-hero" shape="rounded" radius="14" placeholder="фото товара 520×500"></image-slot>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isContacts }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 26px; padding: 32px 34px 34px; border: 1px solid #ece9e4; border-radius: 18px; animation: coFade .28s cubic-bezier(.2,.8,.2,1)">
+            <h2 style="margin: 0 0 8px; font-size: 26px; font-weight: 600; letter-spacing: -.02em">Оставьте свои контакты</h2>
+            <div style="font-size: 14.5px; color: #8b877f; margin-bottom: 22px">Мы свяжемся с вами, уточним детали и ответим на вопросы</div>
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; align-items: center; gap: 14px; padding: 18px 20px; border: 1px solid #e6e2dc; border-radius: 12px; background: #fff">
+                <span style="font-size: 15px; color: #b3aea5">☺</span>
+                <span style="font-size: 15px; color: #a8a39a">Ваше имя</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding: 18px 20px; border: 1px solid #e6e2dc; border-radius: 12px; background: #fff">
+                <span style="font-size: 15px; color: #b3aea5">☏</span>
+                <span style="font-size: 15px; color: #a8a39a">Номер телефона</span>
+                <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #c2bdb5">+7 (___) ___-__-__</span>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; min-height: 96px; border: 1px solid #e6e2dc; border-radius: 12px; background: #fff">
+                <span style="font-size: 15px; color: #b3aea5">✉</span>
+                <span style="font-size: 15px; color: #a8a39a">Комментарий (необязательно)</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 9px; margin: 18px 0 20px; font-size: 13px; color: #6b6862">
+              <span style="font-size: 13px; color: #1a1a18">⛨</span>
+              Мы <strong style="font-weight: 600">не передаём</strong> ваши данные третьим лицам
+            </div>
+            <div onClick="{{ submit }}" style="padding: 19px; border-radius: 12px; background: #1a1a18; color: #fff; font-size: 15.5px; font-weight: 500; text-align: center; cursor: pointer" style-hover="background: #33322e">Отправить</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isForm }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top: 26px; padding: 32px 34px 34px; border: 1px solid #ece9e4; border-radius: 18px; animation: coFade .28s cubic-bezier(.2,.8,.2,1)">
+            <h2 style="margin: 0 0 8px; font-size: 26px; font-weight: 600; letter-spacing: -.02em">Заполните форму заказа</h2>
+            <div style="font-size: 14.5px; color: #8b877f; margin-bottom: 24px">Укажите данные для оформления и доставки заказа</div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 24px">
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <div style="font-size: 14.5px; font-weight: 600">Контактные данные</div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">☺</span><span style="font-size: 14.5px; color: #a8a39a">Ваше имя</span></div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">☏</span><span style="font-size: 14.5px; color: #a8a39a">Номер телефона</span><span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #c2bdb5">+7 (___) ___-__-__</span></div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">✉</span><span style="font-size: 14.5px; color: #a8a39a">E-mail (необязательно)</span></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <div style="font-size: 14.5px; font-weight: 600">Адрес доставки</div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">⌖</span><span style="font-size: 14.5px; color: #a8a39a">Город</span></div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">⌂</span><span style="font-size: 14.5px; color: #a8a39a">Улица, дом, квартира</span></div>
+                <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; min-height: 78px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">✎</span><span style="font-size: 14.5px; color: #a8a39a">Комментарий к заказу (необязательно)</span></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <div style="font-size: 14.5px; font-weight: 600">Способ доставки</div>
+                <div style="display: flex; gap: 12px">
+                  <sc-for list="{{ shipping }}" as="s" hint-placeholder-count="2">
+                    <div onClick="{{ s.pick }}" style="{{ s.style }}">
+                      <span style="font-size: 16px; color: #6b6862">{{ s.icon }}</span>
+                      <div style="display: flex; flex-direction: column; gap: 2px">
+                        <div style="font-size: 14px; font-weight: 500">{{ s.name }}</div>
+                        <div style="font-size: 12.5px; color: #8b877f">Бесплатно</div>
+                      </div>
+                      <div style="{{ s.radioStyle }}">{{ s.mark }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <div style="font-size: 14.5px; font-weight: 600">Удобное время доставки</div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">▤</span><span style="font-size: 14.5px; color: #a8a39a">Выберите дату</span><span style="margin-left: auto; color: #b3aea5">▦</span></div>
+                <div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid #e6e2dc; border-radius: 12px"><span style="color: #b3aea5">◷</span><span style="font-size: 14.5px; color: #a8a39a">Выберите время</span><span style="margin-left: auto; font-size: 12px; color: #b3aea5">⌄</span></div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 9px; margin: 22px 0 20px; font-size: 13px; color: #6b6862">
+              <span style="font-size: 13px; color: #1a1a18">⛨</span>
+              Мы <strong style="font-weight: 600">не передаём</strong> ваши данные третьим лицам
+            </div>
+            <div onClick="{{ submit }}" style="padding: 19px; border-radius: 12px; background: #1a1a18; color: #fff; font-size: 15.5px; font-weight: 500; text-align: center; cursor: pointer" style-hover="background: #33322e">Отправить заказ</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; gap: 14px; margin-top: 20px; padding: 18px 22px; border-radius: 14px; background: #f1eee9; font-size: 14.5px; color: #33322e; animation: coFade .24s ease">
+            <span style="width: 26px; height: 26px; flex: none; border-radius: 50%; background: #1a1a18; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center">✓</span>
+            Заявка отправлена — менеджер свяжется с вами в течение часа.
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <aside style="display: flex; flex-direction: column; gap: 18px; padding: 26px 26px 28px; background: #fff; border: 1px solid #ece9e4; border-radius: 18px; position: sticky; top: 20px">
+      <div style="font-size: 20px; font-weight: 600; letter-spacing: -.015em">Ваш заказ</div>
+      <div style="display: flex; flex-direction: column">
+        <sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+          <div style="display: flex; gap: 18px; padding: 16px 0; border-bottom: 1px solid #f1eee9">
+            <div style="width: 106px; height: 122px; flex: none; border-radius: 10px; overflow: hidden">
+              <image-slot id="{{ it.slotId }}" shape="rounded" radius="10" placeholder="{{ it.slotHint }}"></image-slot>
+            </div>
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+              <div style="font-size: 14.5px; font-weight: 500; line-height: 1.35; text-wrap: pretty">{{ it.title }}</div>
+              <div style="font-size: 13px; color: #a8a39a">{{ it.spec }}</div>
+              <div style="margin-top: auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+                <span style="font-size: 13px; color: #8b877f">{{ it.qty }}</span>
+                <span style="font-size: 15px; font-weight: 500">{{ it.price }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 14.5px">
+          <span style="color: #6b6862">Сумма товаров</span>
+          <span>{{ total }}</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 14.5px">
+          <span style="color: #6b6862">Доставка</span>
+          <span style="color: #1a1a18; font-weight: 500">Бесплатно</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 22px; border-radius: 12px; background: #f4f2ee">
+        <span style="font-size: 16.5px; font-weight: 500">Итого</span>
+        <span style="font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #1a1a18">{{ total }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px; padding-top: 4px">
+        <sc-for list="{{ perks }}" as="p" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <div style="width: 36px; height: 36px; flex: none; border-radius: 50%; border: 1px solid #e6e2dc; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #4a4842">{{ p.icon }}</div>
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <div style="font-size: 14px; font-weight: 500">{{ p.title }}</div>
+              <div style="font-size: 12.5px; color: #a8a39a; text-wrap: pretty">{{ p.text }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </aside>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1a1a18&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#1a1a18&quot;,&quot;#33322e&quot;,&quot;#8a6a3b&quot;,&quot;#4f6b52&quot;],&quot;section&quot;:&quot;Стиль&quot;}}">
+class Component extends DCLogic {
+  state = { way: 'messenger', shipping: 'Курьером', sent: false };
+
+  WAYS = [
+    { key: 'messenger', icon: '✉', title: 'Написать в мессенджер', text: 'Быстрая консультация в WhatsApp / Telegram', chips: true },
+    { key: 'contacts', icon: '☏', title: 'Оставить контакты для связи', text: 'Менеджер свяжется с вами для уточнения деталей' },
+    { key: 'form', icon: '▤', title: 'Заполнить форму', text: 'Самостоятельно укажите данные доставки и оплаты' }
+  ];
+
+  ITEMS = [
+    { title: 'Зеркало Arco, овальное', spec: 'Латунь, 800×1000 мм', price: '38 400 ₽', qty: '1 шт.' },
+    { title: 'Ширма Reed, дуб', spec: 'Дуб массив, 3 створки', price: '54 000 ₽', qty: '1 шт.' },
+    { title: 'Зеркало Slim, во весь рост', spec: 'Сталь, 600×1900 мм', price: '32 900 ₽', qty: '1 шт.' }
+  ];
+
+  PERKS = [
+    { icon: '⛨', title: 'Безопасная оплата', text: 'Платежи защищены и шифруются' },
+    { icon: '⇉', title: 'Быстрая доставка', text: 'По всей России от 1 до 3 дней' },
+    { icon: '↺', title: 'Лёгкий возврат', text: '14 дней на возврат без лишних вопросов' },
+    { icon: '⚿', title: 'Ваши данные под защитой', text: 'Мы не передаём данные третьим лицам' }
+  ];
+
+  componentDidMount() { this.enhance(); }
+  componentDidUpdate() { this.enhance(); }
+  componentWillUnmount() { if (this._io) { this._io.disconnect(); this._io = null; } }
+
+  enhance() {
+    if (this._q) return;
+    this._q = true;
+    requestAnimationFrame(() => { this._q = false; this.initHover(); });
+  }
+
+  initHover() {
+    const root = document.querySelector('x-dc') || document.body;
+    this._hover = this._hover || new WeakSet();
+    root.querySelectorAll('a, [style*="cursor: pointer"]').forEach(el => {
+      if (this._hover.has(el)) return;
+      const st = el.getAttribute('style') || '';
+      if (st.indexOf('transform:') >= 0) return;
+      this._hover.add(el);
+      const base = el.style.transition ? el.style.transition + ', ' : '';
+      el.style.transition = base + 'transform .24s cubic-bezier(.2,.8,.2,1)';
+      el.addEventListener('mouseenter', () => { el.style.transform = 'translateY(-2px)'; });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+      el.addEventListener('mousedown', () => { el.style.transform = 'translateY(0) scale(.99)'; });
+      el.addEventListener('mouseup', () => { el.style.transform = 'translateY(-2px)'; });
+    });
+  }
+
+  money(n) { return n.toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₽'; }
+
+  renderVals() {
+    const green = this.props.accent ?? '#1a1a18';
+    const sum = this.ITEMS.reduce((a, it) => a + parseInt(it.price.replace(/\D/g, ''), 10), 0);
+
+    return {
+      count: this.ITEMS.length,
+      total: this.money(sum),
+      items: this.ITEMS.map((it, i) => Object.assign({}, it, {
+        slotId: 'checkout-item-' + i, slotHint: it.title
+      })),
+      perks: this.PERKS,
+
+      ways: this.WAYS.map(w => {
+        const on = this.state.way === w.key;
+        return {
+          icon: w.icon, title: w.title, text: w.text, hasChips: !!w.chips && on,
+          pick: () => this.setState({ way: w.key, sent: false }),
+          cardStyle: 'display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 24px; border-radius: 16px; cursor: pointer; transition: border-color .2s ease, background .2s ease, box-shadow .2s ease; border: 1.5px solid ' + (on ? green : '#ece9e4') + '; background: ' + (on ? '#faf9f7' : '#fff') + '; box-shadow: ' + (on ? '0 10px 26px rgba(26,26,24,.09)' : 'none'),
+          iconStyle: 'width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: background .2s ease; background: ' + (on ? '#e8e4dd' : '#f1eee9') + '; color: ' + (on ? '#1a1a18' : '#6b6862'),
+          radioStyle: 'width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; transition: background .2s ease, border-color .2s ease; border: 1.5px solid ' + (on ? green : '#ddd8d1') + '; background: ' + (on ? green : 'transparent'),
+          radioMark: on ? '✓' : ''
+        };
+      }),
+      isMessenger: this.state.way === 'messenger',
+      isContacts: this.state.way === 'contacts',
+      isForm: this.state.way === 'form',
+      resetWay: () => this.setState({ way: 'contacts' }),
+      submit: () => this.setState({ sent: true }),
+      sent: this.state.sent,
+
+      shipping: [{ name: 'Курьером', icon: '⇉' }, { name: 'Самовывоз', icon: '⌂' }].map(s => {
+        const on = this.state.shipping === s.name;
+        return {
+          name: s.name, icon: s.icon, mark: on ? '✓' : '',
+          pick: () => this.setState({ shipping: s.name }),
+          style: 'flex: 1; display: flex; align-items: center; gap: 12px; padding: 15px 16px; border-radius: 12px; cursor: pointer; transition: border-color .2s ease, background .2s ease; border: 1.5px solid ' + (on ? green : '#e6e2dc') + '; background: ' + (on ? '#faf9f7' : '#fff'),
+          radioStyle: 'margin-left: auto; width: 20px; height: 20px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; border: 1.5px solid ' + (on ? green : '#ddd8d1') + '; background: ' + (on ? green : 'transparent')
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>
