@@ -1,19 +1,20 @@
 const BASE_CRUMBS = {
-  catalog:     [{ name: 'Каталог', href: 'catalog' }],
-  mirrors:     [{ name: 'Каталог', href: 'catalog' }],
-  partitions:  [{ name: 'Каталог', href: 'catalog' }],
-  stairs:      [{ name: 'Каталог', href: 'catalog' }],
+  catalog:     [],
+  mirrors:     [],
+  partitions:  [],
+  stairs:      [],
   novelties:   [{ name: 'Новинки сезона' }],
   bestsellers: [{ name: 'Хиты продаж' }],
   sale:        [{ name: 'Распродажа' }],
 };
 
-export default function Breadcrumbs({ entry, section, subsection, onGoHome, onGoEntry, onClearSubsection }) {
+export default function Breadcrumbs({ entry, section, subsection, subsubsection, onGoHome, onGoEntry, onClearSubsection, onClearSubsubsection }) {
   const base = BASE_CRUMBS[entry] ?? BASE_CRUMBS.catalog;
 
   const crumbs = [...base];
   if (section) crumbs.push({ name: section, onClick: subsection ? onClearSubsection : undefined });
-  if (subsection) crumbs.push({ name: subsection });
+  if (subsection) crumbs.push({ name: subsection, onClick: subsubsection ? onClearSubsubsection : undefined });
+  if (subsubsection) crumbs.push({ name: subsubsection });
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '22px 40px 0', fontSize: 16, color: '#8b877f' }}>

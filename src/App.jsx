@@ -14,6 +14,7 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import CheckoutPage from './pages/CheckoutPage.jsx';
 import Breadcrumbs from './components/Breadcrumbs.jsx';
 import CategoryNav from './components/CategoryNav.jsx';
+import CategoryPage from './components/CategoryPage.jsx';
 import { MOCK_PRODUCTS } from './mock/products.js';
 
 const CHIPS = [
@@ -53,6 +54,7 @@ export default function App() {
   const [entry, setEntry] = useState('catalog');
   const [section, setSection] = useState(null);
   const [subsection, setSubsection] = useState(null);
+  const [subsubsection, setSubsubsection] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -124,12 +126,14 @@ export default function App() {
     setPriceMax('');
   };
 
-  const navigateToCatalog = (e = 'catalog') => {
+  const navigateToCatalog = (e = 'catalog', sub = null) => {
     if (page === 'home') setFromHome(true);
     setEntry(e);
     setPage('catalog');
     setSection(ENTRY_TO_SECTION[e] ?? null);
-    setSubsection(null);
+    setSubsection(sub);
+    setSubsubsection(null);
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -160,27 +164,7 @@ export default function App() {
   useEffect(() => {
     if (page !== 'catalog') return;
     const pill = catalogNavPillRef.current;
-    const glavnayaEl = catalogNavItemRefs.current[0];
-    const catalogEl = catalogNavItemRefs.current[1];
-    if (!pill || !glavnayaEl || !catalogEl) return;
-    if (fromHome) {
-      pill.style.transition = 'none';
-      pill.style.left = glavnayaEl.offsetLeft + 'px';
-      pill.style.width = glavnayaEl.offsetWidth + 'px';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        if (!pill) return;
-        pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
-        pill.style.left = catalogEl.offsetLeft + 'px';
-        pill.style.width = catalogEl.offsetWidth + 'px';
-      }));
-    } else {
-      pill.style.transition = 'none';
-      pill.style.left = catalogEl.offsetLeft + 'px';
-      pill.style.width = catalogEl.offsetWidth + 'px';
-      requestAnimationFrame(() => {
-        if (pill) pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
-      });
-    }
+    if (pill) pill.style.width = '0';
   }, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const applied = [
@@ -218,7 +202,30 @@ export default function App() {
           onOpenProfile={() => setPage('profile')}
           onOpenCheckout={() => setPage('checkout')}
           fromCatalog={fromCatalog}
+          onOpenPanel={() => setPanelOpen(true)}
         />
+        {panelOpen && (
+          <FilterPanel
+            selectedCats={selectedCats}
+            chips={CHIPS}
+            chipStates={chips}
+            priceMin={priceMin}
+            priceMax={priceMax}
+            filteredCount={products.length}
+            activeCount={activeCount}
+            onToggleCat={toggleCat}
+            onToggleChip={toggleChip}
+            onPriceMin={setPriceMin}
+            onPriceMax={setPriceMax}
+            onReset={resetAll}
+            onClose={() => setPanelOpen(false)}
+            onOpenQuiz={() => { setPanelOpen(false); setQuizOpen(true); }}
+            onNavigate={(entry) => { setPanelOpen(false); navigateToCatalog(entry); }}
+          />
+        )}
+        {quizOpen && (
+          <QuizModal products={products} onClose={() => setQuizOpen(false)} />
+        )}
         <CartDrawer onCheckout={() => setPage('checkout')} />
       </>
     );
@@ -226,40 +233,16 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#fbfaf8', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
-      <div style={{ position: 'sticky', top: 0, zIndex: 40 }}>
-        <div style={{ animation: fromHome ? 'catalogNavIn .48s cubic-bezier(.22,1,.36,1) forwards' : 'none' }}>
-          <nav style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 6, padding: '18px 48px', background: 'rgba(255,255,255,.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #e8e8e8' }}>
-            <div ref={catalogNavPillRef} style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', height: 44, background: '#1a1a18', borderRadius: 999, pointerEvents: 'none', zIndex: 0 }} />
-            {[
-              { name: 'Главная', action: goToHome },
-              { name: 'Каталог', action: () => navigateToCatalog('catalog') },
-              { name: 'О компании' },
-              { name: 'Дилерам' },
-              { name: 'Портфолио' },
-              { name: 'Материалы' },
-              { name: 'Дизайнерам' },
-              { name: 'Контакты' },
-            ].map((n, i) => (
-              <span
-                key={n.name}
-                ref={el => { catalogNavItemRefs.current[i] = el; }}
-                onClick={n.action}
-                style={{ position: 'relative', zIndex: 1, padding: '11px 22px', borderRadius: 999, fontSize: 17, whiteSpace: 'nowrap', cursor: n.action ? 'pointer' : 'default', color: i === 1 ? '#fff' : '#4a4842', transition: 'color .28s' }}
-              >
-                {n.name}
-              </span>
-            ))}
-          </nav>
-        </div>
-      </div>
       <div style={{ animation: fromHome ? 'catalogContentIn .55s .12s cubic-bezier(.22,1,.36,1) both' : 'none' }}>
       <Breadcrumbs
         entry={entry}
         section={section}
         subsection={subsection}
+        subsubsection={subsubsection}
         onGoHome={() => setPage('home')}
         onGoEntry={navigateToCatalog}
-        onClearSubsection={() => setSubsection(null)}
+        onClearSubsection={() => { setSubsection(null); setSubsubsection(null); }}
+        onClearSubsubsection={() => setSubsubsection(null)}
       />
       <FilterBar
         chips={CHIPS}
@@ -274,28 +257,44 @@ export default function App() {
         compareCount={compareItems.length}
         onOpenCompare={() => setCompareOpen(true)}
       />
-      <CategoryNav
-        section={section}
-        subsection={subsection}
-        onPickSection={name => { setSection(name); setSubsection(null); }}
-        onPickSubsection={name => setSubsection(name)}
-      />
-      <main style={{ padding: '54px 40px 90px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 30 }}>
-          <h2 style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: '-.02em' }}>{subsection || section || 'Каталог зеркал и перегородок'}</h2>
-          <span style={{ width: 1, height: 18, background: '#dcd8d1', display: 'inline-block' }} />
-          <span style={{ fontSize: 14, color: '#8b877f' }}>
-            {loading ? 'Загрузка...' : `${filtered.length} ${pluralProducts(filtered.length)}`}
-          </span>
-        </div>
-        <ProductGrid
-          products={filtered}
-          loading={loading}
-          onAddToCart={(p) => { addItem(p); setCartOpen(true); }}
-          compareIds={compareItems.map(p => p.id)}
-          onToggleCompare={toggleCompare}
+      {/* CategoryNav: топ-уровень (без секции) или чипы (с подсекцией) */}
+      {(!section || subsection) && (
+        <CategoryNav
+          section={section}
+          subsection={subsection}
+          subsubsection={subsubsection}
+          onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); }}
+          onPickSubsection={name => { setSubsection(name); setSubsubsection(null); }}
+          onPickLeaf={name => setSubsubsection(name)}
+          onOpenPanel={() => setPanelOpen(true)}
         />
-      </main>
+      )}
+
+      {/* Уровень 1 — выбрана секция, но не подсекция: показываем CategoryPage */}
+      {section && !subsection ? (
+        <CategoryPage
+          section={section}
+          onPickSubsection={name => { setSubsection(name); setSubsubsection(null); }}
+          onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); }}
+        />
+      ) : (
+        <main style={{ padding: '54px 40px 90px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 30 }}>
+            <h2 style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: '-.02em' }}>{subsubsection || subsection || section || 'Каталог зеркал и перегородок'}</h2>
+            <span style={{ width: 1, height: 18, background: '#dcd8d1', display: 'inline-block' }} />
+            <span style={{ fontSize: 14, color: '#8b877f' }}>
+              {loading ? 'Загрузка...' : `${filtered.length} ${pluralProducts(filtered.length)}`}
+            </span>
+          </div>
+          <ProductGrid
+            products={filtered}
+            loading={loading}
+            onAddToCart={(p) => { addItem(p); setCartOpen(true); }}
+            compareIds={compareItems.map(p => p.id)}
+            onToggleCompare={toggleCompare}
+          />
+        </main>
+      )}
       <Footer />
       </div>
       {panelOpen && (
@@ -314,6 +313,7 @@ export default function App() {
           onReset={resetAll}
           onClose={() => setPanelOpen(false)}
           onOpenQuiz={() => { setPanelOpen(false); setQuizOpen(true); }}
+          onNavigate={(entry) => { setPanelOpen(false); navigateToCatalog(entry); }}
         />
       )}
       {quizOpen && (
