@@ -259,12 +259,23 @@ export default function CategoryPage({ section, onPickSubsection }) {
   const pingCard = (i) => {
     clearTimeout(pingTimer.current);
     setPinged(null);
+    const strip = stripRef.current;
+    const el = document.getElementById(`cp-card-${i}`);
+    let delay = 60;
+    if (strip && el) {
+      const stripRect = strip.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      const targetScroll = strip.scrollLeft + (elRect.left - stripRect.left) - (stripRect.width / 2 - elRect.width / 2);
+      const dist = Math.abs(targetScroll - strip.scrollLeft);
+      if (dist > 30) {
+        delay = 440;
+        strip.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      }
+    }
     pingTimer.current = setTimeout(() => {
       setPinged(i);
-      const el = document.getElementById(`cp-card-${i}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      pingTimer.current = setTimeout(() => setPinged(null), 1700);
-    }, 30);
+      pingTimer.current = setTimeout(() => setPinged(null), 1500);
+    }, delay);
   };
 
   const items = ITEMS[section] || [];
@@ -283,8 +294,8 @@ export default function CategoryPage({ section, onPickSubsection }) {
     <div style={{ padding: '28px 40px 60px', fontFamily: "'Golos Text', Helvetica, sans-serif" }}>
       <style>{`
         @keyframes cpPreviewIn { from { opacity:0; transform:translateY(6px) scale(.93) } to { opacity:1; transform:translateY(0) scale(1) } }
-        @keyframes cpCardPop { 0%{transform:scale(1)} 22%{transform:scale(1.07)} 55%{transform:scale(1.04)} 80%{transform:scale(1.05)} 100%{transform:scale(1)} }
-        @keyframes cpCardPing { 0%{opacity:0;transform:scale(1.06)} 14%{opacity:1;transform:scale(1)} 62%{opacity:1} 100%{opacity:0} }
+        @keyframes cpCardPop  { 0%{transform:scale(1)} 30%{transform:scale(1.1)} 100%{transform:scale(1)} }
+        @keyframes cpCardPing { 0%{opacity:0} 10%{opacity:1} 70%{opacity:1} 100%{opacity:0} }
         .cp-row { transition: background .13s, padding-left .14s, color .13s; text-decoration: none !important; }
         .cp-row:hover { background: oklch(0.955 0.01 255) !important; color: oklch(0.38 0.14 258) !important; padding-left: 10px !important; text-decoration: none !important; }
         .cp-leaf { border-radius: 7px; transition: background .13s, color .13s, padding-left .13s !important; }
@@ -451,7 +462,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
             overscrollBehaviorX: 'contain',
             scrollSnapType: 'x mandatory',
             scrollBehavior: 'smooth',
-            padding: '4px 2px 22px',
+            padding: '28px 2px 8px',
             scrollbarWidth: 'none',
           }}
         >
@@ -462,8 +473,9 @@ export default function CategoryPage({ section, onPickSubsection }) {
               onClick={() => onPickSubsection(item.name)}
               style={{
                 scrollSnapAlign: 'start', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 7,
-                animation: isPinged ? 'cpCardPop 1.4s cubic-bezier(.22,1,.3,1)' : 'none',
-                position: 'relative', zIndex: isPinged ? 4 : 'auto',
+                position: 'relative',
+                zIndex: isPinged ? 10 : 'auto',
+                animation: isPinged ? 'cpCardPop 1.5s cubic-bezier(.22,1,.3,1)' : 'none',
               }}
             >
               <div className="cp-thumb" style={{
@@ -471,16 +483,15 @@ export default function CategoryPage({ section, onPickSubsection }) {
                 borderRadius: 13, overflow: 'hidden', border: '1px solid #ece9e4',
                 backgroundImage: `url(${item.img[0]})`,
                 backgroundSize: 'cover', backgroundPosition: 'center',
-                transition: 'transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s',
+                transition: 'box-shadow .18s',
               }}>
                 {isPinged && (
                   <div style={{
                     position: 'absolute', inset: 0,
-                    border: '3px solid #a0a8b8',
                     borderRadius: 13,
-                    boxShadow: '0 0 0 6px rgba(160,168,184,.22), 0 16px 38px -12px rgba(26,26,24,.5)',
                     pointerEvents: 'none',
-                    animation: 'cpCardPing 1.4s cubic-bezier(.2,.7,.3,1) forwards',
+                    animation: 'cpCardPing 1.5s cubic-bezier(.2,.7,.3,1) forwards',
+                    border: '2.5px solid rgba(100,110,140,.75)',
                   }} />
                 )}
                 <div style={{

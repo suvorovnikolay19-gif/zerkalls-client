@@ -202,8 +202,6 @@ const HOME_SUBCATS = {
 };
 
 const PAGE_NAV = [
-  { name: 'Главная', href: '#', active: true },
-  { name: 'Каталог', href: null, entry: 'catalog' },
   { name: 'О компании', href: '#footer' },
   { name: 'Дилерам', href: '#footer' },
   { name: 'Портфолио', href: '#collections' },
@@ -329,6 +327,8 @@ const CAT1_IMGS = [catImg0, catImg1, catImg2, catImg2, catImg4, catImg6, catImg6
 
 const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
 
+const LEVELS_ENTRY = { 'Перегородки': 'partitions', 'Зеркала': 'mirrors', 'Лестницы': 'stairs', 'Мебель': 'catalog' };
+
 const LEVELS = [
   { name: 'Перегородки', cards: [
     { name: 'Стационарные LOFT-перегородки', count: '61 модель', price: 'от 54 000 ₽', image: PARTITION_IMGS[0] },
@@ -442,7 +442,7 @@ const ROOM_ITEM_POS = [
   { right: '18%', bottom: '4%' },
 ];
 
-export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout, fromCatalog }) {
+export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout, fromCatalog, onOpenPanel }) {
   const [slide, setSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
@@ -555,7 +555,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [ptSent, setPtSent] = useState(false);
   const [ptRole, setPtRole] = useState('Дизайнер');
   const [chatOpen, setChatOpen] = useState(false);
-  const [navActiveIdx, setNavActiveIdx] = useState(0);
+  const [navActiveIdx, setNavActiveIdx] = useState(-1);
   const homeNavItemRefs = useRef([]);
   const homeNavPillRef = useRef(null);
 
@@ -711,18 +711,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
   useEffect(() => {
     const pill = homeNavPillRef.current;
-    const activeEl = homeNavItemRefs.current[0];
-    if (!pill || !activeEl) return;
-    pill.style.transition = 'none';
+    if (!pill) return;
     pill.style.opacity = '0';
-    pill.style.left = activeEl.offsetLeft + 'px';
-    pill.style.width = activeEl.offsetWidth + 'px';
-    requestAnimationFrame(() => {
-      if (pill) {
-        pill.style.opacity = '1';
-        pill.style.transition = 'left .42s cubic-bezier(.22,1,.36,1), width .42s cubic-bezier(.22,1,.36,1)';
-      }
-    });
+    pill.style.width = '0';
   }, []);
 
   useEffect(() => {
@@ -899,6 +890,18 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
           <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <nav style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', justifyContent: 'center', gap: 4, padding: 6, borderRadius: 999, background: 'rgba(26,26,24,.62)', backdropFilter: 'blur(10px)' }}>
+              <div
+                onMouseEnter={() => setActiveMenu(null)}
+                onClick={onOpenPanel}
+                style={{ padding: '11px 18px', borderRadius: 999, fontSize: 13, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap', background: '#ffffff', color: '#1a1a18', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}
+              >
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 2.5, width: 13, flexShrink: 0 }}>
+                  <span style={{ display: 'block', height: 1.5, background: '#1a1a18', width: 13, borderRadius: 2 }} />
+                  <span style={{ display: 'block', height: 1.5, background: '#1a1a18', width: 9, borderRadius: 2 }} />
+                  <span style={{ display: 'block', height: 1.5, background: '#1a1a18', width: 11, borderRadius: 2 }} />
+                </span>
+                Каталог
+              </div>
               {MENU.map(m => (
                 <div
                   key={m.name}
@@ -1017,9 +1020,11 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                       ? 'brightness(0.35) saturate(0.5)'
                       : 'brightness(1) saturate(1)',
                     transition: 'filter 380ms ease',
+                    cursor: 'pointer',
                   }}
                   onMouseEnter={() => { setCatCardHover(ci); setCatCardLast(ci); const v = cardVideoRefs.current[ci]; if (v) { v.currentTime = 0; v.play(); } }}
                   onMouseLeave={() => { setCatCardHover(null); cardVideoRefs.current[ci]?.pause(); }}
+                  onClick={() => onNavigateToCatalog(card.entry)}
                 >
                   {/* Панель подкатегорий — прямо над карточкой */}
                   {(() => {
@@ -1162,8 +1167,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                         </div>
                       </div>
 
-                      <div onClick={() => moveCard(-1)} style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '65%', zIndex: 14, cursor: 'pointer' }} />
-                      <div onClick={() => moveCard(1)} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '65%', zIndex: 14, cursor: 'pointer' }} />
+                      <div onClick={e => { e.stopPropagation(); moveCard(-1); }} style={{ position: 'absolute', left: 0, top: 0, width: '50%', height: '65%', zIndex: 14, cursor: 'pointer' }} />
+                      <div onClick={e => { e.stopPropagation(); moveCard(1); }} style={{ position: 'absolute', right: 0, top: 0, width: '50%', height: '65%', zIndex: 14, cursor: 'pointer' }} />
                     </div>
                   </div>
                 </article>
@@ -1252,7 +1257,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 return (
                   <div
                     key={`${levelTab}-${j}`}
-                    onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog('catalog')}
+                    onClick={() => near && !hot ? setLvlPos(j) : hot && onNavigateToCatalog(LEVELS_ENTRY[LEVELS[levelTab].name] || 'catalog', c.name)}
                     style={{
                       position: 'absolute', top: '50%', left: '50%',
                       width: 'min(520px, 88%)', height: 560,
@@ -1274,7 +1279,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                       <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.02em', color: 'rgba(255,255,255,.5)', marginBottom: 8 }}>{c.count}</div>
                       <h3 style={{ margin: '0 0 8px', fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
                       <div style={{ fontSize: 15, lineHeight: 1.5, maxWidth: 400, textWrap: 'pretty', color: 'rgba(255,255,255,.65)', marginBottom: 20 }}>Готовые решения и изделия по вашим размерам — с монтажом и гарантией 5 лет.</div>
-                      <button onClick={e => { e.stopPropagation(); onNavigateToCatalog('catalog'); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', padding: '16px 20px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: '#fff', color: '#1a1a18', border: 'none', cursor: 'pointer', marginBottom: 20 }}>
+                      <button onClick={e => { e.stopPropagation(); onNavigateToCatalog(LEVELS_ENTRY[LEVELS[levelTab].name] || 'catalog', c.name); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', padding: '16px 20px', borderRadius: 999, fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', background: '#fff', color: '#1a1a18', border: 'none', cursor: 'pointer', marginBottom: 20 }}>
                         Перейти
                       </button>
                     </div>

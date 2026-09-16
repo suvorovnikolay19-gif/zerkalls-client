@@ -2,7 +2,7 @@ import { useState } from 'react';
 import catNobg1 from '../../assets/categories-nobg/1.png';
 
 const FILTER_CATS = [
-  { name: 'Перегородки', icon: '▥', groups: [
+  { name: 'Перегородки', icon: '▥', entry: 'partitions', groups: [
     { name: 'Тип конструкции', values: [['Раздвижные', 84], ['Распашные', 52], ['Стационарные', 61], ['Гармошка', 24], ['Реечные', 38]] },
     { name: 'Материал каркаса', values: [['Сталь', 96], ['Алюминий', 44], ['Дуб', 57], ['Латунь', 19]] },
     { name: 'Стекло', values: [['Рифлёное', 71], ['Матовое', 63], ['Тонированное', 34], ['Прозрачное', 48], ['Без стекла', 12]] },
@@ -10,30 +10,30 @@ const FILTER_CATS = [
     { name: 'Помещение', values: [['Гостиная', 74], ['Спальня', 41], ['Кабинет', 29], ['Офис', 36], ['Влажная зона', 14]] },
     { name: 'Стиль', values: [['Лофт', 62], ['Минимализм', 58], ['Джапанди', 23], ['Ар-деко', 11]] }
   ] },
-  { name: 'Зеркала', icon: '◯', groups: [
+  { name: 'Зеркала', icon: '◯', entry: 'mirrors', groups: [
     { name: 'Форма', values: [['Круглое', 42], ['Овальное', 38], ['Арочное', 31], ['Прямоугольное', 55], ['Нестандартное', 17]] },
     { name: 'Рама', values: [['Латунь', 28], ['Дуб', 34], ['Сталь', 22], ['Без рамы', 46]] },
     { name: 'Размер', values: [['до 800 мм', 39], ['800–1200 мм', 47], ['1200–1800 мм', 33], ['В полный рост', 25]] },
     { name: 'Опции', values: [['С подсветкой', 36], ['Сенсор', 18], ['Антизапотевание', 12], ['Полка', 9]] },
     { name: 'Помещение', values: [['Прихожая', 44], ['Ванная', 38], ['Спальня', 31], ['Гардеробная', 16]] }
   ] },
-  { name: 'Лестницы', icon: '⌇', groups: [
+  { name: 'Лестницы', icon: '⌇', entry: 'stairs', groups: [
     { name: 'Форма', values: [['Винтовая', 26], ['Маршевая', 41], ['Модульная', 33], ['С площадкой', 18]] },
     { name: 'Материал', values: [['Дуб', 38], ['Сталь', 44], ['Бетон', 11], ['Комбинированная', 22]] },
     { name: 'Ограждение', values: [['Стекло', 29], ['Тросы', 17], ['Балясины', 21], ['Без ограждения', 8]] },
     { name: 'Высота проёма', values: [['до 2700 мм', 24], ['2700–3200 мм', 36], ['3200 мм и выше', 19], ['По размеру', 41]] }
   ] },
-  { name: 'Ширмы', icon: '▤', groups: [
+  { name: 'Ширмы', icon: '▤', entry: 'catalog', groups: [
     { name: 'Створки', values: [['2 створки', 14], ['3 створки', 22], ['4 створки', 17], ['5 и более', 6]] },
     { name: 'Материал', values: [['Ротанг', 19], ['Дуб', 24], ['Ткань', 11], ['Металл', 15]] },
     { name: 'Отделка', values: [['Натуральная', 28], ['Тонированная', 17], ['Окрашенная', 13]] }
   ] },
-  { name: 'Мебель', icon: '▦', groups: [
+  { name: 'Мебель', icon: '▦', entry: 'catalog', groups: [
     { name: 'Категория', values: [['Столы', 34], ['Консоли', 21], ['Стеллажи', 27], ['Тумбы', 18]] },
     { name: 'Материал', values: [['Дерево', 52], ['Металл', 38], ['Камень', 14], ['Стекло', 22]] },
     { name: 'Помещение', values: [['Гостиная', 41], ['Спальня', 28], ['Кабинет', 24], ['Прихожая', 19]] }
   ] },
-  { name: 'Комплектующие', icon: '⚙', groups: [
+  { name: 'Комплектующие', icon: '⚙', entry: 'catalog', groups: [
     { name: 'Тип', values: [['Профили', 46], ['Направляющие', 38], ['Доводчики', 22], ['Ручки', 51], ['Крепёж', 64]] },
     { name: 'Покрытие', values: [['Анодирование', 31], ['Порошковая краска', 44], ['Латунь', 17]] }
   ] }
@@ -44,7 +44,7 @@ export default function FilterPanel({
   priceMin, priceMax, filteredCount, activeCount,
   selectedCats,
   onToggleCat, onToggleChip, onPriceMin, onPriceMax,
-  onReset, onClose, onOpenQuiz,
+  onReset, onClose, onOpenQuiz, onNavigate,
 }) {
   const [filterCat, setFilterCat] = useState(FILTER_CATS[0].name);
 
@@ -96,7 +96,7 @@ export default function FilterPanel({
                 <div
                   key={c.name}
                   onMouseEnter={() => setFilterCat(c.name)}
-                  onClick={() => setFilterCat(c.name)}
+                  onClick={() => onNavigate ? (onNavigate(c.entry), onClose()) : setFilterCat(c.name)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 14, padding: '14px 26px',
                     fontSize: 15, cursor: 'pointer', transition: 'background .15s, color .15s',
@@ -113,6 +113,22 @@ export default function FilterPanel({
                     <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 999, background: '#1a1a18', color: '#fff', fontSize: 11, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {n}
                     </span>
+                  )}
+                  {onNavigate && (
+                    <span
+                      onClick={e => { e.stopPropagation(); onNavigate(c.entry); onClose(); }}
+                      style={{
+                        flexShrink: 0, display: 'flex', alignItems: 'center', gap: 5,
+                        padding: '6px 12px', borderRadius: 999,
+                        border: `1px solid ${on ? '#1a1a18' : '#d5d0c8'}`,
+                        background: 'none', color: on ? '#1a1a18' : '#8b877f',
+                        fontSize: 12, fontWeight: 500, cursor: 'pointer', lineHeight: 1,
+                        transition: 'border-color .15s, color .15s, background .15s',
+                        whiteSpace: 'nowrap',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#1a1a18'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#1a1a18'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.color = on ? '#1a1a18' : '#8b877f'; e.currentTarget.style.borderColor = on ? '#1a1a18' : '#d5d0c8'; }}
+                    >перейти →</span>
                   )}
                 </div>
               );
