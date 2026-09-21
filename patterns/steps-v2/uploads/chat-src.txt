@@ -1,0 +1,155 @@
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* cyrillic-ext */
+/* cyrillic */
+/* greek */
+/* vietnamese */
+/* latin-ext */
+/* latin */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek */
+/* vietnamese */
+/* latin-ext */
+/* latin */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek */
+/* vietnamese */
+/* latin-ext */
+/* latin */
+</style>
+<style>
+  html, body { margin: 0; padding: 0; background: #0e0f12; }
+  a { color: oklch(0.72 0.12 250); }
+  a:hover { color: oklch(0.82 0.12 250); }
+  @keyframes inRight { from { opacity: 0; transform: translate3d(28px, 14px, 0) scale(0.94); } to { opacity: 1; transform: none; } }
+  @keyframes inLeft { from { opacity: 0; transform: translate3d(-28px, 14px, 0) scale(0.94); } to { opacity: 1; transform: none; } }
+  @keyframes dotPulse { 0%, 60%, 100% { opacity: 0.25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes haloPulse { 0% { transform: scale(1); opacity: 0.45; } 100% { transform: scale(1.7); opacity: 0; } }
+</style>
+</helmet>
+<div style="min-height: 100vh; background: radial-gradient(120% 90% at 50% 0%, #17191f 0%, #0e0f12 60%); color: #e9eaee; font-family: Manrope, Helvetica, Arial, sans-serif; display: flex; align-items: center; justify-content: center; padding: 32px; box-sizing: border-box;">
+
+  <sc-if value="{{ notStarted }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 22px; animation: fadeUp 0.6s ease both;">
+      <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #6d7280; font-weight: 500;">демо диалога</div>
+      <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="position: absolute; width: 190px; height: 64px; border-radius: 999px; background: oklch(0.7 0.13 250); animation: haloPulse 2.4s ease-out infinite;"></div>
+        <button type="button" sc-camel-on-click="{{ start }}" style="position: relative; appearance: none; border: 0; cursor: pointer; font-family: inherit; font-size: 20px; font-weight: 700; letter-spacing: 0.01em; color: #0e0f12; background: oklch(0.82 0.13 250); padding: 20px 56px; border-radius: 999px; min-height: 64px; box-shadow: 0 18px 50px -18px oklch(0.7 0.13 250 / 0.9);" style-hover="background: oklch(0.88 0.11 250); transform: translateY(-1px);" style-active="transform: translateY(1px);">Начать</button>
+      </div>
+      <div style="font-size: 14px; color: #6d7280;">нажмите, чтобы посмотреть переписку</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ started }}" hint-placeholder-val="{{ false }}">
+    <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 14px; animation: fadeUp 0.5s ease both;">
+
+      <div style="display: flex; align-items: center; gap: 12px; padding: 0 4px 6px;">
+        <div style="width: 38px; height: 38px; border-radius: 999px; background: oklch(0.72 0.12 250); color: #0e0f12; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center;">С</div>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <div style="font-size: 15px; font-weight: 700;">Студия</div>
+          <div style="font-size: 12px; color: oklch(0.72 0.12 160);">в сети</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; min-height: 380px; justify-content: flex-end;">
+        <sc-for list="{{ messages }}" as="m" hint-placeholder-count="3">
+          <div style="display: flex; justify-content: {{ m.justify }};">
+            <div style="max-width: 78%; padding: 12px 16px; font-size: 15.5px; line-height: 1.45; background: {{ m.bg }}; color: {{ m.fg }}; border-radius: {{ m.radius }}; animation: {{ m.anim }} 0.72s cubic-bezier(0.22, 0.68, 0.24, 1) both; box-shadow: 0 10px 30px -18px rgba(0,0,0,0.9);">{{ m.text }}</div>
+          </div>
+        </sc-for>
+
+        <sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; justify-content: {{ typingJustify }};">
+            <div style="display: flex; gap: 5px; align-items: center; padding: 14px 18px; background: {{ typingBg }}; color: {{ typingFg }}; border-radius: 20px; animation: {{ typingAnim }} 0.3s ease both;">
+              <span style="width: 7px; height: 7px; border-radius: 999px; background: currentColor; display: block; animation: dotPulse 1.2s ease-in-out infinite;"></span>
+              <span style="width: 7px; height: 7px; border-radius: 999px; background: currentColor; display: block; animation: dotPulse 1.2s ease-in-out 0.15s infinite;"></span>
+              <span style="width: 7px; height: 7px; border-radius: 999px; background: currentColor; display: block; animation: dotPulse 1.2s ease-in-out 0.3s infinite;"></span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; justify-content: center; padding-top: 8px; animation: fadeUp 0.5s ease both;">
+          <button type="button" sc-camel-on-click="{{ restart }}" style="appearance: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; color: #9aa0a9; background: transparent; border: 1px solid #2a2d34; border-radius: 999px; padding: 12px 24px; min-height: 44px;" style-hover="color: #e9eaee; border-color: #444953;">Заново</button>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;: {&quot;width&quot;: 900, &quot;height&quot;: 700}}">
+class Component extends DCLogic {
+  state = { started: false, shown: 0, typing: false, done: false };
+  timers = [];
+
+  script() {
+    return [
+      { side: 'us', text: 'Здравствуйте! Хочу сделать заказ' },
+      { side: 'them', text: 'Окей, что вас интересует?' },
+      { side: 'us', text: 'Нужна перегородка LOFT' },
+      { side: 'them', text: 'Сделаем. Какие сроки?' },
+      { side: 'us', text: 'Хотелось бы за неделю' },
+      { side: 'them', text: 'Успеем. Смету пришлю сегодня к вечеру' }
+    ];
+  }
+
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+
+  run() {
+    const script = this.script();
+    let t = 400;
+    script.forEach((m, i) => {
+      const think = 500 + m.text.length * 22;
+      this.timers.push(setTimeout(() => this.setState({ typing: m.side }), t));
+      t += think;
+      this.timers.push(setTimeout(() => this.setState({ shown: i + 1, typing: false }), t));
+      t += 700;
+    });
+    this.timers.push(setTimeout(() => this.setState({ done: true }), t + 300));
+  }
+
+  renderVals() {
+    const s = this.state;
+    const all = this.script();
+    const messages = all.slice(0, s.shown).map((m) => ({
+      text: m.text,
+      justify: m.side === 'us' ? 'flex-end' : 'flex-start',
+      bg: m.side === 'us' ? 'oklch(0.78 0.13 250)' : '#1b1e25',
+      fg: m.side === 'us' ? '#0e0f12' : '#e9eaee',
+      radius: m.side === 'us' ? '20px 20px 6px 20px' : '20px 20px 20px 6px',
+      anim: m.side === 'us' ? 'inRight' : 'inLeft'
+    }));
+    return {
+      messages,
+      started: s.started,
+      notStarted: !s.started,
+      done: s.done,
+      typing: !!s.typing,
+      typingJustify: s.typing === 'us' ? 'flex-end' : 'flex-start',
+      typingBg: s.typing === 'us' ? 'oklch(0.78 0.13 250)' : '#1b1e25',
+      typingAnim: s.typing === 'us' ? 'inRight' : 'inLeft',
+      typingFg: s.typing === 'us' ? '#0e0f12' : '#e9eaee',
+      start: () => {
+        this.timers.forEach(clearTimeout);
+        this.timers = [];
+        this.setState({ started: true, shown: 0, typing: false, done: false }, () => this.run());
+      },
+      restart: () => {
+        this.timers.forEach(clearTimeout);
+        this.timers = [];
+        this.setState({ started: false, shown: 0, typing: false, done: false });
+      }
+    };
+  }
+}
+</script>
+
+
+</body></html>

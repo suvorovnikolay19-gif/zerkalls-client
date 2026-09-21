@@ -53,7 +53,7 @@ import p42  from '../../assets/categories-1/partitions/42_Retail_Showroom_Partit
 import p43  from '../../assets/categories-1/partitions/43_Special_Technical_LOFT_Systems.png';
 
 // ─── Данные каталога ─── по каждому разделу отдельный список
-const ITEMS = {
+export const ITEMS = {
   'Перегородки': [
     { name: 'Фиксированные лофт',           img: [p01, p02] },
     { name: 'С распашными дверями',          img: [p02, p03] },
@@ -210,7 +210,7 @@ const ITEMS = {
   ],
 };
 
-const TREE = {
+export const CAT_TREE = {
   'Перегородки': {
     'Фиксированные лофт':       ['Одинарные', 'Двойные', 'В пол стены'],
     'Раздвижные лофт':          ['Одностворчатые', 'Двустворчатые', 'Каскадные'],
@@ -251,10 +251,12 @@ function subCount(name) { return 6 + (name.length * 7) % 34; }
 
 export default function CategoryPage({ section, onPickSubsection }) {
   const [hover, setHover] = useState(null);
+  const [flip, setFlip] = useState(false);
   const [pinged, setPinged] = useState(null);
   const hoverTimer = useRef(null);
   const pingTimer = useRef(null);
   const stripRef = useRef(null);
+  const itemRefs = useRef([]);
 
   const pingCard = (i) => {
     clearTimeout(pingTimer.current);
@@ -279,9 +281,18 @@ export default function CategoryPage({ section, onPickSubsection }) {
   };
 
   const items = ITEMS[section] || [];
-  const tree = TREE[section] || {};
+  const tree = CAT_TREE[section] || {};
 
-  const enter = (i) => { clearTimeout(hoverTimer.current); setHover(i); pingCard(i); };
+  const enter = (i) => {
+    clearTimeout(hoverTimer.current);
+    setHover(i);
+    pingCard(i);
+    const el = itemRefs.current[i];
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      setFlip(rect.right + 250 > window.innerWidth - 16);
+    }
+  };
   const leave = () => { hoverTimer.current = setTimeout(() => setHover(null), 120); };
   const keep  = () => clearTimeout(hoverTimer.current);
 
@@ -334,6 +345,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
           return (
             <div
               key={i}
+              ref={el => { itemRefs.current[i] = el; }}
               style={{ position: 'relative' }}
               onMouseEnter={() => enter(i)}
               onMouseLeave={leave}
@@ -374,8 +386,11 @@ export default function CategoryPage({ section, onPickSubsection }) {
                   onMouseLeave={leave}
                   style={{
                     position: 'absolute', zIndex: 40,
-                    left: '100%', top: -28,
-                    paddingLeft: 8, minWidth: 230,
+                    ...(flip
+                      ? { right: '100%', paddingRight: 8 }
+                      : { left: '100%', paddingLeft: 8 }),
+                    top: -28,
+                    minWidth: 230,
                     animation: 'cpPreviewIn .2s cubic-bezier(.2,.9,.3,1) both',
                   }}
                 >

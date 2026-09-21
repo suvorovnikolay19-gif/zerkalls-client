@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:oklch(0.985 0.003 250)}
+html{scroll-behavior:smooth}
+@keyframes cardPing{0%{opacity:0;transform:scale(1.06)}14%{opacity:1;transform:scale(1)}62%{opacity:1}100%{opacity:0}}
+@keyframes cardPop{0%{transform:scale(1)}22%{transform:scale(1.17)}50%{transform:scale(1.11)}80%{transform:scale(1.13)}100%{transform:scale(1)}}
+[data-strip]{scrollbar-width:none;-ms-overflow-style:none}
+[data-strip]::-webkit-scrollbar{height:0;width:0}
+@keyframes previewIn{0%{opacity:0;transform:translateY(10px) scale(.92)}100%{opacity:1;transform:translateY(0) scale(1)}}
+[data-ping="1"]{animation:cardPop 1.6s cubic-bezier(.22,1,.3,1);z-index:6;position:relative}
+@keyframes cardLift{0%{transform:translateY(0)}30%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+a{color:oklch(0.46 0.13 258);text-decoration:none}
+a:hover{color:oklch(0.40 0.14 258)}
+</style>
+</helmet>
+<div style="min-height:100vh;background:oklch(0.985 0.003 250);color:oklch(0.22 0.015 262);font-family:'Instrument Sans',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:32px 0 44px">
+  <div style="width:100%;padding:0 36px">
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:22px">
+      <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+        <h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-0.028em;line-height:1.02">Все категории</h1>
+        <div style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(0.50 0.018 262)">{{ summary }}</div>
+      </div>
+      <div style="flex:none;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:oklch(0.48 0.018 262)">
+        <div style="flex:none;width:28px;height:15px;border-radius:4px;background-color:oklch(0.955 0.008 255);background-image:repeating-linear-gradient(135deg,oklch(0.875 0.022 255) 0 2px,transparent 2px 7px)"></div>
+        <div>штриховка — место под фото 4:3</div>
+      </div>
+    </div>
+
+    <div style="display:grid;gap:0 22px;grid-template-columns:repeat(6,minmax(0,1fr));padding-bottom:20px;margin-bottom:24px;border-bottom:1px solid oklch(0.915 0.006 260)">
+      <sc-for list="{{ items }}" as="c" hint-placeholder-count="42">
+        <a href="#{{ c.id }}" onClick="{{ c.ping }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="position:relative;display:flex;align-items:baseline;gap:9px;padding:6px 8px 6px 6px;border-bottom:1px solid oklch(0.935 0.004 260);color:oklch(0.26 0.015 262);transition:background .14s,color .14s,padding-left .14s" style-hover="background:oklch(0.955 0.01 255);color:oklch(0.38 0.14 258);padding-left:10px">
+          <div style="flex:none;width:17px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:oklch(0.58 0.015 262)">{{ c.num }}</div>
+          <div lang="ru" style="font-size:13px;font-weight:600;letter-spacing:-0.012em;line-height:1.3;min-width:0;overflow-wrap:break-word;hyphens:auto;text-wrap:pretty">{{ c.name }}</div>
+          <sc-if value="{{ c.isHover }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;right:-4px;top:-30px;z-index:6;display:flex;pointer-events:none;animation:previewIn .26s cubic-bezier(.2,.9,.3,1) both">
+              <div style="width:62px;height:76px;border-radius:5px;border:4px solid oklch(1 0 0);transform:rotate(-9deg);box-shadow:0 12px 26px -10px oklch(0.25 0.05 262 / 0.45);background-color:oklch(0.93 0.012 255);background-image:repeating-linear-gradient(135deg,oklch(0.84 0.025 255) 0 2px,transparent 2px 7px)"></div>
+              <div style="width:62px;height:76px;margin-left:-20px;border-radius:5px;border:4px solid oklch(1 0 0);transform:rotate(8deg);box-shadow:0 12px 26px -10px oklch(0.25 0.05 262 / 0.45);background-color:oklch(0.28 0.03 262);background-image:repeating-linear-gradient(135deg,oklch(0.42 0.04 262) 0 2px,transparent 2px 7px)"></div>
+            </div>
+          </sc-if>
+        </a>
+      </sc-for>
+    </div>
+
+    <div style="position:relative">
+      <div data-strip="1" ref="{{ setStrip }}" style="display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 64px) / 5);gap:16px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:30px 2px 26px">
+      <sc-for list="{{ items }}" as="c" hint-placeholder-count="42">
+        <a href="#" id="{{ c.id }}" data-ping="{{ c.pingFlag }}" style="position:relative;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;scroll-snap-align:start;scroll-margin-left:2px;transition:transform .16s,color .16s" style-hover="transform:translateY(-3px);color:oklch(0.40 0.14 258)">
+          <div style="position:relative;aspect-ratio:4 / 3;min-height:104px;border-radius:13px;overflow:hidden;border:1px solid oklch(0.92 0.006 260);background-color:oklch(0.955 0.008 255);background-image:repeating-linear-gradient(135deg,oklch(0.875 0.022 255) 0 2px,transparent 2px 7px)">
+            <div style="position:absolute;top:10px;left:10px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:500;letter-spacing:0.03em;color:oklch(0.99 0 0);background:oklch(0.18 0.02 262 / 0.6);padding:3px 7px 3px 8px;border-radius:7px">{{ c.num }}</div>
+            <sc-if value="{{ nameOnPhoto }}" hint-placeholder-val="{{ true }}">
+              <div lang="ru" style="position:absolute;left:0;right:0;bottom:0;padding:22px 13px 11px;background:linear-gradient(to top,oklch(0.18 0.02 262 / 0.86),transparent);color:oklch(0.99 0 0);font-size:15px;font-weight:600;letter-spacing:-0.012em;line-height:1.2;text-wrap:pretty;min-width:0;overflow-wrap:break-word;hyphens:auto">{{ c.name }}</div>
+            </sc-if>
+            <sc-if value="{{ c.isActive }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;inset:0;border:3px solid oklch(0.58 0.14 255);border-radius:13px;box-shadow:0 0 0 7px oklch(0.58 0.14 255 / 0.2),0 18px 40px -14px oklch(0.35 0.08 262 / 0.5);pointer-events:none;animation:cardPing 1.6s cubic-bezier(.2,.7,.3,1) forwards"></div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ nameBelow }}" hint-placeholder-val="{{ false }}">
+            <div lang="ru" style="font-size:14.5px;font-weight:600;letter-spacing:-0.012em;line-height:1.25;text-wrap:pretty;min-width:0;overflow-wrap:break-word;hyphens:auto">{{ c.name }}</div>
+          </sc-if>
+        </a>
+      </sc-for>
+      </div>
+
+      <button type="button" onClick="{{ prev }}" aria-label="Назад" style="position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid oklch(0.9 0.006 260);background:oklch(1 0 0);border-radius:50%;box-shadow:0 8px 20px -8px oklch(0.3 0.05 262 / 0.35);cursor:pointer;z-index:5;transition:border-color .14s,transform .14s" style-hover="border-color:oklch(0.58 0.14 255);transform:translateY(-50%) scale(1.07)">
+        <div style="width:9px;height:9px;border-left:1.8px solid oklch(0.3 0.015 262);border-bottom:1.8px solid oklch(0.3 0.015 262);transform:rotate(45deg);margin-left:-3px"></div>
+      </button>
+      <button type="button" onClick="{{ next }}" aria-label="Вперёд" style="position:absolute;right:-14px;top:50%;transform:translateY(-50%);width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid oklch(0.9 0.006 260);background:oklch(1 0 0);border-radius:50%;box-shadow:0 8px 20px -8px oklch(0.3 0.05 262 / 0.35);cursor:pointer;z-index:5;transition:border-color .14s,transform .14s" style-hover="border-color:oklch(0.58 0.14 255);transform:translateY(-50%) scale(1.07)">
+        <div style="width:9px;height:9px;border-right:1.8px solid oklch(0.3 0.015 262);border-top:1.8px solid oklch(0.3 0.015 262);transform:rotate(45deg);margin-right:-3px"></div>
+      </button>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;nameOnPhoto&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Карточка&quot;}}">
+const ITEMS = [
+  'Смартфоны и гаджеты', 'Ноутбуки и ПК', 'ТВ и аудио', 'Фото и видео', 'Бытовая техника', 'Кухонная техника',
+  'Климат и вентиляция', 'Аксессуары и кабели', 'Мебель', 'Текстиль для дома', 'Посуда и хранение', 'Освещение',
+  'Инструменты', 'Стройматериалы', 'Сантехника', 'Сад и огород', 'Женская одежда', 'Мужская одежда',
+  'Обувь', 'Сумки и рюкзаки', 'Часы и украшения', 'Детская одежда', 'Спортивная одежда', 'Уход за лицом и телом',
+  'Макияж', 'Парфюмерия', 'Витамины и БАДы', 'Медтехника', 'Игрушки', 'Товары для малышей',
+  'Школа и канцелярия', 'Фитнес и тренажёры', 'Велосипеды и самокаты', 'Туризм и рыбалка', 'Книги и музыка', 'Автозапчасти',
+  'Автоаксессуары', 'Шины и диски', 'Зоотовары', 'Продукты питания', 'Бытовая химия', 'Цифровые товары'
+];
+
+class Component extends DCLogic {
+  state = { active: null, hover: null };
+
+  componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.t2); }
+
+  page(dir) {
+    if (!this.strip) return;
+    this.strip.scrollBy({ left: dir * this.strip.clientWidth * 0.98, behavior: 'smooth' });
+  }
+
+  ping(id) {
+    clearTimeout(this.t);
+    clearTimeout(this.t2);
+    this.setState({ active: null });
+    this.t2 = setTimeout(() => {
+      this.setState({ active: id });
+      this.t = setTimeout(() => this.setState({ active: null }), 1700);
+    }, 300);
+  }
+
+  renderVals() {
+    return {
+      items: ITEMS.map((name, i) => ({
+        name: name,
+        id: 'cat-' + i,
+        num: String(i + 1).padStart(2, '0'),
+        isActive: this.state.active === 'cat-' + i,
+        pingFlag: this.state.active === 'cat-' + i ? '1' : '0',
+        isHover: this.state.hover === i,
+        enter: () => this.setState({ hover: i }),
+        leave: () => this.setState({ hover: null }),
+        ping: () => this.ping('cat-' + i)
+      })),
+      nameOnPhoto: this.props.nameOnPhoto !== false,
+      nameBelow: this.props.nameOnPhoto === false,
+      setStrip: (el) => { this.strip = el; },
+      prev: () => this.page(-1),
+      next: () => this.page(1),
+      summary: ITEMS.length + ' категорий · 5 в ряду · листается вправо'
+    };
+  }
+}
+</script>
+</body>
+</html>

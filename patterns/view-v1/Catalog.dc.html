@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #f7f5f2; }
+  a { color: #d9542b; }
+  a:hover { color: #b03f1d; }
+</style>
+</helmet>
+<div style="min-height:100vh;background:#f7f5f2;color:#1b1917;font-family:'Space Grotesk',Helvetica,sans-serif;padding:28px clamp(16px,4vw,56px) 80px">
+  <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;border-bottom:1px solid #e3ded7;padding-bottom:20px">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8a8279">Каталог · дроп 04</div>
+      <h1 style="margin:0;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.02em">Коллекция объектов</h1>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8a8279">{{ countLabel }}</span>
+      <div style="display:flex;align-items:center;gap:2px;padding:4px;background:#ffffff;border:1px solid #e3ded7;border-radius:999px;box-shadow:0 1px 2px rgba(27,25,23,.04)">
+        <sc-for list="{{ modes }}" as="m" hint-placeholder-count="3">
+          <button type="button" onClick="{{ m.pick }}" title="{{ m.label }}" style="{{ m.btnStyle }}" style-hover="opacity:1">
+            <span style="{{ m.iconStyle }}">
+              <sc-for list="{{ m.bars }}" as="b" hint-placeholder-count="3">
+                <span style="{{ b.style }}"></span>
+              </sc-for>
+            </span>
+            <span style="font-size:13px;font-weight:500">{{ m.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:24px">
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="8">
+        <article style="display:grid;grid-template-columns:56px minmax(0,1fr) auto auto;align-items:center;gap:18px;padding:10px 16px 10px 10px;background:#fff;border:1px solid #e9e4dd;border-radius:14px" style-hover="border-color:#d9542b">
+          <div style="{{ it.thumbStyle }}"></div>
+          <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+            <div style="font-size:15px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.name }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8279;letter-spacing:.06em">{{ it.collection }}</div>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500">{{ it.price }} <span style="color:#8a8279;font-size:11px">ETH</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8a8279;min-width:78px;justify-content:flex-end">
+            <span style="width:7px;height:7px;border-radius:50%;background:#e8c46a"></span>{{ it.tokenId }}
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-top:24px">
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="8">
+        <article style="display:flex;flex-direction:column;background:#fff;border:1px solid #e9e4dd;border-radius:16px;overflow:hidden" style-hover="border-color:#d9542b">
+          <div style="{{ it.artStyle }}"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;padding:12px 14px 14px">
+            <div style="font-size:14px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.name }}</div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:13px">
+              <span style="font-weight:500">{{ it.price }} <span style="color:#8a8279;font-size:11px">ETH</span></span>
+              <span style="font-size:11px;color:#8a8279">{{ it.tokenId }}</span>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isLarge }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px;margin-top:24px">
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="4">
+        <article style="position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid #e9e4dd;border-radius:20px;overflow:hidden" style-hover="border-color:#d9542b">
+          <div style="{{ it.heroStyle }}"></div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:18px 22px 22px">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a8279">{{ it.collection }}</div>
+              <div style="font-size:20px;font-weight:700;letter-spacing:-.02em">{{ it.name }}</div>
+              <div style="font-size:13px;color:#6f6862;max-width:34ch;text-wrap:pretty">{{ it.note }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-family:'IBM Plex Mono',monospace">
+              <span style="font-size:18px;font-weight:500">{{ it.price }}</span>
+              <span style="font-size:11px;color:#8a8279">ETH · {{ it.tokenId }}</span>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const DATA = [
+  ["Skilled Fingers Series", "hands · 01", "0.855", "#209", "#f2a58c", "Серия из шести жестов, отпечатанных вручную."],
+  ["Vibrant Vibes Series", "tape · 02", "0.209", "#808", "#efc7e4", "Кассета как носитель памяти о девяностых."],
+  ["Soft Machine Study", "forms · 03", "1.240", "#114", "#cfd8ef", "Мягкая геометрия, собранная из промышленных чертежей."],
+  ["Paper Weather", "paper · 04", "0.480", "#377", "#e6e0cf", "Двенадцать состояний неба, сложенных из бумаги."],
+  ["Concrete Bloom", "stone · 05", "2.050", "#042", "#d6d2cb", "Бетонные слепки садовых растений."],
+  ["Night Shift Poster", "print · 06", "0.312", "#591", "#c9c3e0", "Постеры ночных смен типографии."],
+  ["Glass Index", "glass · 07", "0.744", "#630", "#cfe6e2", "Каталог оптических искажений."],
+  ["Orange Protocol", "signal · 08", "1.010", "#128", "#f4b98f", "Сигнальная разметка для несуществующих дорог."],
+  ["Loop Cassette II", "tape · 09", "0.195", "#847", "#f0cfa8", "Вторая часть серии о зацикленном звуке."],
+  ["Wool Terrain", "fiber · 10", "0.620", "#265", "#e3d3c4", "Рельефы, связанные из крашеной шерсти."],
+  ["Static Garden", "pixel · 11", "0.888", "#703", "#d2e3c8", "Сад, выращенный из телевизионного шума."],
+  ["Blue Hour Ledger", "photo · 12", "1.560", "#019", "#c3d3e8", "Журнал наблюдений синего часа."],
+  ["Rubber Alphabet", "type · 13", "0.275", "#452", "#f1c9c2", "Резиновая азбука для мокрых поверхностей."],
+  ["Dust Cartography", "map · 14", "0.999", "#908", "#e0dac6", "Карты пыли из заброшенных цехов."],
+  ["Warm Circuit", "wire · 15", "0.430", "#337", "#f0b9a4", "Тёплые схемы, спаянные вручную."],
+  ["Salt Print Set", "print · 16", "0.660", "#556", "#dcd6cd", "Набор соляных отпечатков береговой линии."],
+];
+
+function art(tint, height, radius) {
+  return [
+    "height:" + height,
+    "border-radius:" + radius,
+    "background-color:" + tint,
+    "background-image:repeating-linear-gradient(135deg, rgba(27,25,23,.10) 0 1px, transparent 1px 9px)",
+    "flex:none",
+  ].join(";");
+}
+
+class Component extends DCLogic {
+  state = { mode: "list" };
+
+  bars(mode) {
+    const on = this.state.mode === mode;
+    const c = on ? "#1b1917" : "#8a8279";
+    if (mode === "list") {
+      return [0, 1, 2].map(() => ({ style: "width:11px;height:2px;background:" + c + ";display:block;border-radius:1px;margin-bottom:2px" }));
+    }
+    if (mode === "grid") {
+      return [0, 1, 2, 3].map(() => ({ style: "width:5px;height:5px;background:" + c + ";display:block;border-radius:1px" }));
+    }
+    return [0, 1].map(() => ({ style: "width:6px;height:12px;background:" + c + ";display:block;border-radius:2px" }));
+  }
+
+  renderVals() {
+    const mode = this.state.mode;
+    const defs = [
+      { key: "list", label: "Список" },
+      { key: "grid", label: "Сетка" },
+      { key: "large", label: "Крупно" },
+    ];
+    return {
+      isList: mode === "list",
+      isGrid: mode === "grid",
+      isLarge: mode === "large",
+      countLabel: DATA.length + " объектов",
+      modes: defs.map((d) => {
+        const on = mode === d.key;
+        return {
+          label: d.label,
+          pick: () => this.setState({ mode: d.key }),
+          bars: this.bars(d.key),
+          iconStyle: d.key === "grid"
+            ? "display:flex;flex-wrap:wrap;gap:2px;width:12px"
+            : d.key === "large"
+              ? "display:flex;gap:2px;align-items:center"
+              : "display:flex;flex-direction:column;align-items:flex-start",
+          btnStyle: [
+            "display:flex;align-items:center;gap:8px",
+            "padding:7px 14px",
+            "border:none;cursor:pointer;border-radius:999px",
+            "font-family:'Space Grotesk',Helvetica,sans-serif",
+            "background:" + (on ? "#f0ece5" : "transparent"),
+            "color:" + (on ? "#1b1917" : "#8a8279"),
+            "opacity:" + (on ? "1" : ".9"),
+            "transition:background .15s ease,color .15s ease",
+          ].join(";"),
+        };
+      }),
+      items: DATA.map(([name, collection, price, tokenId, tint, note]) => ({
+        name, collection, price, tokenId, note,
+        thumbStyle: art(tint, "56px", "10px") + ";width:56px",
+        artStyle: mode === "grid" ? art(tint, "168px", "0") : art(tint, "168px", "0"),
+        heroStyle: art(tint, "260px", "0"),
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

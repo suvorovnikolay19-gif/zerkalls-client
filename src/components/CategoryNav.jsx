@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import catNobg1 from '../../assets/categories-nobg/1.png';
 
-const SECTIONS = [
+export const SECTIONS = [
   { name: 'Зеркала' },
   { name: 'Лестницы' },
   { name: 'Перегородки' },
@@ -19,7 +19,7 @@ export const SUBCATS = {
   'Комплектующие':     ['Профили', 'Направляющие', 'Доводчики', 'Ручки', 'Крепёж'],
 };
 
-const TREE = {
+export const TREE = {
   'Зеркала': {
     'Круглые':       ['Без рамы', 'В латунной раме', 'С подсветкой'],
     'Овальные':      ['Классические', 'Вытянутые', 'С фацетом'],

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #f2f0ed; }
+    * { box-sizing: border-box; }
+    a { color: #2f3a33; }
+    a:hover { color: #6b7a6f; }
+    @keyframes sheetIn { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</helmet>
+
+<div style="min-height: 100vh; background: #f2f0ed; color: #22251f; font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif; display: flex; flex-direction: column;">
+
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 28px 40px; gap: 24px;">
+    <div style="font-family: Spectral, Georgia, serif; font-size: 20px; letter-spacing: .04em;">ОСТЕКЛЕНИЕ</div>
+    <div style="font-size: 13px; color: #6d6f68; letter-spacing: .06em;">+7 000 000-00-00</div>
+  </header>
+
+  <main style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 100px; gap: 28px;">
+    <div style="font-size: 12px; letter-spacing: .22em; color: #8b8d84; text-transform: uppercase;">Индивидуальный расчёт</div>
+    <h1 style="font-family: Spectral, Georgia, serif; font-weight: 400; font-size: clamp(34px, 6vw, 64px); line-height: 1.08; margin: 0; max-width: 16em; text-wrap: pretty;">Подберём остекление под вашу квартиру</h1>
+    <p style="margin: 0; max-width: 34em; font-size: 16px; line-height: 1.6; color: #6d6f68; text-wrap: pretty;">Ответьте на несколько вопросов — покажем подходящие решения и стоимость.</p>
+    <button type="button" onClick="{{ open }}" style="margin-top: 8px; border: none; cursor: pointer; background: #22251f; color: #f6f5f2; font-family: Helvetica, Arial, sans-serif; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; padding: 20px 52px; border-radius: 999px; transition: background .2s ease, transform .2s ease;" style-hover="background: #3b4038; transform: translateY(-1px);">Подбор</button>
+  </main>
+
+  <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 50; background: rgba(28,30,26,.42); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 24px; animation: fadeIn .18s ease;">
+      <div style="width: 100%; max-width: 880px; max-height: 92vh; overflow: auto; background: #fbfaf8; border-radius: 22px; box-shadow: 0 30px 80px rgba(20,22,18,.28); padding: 26px 30px 30px; animation: sheetIn .26s cubic-bezier(.2,.8,.2,1);">
+
+        <div style="display: flex; align-items: center; gap: 18px;">
+          <button type="button" onClick="{{ back }}" style="border: none; background: none; cursor: pointer; font-size: 20px; line-height: 1; color: #6d6f68; padding: 4px 6px;" style-hover="color: #22251f;">‹</button>
+          <div style="flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px;">
+            <div style="height: 3px; border-radius: 2px; background: #22251f;"></div>
+            <div style="height: 3px; border-radius: 2px; background: {{ bar2 }};"></div>
+            <div style="height: 3px; border-radius: 2px; background: #e2e0da;"></div>
+            <div style="height: 3px; border-radius: 2px; background: #e2e0da;"></div>
+          </div>
+          <button type="button" onClick="{{ close }}" style="border: none; background: none; cursor: pointer; font-size: 14px; color: #676a62;" style-hover="color: #22251f;">Отмена</button>
+        </div>
+
+        <h2 style="font-family: Spectral, Georgia, serif; font-weight: 400; font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; margin: 30px 0 8px;">{{ title }}</h2>
+        <p style="margin: 0 0 22px; font-size: 14px; color: #676a62;">{{ subtitle }}</p>
+
+        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px;">
+            <sc-for list="{{ materials }}" as="m" hint-placeholder-count="6">
+              <div onMouseEnter="{{ m.enter }}" onMouseLeave="{{ m.leave }}" onClick="{{ m.pick }}" style="cursor: pointer; border-radius: 16px; padding: 18px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 14px; transition: background .18s ease, border-color .18s ease, transform .18s ease; border: 1px solid {{ m.cardBorder }}; background: {{ m.cardBg }}; transform: {{ m.lift }};">
+                <div style="width: 96px; height: 96px; perspective: 500px; display: flex; align-items: center; justify-content: center;">
+                  <div style="position: relative; width: 62px; height: 62px; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-36deg); transition: transform .3s ease;">
+                    <div style="position: absolute; inset: 0; transform: translateZ(31px); background: {{ m.face }}; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);"></div>
+                    <div style="position: absolute; inset: 0; transform: rotateY(90deg) translateZ(31px); background: {{ m.face }}; filter: brightness(.82); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);"></div>
+                    <div style="position: absolute; inset: 0; transform: rotateX(90deg) translateZ(31px); background: {{ m.face }}; filter: brightness(1.12); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);"></div>
+                  </div>
+                </div>
+                <div style="text-align: center; display: flex; flex-direction: column; gap: 4px;">
+                  <div style="font-size: 15px; color: #22251f;">{{ m.name }}</div>
+                  <div style="font-size: 12px; line-height: 1.45; color: #676a62; text-wrap: pretty;">{{ m.desc }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 22px; align-items: start;">
+
+          <div style="background: #f4f2ee; border-radius: 16px; padding: 14px;">
+            <div style="position: relative; width: 100%; aspect-ratio: 600 / 420; background: #efece6; border: 2px solid #dcd8d0; border-radius: 10px;">
+              <sc-for list="{{ rooms }}" as="room" hint-placeholder-count="6">
+                <div onMouseEnter="{{ room.enter }}" onMouseLeave="{{ room.leave }}" onClick="{{ room.pick }}" style="position: absolute; cursor: pointer; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-align: center; padding: 6px; overflow: hidden; transition: background .18s ease, border-color .18s ease; left: {{ room.left }}; top: {{ room.top }}; width: {{ room.width }}; height: {{ room.height }}; background: {{ room.fill }}; border: {{ room.border }};">
+                  <div style="font-size: 14px; color: {{ room.text }}; letter-spacing: .01em;">{{ room.name }}</div>
+                  <div style="position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%; background: #22251f; color: #f6f5f2; font-size: 11px; display: flex; align-items: center; justify-content: center; transition: opacity .18s ease; opacity: {{ room.badgeOpacity }};">✓</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ rooms }}" as="room" hint-placeholder-count="6">
+              <button type="button" onMouseEnter="{{ room.enter }}" onMouseLeave="{{ room.leave }}" onClick="{{ room.pick }}" style="text-align: left; cursor: pointer; font-family: Helvetica, Arial, sans-serif; font-size: 14px; padding: 13px 16px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: background .15s ease, border-color .15s ease; border: 1px solid {{ room.chipBorder }}; background: {{ room.chipBg }}; color: {{ room.chipText }};">
+                <span>{{ room.name }}</span>
+                <span style="font-size: 12px; color: {{ room.chipTick }};">✓</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 26px; flex-wrap: wrap;">
+          <div style="font-size: 14px; color: #6d6f68;">{{ selectedLabel }}</div>
+          <button type="button" onClick="{{ next }}" disabled="{{ notReady }}" style="border: none; border-radius: 999px; padding: 17px 46px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; font-family: Helvetica, Arial, sans-serif; transition: background .2s ease; cursor: {{ nextCursor }}; background: {{ nextBg }}; color: {{ nextColor }};">{{ nextLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { isOpen: false, hovered: null, selected: [], step: 1, material: null, hoveredMat: null };
+
+  static PLAN = [
+    { id: 'hall', name: 'Прихожая', x: 24, y: 24, w: 146, h: 104 },
+    { id: 'kitchen', name: 'Кухня', x: 24, y: 138, w: 146, h: 132 },
+    { id: 'bath', name: 'Санузел', x: 24, y: 280, w: 146, h: 116 },
+    { id: 'living', name: 'Гостиная', x: 180, y: 24, w: 250, h: 246 },
+    { id: 'bedroom', name: 'Спальня', x: 180, y: 280, w: 250, h: 116 },
+    { id: 'balcony', name: 'Лоджия', x: 440, y: 24, w: 136, h: 372 }
+  ];
+
+  static MATERIALS = [
+    { id: 'wood', name: 'Дерево', desc: 'Тёплая фактура, видимые волокна', face: 'repeating-linear-gradient(103deg, #c99b62 0 3px, #bd8c54 3px 5px, #d0a56d 5px 9px)' },
+    { id: 'alu', name: 'Алюминий', desc: 'Гладкая поверхность, тонкие линии', face: 'repeating-linear-gradient(92deg, #cdd0d2 0 2px, #bcc0c3 2px 4px)' },
+    { id: 'concrete', name: 'Бетон', desc: 'Однородный серый, мелкие поры', face: 'radial-gradient(circle at 30% 30%, #b9b7b1 1px, transparent 1.5px) 0 0/7px 7px, radial-gradient(circle at 70% 60%, #a9a7a2 1px, transparent 1.5px) 2px 3px/9px 9px, #c3c1bb' },
+    { id: 'glass', name: 'Стекло', desc: 'Прозрачная поверхность и блики', face: 'linear-gradient(135deg, rgba(214,235,240,.85), rgba(176,210,219,.6) 45%, rgba(228,244,247,.9))' },
+    { id: 'plastic', name: 'Пластик', desc: 'Гладкий глянец, яркий блик', face: 'linear-gradient(140deg, #f3f2ee, #dedcd6 55%, #cfcdc6)' },
+    { id: 'steel', name: 'Сталь', desc: 'Тёмный матовый металл', face: 'linear-gradient(135deg, #5c6065, #43474b 60%, #363a3d)' }
+  ];
+
+  toggle(id) {
+    this.setState(s => ({
+      selected: s.selected.includes(id) ? s.selected.filter(x => x !== id) : s.selected.concat(id)
+    }));
+  }
+
+  renderVals() {
+    const { hovered, selected, step, material, hoveredMat } = this.state;
+    const rooms = Component.PLAN.map(r => {
+      const isSel = selected.includes(r.id);
+      const isHov = hovered === r.id;
+      const pc = (v, total) => (v / total * 100).toFixed(3) + '%';
+      return {
+        ...r,
+        left: pc(r.x, 600),
+        top: pc(r.y, 420),
+        width: pc(r.w, 600),
+        height: pc(r.h, 420),
+        badgeOpacity: isSel ? 1 : 0,
+        fill: isSel ? '#cfd9ce' : isHov ? '#e3e7e0' : '#f8f7f4',
+        border: isSel ? '2px solid #44503f' : isHov ? '2px solid #7d8a78' : '1px solid #dcd8d0',
+        text: isSel ? '#22251f' : '#4b4e46',
+        chipBg: isSel ? '#22251f' : isHov ? '#f0eee9' : '#fbfaf8',
+        chipBorder: isSel ? '#22251f' : '#e2e0da',
+        chipText: isSel ? '#f6f5f2' : '#22251f',
+        chipTick: isSel ? '#f6f5f2' : 'transparent',
+        enter: () => this.setState({ hovered: r.id }),
+        leave: () => this.setState({ hovered: null }),
+        pick: () => this.toggle(r.id)
+      };
+    });
+    const picked = Component.PLAN.filter(r => selected.includes(r.id));
+    const mat = Component.MATERIALS.find(m => m.id === material);
+    const materials = Component.MATERIALS.map(m => {
+      const isSel = material === m.id;
+      const isHov = hoveredMat === m.id;
+      return {
+        ...m,
+        cardBg: isSel ? '#eef0ec' : isHov ? '#f4f2ee' : '#fbfaf8',
+        cardBorder: isSel ? '#44503f' : '#e2e0da',
+        lift: isHov && !isSel ? 'translateY(-2px)' : 'none',
+        enter: () => this.setState({ hoveredMat: m.id }),
+        leave: () => this.setState({ hoveredMat: null }),
+        pick: () => this.setState({ material: m.id })
+      };
+    });
+    const isStep1 = step === 1;
+    const any = isStep1 ? picked.length > 0 : !!mat;
+    return {
+      rooms,
+      materials,
+      isStep1,
+      isStep2: step === 2,
+      bar2: step >= 2 ? '#22251f' : '#e2e0da',
+      title: isStep1 ? 'Какую зону нужно остеклить?' : 'Какой материал предпочитаете?',
+      subtitle: isStep1 ? 'Наведите на план и выберите одно или несколько помещений' : 'Выберите вариант, который нравится больше всего',
+      isOpen: this.state.isOpen,
+      open: () => this.setState({ isOpen: true }),
+      close: () => this.setState({ isOpen: false }),
+      back: () => (isStep1 ? this.setState({ isOpen: false }) : this.setState({ step: 1 })),
+      nextLabel: isStep1 ? 'Далее' : 'Шаг 3 — скоро',
+      next: () => { if (any && isStep1) this.setState({ step: 2 }); },
+      nextCursorStep: isStep1 ? 'pointer' : 'default',
+      notReady: !(any && isStep1),
+      nextBg: any && isStep1 ? '#22251f' : '#eae8e3',
+      nextColor: any && isStep1 ? '#f6f5f2' : '#8d8f86',
+      nextCursor: any && isStep1 ? 'pointer' : 'not-allowed',
+      selectedLabel: isStep1
+        ? (picked.length ? 'Выбрано (' + picked.length + '): ' + picked.map(r => r.name).join(', ') : 'Шаг 1 из 4 · можно выбрать несколько зон')
+        : (mat ? 'Материал: ' + mat.name : 'Шаг 2 из 4')
+    };
+  }
+}
+</script>
+</body>
+</html>

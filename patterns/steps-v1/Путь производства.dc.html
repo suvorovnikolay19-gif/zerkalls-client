@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html { background: #f0f0ed; }
+  body { margin: 0; background: #f0f0ed; color: #0b0c0f; font-family: 'Golos Text', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0b0c0f; text-decoration: none; }
+  a:hover { color: #6b7a2e; }
+  @keyframes pulseRing { 0% { transform: translate(-50%,-50%) scale(.4); opacity: .85; } 100% { transform: translate(-50%,-50%) scale(2.6); opacity: 0; } }
+</style>
+</helmet>
+
+<div style="width:100%">
+
+  <section style="min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(22px,4vw,60px);box-sizing:border-box;background:#f0f0ed">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#6b6e74">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#c9ff4b;box-shadow:0 0 0 4px rgba(201,255,75,.3);flex:none"></span>
+        <span>Производство под заказ</span>
+      </div>
+      <span>10 этапов</span>
+    </div>
+    <div style="max-width:1060px;margin:clamp(48px,9vh,120px) auto;text-align:center">
+      <div style="font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:#8a8d93;margin-bottom:30px">Путь заказа</div>
+      <h1 style="font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(32px,6vw,92px);line-height:.96;letter-spacing:-.045em;margin:0;text-wrap:pretty">От первого обращения<br />до готового изделия</h1>
+      <p style="max-width:600px;margin:34px auto 0;font-size:clamp(15px,1.2vw,17px);line-height:1.62;color:#4b4e54;text-wrap:pretty">Продумываем детали, фиксируем договорённости и берём на себя весь согласованный комплекс работ — вплоть до уборки и сдачи результата.</p>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-top:1px solid #d7d7d2;padding-top:14px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6b6e74">
+      <span>Скролл ↓ начинается спуск</span>
+      <span>01 — 10</span>
+    </div>
+  </section>
+
+  <div ref="{{ journeyRef }}" style="position:relative;height:100vh;background:#05060a">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden;background:#05060a">
+
+      <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,6,10,.96) 0%,rgba(5,6,10,.2) 26%,rgba(5,6,10,0) 50%,rgba(5,6,10,.35) 82%,rgba(5,6,10,.9) 100%)"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(5,6,10,0) 30%,rgba(5,6,10,.75) 100%)"></div>
+
+      <svg ref="{{ svgRef }}" viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
+        <path d="M88.00,7.00 C93.00,35.67 93.00,64.33 88.00,93.00" fill="none" stroke="rgba(138,146,156,.55)" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+        <path ref="{{ progressRef }}" d="M88.00,7.00 C93.00,35.67 93.00,64.33 88.00,93.00" fill="none" stroke="#c9ff4b" stroke-width="1.4" vector-effect="non-scaling-stroke" pathLength="1" stroke-linecap="round" stroke-dasharray="0 1" stroke-dashoffset="0"></path>
+      </svg>
+
+      <div data-i="0" ref="{{ nodeRef }}" onClick="{{ goto0 }}" style="position:absolute;left:88.71%;top:11.30%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">01</span><span style="font-size:15px;letter-spacing:-.005em">Обсуждаем ваш проект</span></div>
+      </div>
+      <div data-i="1" ref="{{ nodeRef }}" onClick="{{ goto1 }}" style="position:absolute;left:89.91%;top:19.90%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">02</span><span style="font-size:15px;letter-spacing:-.005em">Рассчитываем полную стоимость</span></div>
+      </div>
+      <div data-i="2" ref="{{ nodeRef }}" onClick="{{ goto2 }}" style="position:absolute;left:90.81%;top:28.50%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">03</span><span style="font-size:15px;letter-spacing:-.005em">Закрепляем договорённости</span></div>
+      </div>
+      <div data-i="3" ref="{{ nodeRef }}" onClick="{{ goto3 }}" style="position:absolute;left:91.41%;top:37.10%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">04</span><span style="font-size:15px;letter-spacing:-.005em">Проводим точный замер</span></div>
+      </div>
+      <div data-i="4" ref="{{ nodeRef }}" onClick="{{ goto4 }}" style="position:absolute;left:91.71%;top:45.70%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">05</span><span style="font-size:15px;letter-spacing:-.005em">Проектируем ваше изделие</span></div>
+      </div>
+      <div data-i="5" ref="{{ nodeRef }}" onClick="{{ goto5 }}" style="position:absolute;left:91.71%;top:54.30%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">06</span><span style="font-size:15px;letter-spacing:-.005em">Изготавливаем и проверяем качество</span></div>
+      </div>
+      <div data-i="6" ref="{{ nodeRef }}" onClick="{{ goto6 }}" style="position:absolute;left:91.41%;top:62.90%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">07</span><span style="font-size:15px;letter-spacing:-.005em">Организуем доставку и подъём</span></div>
+      </div>
+      <div data-i="7" ref="{{ nodeRef }}" onClick="{{ goto7 }}" style="position:absolute;left:90.81%;top:71.50%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">08</span><span style="font-size:15px;letter-spacing:-.005em">Бережно устанавливаем</span></div>
+      </div>
+      <div data-i="8" ref="{{ nodeRef }}" onClick="{{ goto8 }}" style="position:absolute;left:89.91%;top:80.10%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">09</span><span style="font-size:15px;letter-spacing:-.005em">Проверяем и наводим порядок</span></div>
+      </div>
+      <div data-i="9" ref="{{ nodeRef }}" onClick="{{ goto9 }}" style="position:absolute;left:88.71%;top:88.70%;transform:translate(calc(-100% + 8px),-50%);display:flex;flex-direction:row-reverse;align-items:center;gap:14px;cursor:pointer;color:rgba(226,236,242,.45);white-space:nowrap">
+        <div data-ring="1" style="position:relative;width:16px;height:16px;border-radius:50%;border:1.5px solid currentColor;background:transparent;box-sizing:border-box;flex:none;transition:transform .35s ease, box-shadow .35s ease"><div style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;transform:scale(0);transition:transform .4s cubic-bezier(.2,.9,.2,1)"></div></div>
+        <div style="display:flex;align-items:baseline;gap:11px;font-family:'Golos Text',sans-serif;font-weight:500"><span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;opacity:.65">10</span><span style="font-size:15px;letter-spacing:-.005em">Вместе принимаем результат</span></div>
+      </div>
+
+      <div ref="{{ dotRef }}" style="position:absolute;left:50%;top:7%;width:16px;height:16px;margin:-8px 0 0 -8px;pointer-events:none">
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:#c9ff4b;box-shadow:0 0 26px 7px rgba(201,255,75,.45)"></div>
+        <div style="position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,255,75,.55);animation:pulseRing 2.4s ease-out infinite"></div>
+        <div style="position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;border:1px solid rgba(201,255,75,.35);animation:pulseRing 2.4s ease-out infinite 1.2s"></div>
+      </div>
+
+      <div ref="{{ capRef }}" style="position:absolute;left:clamp(20px,4vw,64px);bottom:clamp(24px,6vh,72px);width:min(380px,42vw);color:#e7eef3">
+        <div style="display:flex;gap:8px;margin-bottom:18px">
+          <img ref="{{ thumbRef }}" data-t="0" src="uploads/pasted-1789343244802-0.png" alt="" style="width:50%;height:78px;object-fit:cover;object-position:22% 40%;filter:saturate(1.05);border:1px solid rgba(231,238,243,.14);transition:object-position .6s ease" />
+          <img ref="{{ thumbRef }}" data-t="1" src="uploads/pasted-1789343244802-0.png" alt="" style="width:50%;height:78px;object-fit:cover;object-position:74% 62%;filter:saturate(1.05);border:1px solid rgba(231,238,243,.14);transition:object-position .6s ease" />
+        </div>
+        <div style="display:flex;align-items:baseline;gap:12px;font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:rgba(231,238,243,.5)">
+          <span>Этап {{ num }}</span><span>/ 10</span>
+        </div>
+        <h2 style="font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(22px,2.4vw,34px);line-height:1.06;letter-spacing:-.04em;margin:14px 0 0;text-wrap:pretty">{{ title }}</h2>
+        <p style="margin:16px 0 0;font-size:15px;line-height:1.7;color:rgba(231,238,243,.72);text-wrap:pretty">{{ desc }}</p>
+      </div>
+
+      <sc-if value="{{ started }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ exit }}" style="position:absolute;left:50%;bottom:clamp(18px,3vh,34px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:12px;padding:13px 26px;border:1px solid rgba(231,238,243,.28);color:rgba(231,238,243,.7);cursor:pointer;font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.14em;font-size:10px;transition:color .3s ease, border-color .3s ease" style-hover="color:#05060a;border-color:#e7eef3;background:#e7eef3">
+          <span style="font-size:15px;line-height:1">↑</span>
+          <span>Выйти из пути</span>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ gate }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(20px,3vh,34px);padding:24px;box-sizing:border-box;text-align:center;background:radial-gradient(ellipse at 50% 50%,rgba(5,6,10,.88) 0%,rgba(5,6,10,.97) 70%)">
+          <div style="font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.2em;font-size:10px;color:rgba(231,238,243,.5)">10 этапов производства</div>
+          <h2 style="font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(26px,4vw,56px);line-height:1;letter-spacing:-.045em;margin:0;color:#f2f6f8;text-wrap:pretty">Как проходит ваш заказ</h2>
+          <div onClick="{{ start }}" style="margin-top:6px;display:inline-flex;align-items:center;gap:18px;padding:22px clamp(34px,5vw,64px);border:1px solid rgba(201,255,75,.5);color:#c9ff4b;cursor:pointer;font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.18em;font-size:clamp(12px,1.1vw,14px);transition:background .35s ease, color .35s ease, border-color .35s ease" style-hover="background:#c9ff4b;color:#05060a;border-color:#c9ff4b">
+            <span>Узнать</span>
+            <span style="font-size:19px;line-height:1">↓</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(231,238,243,.35)">Или просто пролистайте дальше</div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <section style="min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(24px,5vw,72px);box-sizing:border-box;background:#f0f0ed">
+    <div style="font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#6b6e74">Финал пути</div>
+    <div style="max-width:1000px;margin:clamp(48px,9vh,120px) auto;text-align:center">
+      <h2 style="font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(28px,5vw,78px);line-height:.98;letter-spacing:-.045em;margin:0;text-wrap:pretty">Изделие на месте.<br />Заказ закрыт вместе с вами.</h2>
+      <p style="max-width:600px;margin:32px auto 0;font-size:clamp(15px,1.2vw,17px);line-height:1.62;color:#4b4e54;text-wrap:pretty">Десять этапов — один согласованный процесс: от первого разговора до чистой комнаты и работающего изделия.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:42px">
+        <a href="#" style="padding:17px 30px;background:#c9ff4b;color:#0b0c0f;font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.14em;font-size:11px;transition:background .3s ease,color .3s ease" style-hover="background:#0b0c0f;color:#c9ff4b">Обсудить проект →</a>
+        <a href="#" style="padding:17px 30px;border:1px solid #cdcdc8;color:#0b0c0f;font-family:'JetBrains Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.14em;font-size:11px;transition:border-color .3s ease" style-hover="border:1px solid #0b0c0f;color:#0b0c0f">Рассчитать стоимость</a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:24px;border-top:1px solid #d7d7d2;padding-top:14px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6b6e74">
+      <span>Производство под заказ</span>
+      <span>10 / 10</span>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#c9ff4b&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#c9ff4b&quot;,&quot;#ff6b3d&quot;,&quot;#e8e2d4&quot;,&quot;#8c7bff&quot;]},&quot;fog&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.75,&quot;min&quot;:0.2,&quot;max&quot;:1.4,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;},&quot;photo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;uploads/pasted-1789343244802-0.png&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { i: 0, open: false, started: false };
+  stages = [
+    ["Обсуждаем ваш проект", "Знакомимся с вашей задачей, изучаем проект и пожелания. Обсуждаем внешний вид, конструкцию, особенности пространства и варианты исполнения. Вместе определяем решение, которое подходит вашему интерьеру и тому, как вы будете пользоваться изделием."],
+    ["Рассчитываем полную стоимость", "Готовим коммерческое предложение с учётом всех согласованных решений и условий: изделия, доставки, подъёма и монтажа. Вы заранее знаете, что входит в заказ и сколько он стоит. Всё оговорённое уже учтено — без неожиданных доплат за согласованный объём работ."],
+    ["Закрепляем договорённости", "Работаем по договору: фиксируем выбранное решение, стоимость, состав работ и условия выполнения заказа. У вас на руках документ, в котором закреплены наши обязательства."],
+    ["Проводим точный замер", "Выезжаем на объект, выполняем замеры и проверяем геометрию пространства с помощью лазерного оборудования. Учитываем особенности места установки. Выявленные расхождения и нюансы обсуждаем с вами до проектирования."],
+    ["Проектируем ваше изделие", "Разрабатываем индивидуальный проект с точными размерами и деталями конструкции. Отправляем его вам на согласование, чтобы будущий результат был понятен заранее. После утверждения готовим рабочие чертежи и файлы для производства."],
+    ["Изготавливаем и проверяем качество", "Производим изделие по утверждённому проекту. Проверяем размеры, качество изготовления и соответствие согласованным решениям. Контроль перед отправкой — отдельный этап подготовки вашего заказа к установке."],
+    ["Организуем доставку и подъём", "Согласовываем с вами дату установки. Доставляем изделие специализированным транспортом и организуем подъём к месту монтажа, включая необходимые такелажные работы. Все согласованные вопросы доставки берём на себя."],
+    ["Бережно устанавливаем", "Перед началом монтажа укрываем рабочую зону, чтобы защитить отделку и имущество. Устанавливаем изделие с использованием лазерных построителей: выверяем положение, соблюдаем геометрию и уделяем внимание точности примыканий."],
+    ["Проверяем и наводим порядок", "Проверяем работу изделия и его механизмов. Очищаем поверхности после монтажа, убираем рабочую зону, собираем и вывозим свой мусор. Передаём вам готовое к использованию изделие."],
+    ["Вместе принимаем результат", "Вместе с вами осматриваем установленное изделие: проверяем соответствие проекту, качество и функциональность. Показываем, как всё работает, и отвечаем на вопросы. Завершаем заказ сдачей готовой работы."]
+  ];
+  nodes = [];
+  p = 0;
+
+  get accent() { return this.props.accent || "#c9ff4b"; }
+  get fog() { return this.props.fog == null ? 0.75 : this.props.fog; }
+
+  px(u) { return 88 * (Math.pow(1 - u, 3) + Math.pow(u, 3)) + 279 * u * (1 - u); }
+  subPath(t) {
+    const P = [[88, 7], [93, 35.67], [93, 64.33], [88, 93]];
+    const L = (a, b) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    const A = L(P[0], P[1]), B = L(P[1], P[2]), C = L(P[2], P[3]);
+    const D = L(A, B), E = L(B, C), F = L(D, E);
+    const f = (p) => p[0].toFixed(2) + "," + p[1].toFixed(2);
+    return "M" + f(P[0]) + " C" + f(A) + " " + f(D) + " " + f(F);
+  }
+  py(t) { return 7 + 86 * t; }
+
+  componentDidMount() {
+    this.dust = Array.from({ length: 90 }, () => ({ a: Math.random() * Math.PI * 2, r: 0.1 + Math.random() * 0.9, u: Math.random(), s: 0.4 + Math.random() }));
+    this.shards = Array.from({ length: 10 }, (_, i) => {
+      const flip = i % 2 ? -1 : 1;
+      const r = (n) => ((Math.sin((i + 1) * n) + 1) / 2);
+      return [
+        { x: -0.72 * flip, y: -0.26 + r(12.9) * 0.16, s: 0.2, rot: -0.05 * flip, sx: 0.05 + r(7.3) * 0.5, sy: 0.05 + r(3.1) * 0.4, sw: 0.22 },
+        { x: 0.74 * flip, y: 0.24 + r(5.7) * 0.18, s: 0.16, rot: 0.06 * flip, sx: 0.1 + r(9.4) * 0.5, sy: 0.12 + r(4.6) * 0.4, sw: 0.18 },
+        { x: (-0.2 + r(2.2) * 0.36) * flip, y: 0.16 + r(6.1) * 0.2, s: 0.17, dz: 0.42, rot: -0.04 * flip, sx: 0.2 + r(11.2) * 0.45, sy: 0.08 + r(8.8) * 0.45, sw: 0.2 }
+      ];
+    });
+    this.onResize = () => {
+      const c = this.canvas; if (!c) return;
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      c.width = c.clientWidth * dpr; c.height = c.clientHeight * dpr;
+    };
+    const img = new Image();
+    img.onload = () => {
+      const cw = 960, ch = Math.round(960 * img.height / img.width);
+      const oc = document.createElement("canvas");
+      oc.width = cw; oc.height = ch;
+      const octx = oc.getContext("2d");
+      octx.filter = "saturate(1.06) contrast(1.04)";
+      octx.drawImage(img, 0, 0, cw, ch);
+      this.photo = oc;
+    };
+    img.src = this.props.photo || "uploads/pasted-1789343244802-0.png";
+    window.addEventListener("resize", this.onResize, { passive: true });
+    this.onResize();
+    this.loop = (now) => {
+      try { this.tick(now || 0); } catch (e) { if (!this.errLogged) { this.errLogged = 1; console.error("tick failed", e); } }
+      this.raf = requestAnimationFrame(this.loop);
+    };
+    this.raf = requestAnimationFrame(this.loop);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener("resize", this.onResize);
+  }
+
+  tick(now) {
+    const c = this.canvas;
+    if (c) {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const cw = Math.round(c.clientWidth * dpr), ch = Math.round(c.clientHeight * dpr);
+      if (cw > 0 && ch > 0 && (c.width !== cw || c.height !== ch)) { c.width = cw; c.height = ch; }
+    }
+    const j = this.journey;
+    if (j) {
+      let r = j.getBoundingClientRect();
+      if (this.state.started && r.bottom <= -2) {
+        const delta = j.offsetHeight - window.innerHeight;
+        j.style.height = "100vh";
+        window.scrollTo(0, Math.max(0, window.scrollY - delta));
+        this.setState({ started: false });
+        r = j.getBoundingClientRect();
+      }
+      const span = r.height - window.innerHeight;
+      this.p = Math.max(0, Math.min(1, span > 0 ? -r.top / span : 0));
+    }
+    const vis = this.state.started ? 1 : 0;
+    [this.svg, this.cap, this.dot].forEach((el) => {
+      if (!el) return;
+      el.style.transition = "opacity .5s ease";
+      el.style.opacity = String(vis);
+      el.style.pointerEvents = vis ? "" : "none";
+    });
+    const p = this.p;
+    if (this.dot) {
+      this.dot.style.left = this.px(p) + "%";
+      this.dot.style.top = this.py(p) + "%";
+    }
+    if (this.progress) {
+      this.progress.style.strokeDasharray = "none";
+      this.progress.setAttribute("d", p > 0.0005 ? this.subPath(p) : "M88,7");
+    }
+    const idx = Math.max(0, Math.min(9, Math.floor(p * 10)));
+    let hit = 0;
+    this.nodes.forEach((el, i) => {
+      if (!el) return;
+      const t = 0.05 + 0.1 * i;
+      const passed = p >= t;
+      const d = Math.abs(p - t);
+      const inside = d < 0.009;
+      if (inside) hit = Math.max(hit, 1 - d / 0.009);
+      el.style.color = inside || passed ? this.accent : (d < 0.13 ? "rgba(236,242,248,.96)" : "rgba(208,216,226,.88)");
+      el.style.opacity = String(vis);
+      el.style.pointerEvents = vis ? "" : "none";
+      el.style.transition = "color .45s ease, opacity .5s ease";
+      const ring = el.firstElementChild;
+      if (ring) {
+        ring.style.transform = "scale(" + (inside ? 1.55 : passed ? 1.12 : 1) + ")";
+        ring.style.boxShadow = inside ? "0 0 22px 5px " + this.accent + "66" : "none";
+        ring.firstElementChild.style.transform = "scale(" + (passed || inside ? 1 : 0) + ")";
+      }
+    });
+    if (this.dot) {
+      const core = this.dot.firstElementChild;
+      core.style.transform = "translate(-50%,-50%) scale(" + (1 + hit * 1.1) + ")";
+      core.style.opacity = String(1 - hit * 0.55);
+    }
+    if (idx !== this.state.i) this.setState({ i: idx });
+    this.paint(now);
+  }
+
+  paint(now) {
+    const c = this.canvas; if (!c) return;
+    const ctx = c.getContext("2d");
+    const w = c.width, h = c.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#05060a";
+    ctx.fillRect(0, 0, w, h);
+    const cx = w / 2, cy = h / 2;
+    const off = this.p * 26 + now * 0.00003;
+    const N = 26;
+    for (let i = 0; i < N; i++) {
+      let u = ((i / N - off) % 1 + 1) % 1;
+      const z = 0.16 + u * 7;
+      const k = 1 / z;
+      const rw = w * 0.82 * k, rh = h * 0.6 * k;
+      const a = Math.min(1, u * 6) * (1 - u) * 0.3 * this.fog;
+      if (a <= 0.002) continue;
+      ctx.strokeStyle = "rgba(164,206,226," + a.toFixed(3) + ")";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.rect(cx - rw / 2, cy - rh / 2, rw, rh);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = "rgba(164,206,226," + (0.1 * this.fog).toFixed(3) + ")";
+    ctx.beginPath();
+    [[0, 0], [w, 0], [0, h], [w, h]].forEach(([x, y]) => { ctx.moveTo(cx, cy); ctx.lineTo(x, y); });
+    ctx.stroke();
+    const gp = this.p * 10;
+    for (let i = 9; i >= 0; i--) {
+      const z = (i + 0.5) - gp;
+      if (z < -0.2 || z > 5.5) continue;
+      const k = 1 / (0.34 + z * 0.92);
+      const gw = w * 0.52 * k, gh = h * 0.44 * k;
+      const near = Math.min(1, (z + 0.2) / 0.6);
+      const far = Math.min(1, (5.5 - z) / 2.2);
+      const a = near * far;
+      const hot = Math.max(0, 1 - Math.abs(z) / 1.2);
+      ctx.save();
+      if (this.photo) {
+        const x0 = cx - gw / 2, y0 = cy - gh / 2;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x0, y0, gw, gh);
+        ctx.clip();
+        const ir = this.photo.width / this.photo.height, gr = gw / gh;
+        const dw = ir > gr ? gh * ir : gw, dh = ir > gr ? gh : gw / ir;
+        ctx.globalAlpha = a * (0.3 + hot * 0.7);
+        ctx.drawImage(this.photo, cx - dw / 2, cy - dh / 2, dw, dh);
+        ctx.globalAlpha = a * (0.42 - hot * 0.34);
+        ctx.fillStyle = "#05060a";
+        ctx.fillRect(x0, y0, gw, gh);
+        if (hot > 0.05) {
+          ctx.globalAlpha = a * hot * 0.16;
+          ctx.fillStyle = this.accent;
+          ctx.fillRect(x0, y0, gw, gh);
+        }
+        ctx.restore();
+      }
+      ctx.lineWidth = 1 + hot * 1.4;
+      ctx.strokeStyle = hot > 0.05 ? this.accent : "rgba(190,208,220,1)";
+      ctx.globalAlpha = a * (0.22 + hot * 0.5);
+      ctx.strokeRect(cx - gw / 2, cy - gh / 2, gw, gh);
+      if (this.photo) {
+        const ph = this.photo;
+        const minis = this.shards[i];
+        minis.forEach((m) => {
+          const zm = z - (m.dz || 0);
+          if (zm < -0.45) return;
+          const km = 1 / (0.34 + zm * 0.92);
+          const mw = w * 0.52 * km, mh = h * 0.44 * km;
+          const ms = mw * m.s;
+          const mx = cx + mw * m.x, my = cy + mh * m.y;
+          ctx.save();
+          ctx.translate(mx, my);
+          ctx.rotate(m.rot);
+          ctx.globalAlpha = a * (0.42 + hot * 0.5);
+          ctx.drawImage(ph, m.sx * ph.width, m.sy * ph.height, m.sw * ph.width, m.sw * ph.width, -ms / 2, -ms / 2, ms, ms);
+          ctx.globalAlpha = a * (0.3 + hot * 0.45);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = hot > 0.15 ? this.accent : "rgba(226,240,246,.6)";
+          ctx.strokeRect(-ms / 2, -ms / 2, ms, ms);
+          ctx.restore();
+        });
+      }
+      const fs = Math.min(h * 0.5, 26 * k * (h / 900));
+      if (fs > 7) {
+        ctx.globalAlpha = a * (0.28 + hot * 0.62);
+        ctx.fillStyle = hot > 0.05 ? this.accent : "rgba(206,220,230,1)";
+        ctx.font = "500 " + fs.toFixed(0) + "px 'JetBrains Mono', ui-monospace, monospace";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(String(i + 1).padStart(2, "0"), cx - gw / 2 + fs * 0.3, cy - gh / 2 - fs * 0.22);
+      }
+      ctx.restore();
+    }
+    this.dust.forEach((d) => {
+      let u = ((d.u - off * 0.6 * d.s) % 1 + 1) % 1;
+      const k = 1 / (0.2 + u * 7);
+      const x = cx + Math.cos(d.a) * d.r * w * 0.9 * k;
+      const y = cy + Math.sin(d.a) * d.r * h * 0.9 * k;
+      const a = Math.min(1, u * 5) * (1 - u) * 0.7;
+      ctx.fillStyle = "rgba(226,240,246," + a.toFixed(3) + ")";
+      ctx.fillRect(x, y, 1.6, 1.6);
+    });
+  }
+
+  start() {
+    const j = this.journey; if (!j) return;
+    const top = j.getBoundingClientRect().top + window.scrollY;
+    j.style.height = "480vh";
+    this.setState({ started: true });
+    requestAnimationFrame(() => window.scrollTo({ top: top, behavior: "smooth" }));
+  }
+
+  exit() {
+    const j = this.journey; if (!j) return;
+    const top = j.getBoundingClientRect().top + window.scrollY;
+    j.style.height = "100vh";
+    this.setState({ started: false });
+    requestAnimationFrame(() => window.scrollTo({ top: top + window.innerHeight, behavior: "smooth" }));
+  }
+
+  goto(i) {
+    const j = this.journey; if (!j) return;
+    const top = j.getBoundingClientRect().top + window.scrollY;
+    const span = j.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + span * ((i + 0.5) / 10), behavior: "smooth" });
+    this.setState({ open: true });
+  }
+
+  renderVals() {
+    const i = this.state.i;
+    const v = {
+      journeyRef: (el) => { this.journey = el; },
+      canvasRef: (el) => { this.canvas = el; },
+      dotRef: (el) => { this.dot = el; },
+      progressRef: (el) => { this.progress = el; },
+      nodeRef: (el) => { if (el) this.nodes[+el.dataset.i] = el; },
+      svgRef: (el) => { this.svg = el; },
+      capRef: (el) => { this.cap = el; },
+      num: String(i + 1).padStart(2, "0"),
+      title: this.stages[i][0],
+      desc: this.stages[i][1],
+      gate: !this.state.started,
+      started: this.state.started,
+      start: () => this.start(),
+      exit: () => this.exit(),
+      thumbRef: (el) => {
+        if (!el) return;
+        const k = +el.dataset.t;
+        el.style.objectPosition = (12 + ((i * 7 + k * 43) % 76)) + "% " + (28 + ((i * 11 + k * 29) % 48)) + "%";
+      }
+    };
+    for (let k = 0; k < 10; k++) v["goto" + k] = () => this.goto(k);
+    return v;
+  }
+}
+</script>
+</body>
+</html>

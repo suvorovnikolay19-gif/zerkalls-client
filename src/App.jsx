@@ -67,6 +67,7 @@ export default function App() {
   const catalogNavPillRef = useRef(null);
   const catalogNavItemRefs = useRef([]);
   const [chips, setChips] = useState({ stock: false, premium: false, sale: false, fast: false });
+  const [viewMode, setViewMode] = useState('grid');
   const [selectedCats, setSelectedCats] = useState({});
   const [selectedMats, setSelectedMats] = useState({});
   const [priceMin, setPriceMin] = useState('');
@@ -243,6 +244,9 @@ export default function App() {
         onGoEntry={navigateToCatalog}
         onClearSubsection={() => { setSubsection(null); setSubsubsection(null); }}
         onClearSubsubsection={() => setSubsubsection(null)}
+        onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); }}
+        onPickSubsection={name => { setSubsection(name); setSubsubsection(null); }}
+        onPickLeaf={name => setSubsubsection(name)}
       />
       <FilterBar
         chips={CHIPS}
@@ -279,16 +283,60 @@ export default function App() {
         />
       ) : (
         <main style={{ padding: '54px 40px 90px' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 30 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 30 }}>
             <h2 style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: '-.02em' }}>{subsubsection || subsection || section || 'Каталог зеркал и перегородок'}</h2>
-            <span style={{ width: 1, height: 18, background: '#dcd8d1', display: 'inline-block' }} />
+            <span style={{ width: 1, height: 18, background: '#dcd8d1', display: 'inline-block', flexShrink: 0 }} />
             <span style={{ fontSize: 14, color: '#8b877f' }}>
               {loading ? 'Загрузка...' : `${filtered.length} ${pluralProducts(filtered.length)}`}
             </span>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2, padding: 4, background: '#fff', border: '1px solid #ece9e4', borderRadius: 999, boxShadow: '0 1px 3px rgba(26,26,24,.06)', flexShrink: 0 }}>
+              {[
+                { key: 'list', label: 'Список' },
+                { key: 'grid', label: 'Сетка' },
+                { key: 'large', label: 'Крупно' },
+              ].map(m => {
+                const on = viewMode === m.key;
+                const c = on ? '#1a1a18' : '#8b877f';
+                let icon = null;
+                if (m.key === 'list') icon = (
+                  <span style={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0 }}>
+                    {[15, 10, 13].map((w, i) => <span key={i} style={{ display: 'block', height: 2, width: w, background: c, borderRadius: 1 }} />)}
+                  </span>
+                );
+                if (m.key === 'grid') icon = (
+                  <span style={{ display: 'flex', flexWrap: 'wrap', gap: 2, width: 12, flexShrink: 0 }}>
+                    {[0,1,2,3].map(i => <span key={i} style={{ display: 'block', width: 5, height: 5, background: c, borderRadius: 1 }} />)}
+                  </span>
+                );
+                if (m.key === 'large') icon = (
+                  <span style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
+                    {[0,1].map(i => <span key={i} style={{ display: 'block', width: 6, height: 12, background: c, borderRadius: 2 }} />)}
+                  </span>
+                );
+                return (
+                  <button
+                    key={m.key}
+                    onClick={() => setViewMode(m.key)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 7,
+                      padding: '6px 13px', border: 'none', cursor: 'pointer',
+                      borderRadius: 999, background: on ? '#f0ece5' : 'transparent',
+                      color: on ? '#1a1a18' : '#8b877f',
+                      fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
+                      transition: 'background .15s, color .15s',
+                    }}
+                  >
+                    {icon}
+                    {m.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
           <ProductGrid
             products={filtered}
             loading={loading}
+            viewMode={viewMode}
             onAddToCart={(p) => { addItem(p); setCartOpen(true); }}
             compareIds={compareItems.map(p => p.id)}
             onToggleCompare={toggleCompare}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import MaterialsSection from '../components/MaterialsSection.jsx';
+import WorkStepsSection from '../components/WorkStepsSection.jsx';
 import HeroTree from '../components/HeroTree.jsx';
 import heroImg from '../../assets/hero-main/hero-1.png';
 import bgImg from '../../assets/background.png';
@@ -1479,43 +1480,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       </section>
 
-      {/* ── Как мы работаем ── */}
-      <section style={{ padding: '96px 48px 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: 42 }}>
-          <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Как мы работаем</h2>
-          <div style={{ fontSize: 15, color: '#8b877f' }}>Четыре этапа от заявки до готового интерьера</div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.15fr', gap: 60, alignItems: 'center' }}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {STEPS.map((s, i) => {
-              const active = i === stepIdx;
-              const done = i < stepIdx;
-              const progress = active ? stepProgress : (done ? 100 : 0);
-              return (
-                <div key={i} onClick={() => pickStep(i)} style={{ cursor: 'pointer', paddingBottom: active ? 4 : 0 }}>
-                  <div style={{ height: 2, background: '#e6e2dc', overflow: 'hidden' }}>
-                    <div style={{ height: 2, background: '#1a1a18', transformOrigin: 'left center', willChange: 'transform', transform: `scaleX(${progress / 100})`, width: '100%', transition: active ? 'none' : 'transform .5s cubic-bezier(.4,0,.2,1)' }} />
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, paddingTop: 20 }}>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, transition: 'color .45s ease', color: active ? '#8b877f' : '#c2bdb5' }}>{'0' + (i + 1)}</span>
-                    <h3 style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: '-.02em', transition: 'color .45s ease', color: active ? '#1a1a18' : '#c2bdb5' }}>{s.title}</h3>
-                  </div>
-                  {active && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 22, padding: '12px 0 22px', animation: 'hStep .45s cubic-bezier(.2,.8,.2,1)' }}>
-                      <div style={{ fontSize: 15, lineHeight: 1.6, color: '#6b6862', maxWidth: 400, textWrap: 'pretty' }}>{s.text}</div>
-                      <div style={{ width: 46, height: 46, flexShrink: 0, borderRadius: '50%', background: '#1a1a18', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>→</div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <div style={{ position: 'relative', height: 520, borderRadius: 22, overflow: 'hidden', background: '#ece9e4' }}>
-            <div key={stepIdx} style={{ position: 'absolute', inset: 0, animation: 'hSwap .55s cubic-bezier(.2,.8,.2,1)', backgroundImage: 'repeating-linear-gradient(135deg, #e2ddd7 0, #e2ddd7 10px, #d8d3cd 10px, #d8d3cd 20px)' }} />
-            <div style={{ position: 'absolute', left: 20, bottom: 20, padding: '10px 18px', borderRadius: 999, background: 'rgba(251,250,248,.94)', fontSize: 13, color: '#33322e' }}>{STEPS[stepIdx].caption}</div>
-          </div>
-        </div>
-      </section>
+      {/* ── Путь заказа (WorkStepsSection) ── */}
+      <WorkStepsSection onContact={() => setChatOpen(true)} />
 
       {/* ── Материалы и отделки ── */}
       <MaterialsSection />
