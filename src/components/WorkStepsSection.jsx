@@ -1,5 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import photoSrc from '../../assets/partitions.jpg';
+import step01 from '../../assets/steps/photo_1_2026-09-18_15-26-01.jpg';
+import step02 from '../../assets/steps/photo_2_2026-09-18_15-26-01.jpg';
+import step03 from '../../assets/steps/photo_3_2026-09-18_15-26-01.jpg';
+import step04 from '../../assets/steps/photo_4_2026-09-18_15-26-01.jpg';
+import step05 from '../../assets/steps/photo_5_2026-09-18_15-26-01.jpg';
+import step06 from '../../assets/steps/photo_6_2026-09-18_15-26-01.jpg';
+import step07 from '../../assets/steps/photo_7_2026-09-18_15-26-01.jpg';
+import step08 from '../../assets/steps/photo_8_2026-09-18_15-26-01.jpg';
+import step09 from '../../assets/steps/photo_9_2026-09-18_15-26-01.jpg';
+import step10 from '../../assets/steps/photo_10_2026-09-18_15-26-01.jpg';
+
+const STEP_SRCS = [step01, step02, step03, step04, step05, step06, step07, step08, step09, step10];
 
 const ACCENT = '#c9ff4b';
 const FOG = 0.75;
@@ -74,7 +85,7 @@ export default function WorkStepsSection({ onContact }) {
   const idxRef       = useRef(0);
   const dustRef      = useRef([]);
   const shardsRef    = useRef([]);
-  const photoRef     = useRef(null);
+  const photoRefs    = useRef([]);
 
   useEffect(() => { startedRef.current = started; }, [started]);
 
@@ -112,8 +123,8 @@ export default function WorkStepsSection({ onContact }) {
       const a=near*far;
       const hot=Math.max(0,1-Math.abs(z)/1.2);
       ctx.save();
-      if (photoRef.current) {
-        const ph=photoRef.current;
+      const ph=photoRefs.current[i];
+      if (ph) {
         const x0=cx-gw/2, y0=cy-gh/2;
         ctx.save();
         ctx.beginPath(); ctx.rect(x0,y0,gw,gh); ctx.clip();
@@ -129,8 +140,7 @@ export default function WorkStepsSection({ onContact }) {
       ctx.strokeStyle=hot>0.05?ACCENT:'rgba(190,208,220,1)';
       ctx.globalAlpha=a*(0.22+hot*0.5);
       ctx.strokeRect(cx-gw/2,cy-gh/2,gw,gh);
-      if (photoRef.current) {
-        const ph=photoRef.current;
+      if (ph) {
         const minis=shardsRef.current[i]||[];
         minis.forEach(m=>{
           const zm=z-(m.dz||0); if (zm<-0.45) return;
@@ -248,16 +258,18 @@ export default function WorkStepsSection({ onContact }) {
       ];
     });
 
-    const img=new Image();
-    img.onload=()=>{
-      const cw=960, ch=Math.round(960*img.height/img.width);
-      const oc=document.createElement('canvas'); oc.width=cw; oc.height=ch;
-      const octx=oc.getContext('2d');
-      octx.filter='saturate(1.06) contrast(1.04)';
-      octx.drawImage(img,0,0,cw,ch);
-      photoRef.current=oc;
-    };
-    img.src=photoSrc;
+    STEP_SRCS.forEach((src, i) => {
+      const img = new Image();
+      img.onload = () => {
+        const cw = 960, ch = Math.round(960 * img.height / img.width);
+        const oc = document.createElement('canvas'); oc.width = cw; oc.height = ch;
+        const octx = oc.getContext('2d');
+        octx.filter = 'saturate(1.06) contrast(1.04)';
+        octx.drawImage(img, 0, 0, cw, ch);
+        photoRefs.current[i] = oc;
+      };
+      img.src = src;
+    });
 
     const onResize=()=>{
       const c=canvasRef.current; if (!c) return;
@@ -390,8 +402,8 @@ export default function WorkStepsSection({ onContact }) {
           {/* Caption panel */}
           <div ref={capRef} style={{position:'absolute',left:'clamp(20px,4vw,64px)',bottom:'clamp(24px,6vh,72px)',width:'min(380px,42vw)',color:'#e7eef3',opacity:0,pointerEvents:'none'}}>
             <div style={{display:'flex',gap:8,marginBottom:18}}>
-              <img src={photoSrc} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(0),filter:'saturate(1.05)',border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
-              <img src={photoSrc} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(1),filter:'saturate(1.05)',border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
+              <img src={STEP_SRCS[idx]} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(0),filter:'saturate(1.05)',border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
+              <img src={STEP_SRCS[(idx + 1) % STEP_SRCS.length]} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(1),filter:'saturate(1.05)',border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
             </div>
             <div style={{display:'flex',alignItems:'baseline',gap:12,fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.14em',fontSize:10,color:'rgba(231,238,243,.5)'}}>
               <span>Этап {num}</span><span>/ 10</span>
