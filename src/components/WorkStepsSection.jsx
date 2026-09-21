@@ -489,12 +489,12 @@ export default function WorkStepsSection({ onContact }) {
               <h2 style={{fontFamily:unboundedFont,fontWeight:300,fontSize:'clamp(26px,4vw,56px)',lineHeight:1,letterSpacing:'-.045em',margin:0,color:'#0a0a0a'}}>Как проходит ваш заказ</h2>
               <div
                 onClick={openChat}
-                style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:18,padding:'22px clamp(34px,5vw,64px)',border:'1px solid #0a0a0a',background:'#0a0a0a',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:'clamp(12px,1.1vw,14px)',borderRadius:10,transition:'background .35s ease, border-color .35s ease'}}
-                onMouseEnter={e=>{e.currentTarget.style.background='#333333';e.currentTarget.style.borderColor='#333333';}}
-                onMouseLeave={e=>{e.currentTarget.style.background='#0a0a0a';e.currentTarget.style.borderColor='#0a0a0a';}}
+                style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:18,padding:'22px clamp(34px,5vw,64px)',border:'1px solid #0a0a0a',background:'#0a0a0a',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:'clamp(12px,1.1vw,14px)',borderRadius:10,transition:'background .35s ease, border-color .35s ease, box-shadow .35s ease',animation:'wsKnowGlow 2.6s ease-in-out infinite'}}
+                onMouseEnter={e=>{e.currentTarget.style.background='#333333';e.currentTarget.style.borderColor='#333333';e.currentTarget.style.animation='none';}}
+                onMouseLeave={e=>{e.currentTarget.style.background='#0a0a0a';e.currentTarget.style.borderColor='#0a0a0a';e.currentTarget.style.animation='wsKnowGlow 2.6s ease-in-out infinite';}}
               >
                 <span>Узнать</span>
-                <span style={{fontSize:19,lineHeight:1}}>↓</span>
+                <span style={{fontSize:19,lineHeight:1,display:'inline-block',animation:'wsArrowDrop 2.6s ease-in-out infinite'}}>↓</span>
               </div>
               <div style={{fontFamily:monoFont,fontSize:10,letterSpacing:'.1em',textTransform:'uppercase',color:'rgba(0,0,0,.35)'}}>Или просто пролистайте дальше</div>
             </div>

@@ -80,6 +80,8 @@ button { font-family: inherit; }
 @keyframes wsInLeft { from { opacity: 0; transform: translate3d(-28px,14px,0) scale(.94); } to { opacity: 1; transform: none; } }
 @keyframes wsDotPulse { 0%,60%,100% { opacity: .25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
 @keyframes wsFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes wsKnowGlow { 0%, 100% { box-shadow: 0 4px 18px rgba(0,0,0,0.10); } 50% { box-shadow: 0 10px 40px rgba(0,0,0,0.32), 0 0 0 4px rgba(0,0,0,0.08); } }
+@keyframes wsArrowDrop { 0%, 55%, 100% { transform: translateY(0); } 30% { transform: translateY(5px); } }
 
 @keyframes catFloat {
   0%, 100% { transform: translateY(0px); }
