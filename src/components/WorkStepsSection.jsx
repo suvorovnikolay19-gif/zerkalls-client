@@ -427,7 +427,7 @@ export default function WorkStepsSection({ onContact }) {
 
           {/* Chat overlay */}
           {chat && !started && (
-            <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:18,padding:'clamp(20px,4vh,44px) 24px',boxSizing:'border-box',background:'#f2f4f8',color:'#1a1c22',fontFamily:golosFont,zIndex:20}}>
+            <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:18,padding:'clamp(20px,4vh,44px) 24px',boxSizing:'border-box',background:'#ffffff',color:'#1a1c22',fontFamily:golosFont,zIndex:20}}>
               <div style={{width:'100%',maxWidth:470,display:'flex',flexDirection:'column',gap:12,animation:'wsFadeUp .5s ease both'}}>
                 {/* Chat header */}
                 <div style={{display:'flex',alignItems:'center',gap:12,padding:'0 4px 4px'}}>
@@ -472,9 +472,9 @@ export default function WorkStepsSection({ onContact }) {
               {chatDone && (
                 <div
                   onClick={startJourney}
-                  style={{display:'inline-flex',alignItems:'center',gap:16,padding:'18px 44px',background:'#2563eb',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:12,animation:'wsFadeUp .5s ease both',transition:'background .3s ease'}}
-                  onMouseEnter={e=>{e.currentTarget.style.background='#1d4ed8';}}
-                  onMouseLeave={e=>{e.currentTarget.style.background='#2563eb';}}
+                  style={{display:'inline-flex',alignItems:'center',gap:16,padding:'18px 44px',background:'#0a0a0a',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:12,borderRadius:10,animation:'wsFadeUp .5s ease both',transition:'background .3s ease'}}
+                  onMouseEnter={e=>{e.currentTarget.style.background='#333333';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='#0a0a0a';}}
                 >
                   <span>Далее</span><span style={{fontSize:15,lineHeight:1}}>↓</span>
                 </div>
@@ -484,19 +484,19 @@ export default function WorkStepsSection({ onContact }) {
 
           {/* Gate overlay */}
           {gate && (
-            <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'clamp(20px,3vh,34px)',padding:24,boxSizing:'border-box',textAlign:'center',background:'radial-gradient(ellipse at 50% 50%,rgba(5,6,10,.88) 0%,rgba(5,6,10,.97) 70%)',zIndex:20}}>
-              <div style={{fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.2em',fontSize:10,color:'rgba(231,238,243,.5)'}}>10 этапов производства</div>
-              <h2 style={{fontFamily:unboundedFont,fontWeight:300,fontSize:'clamp(26px,4vw,56px)',lineHeight:1,letterSpacing:'-.045em',margin:0,color:'#f2f6f8'}}>Как проходит ваш заказ</h2>
+            <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'clamp(20px,3vh,34px)',padding:24,boxSizing:'border-box',textAlign:'center',background:'#ffffff',zIndex:20}}>
+              <div style={{fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.2em',fontSize:10,color:'rgba(0,0,0,.45)'}}>10 этапов производства</div>
+              <h2 style={{fontFamily:unboundedFont,fontWeight:300,fontSize:'clamp(26px,4vw,56px)',lineHeight:1,letterSpacing:'-.045em',margin:0,color:'#0a0a0a'}}>Как проходит ваш заказ</h2>
               <div
                 onClick={openChat}
-                style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:18,padding:'22px clamp(34px,5vw,64px)',border:`1px solid ${ACCENT}80`,color:ACCENT,cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:'clamp(12px,1.1vw,14px)',transition:'background .35s ease, color .35s ease, border-color .35s ease'}}
-                onMouseEnter={e=>{e.currentTarget.style.background=ACCENT;e.currentTarget.style.color='#05060a';e.currentTarget.style.borderColor=ACCENT;}}
-                onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color=ACCENT;e.currentTarget.style.borderColor=`${ACCENT}80`;}}
+                style={{marginTop:6,display:'inline-flex',alignItems:'center',gap:18,padding:'22px clamp(34px,5vw,64px)',border:'1px solid #0a0a0a',background:'#0a0a0a',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:'clamp(12px,1.1vw,14px)',borderRadius:10,transition:'background .35s ease, border-color .35s ease'}}
+                onMouseEnter={e=>{e.currentTarget.style.background='#333333';e.currentTarget.style.borderColor='#333333';}}
+                onMouseLeave={e=>{e.currentTarget.style.background='#0a0a0a';e.currentTarget.style.borderColor='#0a0a0a';}}
               >
                 <span>Узнать</span>
                 <span style={{fontSize:19,lineHeight:1}}>↓</span>
               </div>
-              <div style={{fontFamily:monoFont,fontSize:10,letterSpacing:'.1em',textTransform:'uppercase',color:'rgba(231,238,243,.35)'}}>Или просто пролистайте дальше</div>
+              <div style={{fontFamily:monoFont,fontSize:10,letterSpacing:'.1em',textTransform:'uppercase',color:'rgba(0,0,0,.35)'}}>Или просто пролистайте дальше</div>
             </div>
           )}
 
