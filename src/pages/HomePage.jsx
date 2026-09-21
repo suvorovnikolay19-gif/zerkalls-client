@@ -1413,7 +1413,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
       {/* ── Стать партнёром ── */}
-      <section style={{ padding: '96px 48px 0' }}>
+      <section style={{ padding: '96px 48px 0', position: 'relative', zIndex: 1, boxShadow: '0 32px 64px rgba(0,0,0,0.18)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
             <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Для партнёров</h2>
@@ -1493,7 +1493,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       <WorkStepsSection onContact={() => setChatOpen(true)} />
 
       {/* ── Материалы и отделки ── */}
-      <MaterialsSection />
+      <div style={{ position: 'relative', zIndex: 1, boxShadow: '0 -32px 64px rgba(0,0,0,0.18)' }}>
+        <MaterialsSection />
+      </div>
 
       {/* ── Производство ── */}
       <section style={{ padding: '96px 48px 0' }}>
