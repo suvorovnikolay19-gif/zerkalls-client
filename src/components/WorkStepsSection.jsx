@@ -415,14 +415,14 @@ export default function WorkStepsSection({ onContact }) {
 
           {/* Chat overlay */}
           {chat && !started && (
-            <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:18,padding:'clamp(20px,4vh,44px) 24px',boxSizing:'border-box',background:'radial-gradient(120% 90% at 50% 0%,rgba(20,22,27,.97) 0%,rgba(5,6,10,.99) 60%)',color:'#e9eaee',fontFamily:golosFont,zIndex:20}}>
+            <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:18,padding:'clamp(20px,4vh,44px) 24px',boxSizing:'border-box',background:'#f2f4f8',color:'#1a1c22',fontFamily:golosFont,zIndex:20}}>
               <div style={{width:'100%',maxWidth:470,display:'flex',flexDirection:'column',gap:12,animation:'wsFadeUp .5s ease both'}}>
                 {/* Chat header */}
                 <div style={{display:'flex',alignItems:'center',gap:12,padding:'0 4px 4px'}}>
-                  <div style={{width:36,height:36,borderRadius:999,background:ACCENT,color:'#0b0c0f',fontWeight:600,fontSize:14,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>С</div>
+                  <div style={{width:36,height:36,borderRadius:999,background:'#2563eb',color:'#ffffff',fontWeight:600,fontSize:14,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>С</div>
                   <div style={{display:'flex',flexDirection:'column',gap:2}}>
-                    <div style={{fontSize:14,fontWeight:600}}>Студия</div>
-                    <div style={{fontFamily:monoFont,fontSize:10,letterSpacing:'.12em',textTransform:'uppercase',color:ACCENT}}>в сети</div>
+                    <div style={{fontSize:14,fontWeight:600,color:'#1a1c22'}}>Студия</div>
+                    <div style={{fontFamily:monoFont,fontSize:10,letterSpacing:'.12em',textTransform:'uppercase',color:'#2563eb'}}>в сети</div>
                   </div>
                 </div>
                 {/* Messages */}
@@ -431,9 +431,10 @@ export default function WorkStepsSection({ onContact }) {
                     <div key={i} style={{display:'flex',justifyContent:m.side==='us'?'flex-end':'flex-start'}}>
                       <div style={{
                         maxWidth:'78%',padding:'11px 15px',fontSize:15,lineHeight:1.45,
-                        background:m.side==='us'?ACCENT:'#1b1e25',
-                        color:m.side==='us'?'#0b0c0f':'#e9eaee',
+                        background:m.side==='us'?'#2563eb':'#ffffff',
+                        color:m.side==='us'?'#ffffff':'#1a1c22',
                         borderRadius:m.side==='us'?'20px 20px 6px 20px':'20px 20px 20px 6px',
+                        boxShadow:m.side==='us'?'none':'0 2px 8px rgba(0,0,0,0.10)',
                         animation:`${m.side==='us'?'wsInRight':'wsInLeft'} .7s cubic-bezier(.22,.68,.24,1) both`,
                       }}>{m.text}</div>
                     </div>
@@ -442,9 +443,10 @@ export default function WorkStepsSection({ onContact }) {
                     <div style={{display:'flex',justifyContent:typing==='us'?'flex-end':'flex-start'}}>
                       <div style={{
                         display:'flex',gap:5,alignItems:'center',padding:'13px 17px',
-                        background:typing==='us'?ACCENT:'#1b1e25',
-                        color:typing==='us'?'#0b0c0f':'#e9eaee',
+                        background:typing==='us'?'#2563eb':'#ffffff',
+                        color:typing==='us'?'#ffffff':'#1a1c22',
                         borderRadius:20,
+                        boxShadow:typing==='us'?'none':'0 2px 8px rgba(0,0,0,0.10)',
                         animation:`${typing==='us'?'wsInRight':'wsInLeft'} .3s ease both`,
                       }}>
                         {[0,1,2].map(k=>(
@@ -458,9 +460,9 @@ export default function WorkStepsSection({ onContact }) {
               {chatDone && (
                 <div
                   onClick={startJourney}
-                  style={{display:'inline-flex',alignItems:'center',gap:16,padding:'18px 44px',background:ACCENT,color:'#0b0c0f',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:12,animation:'wsFadeUp .5s ease both',transition:'background .3s ease'}}
-                  onMouseEnter={e=>{e.currentTarget.style.background='#e8eef0';}}
-                  onMouseLeave={e=>{e.currentTarget.style.background=ACCENT;}}
+                  style={{display:'inline-flex',alignItems:'center',gap:16,padding:'18px 44px',background:'#2563eb',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:12,animation:'wsFadeUp .5s ease both',transition:'background .3s ease'}}
+                  onMouseEnter={e=>{e.currentTarget.style.background='#1d4ed8';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='#2563eb';}}
                 >
                   <span>Далее</span><span style={{fontSize:15,lineHeight:1}}>↓</span>
                 </div>

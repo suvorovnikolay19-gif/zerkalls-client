@@ -204,6 +204,7 @@ export default function App() {
           onOpenCheckout={() => setPage('checkout')}
           fromCatalog={fromCatalog}
           onOpenPanel={() => setPanelOpen(true)}
+          onOpenQuiz={() => setQuizOpen(true)}
         />
         {panelOpen && (
           <FilterPanel

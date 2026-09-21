@@ -443,7 +443,7 @@ const ROOM_ITEM_POS = [
   { right: '18%', bottom: '4%' },
 ];
 
-export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout, fromCatalog, onOpenPanel }) {
+export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, onOpenProfile, onOpenCheckout, fromCatalog, onOpenPanel, onOpenQuiz }) {
   const [slide, setSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState(-1);
   const [left, setLeft] = useState(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
@@ -943,7 +943,16 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
             })()}
           </div>
 
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 26, whiteSpace: 'nowrap' }}>
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16, whiteSpace: 'nowrap' }}>
+            <button
+              onClick={onOpenQuiz}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 999, background: 'rgba(255,255,255,.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,.28)', color: '#fff', fontSize: 13, fontWeight: 500, letterSpacing: '.02em', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'background .2s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,.26)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,.15)'; }}
+            >
+              <span style={{ fontSize: 12 }}>✦</span>
+              Умный подбор с AI
+            </button>
             <a href="tel:+79854341133" style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-.01em', color: '#fff', textDecoration: 'none', whiteSpace: 'nowrap' }}>+7 985 434-11-33</a>
           </div>
         </header>
