@@ -247,11 +247,27 @@ export const CAT_TREE = {
 
 const DEFAULT_LEAVES = ['Стандартные размеры', 'По индивидуальному проекту', 'С монтажом'];
 
+const FAQ = [
+  { q: 'Какие сроки доставки в моём городе?', a: 'По Москве и области — 2–4 дня, по России — 5–12 дней транспортной компанией. Точный срок называем при оформлении.' },
+  { q: 'Можно ли сделать изделие по своим размерам?', a: 'Да, это основной формат работы: присылаете размеры проёма или фото, конструктор готовит чертёж и смету за один день.' },
+  { q: 'Как вернуть или обменять товар?', a: 'Серийные позиции — 14 дней без объяснения причин. Изделия по индивидуальным размерам возврату не подлежат, кроме случаев брака.' },
+  { q: 'Какие способы оплаты вы принимаете?', a: 'Карта, СБП, счёт для юрлиц и рассрочка на 6–12 месяцев без процентов.' },
+  { q: 'Нужна ли сборка и сколько она стоит?', a: 'Монтаж выполняет наша бригада. Для перегородок и лестниц он включён в стоимость, для зеркал — 3 500 ₽.' },
+  { q: 'Как отследить статус заказа?', a: 'После оплаты приходит ссылка на личный кабинет со статусами: производство, контроль, отгрузка, доставка.' },
+  { q: 'Есть ли шоурум?', a: 'Да, в Домодедово при производстве — можно потрогать материалы и увидеть готовые изделия. Запись по телефону.' },
+  { q: 'Работаете ли вы с дизайнерами?', a: 'Да, есть партнёрская программа с агентским вознаграждением и техподдержкой на всех этапах проекта.' },
+  { q: 'Сколько ждать изделие по индивидуальным размерам?', a: 'Производство занимает 10–18 рабочих дней в зависимости от сложности и загрузки цеха. Срок фиксируем в договоре.' },
+  { q: 'Можно ли заказать только стекло или фурнитуру?', a: 'Да, комплектующие продаём отдельно: профили, направляющие, доводчики, ручки и полотна нужного размера.' },
+  { q: 'Есть ли рассрочка?', a: 'Есть рассрочка на 6 и 12 месяцев без процентов и переплаты — оформляется онлайн за пару минут.' },
+  { q: 'Что с безопасностью стекла?', a: 'Используем закалённое стекло 8–10 мм или триплекс. При ударе оно не даёт травмоопасных осколков.' },
+];
+
 function subCount(name) { return 6 + (name.length * 7) % 34; }
 
 export default function CategoryPage({ section, onPickSubsection }) {
   const [hover, setHover] = useState(null);
   const [flip, setFlip] = useState(false);
+  const [openFaq, setOpenFaq] = useState(-1);
   const [pinged, setPinged] = useState(null);
   const hoverTimer = useRef(null);
   const pingTimer = useRef(null);
@@ -307,6 +323,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
         @keyframes cpPreviewIn { from { opacity:0; transform:translateY(6px) scale(.93) } to { opacity:1; transform:translateY(0) scale(1) } }
         @keyframes cpCardPop  { 0%{transform:scale(1)} 30%{transform:scale(1.1)} 100%{transform:scale(1)} }
         @keyframes cpCardPing { 0%{opacity:0} 10%{opacity:1} 70%{opacity:1} 100%{opacity:0} }
+        @keyframes hFade { from { opacity:0; transform:translateY(-6px) } to { opacity:1; transform:none } }
         .cp-row { transition: background .13s, padding-left .14s, color .13s; text-decoration: none !important; }
         .cp-row:hover { background: oklch(0.955 0.01 255) !important; color: oklch(0.38 0.14 258) !important; padding-left: 10px !important; text-decoration: none !important; }
         .cp-leaf { border-radius: 7px; transition: background .13s, color .13s, padding-left .13s !important; }
@@ -549,6 +566,29 @@ export default function CategoryPage({ section, onPickSubsection }) {
         }}>
           <span style={{ width: 7, height: 7, borderRight: '1.8px solid #555', borderTop: '1.8px solid #555', transform: 'rotate(45deg)', marginRight: 2 }} />
         </button>
+      </div>
+
+      {/* ── FAQ ── */}
+      <div style={{ marginTop: 80, paddingTop: 60, borderTop: '1px solid #ece9e4' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h2 style={{ margin: '0 0 12px', maxWidth: 780, marginLeft: 'auto', marginRight: 'auto', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em', textWrap: 'pretty' }}>Частые вопросы — и наши ответы</h2>
+          <div style={{ fontSize: 15, color: '#8b877f', marginBottom: 22 }}>Не нашли нужное? Напишите — ответим в течение часа</div>
+          <a href="#footer" style={{ display: 'inline-block', padding: '13px 28px', borderRadius: 999, background: '#1a1a18', color: '#fff', fontSize: 13, fontWeight: 500, textDecoration: 'none' }}>Задать вопрос</a>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', alignItems: 'start', gap: 18, marginTop: 44, textAlign: 'left' }}>
+            {FAQ.map((f, i) => {
+              const open = openFaq === i;
+              return (
+                <div key={i} onClick={() => setOpenFaq(open ? -1 : i)} style={{ padding: '20px 22px', borderRadius: 14, background: '#fff', border: '1px solid ' + (open ? '#e4e0d9' : '#ece9e4'), cursor: 'pointer', transition: 'background .15s' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                    <div style={{ flex: 1, fontSize: 15, fontWeight: 500, textWrap: 'pretty' }}>{f.q}</div>
+                    <div style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', border: '1px solid #ddd8d1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#6b6862', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform .2s' }}>+</div>
+                  </div>
+                  {open && <div style={{ marginTop: 14, fontSize: 14, lineHeight: 1.6, color: '#8b877f', animation: 'hFade .2s ease', textWrap: 'pretty' }}>{f.a}</div>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -575,6 +575,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [ptRole, setPtRole] = useState('Дизайнер');
   const [chatOpen, setChatOpen] = useState(false);
   const [fabMode, setFabMode] = useState('max');
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const [navActiveIdx, setNavActiveIdx] = useState(-1);
   const homeNavItemRefs = useRef([]);
   const homeNavPillRef = useRef(null);
@@ -604,6 +605,17 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   useEffect(() => {
     const id = setInterval(() => setFabMode(m => m === 'max' ? 'tg' : 'max'), 5500);
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setShowScrollTop(y > 400 && y < lastY);
+      lastY = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
@@ -992,42 +1004,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
 
         {/* Materials preview card — bottom right */}
-        <div style={{
-          position: 'absolute', bottom: 28, right: 32, zIndex: 5,
-          width: 228, padding: '14px 14px 14px',
-          borderRadius: 20, background: 'rgba(18,16,12,0.68)', backdropFilter: 'blur(14px)',
-          border: '1px solid rgba(255,255,255,0.12)',
-          opacity: heroTreeActive ? 0 : 1, pointerEvents: heroTreeActive ? 'none' : 'auto',
-          transition: 'opacity 400ms ease',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>Материалы</div>
-            <div style={{ display: 'flex', gap: 4 }}>
-              <button
-                onClick={() => setHeroMatIdx(i => Math.max(0, i - 1))}
-                style={{ width: 22, height: 22, borderRadius: '50%', border: 'none', background: heroMatIdx === 0 ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.18)', color: '#fff', fontSize: 13, lineHeight: 1, cursor: heroMatIdx === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background .18s', padding: 0 }}
-              >‹</button>
-              <button
-                onClick={() => setHeroMatIdx(i => Math.min(HERO_MATS.length - 3, i + 1))}
-                style={{ width: 22, height: 22, borderRadius: '50%', border: 'none', background: heroMatIdx >= HERO_MATS.length - 3 ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.18)', color: '#fff', fontSize: 13, lineHeight: 1, cursor: heroMatIdx >= HERO_MATS.length - 3 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background .18s', padding: 0 }}
-              >›</button>
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            {HERO_MATS.slice(heroMatIdx, heroMatIdx + 3).map(m => (
-              <div key={m.name} style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                <div style={{ width: '100%', aspectRatio: '1', borderRadius: 11, background: m.css, boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.1)' }} />
-                <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.62)', textAlign: 'center', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{m.name}</div>
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={() => { const el = document.getElementById('materials-section'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }}
-            style={{ marginTop: 12, width: '100%', height: 34, borderRadius: 10, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', fontSize: 12, fontWeight: 500, cursor: 'pointer', letterSpacing: '0.04em', transition: 'background .18s', fontFamily: 'inherit' }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.22)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
-          >Перейти →</button>
-        </div>
 
       </section>
 
@@ -1299,12 +1275,14 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
         <div style={{ padding: '20px 44px 60px', borderRadius: 28, background: 'transparent', color: '#1a1a18', overflow: 'hidden' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(26,26,24,.08)' }}>
+            <div style={{ position: 'relative', display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(26,26,24,.08)' }}>
+              <div ref={pillRef} style={{ position: 'absolute', top: 5, height: 'calc(100% - 10px)', borderRadius: 999, background: '#1a1a18', opacity: 0, zIndex: 0, pointerEvents: 'none' }} />
               {LEVELS.map((l, i) => (
                 <div
                   key={i}
+                  ref={el => { levelTabRefs.current[i] = el; }}
                   onClick={() => { setLevelTab(i); setLvlPos(0); }}
-                  style={{ padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: levelTab === i ? '#1a1a18' : 'transparent', color: levelTab === i ? '#fff' : 'rgba(26,26,24,.55)', transition: 'background .18s, color .18s', userSelect: 'none' }}
+                  style={{ position: 'relative', zIndex: 1, padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: 'transparent', color: levelTab === i ? '#fff' : 'rgba(26,26,24,.55)', transition: 'color .32s ease', userSelect: 'none' }}
                 >{l.name}</div>
               ))}
             </div>
@@ -2000,6 +1978,24 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           )}
         </div>
       </div>
+
+      {/* ── Scroll to top ── */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        style={{
+          position: 'fixed', bottom: 36, left: '50%', transform: showScrollTop ? 'translateX(-50%) translateY(0) scale(1)' : 'translateX(-50%) translateY(16px) scale(.85)',
+          zIndex: 200, width: 44, height: 44, borderRadius: '50%',
+          background: '#1a1a18', border: 'none',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer', boxShadow: '0 4px 18px rgba(26,26,24,.28)',
+          opacity: showScrollTop ? 1 : 0,
+          transition: 'opacity .25s ease, transform .25s ease',
+          pointerEvents: showScrollTop ? 'auto' : 'none',
+        }}
+        aria-label="Наверх"
+      >
+        <span style={{ display: 'block', width: 10, height: 10, borderLeft: '2px solid #fff', borderTop: '2px solid #fff', transform: 'rotate(45deg) translate(2px, 2px)' }} />
+      </button>
     </div>
   );
 }
