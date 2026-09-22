@@ -60,6 +60,13 @@ button { font-family: inherit; }
 }
 .tg-pulse { animation: pulse-tg 2.2s ease-out infinite; }
 
+@keyframes pulse-email {
+  0%   { box-shadow: 0 10px 32px rgba(26,26,24,.38), 0 0 0 0   rgba(26,26,24,.55) }
+  65%  { box-shadow: 0 10px 32px rgba(26,26,24,.38), 0 0 0 15px rgba(26,26,24,0) }
+  100% { box-shadow: 0 10px 32px rgba(26,26,24,.38), 0 0 0 0   rgba(26,26,24,0) }
+}
+.email-pulse { animation: pulse-email 2.2s ease-out infinite; }
+
 @keyframes catCardWobble {
   0%   { transform: scale(1.025) rotate(0deg); }
   25%  { transform: scale(1.028) rotate(-0.35deg); }

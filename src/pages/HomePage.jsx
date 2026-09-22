@@ -603,7 +603,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const pillInitialized = useRef(false);
 
   useEffect(() => {
-    const id = setInterval(() => setFabMode(m => m === 'max' ? 'tg' : 'max'), 5500);
+    const FAB_CYCLE = ['max', 'tg', 'email'];
+    const id = setInterval(() => setFabMode(m => { const i = FAB_CYCLE.indexOf(m); return FAB_CYCLE[(i + 1) % FAB_CYCLE.length]; }), 2800);
     return () => clearInterval(id);
   }, []);
 
@@ -1931,7 +1932,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         )}
         <div
           onClick={() => setChatOpen(o => !o)}
-          className={chatOpen ? '' : (fabMode === 'max' ? 'max-pulse' : 'tg-pulse')}
+          className={chatOpen ? '' : (fabMode === 'max' ? 'max-pulse' : fabMode === 'tg' ? 'tg-pulse' : 'email-pulse')}
           style={{
             position: 'relative',
             width: 66, height: 66, borderRadius: '50%', overflow: 'hidden',
@@ -1939,7 +1940,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               ? '#1a1a18'
               : fabMode === 'max'
                 ? 'linear-gradient(135deg, #44ccff 0%, #5533ee 60%, #9933dd 100%)'
-                : 'linear-gradient(180deg, #2aabee 0%, #229ed9 100%)',
+                : fabMode === 'tg'
+                  ? 'linear-gradient(180deg, #2aabee 0%, #229ed9 100%)'
+                  : '#1a1a18',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', flexShrink: 0,
             transition: 'transform .22s, background 1.1s cubic-bezier(0.4,0,0.2,1)',
@@ -1947,7 +1950,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
               ? '0 10px 28px rgba(26,26,24,.28)'
               : fabMode === 'max'
                 ? '0 10px 32px rgba(85,51,238,.38)'
-                : '0 10px 32px rgba(34,158,217,.38)',
+                : fabMode === 'tg'
+                  ? '0 10px 32px rgba(34,158,217,.38)'
+                  : '0 10px 32px rgba(26,26,24,.38)',
           }}
         >
           {chatOpen ? (
@@ -1958,9 +1963,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 src={maxIcon} alt="MAX" className="max-sway"
                 style={{
                   position: 'absolute', width: 36, height: 36, pointerEvents: 'none',
-                  opacity:    fabMode === 'max' ? 1    : 0,
-                  transform:  fabMode === 'max' ? 'scale(1)'    : 'scale(0.7)',
-                  filter:     fabMode === 'max' ? 'blur(0px)'   : 'blur(4px)',
+                  opacity:    fabMode === 'max' ? 1 : 0,
+                  transform:  fabMode === 'max' ? 'scale(1)' : 'scale(0.7)',
+                  filter:     fabMode === 'max' ? 'blur(0px)' : 'blur(4px)',
                   transition: 'opacity 1.1s cubic-bezier(0.4,0,0.2,1), transform 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1)',
                 }}
               />
@@ -1968,12 +1973,26 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 src={tgIcon} alt="Telegram" className="max-sway"
                 style={{
                   position: 'absolute', width: 74, height: 74, pointerEvents: 'none',
-                  opacity:    fabMode === 'tg' ? 1    : 0,
-                  transform:  fabMode === 'tg' ? 'scale(1)'    : 'scale(1.28)',
-                  filter:     fabMode === 'tg' ? 'blur(0px)'   : 'blur(4px)',
+                  opacity:    fabMode === 'tg' ? 1 : 0,
+                  transform:  fabMode === 'tg' ? 'scale(1)' : 'scale(1.28)',
+                  filter:     fabMode === 'tg' ? 'blur(0px)' : 'blur(4px)',
                   transition: 'opacity 1.1s cubic-bezier(0.4,0,0.2,1), transform 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1)',
                 }}
               />
+              {/* Email icon */}
+              <svg
+                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  position: 'absolute', width: 28, height: 28, pointerEvents: 'none',
+                  opacity:    fabMode === 'email' ? 1 : 0,
+                  transform:  fabMode === 'email' ? 'scale(1)' : 'scale(0.7)',
+                  filter:     fabMode === 'email' ? 'blur(0px)' : 'blur(4px)',
+                  transition: 'opacity 1.1s cubic-bezier(0.4,0,0.2,1), transform 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1)',
+                }}
+              >
+                <rect x="2" y="4" width="20" height="16" rx="3" stroke="white" strokeWidth="1.8" fill="none"/>
+                <path d="M2 7l10 7 10-7" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
             </>
           )}
         </div>
