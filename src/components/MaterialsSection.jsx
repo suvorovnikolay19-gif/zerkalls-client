@@ -113,7 +113,7 @@ export default function MaterialsSection() {
   return (
     <section style={{ padding: '96px 48px 0' }}>
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
-        <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Материалы и отделки</h2>
+        <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em', color: '#fff' }}>Материалы и отделки</h2>
         <div style={{ fontSize: 15, color: '#8b877f' }}>
           Стекло, зеркало и отделки профилей — {FLAT.length} позиций
         </div>
@@ -186,7 +186,7 @@ export default function MaterialsSection() {
         <div style={{ flex: '1 1 60%', minWidth: 0 }}>
 
           {/* Фильтры */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 26, padding: 14, background: '#f4f3f1', borderRadius: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 12, marginBottom: 26, flexWrap: 'wrap', alignItems: 'center' }}>
             {FILTERS.map(f => {
               const idx = filterIdx[f.key];
               const active = idx !== 0;
@@ -241,11 +241,12 @@ export default function MaterialsSection() {
                 <div
                   key={f.code}
                   style={{
-                    position: 'relative', background: '#fff', borderRadius: 26, overflow: 'hidden',
+                    position: 'relative', borderRadius: 26, overflow: 'hidden',
+                    background: '#fff',
                     boxShadow: sel
                       ? 'inset 0 0 0 1.5px #241f1c, 0 12px 26px rgba(30,25,20,.12)'
                       : 'inset 0 0 0 1px rgba(0,0,0,.08)',
-                    transition: 'box-shadow .18s',
+                    transition: 'box-shadow .18s, background .18s',
                   }}
                 >
                   <div style={{ boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 10px 12px' }}>

@@ -48,9 +48,14 @@ const ENTRY = { mirror: 'mirrors', part: 'partitions', stairs: 'stairs', furn: '
 
 function half(text, per, pad) { return (text.length * per + pad) / 2; }
 
+const CARD = [-Math.PI / 2, 0, Math.PI / 2, Math.PI]; // вверх, вправо, вниз, влево
+const angDiff = (a, b) => {
+  const d = Math.abs(((a - b) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2));
+  return Math.min(d, Math.PI * 2 - d);
+};
+
 function buildLevels(chain, h, w) {
   const gap = Math.max(140, Math.min(230, h / 2 - 120, w / 2 - 220));
-  const TAU = Math.PI * 2;
   const levels = [];
   let x = 0, y = 0, dir = 0, key = 'start';
 
@@ -61,11 +66,20 @@ function buildLevels(chain, h, w) {
     if (k) {
       const qHalf = half(node.q, 10.2, 70);
       const halves = node.a.map(a => half(a.t, 9.6, 58));
-      const FAN = { 1: [0], 2: [-0.58, 0.58], 3: [-0.95, 0, 0.95], 4: [-1.3, -0.44, 0.44, 1.3] };
-      const fan = FAN[k] || node.a.map((_, j) => (j - (k - 1) / 2) * 0.6);
       const clear = Math.max(70, gap * 0.5);
+
+      let cardAngles;
+      if (i === 0) {
+        cardAngles = CARD.slice(0, k);
+      } else {
+        const fc = CARD.reduce((b, c) => angDiff(dir, c) < angDiff(dir, b) ? c : b);
+        const avail = CARD.filter(c => angDiff(c, fc) > 0.1);
+        avail.sort((a, b) => angDiff(a, fc + Math.PI) - angDiff(b, fc + Math.PI));
+        cardAngles = avail.slice(0, k);
+      }
+
       for (let j = 0; j < k; j++) {
-        const ang = i === 0 ? -Math.PI / 2 + (TAU * j) / k : dir + fan[j];
+        const ang = cardAngles[j];
         const c = Math.abs(Math.cos(ang)), s = Math.abs(Math.sin(ang));
         const r = (qHalf + halves[j]) * c + 50 * s + clear;
         const dx = Math.cos(ang) * r, dy = Math.sin(ang) * r * 0.78;
@@ -150,7 +164,7 @@ const HeroTree = forwardRef(function HeroTree({ onNavigateToCatalog, onActiveCha
     const visible = isActive || (!offX && !offY);
 
     // never show start question pill — trigger button in copy serves as entry point
-    if (visible && !(i === 0 && isActive)) {
+    if (isActive && i > 0) {
       const id = `q-${i}`;
       nodes.push({
         id, label: lvl.node.q,
@@ -168,7 +182,8 @@ const HeroTree = forwardRef(function HeroTree({ onNavigateToCatalog, onActiveCha
     const showFan = isActive && open;
     lvl.answers.forEach(a => {
       const chosen = i < chain.length && chain[i] === a.j;
-      if (!chosen && !showFan) return;
+      if (chosen) return;
+      if (!showFan) return;
       if (!visible) return;
 
       const c = Math.abs(Math.cos(a.lineAng)), s = Math.abs(Math.sin(a.lineAng));
@@ -179,14 +194,10 @@ const HeroTree = forwardRef(function HeroTree({ onNavigateToCatalog, onActiveCha
         id: `e-${i}-${a.j}`,
         x: lvl.x, y: lvl.y,
         len: Math.max(a.dist - inA - inB, 14),
-        ang: a.lineAng, inA, chosen,
-        opacity: chosen ? Math.max(0.35, fade) : 0.9,
-        bg: chosen
-          ? 'linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.85))'
-          : 'linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.5))',
+        ang: a.lineAng, inA, chosen: false,
+        opacity: 0.9,
+        bg: 'linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.5))',
       });
-
-      if (chosen) return;
       const id = `a-${i}-${a.j}`;
       nodes.push({
         id, label: a.t, hint: true,
@@ -195,7 +206,7 @@ const HeroTree = forwardRef(function HeroTree({ onNavigateToCatalog, onActiveCha
         back: 0, fade: 1,
         onEnter: () => {
           setChain(c => c.slice(0, i).concat(a.j));
-          setOpen(false);
+          setOpen(true);
         },
         onClick: undefined,
       });

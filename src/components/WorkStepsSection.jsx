@@ -82,10 +82,12 @@ export default function WorkStepsSection({ onContact }) {
   // Mutable state for animation loop (no stale-closure issues)
   const pRef         = useRef(0);
   const startedRef   = useRef(false);
+  const chatActiveRef = useRef(false);
   const idxRef       = useRef(0);
   const dustRef      = useRef([]);
   const shardsRef    = useRef([]);
   const photoRefs    = useRef([]);
+  const isSnappingRef = useRef(false);
 
   useEffect(() => { startedRef.current = started; }, [started]);
 
@@ -119,27 +121,27 @@ export default function WorkStepsSection({ onContact }) {
       if (z<-0.2||z>5.5) continue;
       const k=1/(0.34+z*0.92);
       const gw=w*0.52*k, gh=h*0.44*k;
-      const near=Math.min(1,(z+0.2)/0.6), far=Math.min(1,(5.5-z)/2.2);
+      const near=Math.min(1,(z+0.5)/0.5), far=Math.min(1,(5.5-z)/2.2);
       const a=near*far;
       const hot=Math.max(0,1-Math.abs(z)/1.2);
       ctx.save();
       const ph=photoRefs.current[i];
       if (ph) {
-        const x0=cx-gw/2, y0=cy-gh/2;
+        const rw=gw*(1-hot)+w*hot, rh=gh*(1-hot)+h*hot;
+        const x0=cx-rw/2, y0=cy-rh/2;
         ctx.save();
-        ctx.beginPath(); ctx.rect(x0,y0,gw,gh); ctx.clip();
-        const ir=ph.width/ph.height, gr=gw/gh;
-        const dw=ir>gr?gh*ir:gw, dh=ir>gr?gh:gw/ir;
+        ctx.beginPath(); ctx.rect(x0,y0,rw,rh); ctx.clip();
+        const ir=ph.width/ph.height, gr=rw/rh;
+        const dw=ir>gr?rh*ir:rw, dh=ir>gr?rh:rw/ir;
         ctx.globalAlpha=a*(0.3+hot*0.7);
         ctx.drawImage(ph,cx-dw/2,cy-dh/2,dw,dh);
-        ctx.globalAlpha=a*(0.42-hot*0.34); ctx.fillStyle='#05060a'; ctx.fillRect(x0,y0,gw,gh);
-        if (hot>0.05) { ctx.globalAlpha=a*hot*0.16; ctx.fillStyle=ACCENT; ctx.fillRect(x0,y0,gw,gh); }
         ctx.restore();
       }
       ctx.lineWidth=1+hot*1.4;
-      ctx.strokeStyle=hot>0.05?ACCENT:'rgba(190,208,220,1)';
+      ctx.strokeStyle='rgba(190,208,220,1)';
       ctx.globalAlpha=a*(0.22+hot*0.5);
-      ctx.strokeRect(cx-gw/2,cy-gh/2,gw,gh);
+      { const rw=gw*(1-hot)+w*hot, rh=gh*(1-hot)+h*hot;
+        ctx.strokeRect(cx-rw/2,cy-rh/2,rw,rh); }
       if (ph) {
         const minis=shardsRef.current[i]||[];
         minis.forEach(m=>{
@@ -152,7 +154,7 @@ export default function WorkStepsSection({ onContact }) {
           ctx.globalAlpha=a*(0.42+hot*0.5);
           ctx.drawImage(ph,m.sx*ph.width,m.sy*ph.height,m.sw*ph.width,m.sw*ph.width,-ms/2,-ms/2,ms,ms);
           ctx.globalAlpha=a*(0.3+hot*0.45); ctx.lineWidth=1;
-          ctx.strokeStyle=hot>0.15?ACCENT:'rgba(226,240,246,.6)';
+          ctx.strokeStyle='rgba(226,240,246,.6)';
           ctx.strokeRect(-ms/2,-ms/2,ms,ms);
           ctx.restore();
         });
@@ -160,7 +162,7 @@ export default function WorkStepsSection({ onContact }) {
       const fs=Math.min(h*0.5,26*k*(h/900));
       if (fs>7) {
         ctx.globalAlpha=a*(0.28+hot*0.62);
-        ctx.fillStyle=hot>0.05?ACCENT:'rgba(206,220,230,1)';
+        ctx.fillStyle='rgba(206,220,230,1)';
         ctx.font=`500 ${fs.toFixed(0)}px 'JetBrains Mono',ui-monospace,monospace`;
         ctx.textBaseline='bottom';
         ctx.fillText(String(i+1).padStart(2,'0'),cx-gw/2+fs*0.3,cy-gh/2-fs*0.22);
@@ -221,14 +223,14 @@ export default function WorkStepsSection({ onContact }) {
       const t=0.05+0.1*i;
       const passed=p>=t, d=Math.abs(p-t), inside=d<0.009;
       if (inside) hit=Math.max(hit,1-d/0.009);
-      el.style.color=inside||passed?ACCENT:(d<0.13?'rgba(236,242,248,.96)':'rgba(208,216,226,.88)');
+      el.style.color=inside||passed?'#ffffff':(d<0.13?'rgba(236,242,248,.96)':'rgba(208,216,226,.88)');
       el.style.opacity=String(vis);
       el.style.pointerEvents=vis?'':'none';
       el.style.transition='color .45s ease, opacity .5s ease';
       const ring=el.firstElementChild;
       if (ring) {
         ring.style.transform='scale('+(inside?1.55:passed?1.12:1)+')';
-        ring.style.boxShadow=inside?`0 0 22px 5px ${ACCENT}66`:'none';
+        ring.style.boxShadow=inside?'0 0 22px 5px rgba(255,255,255,0.4)':'none';
         if (ring.firstElementChild)
           ring.firstElementChild.style.transform='scale('+(passed||inside?1:0)+')';
       }
@@ -264,7 +266,6 @@ export default function WorkStepsSection({ onContact }) {
         const cw = 960, ch = Math.round(960 * img.height / img.width);
         const oc = document.createElement('canvas'); oc.width = cw; oc.height = ch;
         const octx = oc.getContext('2d');
-        octx.filter = 'saturate(1.06) contrast(1.04)';
         octx.drawImage(img, 0, 0, cw, ch);
         photoRefs.current[i] = oc;
       };
@@ -285,10 +286,21 @@ export default function WorkStepsSection({ onContact }) {
     };
     rafRef.current=requestAnimationFrame(loop);
 
+    const onWheel=(e)=>{
+      if (chatActiveRef.current) { e.preventDefault(); return; }
+      if (!startedRef.current) return;
+      e.preventDefault();
+      const cur=idxRef.current;
+      if (e.deltaY>0) { if (cur<9) snapToNode(cur+1); else exitJourney(); }
+      else if (e.deltaY<0) { if (cur>0) snapToNode(cur-1); }
+    };
+    window.addEventListener('wheel',onWheel,{passive:false});
+
     return ()=>{
       chatTimers.current.forEach(clearTimeout);
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize',onResize);
+      window.removeEventListener('wheel',onWheel);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
@@ -297,6 +309,12 @@ export default function WorkStepsSection({ onContact }) {
   const openChat=()=>{
     chatTimers.current.forEach(clearTimeout);
     chatTimers.current=[];
+    const j=journeyRef.current;
+    if (j) {
+      const top=j.getBoundingClientRect().top+window.scrollY;
+      chatActiveRef.current=true;
+      requestAnimationFrame(()=>window.scrollTo({top,behavior:'smooth'}));
+    }
     setChat(true); setShown(0); setTyping(false); setChatDone(false);
     let t=400;
     DIALOG.forEach((m,i)=>{
@@ -312,10 +330,31 @@ export default function WorkStepsSection({ onContact }) {
   const startJourney=()=>{
     const j=journeyRef.current; if (!j) return;
     chatTimers.current.forEach(clearTimeout); chatTimers.current=[];
+    chatActiveRef.current=false;
     const top=j.getBoundingClientRect().top+window.scrollY;
     j.style.height='480vh';
     setStarted(true); setChat(false);
     requestAnimationFrame(()=>window.scrollTo({top,behavior:'smooth'}));
+  };
+
+  const snapToNode=(targetIdx)=>{
+    const j=journeyRef.current; if (!j||isSnappingRef.current) return;
+    isSnappingRef.current=true;
+    const top=j.getBoundingClientRect().top+window.scrollY;
+    const span=j.offsetHeight-window.innerHeight;
+    const targetY=top+span*(0.05+0.1*targetIdx);
+    const startY=window.scrollY;
+    const diff=targetY-startY;
+    const duration=900;
+    const startTime=performance.now();
+    const ease=(t)=>t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+    const step=(now)=>{
+      const progress=Math.min((now-startTime)/duration,1);
+      window.scrollTo(0,startY+diff*ease(progress));
+      if (progress<1) requestAnimationFrame(step);
+      else isSnappingRef.current=false;
+    };
+    requestAnimationFrame(step);
   };
 
   const exitJourney=()=>{
@@ -357,7 +396,7 @@ export default function WorkStepsSection({ onContact }) {
           {/* SVG path */}
           <svg ref={svgRef} viewBox="0 0 100 100" preserveAspectRatio="none" style={{position:'absolute',inset:0,width:'100%',height:'100%',overflow:'visible',opacity:0,pointerEvents:'none'}}>
             <path d="M88.00,7.00 C93.00,35.67 93.00,64.33 88.00,93.00" fill="none" stroke="rgba(138,146,156,.55)" strokeWidth="1.2" vectorEffect="non-scaling-stroke"/>
-            <path ref={progressRef} d="M88.00,7.00 C93.00,35.67 93.00,64.33 88.00,93.00" fill="none" stroke={ACCENT} strokeWidth="1.4" vectorEffect="non-scaling-stroke" pathLength="1" strokeLinecap="round" strokeDasharray="0 1" strokeDashoffset="0"/>
+            <path ref={progressRef} d="M88.00,7.00 C93.00,35.67 93.00,64.33 88.00,93.00" fill="none" stroke="#ffffff" strokeWidth="1.4" vectorEffect="non-scaling-stroke" pathLength="1" strokeLinecap="round" strokeDasharray="0 1" strokeDashoffset="0"/>
           </svg>
 
           {/* Step nodes */}
@@ -394,16 +433,16 @@ export default function WorkStepsSection({ onContact }) {
 
           {/* Pulsing dot */}
           <div ref={dotRef} style={{position:'absolute',left:'50%',top:'7%',width:16,height:16,marginTop:-8,marginLeft:-8,pointerEvents:'none',opacity:0}}>
-            <div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:12,height:12,borderRadius:'50%',background:ACCENT,boxShadow:`0 0 26px 7px ${ACCENT}72`}}/>
-            <div style={{position:'absolute',left:'50%',top:'50%',width:34,height:34,borderRadius:'50%',border:`1px solid ${ACCENT}8c`,animation:'pulseRing 2.4s ease-out infinite'}}/>
-            <div style={{position:'absolute',left:'50%',top:'50%',width:34,height:34,borderRadius:'50%',border:`1px solid ${ACCENT}59`,animation:'pulseRing 2.4s ease-out infinite 1.2s'}}/>
+            <div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-50%)',width:12,height:12,borderRadius:'50%',background:'#ffffff',boxShadow:'0 0 26px 7px rgba(255,255,255,0.45)'}}/>
+            <div style={{position:'absolute',left:'50%',top:'50%',width:34,height:34,borderRadius:'50%',border:'1px solid rgba(255,255,255,0.55)',animation:'pulseRing 2.4s ease-out infinite'}}/>
+            <div style={{position:'absolute',left:'50%',top:'50%',width:34,height:34,borderRadius:'50%',border:'1px solid rgba(255,255,255,0.35)',animation:'pulseRing 2.4s ease-out infinite 1.2s'}}/>
           </div>
 
           {/* Caption panel */}
           <div ref={capRef} style={{position:'absolute',left:'clamp(20px,4vw,64px)',bottom:'clamp(24px,6vh,72px)',width:'min(380px,42vw)',color:'#e7eef3',opacity:0,pointerEvents:'none'}}>
             <div style={{display:'flex',gap:8,marginBottom:18}}>
-              <img src={STEP_SRCS[idx]} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(0),filter:'saturate(1.05)',border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
-              <img src={STEP_SRCS[(idx + 1) % STEP_SRCS.length]} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(1),filter:'saturate(1.05)',border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
+              <img src={STEP_SRCS[idx]} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(0),border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
+              <img src={STEP_SRCS[(idx + 1) % STEP_SRCS.length]} alt="" style={{width:'50%',height:78,objectFit:'cover',objectPosition:thumbObjPos(1),border:'1px solid rgba(231,238,243,.14)',transition:'object-position .6s ease'}}/>
             </div>
             <div style={{display:'flex',alignItems:'baseline',gap:12,fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.14em',fontSize:10,color:'rgba(231,238,243,.5)'}}>
               <span>Этап {num}</span><span>/ 10</span>
@@ -428,24 +467,24 @@ export default function WorkStepsSection({ onContact }) {
           {/* Chat overlay */}
           {chat && !started && (
             <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:18,padding:'clamp(20px,4vh,44px) 24px',boxSizing:'border-box',background:'#ffffff',color:'#1a1c22',fontFamily:golosFont,zIndex:20}}>
-              <div style={{width:'100%',maxWidth:470,display:'flex',flexDirection:'column',gap:12,animation:'wsFadeUp .5s ease both'}}>
+              <div style={{width:'100%',maxWidth:600,display:'flex',flexDirection:'column',gap:16,animation:'wsFadeUp .5s ease both'}}>
                 {/* Chat header */}
-                <div style={{display:'flex',alignItems:'center',gap:12,padding:'0 4px 4px'}}>
-                  <div style={{width:36,height:36,borderRadius:999,background:'#2563eb',color:'#ffffff',fontWeight:600,fontSize:14,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>С</div>
-                  <div style={{display:'flex',flexDirection:'column',gap:2}}>
-                    <div style={{fontSize:14,fontWeight:600,color:'#1a1c22'}}>Студия</div>
-                    <div style={{fontFamily:monoFont,fontSize:10,letterSpacing:'.12em',textTransform:'uppercase',color:'#2563eb'}}>в сети</div>
+                <div style={{display:'flex',alignItems:'center',gap:14,padding:'0 4px 6px'}}>
+                  <div style={{width:48,height:48,borderRadius:999,background:'#2563eb',color:'#ffffff',fontWeight:600,fontSize:18,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>С</div>
+                  <div style={{display:'flex',flexDirection:'column',gap:3}}>
+                    <div style={{fontSize:18,fontWeight:600,color:'#1a1c22'}}>Студия</div>
+                    <div style={{fontFamily:monoFont,fontSize:12,letterSpacing:'.12em',textTransform:'uppercase',color:'#2563eb'}}>в сети</div>
                   </div>
                 </div>
                 {/* Messages */}
-                <div style={{display:'flex',flexDirection:'column',gap:9,minHeight:'min(46vh,340px)',justifyContent:'flex-end'}}>
+                <div style={{display:'flex',flexDirection:'column',gap:12,minHeight:'min(46vh,340px)',justifyContent:'flex-end'}}>
                   {DIALOG.slice(0,shown).map((m,i)=>(
                     <div key={i} style={{display:'flex',justifyContent:m.side==='us'?'flex-end':'flex-start'}}>
                       <div style={{
-                        maxWidth:'78%',padding:'11px 15px',fontSize:15,lineHeight:1.45,
+                        maxWidth:'78%',padding:'14px 20px',fontSize:18,lineHeight:1.5,
                         background:m.side==='us'?'#2563eb':'#ffffff',
                         color:m.side==='us'?'#ffffff':'#1a1c22',
-                        borderRadius:m.side==='us'?'20px 20px 6px 20px':'20px 20px 20px 6px',
+                        borderRadius:m.side==='us'?'22px 22px 6px 22px':'22px 22px 22px 6px',
                         boxShadow:m.side==='us'?'none':'0 2px 8px rgba(0,0,0,0.10)',
                         animation:`${m.side==='us'?'wsInRight':'wsInLeft'} .7s cubic-bezier(.22,.68,.24,1) both`,
                       }}>{m.text}</div>
@@ -454,15 +493,15 @@ export default function WorkStepsSection({ onContact }) {
                   {typing && (
                     <div style={{display:'flex',justifyContent:typing==='us'?'flex-end':'flex-start'}}>
                       <div style={{
-                        display:'flex',gap:5,alignItems:'center',padding:'13px 17px',
+                        display:'flex',gap:6,alignItems:'center',padding:'16px 20px',
                         background:typing==='us'?'#2563eb':'#ffffff',
                         color:typing==='us'?'#ffffff':'#1a1c22',
-                        borderRadius:20,
+                        borderRadius:22,
                         boxShadow:typing==='us'?'none':'0 2px 8px rgba(0,0,0,0.10)',
                         animation:`${typing==='us'?'wsInRight':'wsInLeft'} .3s ease both`,
                       }}>
                         {[0,1,2].map(k=>(
-                          <span key={k} style={{width:7,height:7,borderRadius:999,background:'currentColor',display:'block',animation:`wsDotPulse 1.2s ease-in-out ${k*0.15}s infinite`}}/>
+                          <span key={k} style={{width:9,height:9,borderRadius:999,background:'currentColor',display:'block',animation:`wsDotPulse 1.2s ease-in-out ${k*0.15}s infinite`}}/>
                         ))}
                       </div>
                     </div>
@@ -472,11 +511,11 @@ export default function WorkStepsSection({ onContact }) {
               {chatDone && (
                 <div
                   onClick={startJourney}
-                  style={{display:'inline-flex',alignItems:'center',gap:16,padding:'18px 44px',background:'#0a0a0a',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:12,borderRadius:10,animation:'wsFadeUp .5s ease both',transition:'background .3s ease'}}
+                  style={{display:'inline-flex',alignItems:'center',gap:16,padding:'20px 52px',background:'#0a0a0a',color:'#ffffff',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.18em',fontSize:14,borderRadius:12,animation:'wsFadeUp .5s ease both',transition:'background .3s ease',marginTop:24}}
                   onMouseEnter={e=>{e.currentTarget.style.background='#333333';}}
                   onMouseLeave={e=>{e.currentTarget.style.background='#0a0a0a';}}
                 >
-                  <span>Далее</span><span style={{fontSize:15,lineHeight:1}}>↓</span>
+                  <span>Далее</span><span style={{fontSize:18,lineHeight:1}}>↓</span>
                 </div>
               )}
             </div>

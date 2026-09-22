@@ -13,6 +13,7 @@ export default function HeroSection({ cartCount, onOpenPanel, onGoHome, onOpenCa
           </button>
         </div>
       </header>
+
     </section>
   );
 }

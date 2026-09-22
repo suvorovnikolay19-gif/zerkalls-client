@@ -3,6 +3,7 @@ import MaterialsSection from '../components/MaterialsSection.jsx';
 import WorkStepsSection from '../components/WorkStepsSection.jsx';
 import HeroTree from '../components/HeroTree.jsx';
 import heroImg from '../../assets/hero-main/hero-1.png';
+import backImg from '../../assets/meadow-background-hd.webp';
 import bgImg from '../../assets/background.png';
 import hero2Img from '../../assets/hero-main/hero-2.png';
 import hero3Img from '../../assets/hero-main/hero-3.png';
@@ -843,6 +844,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, marginTop: 4, pointerEvents: heroTreeChosen ? 'none' : 'auto', opacity: heroTreeChosen ? 0 : 1, transition: 'opacity 400ms ease' }}>
               <button
                 ref={triggerBtnRef}
+                className={heroTreeActive ? 'hero-what-wrap' : 'hero-what-wrap hero-what-pulse'}
                 onMouseEnter={() => {
                   setTriggerHover(true);
                   const btn = triggerBtnRef.current;
@@ -868,7 +870,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   textTransform: 'uppercase', whiteSpace: 'nowrap', cursor: 'pointer',
                   backdropFilter: 'blur(4px)',
                   transition: 'background 260ms cubic-bezier(0.22,0.9,0.16,1), border-color 260ms cubic-bezier(0.22,0.9,0.16,1), color 260ms cubic-bezier(0.22,0.9,0.16,1)',
-                  transform: 'translateX(0)',
                   outline: 'none', fontFamily: 'inherit',
                 }}
               >Что сейчас важнее</button>
@@ -1189,8 +1190,17 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
 
+      {/* ── Фон back.png ── */}
+      <div style={{ position: 'relative' }}>
+        <img src={backImg} alt="" style={{
+          position: 'absolute', top: 0, left: 0,
+          width: '100%', height: 'auto',
+          zIndex: 0, display: 'block', pointerEvents: 'none',
+          objectFit: 'fill',
+        }} />
+
       {/* ── Услуги ── */}
-      <section style={{ padding: '52px 48px 0' }}>
+      <section style={{ padding: '52px 48px 0', position: 'relative', zIndex: 1 }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Не ищем подходящее — производим нужное</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Собственный цех в Домодедово — лазерная резка, сварка и монтаж без посредников</div>
@@ -1218,37 +1228,22 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
       {/* ── Продукция которую мы производим ── */}
-      <section style={{ padding: '96px 48px 0' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+      <section style={{ padding: '96px 48px 0', position: 'relative', zIndex: 1 }}>
+        <div style={{ textAlign: 'center', marginBottom: 20 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Продукция которую мы производим</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Выберите категорию — покажем разделы каталога и поможем с выбором</div>
         </div>
 
-        <div style={{ padding: '56px 44px 60px', borderRadius: 28, background: '#f4f2ee', color: '#1a1a18', overflow: 'hidden' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', marginBottom: 40 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 620 }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(26,26,24,.08)', alignSelf: 'flex-start' }}>
-                {LEVELS.map((l, i) => (
-                  <div
-                    key={i}
-                    onClick={() => { setLevelTab(i); setLvlPos(0); }}
-                    style={{ padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: levelTab === i ? '#1a1a18' : 'transparent', color: levelTab === i ? '#fff' : 'rgba(26,26,24,.55)', transition: 'background .18s, color .18s', userSelect: 'none' }}
-                  >{l.name}</div>
-                ))}
-              </div>
-            </div>
-            <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 12 }}>
-              <div style={{ fontSize: 14, color: '#8b877f' }}>Нужен совет по выбору?</div>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <a href="https://t.me" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#2b9fe3', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
-                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✈</span>
-                  Написать в Telegram
-                </a>
-                <a href="https://max.ru" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px', borderRadius: 12, background: '#7c5cf0', color: '#fff', fontSize: 14.5, fontWeight: 500, whiteSpace: 'nowrap', textDecoration: 'none' }}>
-                  <span style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', background: 'rgba(255,255,255,.24)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>✉</span>
-                  Написать в MAX
-                </a>
-              </div>
+        <div style={{ padding: '20px 44px 60px', borderRadius: 28, background: 'transparent', color: '#1a1a18', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: 5, borderRadius: 999, background: 'rgba(26,26,24,.08)' }}>
+              {LEVELS.map((l, i) => (
+                <div
+                  key={i}
+                  onClick={() => { setLevelTab(i); setLvlPos(0); }}
+                  style={{ padding: '10px 18px', borderRadius: 999, fontSize: 13, fontWeight: 500, cursor: 'pointer', background: levelTab === i ? '#1a1a18' : 'transparent', color: levelTab === i ? '#fff' : 'rgba(26,26,24,.55)', transition: 'background .18s, color .18s', userSelect: 'none' }}
+                >{l.name}</div>
+              ))}
             </div>
           </div>
 
@@ -1328,12 +1323,12 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       </section>
 
       {/* ── Примерочная ── */}
-      <section style={{ padding: '96px 48px 0' }}>
+      <section style={{ padding: '96px 48px 0', position: 'relative', zIndex: 1 }}>
         <div style={{ textAlign: 'center', marginBottom: 34 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Примерочная</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Крутите каталог и меняйте параметры — подборка обновляется на ходу</div>
         </div>
-        <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: 'linear-gradient(180deg, #f4f2ee 0%, #e9e6e0 100%)' }}>
+        <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', background: '#ffffff' }}>
           <div style={{ position: 'relative', height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, padding: '0 80px' }}>
             <div style={{ flex: 1, position: 'relative', height: 460 }}>
               {[-2, -1, 0, 1, 2].map(d => {
@@ -1365,8 +1360,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
             <div onClick={() => { const cur = fitIdx; const next = (cur + 1) % FIT_ITEMS.length; setFitDir(1); setPrevFitIdx(cur); setFitIdx(next); setFitOpen(null); setAddFilterOpen(false); setTimeout(() => setPrevFitIdx(null), 420); }} style={{ position: 'absolute', right: 22, top: '50%', marginTop: -24, width: 48, height: 48, borderRadius: '50%', background: '#fff', boxShadow: '0 6px 20px rgba(26,26,24,.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, cursor: 'pointer', zIndex: 2 }}>›</div>
             <div style={{ position: 'absolute', left: 28, top: 26, fontSize: 13, color: '#8b877f' }}>{fitIdx % FIT_ITEMS.length + 1} / {FIT_ITEMS.length}</div>
           </div>
-          <div style={{ padding: '22px 24px 26px', background: '#f7f5f1', borderTop: '1px solid #e8e4dd' }}>
-            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f1eee8' }}>
+          <div style={{ padding: '22px 24px 26px', background: '#ffffff', borderTop: '1px solid #e8e4dd' }}>
+            <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', gap: 10, padding: '14px 16px', borderRadius: 20, background: '#f5f5f5', overflow: 'hidden' }}>
               <span style={{ paddingLeft: 8, fontSize: 16, color: '#33322e', whiteSpace: 'nowrap' }}>Мне нужно</span>
               {fitKeys.map(k => {
                 const open = fitOpen === k;
@@ -1412,8 +1407,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
       </section>
 
+      </div>{/* /фон back.png */}
+
       {/* ── Стать партнёром ── */}
-      <section style={{ padding: '96px 48px 80px', position: 'relative', zIndex: 1, boxShadow: '0 32px 64px rgba(0,0,0,0.18)' }}>
+      <section style={{ padding: '96px 48px 80px', position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
             <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Для партнёров</h2>
@@ -1493,7 +1490,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       <WorkStepsSection onContact={() => setChatOpen(true)} />
 
       {/* ── Материалы и отделки ── */}
-      <div style={{ position: 'relative', zIndex: 1, boxShadow: '0 -32px 64px rgba(0,0,0,0.18)' }}>
+      <div style={{ position: 'relative', zIndex: 1 }}>
         <MaterialsSection />
       </div>
 
@@ -1702,7 +1699,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
             {FAQ.map((f, i) => {
               const open = openFaq === i;
               return (
-                <div key={i} onClick={() => setOpenFaq(open ? -1 : i)} style={{ padding: '20px 22px', borderRadius: 14, background: open ? '#fff' : '#f4f2ee', border: '1px solid ' + (open ? '#e4e0d9' : 'transparent'), cursor: 'pointer', transition: 'background .15s' }}>
+                <div key={i} onClick={() => setOpenFaq(open ? -1 : i)} style={{ padding: '20px 22px', borderRadius: 14, background: '#fff', border: '1px solid ' + (open ? '#e4e0d9' : '#ece9e4'), cursor: 'pointer', transition: 'background .15s' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                     <div style={{ flex: 1, fontSize: 15, fontWeight: 500, textWrap: 'pretty' }}>{f.q}</div>
                     <div style={{ width: 26, height: 26, flexShrink: 0, borderRadius: '50%', border: '1px solid #ddd8d1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#6b6862', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform .2s' }}>+</div>
