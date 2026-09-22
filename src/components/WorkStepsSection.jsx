@@ -306,6 +306,13 @@ export default function WorkStepsSection({ onContact }) {
   },[]);
 
   // ── Chat ──
+  const exitChat=()=>{
+    chatTimers.current.forEach(clearTimeout);
+    chatTimers.current=[];
+    chatActiveRef.current=false;
+    setChat(false); setShown(0); setTyping(false); setChatDone(false);
+  };
+
   const openChat=()=>{
     chatTimers.current.forEach(clearTimeout);
     chatTimers.current=[];
@@ -518,6 +525,15 @@ export default function WorkStepsSection({ onContact }) {
                   <span>Далее</span><span style={{fontSize:18,lineHeight:1}}>↓</span>
                 </div>
               )}
+              <div
+                onClick={exitChat}
+                style={{position:'absolute',left:'50%',bottom:'clamp(18px,3vh,34px)',transform:'translateX(-50%)',display:'inline-flex',alignItems:'center',gap:12,padding:'13px 26px',border:'1px solid rgba(10,10,10,.22)',color:'rgba(10,10,10,.55)',cursor:'pointer',fontFamily:monoFont,textTransform:'uppercase',letterSpacing:'.14em',fontSize:10,transition:'color .3s ease, border-color .3s ease, background .3s ease',zIndex:10,whiteSpace:'nowrap'}}
+                onMouseEnter={e=>{e.currentTarget.style.color='#ffffff';e.currentTarget.style.background='#0a0a0a';e.currentTarget.style.borderColor='#0a0a0a';}}
+                onMouseLeave={e=>{e.currentTarget.style.color='rgba(10,10,10,.55)';e.currentTarget.style.background='transparent';e.currentTarget.style.borderColor='rgba(10,10,10,.22)';}}
+              >
+                <span style={{fontSize:15,lineHeight:1}}>↑</span>
+                <span>Выйти из пути</span>
+              </div>
             </div>
           )}
 
