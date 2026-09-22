@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import maxIcon from '../../assets/icons/Max_logo.svg';
+import tgIcon  from '../../assets/icons/Tg_logo.svg';
 import MaterialsSection from '../components/MaterialsSection.jsx';
 import WorkStepsSection from '../components/WorkStepsSection.jsx';
 import HeroTree from '../components/HeroTree.jsx';
@@ -247,6 +249,21 @@ const BANNERS = [
     options: [['Второго этажа в доме', '4 кейса'], ['Мансарды', '2 кейса'], ['Антресоли в студии', '2 кейса'], ['Улицы / террасы', '1 кейс'], ['Не знаю высоту — замерим сами', '']] },
   { kicker: 'Зеркала', title: 'ЗЕРКАЛО ПО ВАШЕЙ ФОРМЕ', text: 'Любая геометрия, подсветка и рама — от эскиза до монтажа.', tint: 'rgba(44,40,50,.6)', bg: 'linear-gradient(135deg, #2c2832 0%, #1c1822 100%)',
     options: [['Прихожей в полный рост', '3 кейса'], ['Ванной с подсветкой', '4 кейса'], ['Гостиной, нестандартной формы', '2 кейса'], ['Гардеробной', '1 кейс'], ['Не знаю форму — подскажите', '']] },
+];
+
+const HERO_MATS = [
+  { name: 'Прозрачное', css: 'linear-gradient(135deg,#f7f8f8,#e7eae9 60%,#dfe3e2)' },
+  { name: 'Рифлёное', css: 'repeating-linear-gradient(90deg,#eef0ee 0 4px,#dadedb 4px 8px)' },
+  { name: 'Матовое', css: 'linear-gradient(160deg,#f6f6f4,#e6e6e2)' },
+  { name: 'Зеркало', css: 'linear-gradient(120deg,#f0f2f3,#cfd6d9 45%,#eef1f2 60%,#c6ced2)' },
+  { name: 'Хром', css: 'linear-gradient(130deg,#e8e8e6,#bdbdb8 55%,#d8d8d4)' },
+  { name: 'Чёрный', css: 'linear-gradient(130deg,#242424,#131313)' },
+  { name: 'Бронза', css: 'linear-gradient(130deg,#4a4327,#332e18)' },
+  { name: 'Шампань', css: 'linear-gradient(130deg,#6b6440,#514c2c)' },
+  { name: 'Дуб', css: 'repeating-linear-gradient(100deg,#c7a473 0 6px,#bb9765 6px 12px)' },
+  { name: 'Белый МДФ', css: 'linear-gradient(130deg,#f4f4f2,#e2e2de)' },
+  { name: 'Графит', css: 'linear-gradient(130deg,#4b4d4f,#333537)' },
+  { name: 'Соле', css: 'linear-gradient(135deg,#f2f2f0,#dcdcd8 60%,#c9c9c4)' },
 ];
 
 const NOVELTIES = [
@@ -557,9 +574,12 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [ptSent, setPtSent] = useState(false);
   const [ptRole, setPtRole] = useState('Дизайнер');
   const [chatOpen, setChatOpen] = useState(false);
+  const [fabMode, setFabMode] = useState('max');
   const [navActiveIdx, setNavActiveIdx] = useState(-1);
   const homeNavItemRefs = useRef([]);
   const homeNavPillRef = useRef(null);
+
+  const [heroMatIdx, setHeroMatIdx] = useState(0);
 
   const [heroTreeActive, setHeroTreeActive] = useState(false);
   const [heroTreeChosen, setHeroTreeChosen] = useState(false);
@@ -580,6 +600,11 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const levelTabRefs = useRef([]);
   const pillRef = useRef(null);
   const pillInitialized = useRef(false);
+
+  useEffect(() => {
+    const id = setInterval(() => setFabMode(m => m === 'max' ? 'tg' : 'max'), 5500);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const loop = () => {
@@ -964,6 +989,44 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           {SLIDES.map((_, i) => (
             <span key={i} onClick={() => { const curr = slideIdxRef.current; setPrevSlideIdx(curr); setHeroDir(i > curr ? 1 : -1); slideIdxRef.current = i; slideBaseRef.current = Date.now(); setSlide(i); }} style={{ width: i === slide ? 26 : 9, height: 9, borderRadius: 999, background: i === slide ? '#fff' : 'rgba(255,255,255,.5)', cursor: 'pointer', transition: 'width .25s', display: 'inline-block' }} />
           ))}
+        </div>
+
+        {/* Materials preview card — bottom right */}
+        <div style={{
+          position: 'absolute', bottom: 28, right: 32, zIndex: 5,
+          width: 228, padding: '14px 14px 14px',
+          borderRadius: 20, background: 'rgba(18,16,12,0.68)', backdropFilter: 'blur(14px)',
+          border: '1px solid rgba(255,255,255,0.12)',
+          opacity: heroTreeActive ? 0 : 1, pointerEvents: heroTreeActive ? 'none' : 'auto',
+          transition: 'opacity 400ms ease',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>Материалы</div>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button
+                onClick={() => setHeroMatIdx(i => Math.max(0, i - 1))}
+                style={{ width: 22, height: 22, borderRadius: '50%', border: 'none', background: heroMatIdx === 0 ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.18)', color: '#fff', fontSize: 13, lineHeight: 1, cursor: heroMatIdx === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background .18s', padding: 0 }}
+              >‹</button>
+              <button
+                onClick={() => setHeroMatIdx(i => Math.min(HERO_MATS.length - 3, i + 1))}
+                style={{ width: 22, height: 22, borderRadius: '50%', border: 'none', background: heroMatIdx >= HERO_MATS.length - 3 ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.18)', color: '#fff', fontSize: 13, lineHeight: 1, cursor: heroMatIdx >= HERO_MATS.length - 3 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background .18s', padding: 0 }}
+              >›</button>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {HERO_MATS.slice(heroMatIdx, heroMatIdx + 3).map(m => (
+              <div key={m.name} style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                <div style={{ width: '100%', aspectRatio: '1', borderRadius: 11, background: m.css, boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.1)' }} />
+                <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.62)', textAlign: 'center', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{m.name}</div>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => { const el = document.getElementById('materials-section'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }}
+            style={{ marginTop: 12, width: '100%', height: 34, borderRadius: 10, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', fontSize: 12, fontWeight: 500, cursor: 'pointer', letterSpacing: '0.04em', transition: 'background .18s', fontFamily: 'inherit' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.22)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
+          >Перейти →</button>
         </div>
 
       </section>
@@ -1490,7 +1553,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
       <WorkStepsSection onContact={() => setChatOpen(true)} />
 
       {/* ── Материалы и отделки ── */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      <div id="materials-section" style={{ position: 'relative', zIndex: 1 }}>
         <MaterialsSection />
       </div>
 
@@ -1868,7 +1931,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           <>
             {[
               { icon: '✈', label: 'Telegram',       color: '#2b9fe3', href: 'https://t.me' },
-              { icon: '✉', label: 'MAX',             color: '#7c5cf0', href: 'https://max.ru' },
+              { icon: '✉', label: 'MAX', color: 'linear-gradient(135deg,#44ccff 0%,#5533ee 60%,#9933dd 100%)', href: 'https://max.ru' },
               { icon: '☏', label: 'Позвонить',       color: '#3a8a4f', href: 'tel:+79854341133' },
               { icon: '◎', label: 'Заказать звонок', color: '#1a1a18', href: '#' },
             ].map((b, i) => (
@@ -1890,15 +1953,52 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         )}
         <div
           onClick={() => setChatOpen(o => !o)}
-          className={chatOpen ? '' : 'chat-pulse'}
+          className={chatOpen ? '' : (fabMode === 'max' ? 'max-pulse' : 'tg-pulse')}
           style={{
-            width: 56, height: 56, borderRadius: '50%', background: '#1a1a18',
-            color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', fontSize: chatOpen ? 20 : 19, flexShrink: 0,
-            transition: 'transform .22s, font-size .18s',
-            boxShadow: '0 10px 28px rgba(26,26,24,.28)',
+            position: 'relative',
+            width: 66, height: 66, borderRadius: '50%', overflow: 'hidden',
+            background: chatOpen
+              ? '#1a1a18'
+              : fabMode === 'max'
+                ? 'linear-gradient(135deg, #44ccff 0%, #5533ee 60%, #9933dd 100%)'
+                : 'linear-gradient(180deg, #2aabee 0%, #229ed9 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', flexShrink: 0,
+            transition: 'transform .22s, background 1.1s cubic-bezier(0.4,0,0.2,1)',
+            boxShadow: chatOpen
+              ? '0 10px 28px rgba(26,26,24,.28)'
+              : fabMode === 'max'
+                ? '0 10px 32px rgba(85,51,238,.38)'
+                : '0 10px 32px rgba(34,158,217,.38)',
           }}
-        >{chatOpen ? '✕' : '✉'}</div>
+        >
+          {chatOpen ? (
+            <span style={{ fontSize: 20, color: '#fff', lineHeight: 1 }}>✕</span>
+          ) : (
+            <>
+              <img
+                src={maxIcon} alt="MAX" className="max-sway"
+                style={{
+                  position: 'absolute', width: 36, height: 36, pointerEvents: 'none',
+                  opacity:    fabMode === 'max' ? 1    : 0,
+                  transform:  fabMode === 'max' ? 'scale(1)'    : 'scale(0.7)',
+                  filter:     fabMode === 'max' ? 'blur(0px)'   : 'blur(4px)',
+                  transition: 'opacity 1.1s cubic-bezier(0.4,0,0.2,1), transform 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1)',
+                }}
+              />
+              <img
+                src={tgIcon} alt="Telegram" className="max-sway"
+                style={{
+                  position: 'absolute', width: 74, height: 74, pointerEvents: 'none',
+                  opacity:    fabMode === 'tg' ? 1    : 0,
+                  transform:  fabMode === 'tg' ? 'scale(1)'    : 'scale(1.28)',
+                  filter:     fabMode === 'tg' ? 'blur(0px)'   : 'blur(4px)',
+                  transition: 'opacity 1.1s cubic-bezier(0.4,0,0.2,1), transform 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1)',
+                }}
+              />
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -355,13 +355,27 @@ const HeroTree = forwardRef(function HeroTree({ onNavigateToCatalog, onActiveCha
         {trail.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14, minHeight: 26 }}>
             {trail.map((t, i) => (
-              <span key={i} style={{
-                fontSize: '10.5px', fontWeight: 600,
-                letterSpacing: '0.14em', textTransform: 'uppercase',
-                padding: '6px 12px',
-                border: `1px solid rgba(255,255,255,${t.last ? '0.8' : '0.3'})`,
-                color: t.last ? '#fff' : 'rgba(255,255,255,0.65)',
-              }}>{t.label}</span>
+              <span
+                key={i}
+                onClick={t.last ? undefined : () => { setChain(c => c.slice(0, i + 1)); setOpen(true); }}
+                onMouseEnter={t.last ? undefined : e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)';
+                  e.currentTarget.style.color = '#fff';
+                }}
+                onMouseLeave={t.last ? undefined : e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.65)';
+                }}
+                style={{
+                  fontSize: '10.5px', fontWeight: 600,
+                  letterSpacing: '0.14em', textTransform: 'uppercase',
+                  padding: '6px 12px',
+                  border: `1px solid rgba(255,255,255,${t.last ? '0.8' : '0.3'})`,
+                  color: t.last ? '#fff' : 'rgba(255,255,255,0.65)',
+                  cursor: t.last ? 'default' : 'pointer',
+                  transition: 'border-color .18s, color .18s',
+                }}
+              >{t.label}</span>
             ))}
           </div>
         )}
