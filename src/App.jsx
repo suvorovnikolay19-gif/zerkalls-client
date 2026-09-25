@@ -88,6 +88,13 @@ export default function App() {
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
 
+  // Яндекс Метрика: фиксируем каждый переход в SPA
+  useEffect(() => {
+    if (typeof window.ym === 'function') {
+      window.ym(113052467, 'hit', window.location.href);
+    }
+  }, [location.pathname]);
+
   // Sync URL → state (browser back/forward)
   useEffect(() => {
     const parts = location.pathname.split('/').filter(Boolean);
