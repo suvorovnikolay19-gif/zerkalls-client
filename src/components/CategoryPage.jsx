@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { fetchAllCategories } from '../api.js';
 import catNobg1       from '../../assets/categories-nobg/1.png';
 import mirrorsImg     from '../../assets/mirrors.jpg';
 import stairsImg      from '../../assets/stairs.jpg';
@@ -269,10 +270,29 @@ export default function CategoryPage({ section, onPickSubsection }) {
   const [flip, setFlip] = useState(false);
   const [openFaq, setOpenFaq] = useState(-1);
   const [pinged, setPinged] = useState(null);
+  const [items, setItems] = useState(ITEMS[section] || []);
   const hoverTimer = useRef(null);
   const pingTimer = useRef(null);
   const stripRef = useRef(null);
   const itemRefs = useRef([]);
+
+  useEffect(() => {
+    setItems(ITEMS[section] || []);
+    fetchAllCategories({ limit: 500 })
+      .then(all => {
+        const parent = all.find(c => c.name === section && !c.parent);
+        if (!parent) return;
+        const children = all.filter(c => c.parent === parent.id);
+        if (children.length === 0) return;
+        const localItems = ITEMS[section] || [];
+        setItems(children.map((c, i) => ({
+          name: c.name,
+          slug: c.slug,
+          img: (localItems[i] ?? localItems[0] ?? { img: [] }).img,
+        })));
+      })
+      .catch(() => {});
+  }, [section]);
 
   const pingCard = (i) => {
     clearTimeout(pingTimer.current);
@@ -296,7 +316,6 @@ export default function CategoryPage({ section, onPickSubsection }) {
     }, delay);
   };
 
-  const items = ITEMS[section] || [];
   const tree = CAT_TREE[section] || {};
 
   const enter = (i) => {

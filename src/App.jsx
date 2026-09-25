@@ -1,4 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toSlug, nameFromSlug } from './utils/slug.js';
+import { SECTIONS, SUBCATS, TREE } from './components/CategoryNav.jsx';
+import { ITEMS as CAT_ITEMS, CAT_TREE } from './components/CategoryPage.jsx';
 import { fetchProducts } from './api.js';
 import { useCart } from './CartContext.jsx';
 import CartDrawer from './components/CartDrawer.jsx';
@@ -50,7 +54,18 @@ function pluralProducts(n) {
 }
 
 export default function App() {
-  const [page, setPage] = useState('home');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const page = useMemo(() => {
+    const p = location.pathname;
+    if (p === '/') return 'home';
+    if (p === '/profile') return 'profile';
+    if (p === '/checkout') return 'checkout';
+    if (p.startsWith('/catalog')) return 'catalog';
+    return 'home';
+  }, [location.pathname]);
+
   const [entry, setEntry] = useState('catalog');
   const [section, setSection] = useState(null);
   const [subsection, setSubsection] = useState(null);
@@ -72,6 +87,28 @@ export default function App() {
   const [selectedMats, setSelectedMats] = useState({});
   const [priceMin, setPriceMin] = useState('');
   const [priceMax, setPriceMax] = useState('');
+
+  // Sync URL → state (browser back/forward)
+  useEffect(() => {
+    const parts = location.pathname.split('/').filter(Boolean);
+    if (parts[0] !== 'catalog') return;
+    const secSlug = parts[1];
+    if (!secSlug) { setSection(null); setSubsection(null); setSubsubsection(null); return; }
+    const secName = nameFromSlug(secSlug, SECTIONS.map(s => s.name));
+    if (!secName) return;
+    setSection(secName);
+    const e = Object.keys(ENTRY_TO_SECTION).find(k => ENTRY_TO_SECTION[k] === secName) || 'catalog';
+    setEntry(e);
+    const subSlug = parts[2];
+    if (!subSlug) { setSubsection(null); setSubsubsection(null); return; }
+    const allSubs = [...(CAT_ITEMS[secName] || []).map(i => i.name), ...(SUBCATS[secName] || [])];
+    const subName = nameFromSlug(subSlug, allSubs) || subSlug;
+    setSubsection(subName);
+    const leafSlug = parts[3];
+    if (!leafSlug) { setSubsubsection(null); return; }
+    const allLeaves = [...(CAT_TREE[secName]?.[subName] || []), ...(TREE[secName]?.[subName] || [])];
+    setSubsubsection(nameFromSlug(leafSlug, allLeaves) || leafSlug);
+  }, [location.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchProducts({ limit: 50 })
@@ -129,12 +166,17 @@ export default function App() {
 
   const navigateToCatalog = (e = 'catalog', sub = null) => {
     if (page === 'home') setFromHome(true);
+    const secName = ENTRY_TO_SECTION[e] ?? null;
     setEntry(e);
-    setPage('catalog');
-    setSection(ENTRY_TO_SECTION[e] ?? null);
+    setSection(secName);
     setSubsection(sub);
     setSubsubsection(null);
     window.scrollTo(0, 0);
+    if (secName) {
+      navigate(`/catalog/${toSlug(secName)}${sub ? '/' + toSlug(sub) : ''}`);
+    } else {
+      navigate('/catalog');
+    }
   };
 
   useEffect(() => {
@@ -158,7 +200,7 @@ export default function App() {
     }
     setTimeout(() => {
       setFromCatalog(true);
-      setPage('home');
+      navigate('/');
     }, 380);
   };
 
@@ -180,13 +222,13 @@ export default function App() {
   ];
 
   if (page === 'profile') {
-    return <ProfilePage onGoBack={() => setPage('home')} />;
+    return <ProfilePage onGoBack={() => navigate('/')} />;
   }
 
   if (page === 'checkout') {
     return (
       <CheckoutPage
-        onGoHome={() => setPage('home')}
+        onGoHome={() => navigate('/')}
         onGoStore={() => navigateToCatalog('catalog')}
         cartCount={totalCount}
       />
@@ -200,8 +242,8 @@ export default function App() {
           onNavigateToCatalog={navigateToCatalog}
           cartCount={totalCount}
           onOpenCart={() => setCartOpen(true)}
-          onOpenProfile={() => setPage('profile')}
-          onOpenCheckout={() => setPage('checkout')}
+          onOpenProfile={() => navigate('/profile')}
+          onOpenCheckout={() => navigate('/checkout')}
           fromCatalog={fromCatalog}
           onOpenPanel={() => setPanelOpen(true)}
           onOpenQuiz={() => setQuizOpen(true)}
@@ -228,7 +270,7 @@ export default function App() {
         {quizOpen && (
           <QuizModal products={products} onClose={() => setQuizOpen(false)} />
         )}
-        <CartDrawer onCheckout={() => setPage('checkout')} />
+        <CartDrawer onCheckout={() => navigate('/checkout')} />
       </>
     );
   }
@@ -241,13 +283,13 @@ export default function App() {
         section={section}
         subsection={subsection}
         subsubsection={subsubsection}
-        onGoHome={() => setPage('home')}
+        onGoHome={goToHome}
         onGoEntry={navigateToCatalog}
-        onClearSubsection={() => { setSubsection(null); setSubsubsection(null); }}
-        onClearSubsubsection={() => setSubsubsection(null)}
-        onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); }}
-        onPickSubsection={name => { setSubsection(name); setSubsubsection(null); }}
-        onPickLeaf={name => setSubsubsection(name)}
+        onClearSubsection={() => { setSubsection(null); setSubsubsection(null); navigate(`/catalog/${toSlug(section)}`); }}
+        onClearSubsubsection={() => { setSubsubsection(null); navigate(`/catalog/${toSlug(section)}/${toSlug(subsection)}`); }}
+        onPickSection={name => { const e = Object.keys(ENTRY_TO_SECTION).find(k => ENTRY_TO_SECTION[k] === name) || 'catalog'; setEntry(e); setSection(name); setSubsection(null); setSubsubsection(null); navigate(`/catalog/${toSlug(name)}`); }}
+        onPickSubsection={name => { setSubsection(name); setSubsubsection(null); navigate(`/catalog/${toSlug(section)}/${toSlug(name)}`); }}
+        onPickLeaf={name => { setSubsubsection(name); navigate(`/catalog/${toSlug(section)}/${toSlug(subsection)}/${toSlug(name)}`); }}
       />
       <FilterBar
         chips={CHIPS}
@@ -268,9 +310,9 @@ export default function App() {
           section={section}
           subsection={subsection}
           subsubsection={subsubsection}
-          onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); }}
-          onPickSubsection={name => { setSubsection(name); setSubsubsection(null); }}
-          onPickLeaf={name => setSubsubsection(name)}
+          onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); navigate(`/catalog/${toSlug(name)}`); }}
+          onPickSubsection={name => { setSubsection(name); setSubsubsection(null); navigate(`/catalog/${toSlug(section)}/${toSlug(name)}`); }}
+          onPickLeaf={name => { setSubsubsection(name); navigate(`/catalog/${toSlug(section)}/${toSlug(subsection)}/${toSlug(name)}`); }}
           onOpenPanel={() => setPanelOpen(true)}
         />
       )}
@@ -279,8 +321,8 @@ export default function App() {
       {section && !subsection ? (
         <CategoryPage
           section={section}
-          onPickSubsection={name => { setSubsection(name); setSubsubsection(null); }}
-          onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); }}
+          onPickSubsection={name => { setSubsection(name); setSubsubsection(null); navigate(`/catalog/${toSlug(section)}/${toSlug(name)}`); }}
+          onPickSection={name => { setSection(name); setSubsection(null); setSubsubsection(null); navigate(`/catalog/${toSlug(name)}`); }}
         />
       ) : (
         <main style={{ padding: '54px 40px 90px' }}>
@@ -376,7 +418,7 @@ export default function App() {
           onClear={() => { setCompareItems([]); setCompareOpen(false); }}
         />
       )}
-      <CartDrawer onCheckout={() => setPage('checkout')} />
+      <CartDrawer onCheckout={() => navigate('/checkout')} />
     </div>
   );
 }
