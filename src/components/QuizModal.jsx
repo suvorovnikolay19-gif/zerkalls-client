@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import catNobg1 from '../../assets/categories-nobg/1.png';
+import catNobg1 from '../../assets/categories-nobg/1.webp';
 
 const PLAN_ROOMS = [
   { id: 'hall',    name: 'Прихожая', x: 24,  y: 24,  w: 146, h: 104 },

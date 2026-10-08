@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import step01 from '../../assets/steps/photo_1_2026-09-18_15-26-01.jpg';
-import step02 from '../../assets/steps/photo_2_2026-09-18_15-26-01.jpg';
-import step03 from '../../assets/steps/photo_3_2026-09-18_15-26-01.jpg';
-import step04 from '../../assets/steps/photo_4_2026-09-18_15-26-01.jpg';
-import step05 from '../../assets/steps/photo_5_2026-09-18_15-26-01.jpg';
-import step06 from '../../assets/steps/photo_6_2026-09-18_15-26-01.jpg';
-import step07 from '../../assets/steps/photo_7_2026-09-18_15-26-01.jpg';
-import step08 from '../../assets/steps/photo_8_2026-09-18_15-26-01.jpg';
-import step09 from '../../assets/steps/photo_9_2026-09-18_15-26-01.jpg';
-import step10 from '../../assets/steps/photo_10_2026-09-18_15-26-01.jpg';
+import step01 from '../../assets/steps/photo_1_2026-09-18_15-26-01.webp';
+import step02 from '../../assets/steps/photo_2_2026-09-18_15-26-01.webp';
+import step03 from '../../assets/steps/photo_3_2026-09-18_15-26-01.webp';
+import step04 from '../../assets/steps/photo_4_2026-09-18_15-26-01.webp';
+import step05 from '../../assets/steps/photo_5_2026-09-18_15-26-01.webp';
+import step06 from '../../assets/steps/photo_6_2026-09-18_15-26-01.webp';
+import step07 from '../../assets/steps/photo_7_2026-09-18_15-26-01.webp';
+import step08 from '../../assets/steps/photo_8_2026-09-18_15-26-01.webp';
+import step09 from '../../assets/steps/photo_9_2026-09-18_15-26-01.webp';
+import step10 from '../../assets/steps/photo_10_2026-09-18_15-26-01.webp';
 
 const STEP_SRCS = [step01, step02, step03, step04, step05, step06, step07, step08, step09, step10];
 
@@ -63,6 +63,7 @@ function subPath(t) {
 
 export default function WorkStepsSection({ onContact }) {
   const [idx, setIdx]           = useState(0);
+  const [inView, setInView]     = useState(false);
   const [started, setStarted]   = useState(false);
   const [chat, setChat]         = useState(false);
   const [shown, setShown]       = useState(0);
@@ -88,6 +89,7 @@ export default function WorkStepsSection({ onContact }) {
   const shardsRef    = useRef([]);
   const photoRefs    = useRef([]);
   const isSnappingRef = useRef(false);
+  const photosLoadedRef = useRef(false);
 
   useEffect(() => { startedRef.current = started; }, [started]);
 
@@ -260,18 +262,6 @@ export default function WorkStepsSection({ onContact }) {
       ];
     });
 
-    STEP_SRCS.forEach((src, i) => {
-      const img = new Image();
-      img.onload = () => {
-        const cw = 960, ch = Math.round(960 * img.height / img.width);
-        const oc = document.createElement('canvas'); oc.width = cw; oc.height = ch;
-        const octx = oc.getContext('2d');
-        octx.drawImage(img, 0, 0, cw, ch);
-        photoRefs.current[i] = oc;
-      };
-      img.src = src;
-    });
-
     const onResize=()=>{
       const c=canvasRef.current; if (!c) return;
       const dpr=Math.min(2,window.devicePixelRatio||1);
@@ -279,6 +269,48 @@ export default function WorkStepsSection({ onContact }) {
     };
     window.addEventListener('resize',onResize,{passive:true});
     onResize();
+
+    return ()=>{
+      chatTimers.current.forEach(clearTimeout);
+      window.removeEventListener('resize',onResize);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
+  // ── Секция в зоне видимости? ──
+  // Раньше цикл анимации и глобальный wheel-перехватчик висели всегда, на любой
+  // точке страницы. Теперь они живут только пока секция рядом с экраном.
+  useEffect(()=>{
+    const j=journeyRef.current; if (!j) return;
+    const io=new IntersectionObserver(
+      ([e])=>setInView(e.isIntersecting),
+      {rootMargin:'300px 0px'}
+    );
+    io.observe(j);
+    return ()=>io.disconnect();
+  },[]);
+
+  // ── Цикл анимации + перехват колеса: только когда секция видна ──
+  useEffect(()=>{
+    if (!inView) return;
+
+    // 10 фотографий раскладываются в offscreen-канвасы на 960 px — тяжёлая
+    // операция, которой нечего делать в момент загрузки первого экрана.
+    if (!photosLoadedRef.current) {
+      photosLoadedRef.current = true;
+      STEP_SRCS.forEach((src, i) => {
+        const img = new Image();
+        img.decoding = 'async';
+        img.onload = () => {
+          const cw = 960, ch = Math.round(960 * img.height / img.width);
+          const oc = document.createElement('canvas'); oc.width = cw; oc.height = ch;
+          const octx = oc.getContext('2d');
+          octx.drawImage(img, 0, 0, cw, ch);
+          photoRefs.current[i] = oc;
+        };
+        img.src = src;
+      });
+    }
 
     const loop=(now)=>{
       try { tick(now||0); } catch(e){}
@@ -297,13 +329,11 @@ export default function WorkStepsSection({ onContact }) {
     window.addEventListener('wheel',onWheel,{passive:false});
 
     return ()=>{
-      chatTimers.current.forEach(clearTimeout);
       cancelAnimationFrame(rafRef.current);
-      window.removeEventListener('resize',onResize);
       window.removeEventListener('wheel',onWheel);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  },[inView]);
 
   // ── Chat ──
   const exitChat=()=>{

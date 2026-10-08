@@ -1,4 +1,4 @@
-import heroImg from '../../assets/hero-main/hero-1.png';
+import heroImg from '../../assets/hero-main/hero-1.webp';
 
 export default function HeroSection({ cartCount, onOpenPanel, onGoHome, onOpenCart, onOpenProfile }) {
   return (

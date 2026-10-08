@@ -1,4 +1,4 @@
-import testImg from '../../assets/test.jpg';
+import testImg from '../../assets/test.webp';
 
 function formatPrice(price) {
   return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';

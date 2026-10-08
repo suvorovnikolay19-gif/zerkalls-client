@@ -4,81 +4,81 @@ import tgIcon  from '../../assets/icons/Tg_logo.svg';
 import MaterialsSection from '../components/MaterialsSection.jsx';
 import WorkStepsSection from '../components/WorkStepsSection.jsx';
 import HeroTree from '../components/HeroTree.jsx';
-import heroImg from '../../assets/hero-main/hero-1.png';
+import heroImg from '../../assets/hero-main/hero-1.webp';
 import backImg from '../../assets/meadow-background-hd.webp';
-import bgImg from '../../assets/background.png';
-import hero2Img from '../../assets/hero-main/hero-2.png';
-import hero3Img from '../../assets/hero-main/hero-3.png';
-import service1Img from '../../assets/services/1.png';
-import service2Img from '../../assets/services/2.png';
-import service3Img from '../../assets/services/3.png';
-import testImg from '../../assets/test.jpg';
-import test2Img from '../../assets/test-2.jpg';
-import test3Img from '../../assets/test-3.jpg';
-import test4Img from '../../assets/test-4.jpg';
-import bgCategoryImg from '../../assets/background-category-v2.png';
-import catImg_1 from '../../assets/categories/1.png';
+import hero2Img from '../../assets/hero-main/hero-2.webp';
+import hero3Img from '../../assets/hero-main/hero-3.webp';
+import service1Img from '../../assets/services/1.webp';
+import service2Img from '../../assets/services/2.webp';
+import service3Img from '../../assets/services/3.webp';
+import testImg from '../../assets/test.webp';
+import test2Img from '../../assets/test-2.webp';
+import test3Img from '../../assets/test-3.webp';
+import test4Img from '../../assets/test-4.webp';
+import catImg_1 from '../../assets/categories/1.webp';
 import catAnim1 from '../../assets/categories/1.mp4';
-import catImg_2 from '../../assets/categories/2.jpg';
-import catImg_3 from '../../assets/categories/3.jpg';
-import catImg_4 from '../../assets/categories/4.jpg';
-import catNobg1 from '../../assets/categories-nobg/1.png';
-import catImg0 from '../../assets/test.jpg';
-import catImg1 from '../../assets/test-2.jpg';
-import catImg2 from '../../assets/test-3.jpg';
-import catImg4 from '../../assets/test-4.jpg';
-import catImg6 from '../../assets/mirrors.jpg';
-import catImg7 from '../../assets/stairs.jpg';
-import catImg8 from '../../assets/furniture.jpg';
-import catImg9 from '../../assets/partitions.jpg';
-import catImg10 from '../../assets/test.jpg';
-import catImg11 from '../../assets/test-2.jpg';
-import catImg14 from '../../assets/test-3.jpg';
-import catImg15 from '../../assets/test-4.jpg';
+import catImg_2 from '../../assets/categories/2.webp';
+import catImg_3 from '../../assets/categories/3.webp';
+import catImg_4 from '../../assets/categories/4.webp';
+import catNobg1 from '../../assets/categories-nobg/1.webp';
+import catImg0 from '../../assets/test.webp';
+import catImg1 from '../../assets/test-2.webp';
+import catImg2 from '../../assets/test-3.webp';
+import catImg4 from '../../assets/test-4.webp';
+import catImg6 from '../../assets/mirrors.webp';
+import catImg7 from '../../assets/stairs.webp';
+import catImg8 from '../../assets/furniture.webp';
+import catImg9 from '../../assets/partitions.webp';
+import catImg10 from '../../assets/test.webp';
+import catImg11 from '../../assets/test-2.webp';
+import catImg14 from '../../assets/test-3.webp';
+import catImg15 from '../../assets/test-4.webp';
 
-import part01 from '../../assets/categories-1/partitions/01_Fixed_LOFT_Partitions.jpg';
-import part02 from '../../assets/categories-1/partitions/02_LOFT_Partitions_with_Hinged_Doors.jpg';
-import part03 from '../../assets/categories-1/partitions/03_Sliding_LOFT_Partitions.jpg';
-import part04 from '../../assets/categories-1/partitions/04_Folding_LOFT_Partitions.jpg';
-import part05 from '../../assets/categories-1/partitions/05_Pivot_Partitions.jpg';
-import part06 from '../../assets/categories-1/partitions/06_Rotating_Louver_Partitions.jpg';
-import part07 from '../../assets/categories-1/partitions/07_Swinging_LOFT_Partitions.jpg';
-import part08 from '../../assets/categories-1/partitions/08_Movable_Transformable_Walls.jpg';
-import part09 from '../../assets/categories-1/partitions/09_Vertical_Retractable_Partitions.jpg';
-import part10 from '../../assets/categories-1/partitions/10_Standalone_LOFT_Doors.jpg';
-import part11 from '../../assets/categories-1/partitions/11_LOFT_Screens.jpg';
-import part12 from '../../assets/categories-1/partitions/12_Metal_Slat_Partitions.jpg';
-import part13 from '../../assets/categories-1/partitions/13_Metal_Rod_Partitions.jpg';
-import part14 from '../../assets/categories-1/partitions/14_Metal_Mesh_Partitions.jpg';
-import part15 from '../../assets/categories-1/partitions/15_Expanded_Metal_Partitions.jpg';
-import part16 from '../../assets/categories-1/partitions/16_Perforated_Metal_Partitions.jpg';
-import part17 from '../../assets/categories-1/partitions/17_Laser_Cut_Decorative_Metal_Partitions.jpg';
-import part18 from '../../assets/categories-1/partitions/18_Cable_String_Partitions.jpg';
-import part19 from '../../assets/categories-1/partitions/19_Chain_Curtains_Metal_Curtains.jpg';
-import part20 from '../../assets/categories-1/partitions/20_Suspended_Decorative_Partitions.jpg';
-import part21 from '../../assets/categories-1/partitions/21_Shelving_Partitions.jpg';
-import part22 from '../../assets/categories-1/partitions/22_Library_Partitions.jpg';
-import part23 from '../../assets/categories-1/partitions/23_TV_Media_Partitions.jpg';
-import part24 from '../../assets/categories-1/partitions/24_Workspace_Partitions.jpg';
-import part25 from '../../assets/categories-1/partitions/25_Plant_Partitions.jpg';
-import part26 from '../../assets/categories-1/partitions/26_Display_Partitions.jpg';
-import part27 from '../../assets/categories-1/partitions/27_Wine_Bar_Partitions.jpg';
-import part28 from '../../assets/categories-1/partitions/28_Partitions_with_Built_In_Furniture.jpg';
-import part29 from '../../assets/categories-1/partitions/29_Mobile_LOFT_Partitions.jpg';
-import part30 from '../../assets/categories-1/partitions/30_Acoustic_Partitions.jpg';
-import part31 from '../../assets/categories-1/partitions/31_Functional_Interactive_Partitions.png';
-import part32 from '../../assets/categories-1/partitions/32_Partitions_with_Integrated_Utilities.png';
-import part33 from '../../assets/categories-1/partitions/33_Illuminated_LOFT_Partitions.png';
-import part34 from '../../assets/categories-1/partitions/34_Modular_Partition_Systems.png';
-import part35 from '../../assets/categories-1/partitions/35_Room_in_Room_Systems.png';
-import part36 from '../../assets/categories-1/partitions/36_LOFT_Walk_In_Wardrobes.png';
-import part37 from '../../assets/categories-1/partitions/37_LOFT_Shower_Partitions.png';
-import part38 from '../../assets/categories-1/partitions/38_Kitchen_Living_Room_Partitions.png';
-import part39 from '../../assets/categories-1/partitions/39_Bedroom_Studio_Partitions.png';
-import part40 from '../../assets/categories-1/partitions/40_Office_LOFT_Partitions.png';
-import part41 from '../../assets/categories-1/partitions/41_Restaurant_HoReCa_Partitions.png';
-import part42 from '../../assets/categories-1/partitions/42_Retail_Showroom_Partitions.png';
-import part43 from '../../assets/categories-1/partitions/43_Special_Technical_LOFT_Systems.png';
+import part01 from '../../assets/categories-1/partitions/01_Fixed_LOFT_Partitions.webp';
+import part02 from '../../assets/categories-1/partitions/02_LOFT_Partitions_with_Hinged_Doors.webp';
+import part03 from '../../assets/categories-1/partitions/03_Sliding_LOFT_Partitions.webp';
+import part04 from '../../assets/categories-1/partitions/04_Folding_LOFT_Partitions.webp';
+import part05 from '../../assets/categories-1/partitions/05_Pivot_Partitions.webp';
+import part06 from '../../assets/categories-1/partitions/06_Rotating_Louver_Partitions.webp';
+import part07 from '../../assets/categories-1/partitions/07_Swinging_LOFT_Partitions.webp';
+import part08 from '../../assets/categories-1/partitions/08_Movable_Transformable_Walls.webp';
+import part09 from '../../assets/categories-1/partitions/09_Vertical_Retractable_Partitions.webp';
+import part10 from '../../assets/categories-1/partitions/10_Standalone_LOFT_Doors.webp';
+import part11 from '../../assets/categories-1/partitions/11_LOFT_Screens.webp';
+import part12 from '../../assets/categories-1/partitions/12_Metal_Slat_Partitions.webp';
+import part13 from '../../assets/categories-1/partitions/13_Metal_Rod_Partitions.webp';
+import part14 from '../../assets/categories-1/partitions/14_Metal_Mesh_Partitions.webp';
+import part15 from '../../assets/categories-1/partitions/15_Expanded_Metal_Partitions.webp';
+import part16 from '../../assets/categories-1/partitions/16_Perforated_Metal_Partitions.webp';
+import part17 from '../../assets/categories-1/partitions/17_Laser_Cut_Decorative_Metal_Partitions.webp';
+import part18 from '../../assets/categories-1/partitions/18_Cable_String_Partitions.webp';
+import part19 from '../../assets/categories-1/partitions/19_Chain_Curtains_Metal_Curtains.webp';
+import part20 from '../../assets/categories-1/partitions/20_Suspended_Decorative_Partitions.webp';
+import part21 from '../../assets/categories-1/partitions/21_Shelving_Partitions.webp';
+import part22 from '../../assets/categories-1/partitions/22_Library_Partitions.webp';
+import part23 from '../../assets/categories-1/partitions/23_TV_Media_Partitions.webp';
+import part24 from '../../assets/categories-1/partitions/24_Workspace_Partitions.webp';
+import part25 from '../../assets/categories-1/partitions/25_Plant_Partitions.webp';
+import part26 from '../../assets/categories-1/partitions/26_Display_Partitions.webp';
+import part27 from '../../assets/categories-1/partitions/27_Wine_Bar_Partitions.webp';
+import part28 from '../../assets/categories-1/partitions/28_Partitions_with_Built_In_Furniture.webp';
+import part29 from '../../assets/categories-1/partitions/29_Mobile_LOFT_Partitions.webp';
+import part30 from '../../assets/categories-1/partitions/30_Acoustic_Partitions.webp';
+import part31 from '../../assets/categories-1/partitions/31_Functional_Interactive_Partitions.webp';
+import part32 from '../../assets/categories-1/partitions/32_Partitions_with_Integrated_Utilities.webp';
+import part33 from '../../assets/categories-1/partitions/33_Illuminated_LOFT_Partitions.webp';
+import part34 from '../../assets/categories-1/partitions/34_Modular_Partition_Systems.webp';
+import part35 from '../../assets/categories-1/partitions/35_Room_in_Room_Systems.webp';
+import part36 from '../../assets/categories-1/partitions/36_LOFT_Walk_In_Wardrobes.webp';
+import part37 from '../../assets/categories-1/partitions/37_LOFT_Shower_Partitions.webp';
+import part38 from '../../assets/categories-1/partitions/38_Kitchen_Living_Room_Partitions.webp';
+import part39 from '../../assets/categories-1/partitions/39_Bedroom_Studio_Partitions.webp';
+import part40 from '../../assets/categories-1/partitions/40_Office_LOFT_Partitions.webp';
+import part41 from '../../assets/categories-1/partitions/41_Restaurant_HoReCa_Partitions.webp';
+import part42 from '../../assets/categories-1/partitions/42_Retail_Showroom_Partitions.webp';
+import part43 from '../../assets/categories-1/partitions/43_Special_Technical_LOFT_Systems.webp';
+// TEST: временная картинка для всех карточек вкладки «Перегородки»
+import partTest from '../../assets/categories-1/partitions/tesr.jpg';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
@@ -284,13 +284,6 @@ const STATS = [
   { value: '99%', label: 'довольны', text: 'По опросу клиентов после установки за последний год.' },
 ];
 
-const STEPS = [
-  { title: 'Заявка и консультация', text: 'Обсуждаем задачу, показываем похожие проекты и сразу называем вилку по цене.', caption: 'Шаг 1 — разговор о задаче' },
-  { title: 'Замер и проект', text: 'Замерщик приезжает с образцами, конструктор готовит чертёж и точную смету за день.', caption: 'Шаг 2 — замер на объекте' },
-  { title: 'Производство', text: 'Свой цех в Домодедово: резка, сварка, покраска и сборка под контролем технолога.', caption: 'Шаг 3 — цех' },
-  { title: 'Доставка и монтаж', text: 'Привозим в удобное окно, ставим за один визит и убираем за собой.', caption: 'Шаг 4 — монтаж' },
-];
-
 const ROOMS = [
   { name: 'Гостиная «Тихий свет»', kicker: 'Проект целиком', total: 'Комплект 268 400 ₽', items: [
     { kind: 'Перегородка', title: 'Grid, 3 секции', price: '96 000 ₽' },
@@ -344,7 +337,9 @@ const FOOTER_COLS = [
 
 const CAT1_IMGS = [catImg0, catImg1, catImg2, catImg2, catImg4, catImg6, catImg6, catImg7, catImg8, catImg9, catImg10, catImg11, catImg11, catImg14, catImg14, catImg15];
 
-const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
+// TEST: все перегородки временно показывают tesr.jpg. Оригинал ниже — раскомментировать для возврата.
+const PARTITION_IMGS = Array(43).fill(partTest);
+// const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
 
 const LEVELS_ENTRY = { 'Перегородки': 'partitions', 'Зеркала': 'mirrors', 'Лестницы': 'stairs', 'Мебель': 'catalog' };
 
@@ -449,7 +444,6 @@ const PT_STATS = [
 
 const PT_ROLES = ['Дизайнер', 'Стройка', 'Салон', 'Подрядчик'];
 
-const STEP_MS = 6500;
 const SLIDE_MS = 7000;
 
 function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -565,9 +559,6 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const [needOpen, setNeedOpen] = useState(false);
   const [need, setNeed] = useState(null);
 
-  const [stepIdx, setStepIdx] = useState(0);
-  const [stepProgress, setStepProgress] = useState(0);
-
   const [roomIdx, setRoomIdx] = useState(0);
 
   const [ptBannerIdx, setPtBannerIdx] = useState(0);
@@ -589,13 +580,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const heroSectionRef = useRef(null);
   const triggerBtnRef = useRef(null);
 
-  const rafRef = useRef(null);
   const t0Ref = useRef(Date.now());
   const left0Ref = useRef(4 * 86400 + 14 * 3600 + 48 * 60 + 18);
-  const stepBaseRef = useRef(Date.now());
+  const leftRef = useRef(-1);
   const slideBaseRef = useRef(Date.now());
-  const stepIdxRef = useRef(0);
-  const stepProgressRef = useRef(0);
   const slideIdxRef = useRef(0);
 
   const levelTabRefs = useRef([]);
@@ -619,23 +607,17 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Обратный отсчёт + автосмена слайда.
+  // Было: requestAnimationFrame с setState на каждом кадре — вся страница
+  // перерисовывалась 60 раз в секунду ради счётчика, который меняется раз в секунду.
   useEffect(() => {
-    const loop = () => {
+    const id = setInterval(() => {
       const now = Date.now();
-      const newLeft = Math.max(0, left0Ref.current - Math.floor((now - t0Ref.current) / 1000));
-      setLeft(newLeft);
 
-      const p = Math.min(100, ((now - stepBaseRef.current) / STEP_MS) * 100);
-      if (p >= 100) {
-        stepBaseRef.current = now;
-        const next = (stepIdxRef.current + 1) % STEPS.length;
-        stepIdxRef.current = next;
-        stepProgressRef.current = 0;
-        setStepIdx(next);
-        setStepProgress(0);
-      } else if (Math.abs(p - stepProgressRef.current) > 0.15) {
-        stepProgressRef.current = p;
-        setStepProgress(p);
+      const newLeft = Math.max(0, left0Ref.current - Math.floor((now - t0Ref.current) / 1000));
+      if (newLeft !== leftRef.current) {
+        leftRef.current = newLeft;
+        setLeft(newLeft);
       }
 
       if (now - slideBaseRef.current >= SLIDE_MS) {
@@ -647,11 +629,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         setHeroDir(1);
         setSlide(next);
       }
-
-      rafRef.current = requestAnimationFrame(loop);
-    };
-    rafRef.current = requestAnimationFrame(loop);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+    }, 250);
+    return () => clearInterval(id);
   }, []);
 
   // Reveal + hover animations (from MainAndCatalog-v1 pattern)
@@ -698,34 +677,11 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
     const footer = page.querySelector('footer');
     if (footer) observe(footer, 0);
 
-    // Hover animations — mirrors dc.html pattern: targets all interactive elements by cursor:pointer
-    const hovered = new WeakSet();
-    const addHover = () => {
-      page.querySelectorAll('button, a, [style*="cursor: pointer"]').forEach(el => {
-        if (hovered.has(el)) return;
-        if (el.closest('#categories')) return; // fan cards have their own transform
-        const st = el.getAttribute('style') || '';
-        if (st.includes('transform:')) return; // skip elements with own transforms
-        hovered.add(el);
-        const isRound = st.includes('border-radius: 50%') || el.style.borderRadius === '50%';
-        const cur = el.style.transition || '';
-        el.style.transition = (cur ? cur + ', ' : '') + 'transform .26s cubic-bezier(.2,.8,.2,1), filter .26s ease';
-        el.addEventListener('mouseenter', () => {
-          el.style.transform = isRound ? 'scale(1.08)' : 'translateY(-2px)';
-          el.style.filter = 'brightness(1.03)';
-        });
-        el.addEventListener('mouseleave', () => { el.style.transform = ''; el.style.filter = ''; });
-        el.addEventListener('mousedown', () => { el.style.transform = isRound ? 'scale(.96)' : 'translateY(0) scale(.985)'; });
-        el.addEventListener('mouseup', () => { el.style.transform = isRound ? 'scale(1.08)' : 'translateY(-2px)'; });
-      });
-    };
+    // Ховер-анимации теперь целиком на CSS (класс .home-hover, см. index.css).
+    // Раньше тут висел MutationObserver на всё поддерево, который на каждое
+    // изменение DOM заново обходил всю страницу и вешал по 4 слушателя на элемент.
 
-    addHover();
-    // Re-apply hover when DOM changes (e.g. menus open)
-    const mo = new MutationObserver(addHover);
-    mo.observe(page, { childList: true, subtree: true });
-
-    return () => { io.disconnect(); mo.disconnect(); };
+    return () => { io.disconnect(); };
   }, []);
 
   useEffect(() => {
@@ -834,16 +790,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   const fitItem = FIT_ITEMS[fitIdx % FIT_ITEMS.length];
   const currentRoom = ROOMS[roomIdx];
 
-  function pickStep(i) {
-    stepBaseRef.current = Date.now();
-    stepIdxRef.current = i;
-    stepProgressRef.current = 0;
-    setStepIdx(i);
-    setStepProgress(0);
-  }
-
   return (
-    <div ref={pageRef} style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: '#ffffff', WebkitFontSmoothing: 'antialiased', animation: fromCatalog ? 'homeEnterFromCatalog .52s cubic-bezier(.22,1,.36,1) forwards' : 'none' }}>
+    <div ref={pageRef} className="home-hover" style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', backgroundColor: '#ffffff', WebkitFontSmoothing: 'antialiased', animation: fromCatalog ? 'homeEnterFromCatalog .52s cubic-bezier(.22,1,.36,1) forwards' : 'none' }}>
 
       {/* ── Hero ── */}
       <section ref={heroSectionRef} style={{ position: 'relative', height: 760, background: '#23221f', overflow: 'hidden' }} onMouseLeave={() => heroTreeRef.current?.reset()}>
@@ -868,7 +816,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         )}
         <div key={`sc-${slide}`} style={{ position: 'absolute', inset: 0, zIndex: 1, animation: prevSlideIdx !== null ? `${heroDir > 0 ? 'slideInRight' : 'slideInLeft'} .55s cubic-bezier(.4,0,.2,1) forwards` : 'none' }}>
           {currentSlide.image
-            ? <img src={currentSlide.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+            ? <img src={currentSlide.image} alt="" fetchpriority="high" decoding="async" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
             : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(135deg, #2e2c28 0, #2e2c28 20px, #252320 20px, #252320 40px)' }} />
           }
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.55) 0%, rgba(20,19,17,.18) 40%, rgba(20,19,17,.6) 100%)', pointerEvents: 'none' }} />
@@ -1073,7 +1021,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                     transition: 'filter 380ms ease',
                     cursor: 'pointer',
                   }}
-                  onMouseEnter={() => { setCatCardHover(ci); setCatCardLast(ci); const v = cardVideoRefs.current[ci]; if (v) { v.currentTime = 0; v.play(); } }}
+                  onMouseEnter={() => { setCatCardHover(ci); setCatCardLast(ci); const v = cardVideoRefs.current[ci]; if (v) { if (v.readyState > 0) v.currentTime = 0; v.play()?.catch(() => {}); } }}
                   onMouseLeave={() => { setCatCardHover(null); cardVideoRefs.current[ci]?.pause(); }}
                   onClick={() => onNavigateToCatalog(card.entry)}
                 >
@@ -1161,7 +1109,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                           src={catAnim1}
                           muted
                           playsInline
-                          preload="auto"
+                          preload="none"
                           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, display: 'block' }}
                         />
                       )}
@@ -1232,7 +1180,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Фон back.png ── */}
       <div style={{ position: 'relative' }}>
-        <img src={backImg} alt="" style={{
+        <img src={backImg} alt="" loading="lazy" decoding="async" style={{
           position: 'absolute', top: 0, left: 0,
           width: '100%', height: 'auto',
           zIndex: 0, display: 'block', pointerEvents: 'none',
@@ -1248,7 +1196,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 20 }}>
           {SERVICES.map((c, i) => (
             <div key={i} onClick={() => onNavigateToCatalog(c.entry)} style={{ position: 'relative', display: 'block', height: 520, borderRadius: 22, overflow: 'hidden', background: '#2a2926', cursor: 'pointer' }}>
-              {c.image && <img src={c.image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
+              {c.image && <img src={c.image} alt="" loading="lazy" decoding="async" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
               <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, ${c.tint} 0%, rgba(20,19,17,.1) 45%, rgba(20,19,17,.72) 100%)`, pointerEvents: 'none' }} />
               <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', padding: '34px 30px', pointerEvents: 'none' }}>
                 <h3 style={{ margin: 0, fontSize: 34, lineHeight: 1.04, fontWeight: 500, letterSpacing: '-.02em', color: '#fff', maxWidth: 260 }}>{c.name}</h3>
@@ -1301,6 +1249,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 const ad = Math.abs(d);
                 const hot = d === 0;
                 const near = ad <= 1;
+                // Грузим картинку только у видимых карточек + соседей про запас.
+                // Иначе браузер качает все 43 изображения раздела сразу.
+                const loadImg = ad <= 2;
                 return (
                   <div
                     key={`${levelTab}-${j}`}
@@ -1321,7 +1272,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                       transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, box-shadow .5s ease',
                     }}
                   >
-                    {c.image && <img src={c.image} alt={c.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
+                    {c.image && loadImg && <img src={c.image} alt={c.name} decoding="async" loading={hot ? 'eager' : 'lazy'} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
                     <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(10,10,8,.85) 28%)', padding: '48px 30px 0' }}>
                       <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.02em', color: 'rgba(255,255,255,.5)', marginBottom: 8 }}>{c.count}</div>
                       <h3 style={{ margin: '0 0 8px', fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
@@ -1572,7 +1523,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           ))}
         </div>
         <div style={{ position: 'relative', borderRadius: 24, overflow: 'hidden', minHeight: 700, background: '#2a2926' }}>
-          <img src={testImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={testImg} alt="" loading="lazy" decoding="async" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,.34) 0%, rgba(20,19,17,.1) 45%, rgba(20,19,17,.5) 100%)', pointerEvents: 'none' }} />
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: 700, padding: '34px 34px 30px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
@@ -1592,7 +1543,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   onClick={() => onNavigateToCatalog('catalog')}
                   style={{ position: 'absolute', width: 210, display: 'flex', flexDirection: 'column', gap: 10, padding: 12, borderRadius: 16, background: 'rgba(251,250,248,.95)', backdropFilter: 'blur(8px)', boxShadow: '0 16px 36px rgba(20,19,17,.26)', pointerEvents: 'auto', cursor: 'pointer', animation: `hStep .4s cubic-bezier(.2,.8,.2,1) ${j * 0.06}s both`, ...ROOM_ITEM_POS[j % 4] }}
                 >
-                  <img src={testImg} alt="" style={{ height: 120, width: '100%', borderRadius: 10, objectFit: 'cover', display: 'block' }} />
+                  <img src={testImg} alt="" loading="lazy" decoding="async" style={{ height: 120, width: '100%', borderRadius: 10, objectFit: 'cover', display: 'block' }} />
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                     <div style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#a8a39a' }}>{it.kind}</div>
                     <div style={{ fontSize: 14, fontWeight: 500, letterSpacing: '-.01em' }}>{it.title}</div>
@@ -1622,7 +1573,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   ))}
                 </div>
               </div>
-              <img src={FAN_IMGS[i % 4]} alt="" style={{ height: 210, width: '100%', borderRadius: 12, objectFit: 'cover', display: 'block' }} />
+              <img src={FAN_IMGS[i % 4]} alt="" loading="lazy" decoding="async" style={{ height: 210, width: '100%', borderRadius: 12, objectFit: 'cover', display: 'block' }} />
               <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 14 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: '-.01em' }}>{p.title}</div>
@@ -1717,7 +1668,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gridAutoRows: 216, gap: 18 }}>
           {COLLECTIONS.map((c, i) => (
             <div key={i} onClick={() => onNavigateToCatalog('catalog')} style={{ position: 'relative', display: 'block', overflow: 'hidden', borderRadius: 20, background: c.bg, cursor: 'pointer', ...c.span }}>
-              <img src={testImg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={testImg} alt="" loading="lazy" decoding="async" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,19,17,0) 40%, rgba(20,19,17,.62) 100%)', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', left: 22, right: 22, bottom: 20, display: 'flex', gap: 12, pointerEvents: 'none', ...(Object.keys(c.span).length > 0 ? { alignItems: 'flex-end', justifyContent: 'space-between' } : { flexDirection: 'column', alignItems: 'flex-start' }) }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5, color: '#fff' }}>

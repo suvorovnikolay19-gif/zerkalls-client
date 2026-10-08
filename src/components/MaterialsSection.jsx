@@ -113,7 +113,7 @@ export default function MaterialsSection() {
   return (
     <section style={{ padding: '96px 48px 0' }}>
       <div style={{ textAlign: 'center', marginBottom: 40 }}>
-        <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em', color: '#fff' }}>Материалы и отделки</h2>
+        <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em', color: '#1a1a1a' }}>Материалы и отделки</h2>
         <div style={{ fontSize: 15, color: '#8b877f' }}>
           Стекло, зеркало и отделки профилей — {FLAT.length} позиций
         </div>

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { SUBCATS, TREE, SECTIONS } from './CategoryNav.jsx';
-import { ITEMS as SECTION_ITEMS, CAT_TREE } from './CategoryPage.jsx';
+import { SUBCATS, TREE, SECTIONS, ITEMS as SECTION_ITEMS, CAT_TREE } from '../data/catalog.js';
+import { toSlug } from '../utils/slug.js';
 
 // entry-ключи для секций у которых есть прямой маршрут
 const SECTION_ENTRY = {
@@ -163,19 +163,20 @@ function Picker({ anchorEl, items, onPick, onEnter, onLeave }) {
 }
 
 /* ── CrumbBtn ───────────────────────────────────────────────────────────── */
-function CrumbBtn({ label, isCurrent, isOpen, showCaret, onClick, onEnter, onLeave, btnRef }) {
+function CrumbBtn({ label, isCurrent, isOpen, showCaret, onClick, onEnter, onLeave, btnRef, href }) {
   const [hov, setHov] = useState(false);
   const bg    = (isOpen || hov) ? '#efede8' : 'transparent';
   const color = isCurrent ? '#1d1f21' : ((isOpen || hov) ? '#1d1f21' : '#6f6a63');
   const caretOp = !showCaret ? 0 : isOpen ? 0.85 : 0.45;
+  const Tag = href ? 'a' : 'button';
 
   return (
-    <button
+    <Tag
       ref={btnRef}
-      type="button"
+      {...(href ? { href } : { type: 'button' })}
       aria-current={isCurrent ? 'page' : undefined}
       aria-haspopup="listbox"
-      onClick={onClick}
+      onClick={e => { if (href) e.preventDefault(); onClick?.(); }}
       onMouseEnter={() => { setHov(true); onEnter(); }}
       onMouseLeave={() => { setHov(false); onLeave(); }}
       style={{
@@ -187,6 +188,7 @@ function CrumbBtn({ label, isCurrent, isOpen, showCaret, onClick, onEnter, onLea
         whiteSpace: 'nowrap', maxWidth: 240,
         overflow: 'hidden', textOverflow: 'ellipsis',
         transition: 'background .13s, color .13s', outline: 'none',
+        textDecoration: 'none',
       }}
     >
       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
@@ -196,7 +198,7 @@ function CrumbBtn({ label, isCurrent, isOpen, showCaret, onClick, onEnter, onLea
         style={{ opacity: caretOp, flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'opacity .13s, transform .16s' }}>
         <path d="m2.5 4.5 3.5 3.5 3.5-3.5" />
       </svg>
-    </button>
+    </Tag>
   );
 }
 
@@ -209,11 +211,11 @@ export default function Breadcrumbs({
   const base = BASE_CRUMBS[entry] ?? BASE_CRUMBS.catalog;
 
   const crumbs = [
-    { label: 'Главная', isRoot: true },
+    { label: 'Главная', isRoot: true, href: '/' },
     ...base.map(c => ({ label: c.name })),
-    ...(section    ? [{ label: section,    onClick: subsection    ? onClearSubsection    : undefined }] : []),
-    ...(subsection ? [{ label: subsection, onClick: subsubsection ? onClearSubsubsection : undefined }] : []),
-    ...(subsubsection ? [{ label: subsubsection }] : []),
+    ...(section    ? [{ label: section,    href: `/catalog/${toSlug(section)}`,    onClick: subsection    ? onClearSubsection    : undefined }] : []),
+    ...(subsection ? [{ label: subsection, href: `/catalog/${toSlug(section)}/${toSlug(subsection)}`, onClick: subsubsection ? onClearSubsubsection : undefined }] : []),
+    ...(subsubsection ? [{ label: subsubsection, href: `/catalog/${toSlug(section)}/${toSlug(subsection)}/${toSlug(subsubsection)}` }] : []),
   ];
 
   // Данные пикера по уровню крошки:
@@ -332,6 +334,7 @@ export default function Breadcrumbs({
                   isCurrent={isCurrent}
                   isOpen={openIdx === i}
                   showCaret={i > 0}
+                  href={c.href}
                   onClick={() => {
                     if (c.isRoot && onGoHome)      { onGoHome();  return; }
                     if (!isCurrent && c.onClick)   { c.onClick(); return; }

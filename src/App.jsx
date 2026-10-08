@@ -1,25 +1,30 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toSlug, nameFromSlug } from './utils/slug.js';
-import { SECTIONS, SUBCATS, TREE } from './components/CategoryNav.jsx';
-import { ITEMS as CAT_ITEMS, CAT_TREE } from './components/CategoryPage.jsx';
+import { SECTIONS, SUBCATS, TREE, ITEMS as CAT_ITEMS, CAT_TREE } from './data/catalog.js';
 import { fetchProducts } from './api.js';
 import { useCart } from './CartContext.jsx';
 import CartDrawer from './components/CartDrawer.jsx';
-import HeroSection from './components/HeroSection.jsx';
-import FilterBar from './components/FilterBar.jsx';
-import FilterPanel from './components/FilterPanel.jsx';
-import QuizModal from './components/QuizModal.jsx';
-import ProductGrid from './components/ProductGrid.jsx';
-import CompareModal from './components/CompareModal.jsx';
 import Footer from './components/Footer.jsx';
-import HomePage from './pages/HomePage.jsx';
-import ProfilePage from './pages/ProfilePage.jsx';
-import CheckoutPage from './pages/CheckoutPage.jsx';
-import Breadcrumbs from './components/Breadcrumbs.jsx';
-import CategoryNav from './components/CategoryNav.jsx';
-import CategoryPage from './components/CategoryPage.jsx';
 import { MOCK_PRODUCTS } from './mock/products.js';
+
+// Всё, что не нужно на первом экране, грузится отдельными чанками.
+// До этого один бандл тянул главную, каталог, чекаут, профиль, квиз и
+// сравнение разом — пользователь главной качал код оформления заказа.
+const HomePage     = lazy(() => import('./pages/HomePage.jsx'));
+const ProfilePage  = lazy(() => import('./pages/ProfilePage.jsx'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage.jsx'));
+const CategoryPage = lazy(() => import('./components/CategoryPage.jsx'));
+const CategoryNav  = lazy(() => import('./components/CategoryNav.jsx'));
+const Breadcrumbs  = lazy(() => import('./components/Breadcrumbs.jsx'));
+const FilterBar    = lazy(() => import('./components/FilterBar.jsx'));
+const ProductGrid  = lazy(() => import('./components/ProductGrid.jsx'));
+const FilterPanel  = lazy(() => import('./components/FilterPanel.jsx'));
+const QuizModal    = lazy(() => import('./components/QuizModal.jsx'));
+const CompareModal = lazy(() => import('./components/CompareModal.jsx'));
+
+// Пустая заглушка нужного цвета — чтобы на месте чанка не мигал белый прямоугольник
+const PageFallback = () => <div style={{ minHeight: '100vh', background: '#fbfaf8' }} />;
 
 const CHIPS = [
   { key: 'stock', label: 'В наличии' },
@@ -27,17 +32,6 @@ const CHIPS = [
   { key: 'sale', label: 'Со скидкой' },
   { key: 'fast', label: 'Доставка за 2 дня' },
 ];
-
-const CATS = [
-  { name: 'Лофт перегородки' }, { name: 'С декоративной плёнкой' }, { name: 'Металлические' },
-  { name: 'Реечные' }, { name: 'С рифлёным стеклом' }, { name: 'С матовым стеклом' },
-  { name: 'Дизайнерские', hot: true }, { name: 'Распашные', hot: true },
-  { name: 'Раздвижные', hot: true }, { name: 'Стационарные', hot: true },
-  { name: 'Гармошка', hot: true }, { name: 'Декоративные', hot: true },
-  { name: 'С тонированным стеклом' },
-];
-
-const MATERIALS = ['Дуб', 'Латунь', 'Сталь', 'Стекло', 'Ротанг', 'Бетон'];
 
 const ENTRY_TO_SECTION = {
   mirrors: 'Зеркала',
@@ -229,22 +223,29 @@ export default function App() {
   ];
 
   if (page === 'profile') {
-    return <ProfilePage onGoBack={() => navigate('/')} />;
+    return (
+      <Suspense fallback={<PageFallback />}>
+        <ProfilePage onGoBack={() => navigate('/')} />
+      </Suspense>
+    );
   }
 
   if (page === 'checkout') {
     return (
-      <CheckoutPage
-        onGoHome={() => navigate('/')}
-        onGoStore={() => navigateToCatalog('catalog')}
-        cartCount={totalCount}
-      />
+      <Suspense fallback={<PageFallback />}>
+        <CheckoutPage
+          onGoHome={() => navigate('/')}
+          onGoStore={() => navigateToCatalog('catalog')}
+          cartCount={totalCount}
+        />
+      </Suspense>
     );
   }
 
   if (page === 'home') {
     return (
       <>
+        <Suspense fallback={<PageFallback />}>
         <HomePage
           onNavigateToCatalog={navigateToCatalog}
           cartCount={totalCount}
@@ -255,6 +256,8 @@ export default function App() {
           onOpenPanel={() => setPanelOpen(true)}
           onOpenQuiz={() => setQuizOpen(true)}
         />
+        </Suspense>
+        <Suspense fallback={null}>
         {panelOpen && (
           <FilterPanel
             selectedCats={selectedCats}
@@ -277,6 +280,7 @@ export default function App() {
         {quizOpen && (
           <QuizModal products={products} onClose={() => setQuizOpen(false)} />
         )}
+        </Suspense>
         <CartDrawer onCheckout={() => navigate('/checkout')} />
       </>
     );
@@ -285,6 +289,7 @@ export default function App() {
   return (
     <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#fbfaf8', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
       <div style={{ animation: fromHome ? 'catalogContentIn .55s .12s cubic-bezier(.22,1,.36,1) both' : 'none' }}>
+      <Suspense fallback={<PageFallback />}>
       <Breadcrumbs
         entry={entry}
         section={section}
@@ -394,7 +399,9 @@ export default function App() {
         </main>
       )}
       <Footer />
+      </Suspense>
       </div>
+      <Suspense fallback={null}>
       {panelOpen && (
         <FilterPanel
           selectedCats={selectedCats}
@@ -425,6 +432,7 @@ export default function App() {
           onClear={() => { setCompareItems([]); setCompareOpen(false); }}
         />
       )}
+      </Suspense>
       <CartDrawer onCheckout={() => navigate('/checkout')} />
     </div>
   );

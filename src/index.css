@@ -198,3 +198,44 @@ button:hover img {
   box-shadow: 0 1px 5px rgba(0,0,0,0.22);
   cursor: pointer;
 }
+
+/* ── Ховер интерактивных элементов главной ─────────────────────────────────
+   Было: MutationObserver на всё дерево + по 4 JS-слушателя на каждый элемент,
+   переустанавливались на любое изменение DOM. Стало: четыре правила CSS.
+   Элементы с собственным inline-transform отсекаются сами собой — inline-стиль
+   побеждает таблицу стилей, поэтому карусели и веер не ломаются. */
+.home-hover button,
+.home-hover a,
+.home-hover [style*="cursor: pointer"] {
+  transition: transform .26s cubic-bezier(.2, .8, .2, 1), filter .26s ease;
+}
+.home-hover button:hover,
+.home-hover a:hover,
+.home-hover [style*="cursor: pointer"]:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+.home-hover button:active,
+.home-hover a:active,
+.home-hover [style*="cursor: pointer"]:active {
+  transform: translateY(0) scale(.985);
+}
+
+/* круглые кнопки масштабируются, а не приподнимаются */
+.home-hover [style*="border-radius: 50%"]:hover { transform: scale(1.08); }
+.home-hover [style*="border-radius: 50%"]:active { transform: scale(.96); }
+
+/* у веера категорий и у всего с собственным transform — свои анимации */
+.home-hover #categories button:hover,
+.home-hover #categories a:hover,
+.home-hover #categories [style*="cursor: pointer"]:hover,
+.home-hover [style*="transform"]:hover {
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hover button,
+  .home-hover a,
+  .home-hover [style*="cursor: pointer"] { transition: none; }
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import catNobg1 from '../../assets/categories-nobg/1.png';
+import catNobg1 from '../../assets/categories-nobg/1.webp';
 
 const FILTER_CATS = [
   { name: 'Перегородки', icon: '▥', entry: 'partitions', groups: [

@@ -1,69 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
-import catNobg1 from '../../assets/categories-nobg/1.png';
-
-export const SECTIONS = [
-  { name: 'Зеркала' },
-  { name: 'Лестницы' },
-  { name: 'Перегородки' },
-  { name: 'Ширмы' },
-  { name: 'Стеклянные доски' },
-  { name: 'Комплектующие' },
-];
-
-export const SUBCATS = {
-  'Зеркала':           ['Круглые', 'Овальные', 'Арочные', 'Во весь рост', 'С подсветкой', 'Нестандартные'],
-  'Перегородки':       ['Лофт', 'Реечные', 'Раздвижные', 'Распашные', 'Стеклянные', 'Декоративные'],
-  'Лестницы':          ['Винтовые', 'Маршевые', 'Модульные', 'Из дуба', 'На металлокаркасе', 'Для мансарды'],
-  'Ширмы':             ['Реечные', 'Гармошка', 'Ротанг', 'Тканевые'],
-  'Стеклянные доски':  ['Магнитные', 'Для кабинета', 'Для кухни', 'С печатью'],
-  'Комплектующие':     ['Профили', 'Направляющие', 'Доводчики', 'Ручки', 'Крепёж'],
-};
-
-export const TREE = {
-  'Зеркала': {
-    'Круглые':       ['Без рамы', 'В латунной раме', 'С подсветкой'],
-    'Овальные':      ['Классические', 'Вытянутые', 'С фацетом'],
-    'Арочные':       ['Одинарные', 'Парные', 'С полкой'],
-    'Во весь рост':  ['Напольные', 'Навесные', 'На опоре'],
-    'С подсветкой':  ['Контурная', 'Фронтальная', 'С сенсором'],
-    'Нестандартные': ['Гнутое стекло', 'По эскизу', 'Составные'],
-  },
-  'Лестницы': {
-    'Винтовые':          ['С центральной стойкой', 'Со стеклом', 'Открытые'],
-    'Маршевые':          ['Прямые', 'С площадкой', 'С поворотом'],
-    'Модульные':         ['На тетиве', 'На косоуре', 'Консольные'],
-    'Из дуба':           ['Массив', 'Шпон', 'Комбинированные'],
-    'На металлокаркасе': ['Открытый каркас', 'Закрытый каркас'],
-    'Для мансарды':      ['Компактные', 'Складные'],
-  },
-  'Перегородки': {
-    'Лофт':        ['Одинарные', 'Двойные', 'В пол стены'],
-    'Реечные':     ['Дубовые', 'Крашеные', 'С подсветкой'],
-    'Раздвижные':  ['Одностворчатые', 'Двустворчатые', 'Каскадные'],
-    'Распашные':   ['Одностворчатые', 'Двустворчатые', 'С фрамугой', 'Маятниковые'],
-    'Стеклянные':  ['Рифлёное стекло', 'Матовое стекло', 'Тонированное стекло'],
-    'Декоративные':['С плёнкой', 'С витражом', 'Ажурные'],
-  },
-  'Ширмы': {
-    'Реечные':  ['Дуб', 'Орех', 'Крашеные'],
-    'Гармошка': ['3 створки', '4 створки', '5 створок'],
-    'Ротанг':   ['Натуральный', 'Тонированный'],
-    'Тканевые': ['Однотонные', 'С рисунком'],
-  },
-  'Стеклянные доски': {
-    'Магнитные':     ['Белые', 'Цветные', 'С печатью'],
-    'Для кабинета':  ['Настенные', 'На опоре'],
-    'Для кухни':     ['Скинали', 'С разметкой'],
-    'С печатью':     ['Логотип', 'Календарь', 'По эскизу'],
-  },
-  'Комплектующие': {
-    'Профили':       ['Алюминиевые', 'Стальные', 'Латунные'],
-    'Направляющие':  ['Верхние', 'Нижние', 'Скрытые'],
-    'Доводчики':     ['Напольные', 'Верхние'],
-    'Ручки':         ['Скобы', 'Врезные', 'Латунные'],
-    'Крепёж':        ['Зажимы', 'Уголки', 'Опоры'],
-  },
-};
+import catNobg1 from '../../assets/categories-nobg/1.webp';
+import { toSlug } from '../utils/slug.js';
+import { SECTIONS, SUBCATS, TREE } from '../data/catalog.js';
 
 function subCount(name) { return 6 + (name.length * 7) % 34; }
 
@@ -161,9 +99,10 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                 style={{ position: 'relative', flexShrink: 0 }}
               >
                 {/* ─── Section card ─── */}
-                <button
+                <a
                   className={`cat-sec-btn${isOpen ? ' open' : ''}`}
-                  onClick={() => { onPickSection(s.name); close(); }}
+                  href={`/catalog/${toSlug(s.name)}`}
+                  onClick={e => { e.preventDefault(); onPickSection(s.name); close(); }}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10,
                     padding: '10px 14px 10px 10px', borderRadius: 12,
@@ -172,6 +111,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                     cursor: 'pointer', whiteSpace: 'nowrap',
                     fontSize: 14, color: '#33322e', fontFamily: 'inherit',
                     transition: 'background .15s, border-color .15s',
+                    textDecoration: 'none',
                   }}
                 >
                   <img src={catNobg1} alt="" style={{ width: 34, height: 44, flexShrink: 0, objectFit: 'contain' }} />
@@ -182,7 +122,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                     transform: isOpen ? 'scaleY(-1)' : 'scaleY(1)',
                     transition: 'transform .18s',
                   }}>⌄</span>
-                </button>
+                </a>
 
                 {/* ─── Level-2 dropdown ─── */}
                 {isOpen && (
@@ -201,21 +141,22 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                       boxShadow: '0 20px 46px rgba(26,26,24,.16)',
                     }}>
                       {/* See all */}
-                      <button
+                      <a
                         className="cat-see-all"
-                        onClick={() => { onPickSection(s.name); close(); }}
+                        href={`/catalog/${toSlug(s.name)}`}
+                        onClick={e => { e.preventDefault(); onPickSection(s.name); close(); }}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 12,
                           padding: '15px 12px', borderRadius: 11,
                           background: '#1a1a18', color: '#fff',
                           border: 'none', cursor: 'pointer', width: '100%',
                           fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
-                          transition: 'background .15s',
+                          transition: 'background .15s', textDecoration: 'none',
                         }}
                       >
                         <span style={{ flex: 1, textAlign: 'left' }}>Смотреть все {s.name}</span>
                         <span style={{ color: 'rgba(255,255,255,.7)' }}>→</span>
-                      </button>
+                      </a>
                       <div style={{ height: 1, background: '#f1eee9', margin: '6px 4px' }} />
 
                       {/* Subcategory rows */}
@@ -230,16 +171,17 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                             onMouseLeave={leaveSub}
                             style={{ position: 'relative' }}
                           >
-                            <button
+                            <a
                               className={`cat-sub-row${isSubOpen ? ' open' : ''}`}
-                              onClick={() => { onPickSection(s.name); onPickSubsection(subName); close(); }}
+                              href={`/catalog/${toSlug(s.name)}/${toSlug(subName)}`}
+                              onClick={e => { e.preventDefault(); onPickSection(s.name); onPickSubsection(subName); close(); }}
                               style={{
                                 display: 'flex', alignItems: 'center', gap: 10,
                                 padding: '9px 12px', borderRadius: 11,
                                 background: 'transparent', border: 'none',
                                 cursor: 'pointer', width: '100%',
                                 fontFamily: 'inherit',
-                                transition: 'background .12s',
+                                transition: 'background .12s', textDecoration: 'none',
                               }}
                             >
                               <span style={{
@@ -251,7 +193,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                               {leaves.length > 0 && (
                                 <span style={{ fontSize: 13, color: '#c2bdb5', marginLeft: 2 }}>›</span>
                               )}
-                            </button>
+                            </a>
 
                             {/* ─── Level-3 flyout ─── */}
                             {isSubOpen && leaves.length > 0 && (
@@ -270,34 +212,36 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                                   background: '#fff', border: '1px solid #ece9e4',
                                   boxShadow: '0 20px 46px rgba(26,26,24,.16)',
                                 }}>
-                                  <button
+                                  <a
                                     className="cat-see-all"
-                                    onClick={() => { onPickSection(s.name); onPickSubsection(subName); close(); }}
+                                    href={`/catalog/${toSlug(s.name)}/${toSlug(subName)}`}
+                                    onClick={e => { e.preventDefault(); onPickSection(s.name); onPickSubsection(subName); close(); }}
                                     style={{
                                       display: 'flex', alignItems: 'center', gap: 12,
                                       padding: '15px 12px', borderRadius: 11,
                                       background: '#1a1a18', color: '#fff',
                                       border: 'none', cursor: 'pointer', width: '100%',
                                       fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
-                                      transition: 'background .15s',
+                                      transition: 'background .15s', textDecoration: 'none',
                                     }}
                                   >
                                     <span style={{ flex: 1, textAlign: 'left' }}>Смотреть все {subName}</span>
                                     <span style={{ color: 'rgba(255,255,255,.7)' }}>→</span>
-                                  </button>
+                                  </a>
                                   <div style={{ height: 1, background: '#f1eee9', margin: '6px 4px' }} />
                                   {leaves.map(leaf => (
-                                    <button
+                                    <a
                                       key={leaf}
                                       className="cat-leaf-row"
-                                      onClick={() => { onPickSection(s.name); onPickSubsection(subName); close(); }}
+                                      href={`/catalog/${toSlug(s.name)}/${toSlug(subName)}/${toSlug(leaf)}`}
+                                      onClick={e => { e.preventDefault(); onPickSection(s.name); onPickSubsection(subName); close(); }}
                                       style={{
                                         display: 'flex', alignItems: 'center', gap: 10,
                                         padding: '9px 12px', borderRadius: 11,
                                         background: 'transparent', border: 'none',
                                         cursor: 'pointer', width: '100%',
                                         fontFamily: 'inherit',
-                                        transition: 'background .12s',
+                                        transition: 'background .12s', textDecoration: 'none',
                                       }}
                                     >
                                       <span style={{
@@ -306,7 +250,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                                       }} />
                                       <span style={{ fontSize: 14, color: '#33322e', flex: 1, textAlign: 'left' }}>{leaf}</span>
                                       <span style={{ fontSize: 12, color: '#c2bdb5' }}>{subCount(leaf)}</span>
-                                    </button>
+                                    </a>
                                   ))}
                                 </div>
                               </div>
@@ -349,8 +293,9 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
               onMouseLeave={() => hasLeaves && leaveSection()}
               style={{ position: 'relative', flexShrink: 0 }}
             >
-              <button
-                onClick={() => { onPickSubsection(on ? null : name); onPickLeaf && onPickLeaf(null); }}
+              <a
+                href={`/catalog/${toSlug(section)}/${toSlug(name)}`}
+                onClick={e => { e.preventDefault(); onPickSubsection(on ? null : name); onPickLeaf && onPickLeaf(null); }}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 12,
                   padding: hasLeaves ? '10px 14px 10px 12px' : '10px 22px 10px 12px',
@@ -361,6 +306,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                   cursor: 'pointer', whiteSpace: 'nowrap',
                   fontSize: 14, color: on ? '#fff' : '#33322e', fontFamily: 'inherit',
                   transition: 'border-color .15s, background .15s, color .15s',
+                  textDecoration: 'none',
                 }}
               >
                 <img src={catNobg1} alt="" style={{ width: 48, height: 56, flexShrink: 0, objectFit: 'contain', filter: on ? 'brightness(0) invert(1)' : 'none', transition: 'filter .15s' }} />
@@ -375,7 +321,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                     marginLeft: 2,
                   }}>⌄</span>
                 )}
-              </button>
+              </a>
 
               {/* ─── Level-3 dropdown ─── */}
               {isHovered && hasLeaves && (
@@ -393,35 +339,38 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                     background: '#fff', border: '1px solid #ece9e4',
                     boxShadow: '0 20px 46px rgba(26,26,24,.16)',
                   }}>
-                    <button
+                    <a
                       className="sub-chip-see-all"
-                      onClick={() => { onPickSubsection(name); setOpenSection(null); }}
+                      href={`/catalog/${toSlug(section)}/${toSlug(name)}`}
+                      onClick={e => { e.preventDefault(); onPickSubsection(name); setOpenSection(null); }}
                       style={{
                         display: 'flex', alignItems: 'center', gap: 12,
                         padding: '15px 12px', borderRadius: 11,
                         background: '#1a1a18', color: '#fff',
                         border: 'none', cursor: 'pointer', width: '100%',
                         fontFamily: 'inherit', fontSize: 14, fontWeight: 500,
-                        transition: 'background .15s',
+                        transition: 'background .15s', textDecoration: 'none',
                       }}
                     >
                       <span style={{ flex: 1, textAlign: 'left' }}>Смотреть все {name}</span>
                       <span style={{ color: 'rgba(255,255,255,.7)' }}>→</span>
-                    </button>
+                    </a>
                     <div style={{ height: 1, background: '#f1eee9', margin: '6px 4px' }} />
                     {leaves.map(leaf => {
                       const leafActive = subsubsection === leaf;
                       return (
-                        <button
+                        <a
                           key={leaf}
                           className="sub-chip-leaf"
-                          onClick={() => { onPickSubsection(name); onPickLeaf && onPickLeaf(leaf); setOpenSection(null); }}
+                          href={`/catalog/${toSlug(section)}/${toSlug(name)}/${toSlug(leaf)}`}
+                          onClick={e => { e.preventDefault(); onPickSubsection(name); onPickLeaf && onPickLeaf(leaf); setOpenSection(null); }}
                           style={{
                             display: 'flex', alignItems: 'center', gap: 10,
                             padding: '9px 12px', borderRadius: 11,
                             background: leafActive ? '#f4f2ee' : 'transparent', border: 'none',
                             cursor: 'pointer', width: '100%',
                             fontFamily: 'inherit', transition: 'background .12s',
+                            textDecoration: 'none',
                           }}
                         >
                           <span style={{
@@ -433,7 +382,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
                           <span style={{ fontSize: 14, color: '#33322e', flex: 1, textAlign: 'left', fontWeight: leafActive ? 500 : 400 }}>{leaf}</span>
                           <span style={{ fontSize: 12, color: '#c2bdb5' }}>{subCount(leaf)}</span>
                           {leafActive && <span style={{ fontSize: 11, color: '#1a1a18' }}>✓</span>}
-                        </button>
+                        </a>
                       );
                     })}
                   </div>
