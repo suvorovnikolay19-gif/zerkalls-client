@@ -77,8 +77,9 @@ import part40 from '../../assets/categories-1/partitions/40_Office_LOFT_Partitio
 import part41 from '../../assets/categories-1/partitions/41_Restaurant_HoReCa_Partitions.webp';
 import part42 from '../../assets/categories-1/partitions/42_Retail_Showroom_Partitions.webp';
 import part43 from '../../assets/categories-1/partitions/43_Special_Technical_LOFT_Systems.webp';
-// Тестовая заглушка для карточек «Перегородки» — переключается глазиком в блоке
-import partTest from '../../assets/categories-1/partitions/tesr.jpg';
+// Тестовые заглушки для карточек «Перегородки» — переключаются кнопками 1/2/3 в блоке
+import partTest1 from '../../assets/categories-1/partitions/tesr.jpg';
+import partTest2 from '../../assets/categories-1/partitions/test-v2.png';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
@@ -529,8 +530,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   ];
 
   const [levelTab, setLevelTab] = useState(0);
-  // false — карточки перегородок показывают тестовую заглушку, true — настоящие фото
-  const [realPartImgs, setRealPartImgs] = useState(false);
+  // Источник картинок карточек «Перегородки»: 1 — настоящие фото, 2 — tesr.jpg, 3 — test-v2.png
+  const [partImgMode, setPartImgMode] = useState(1);
   const [lvlPos, setLvlPos] = useState(0);
   const pageRef = useRef(null);
 
@@ -1217,25 +1218,15 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Продукция которую мы производим ── */}
       <section style={{ padding: '96px 48px 0', position: 'relative', zIndex: 1 }}>
-        <div
-          onClick={() => setRealPartImgs(v => !v)}
-          title={realPartImgs ? 'Показать тестовую картинку' : 'Показать настоящие фото'}
-          style={{ position: 'absolute', top: 96, right: 48, zIndex: 5, width: 44, height: 44, borderRadius: '50%', background: realPartImgs ? '#1a1a18' : 'rgba(26,26,24,.08)', color: realPartImgs ? '#fff' : 'rgba(26,26,24,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'background .28s ease, color .28s ease' }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            {realPartImgs ? (
-              <>
-                <path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12Z" />
-                <circle cx="12" cy="12" r="3.2" />
-              </>
-            ) : (
-              <>
-                <path d="M9.9 5.8A8.9 8.9 0 0 1 12 5.5c7 0 10.5 6.5 10.5 6.5a18.6 18.6 0 0 1-2.4 3.4M6.3 7.6A18.9 18.9 0 0 0 1.5 12S5 18.5 12 18.5a9.4 9.4 0 0 0 3.9-.8" />
-                <path d="M10.1 10.2a2.7 2.7 0 0 0 3.8 3.8" />
-                <path d="M3 3l18 18" />
-              </>
-            )}
-          </svg>
+        <div style={{ position: 'absolute', top: 96, right: 48, zIndex: 5, display: 'flex', gap: 4, padding: 5, borderRadius: 999, background: 'rgba(26,26,24,.08)' }}>
+          {[1, 2, 3].map(m => (
+            <div
+              key={m}
+              onClick={() => setPartImgMode(m)}
+              title={m === 1 ? 'Настоящие фото' : m === 2 ? 'tesr.jpg' : 'test-v2.png'}
+              style={{ width: 34, height: 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 500, cursor: 'pointer', userSelect: 'none', background: partImgMode === m ? '#1a1a18' : 'transparent', color: partImgMode === m ? '#fff' : 'rgba(26,26,24,.55)', transition: 'background .28s ease, color .28s ease' }}
+            >{m}</div>
+          ))}
         </div>
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Продукция которую мы производим</h2>
@@ -1272,8 +1263,9 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 // Грузим картинку только у видимых карточек + соседей про запас.
                 // Иначе браузер качает все 43 изображения раздела сразу.
                 const loadImg = ad <= 2;
-                // Перегородки: глазик закрыт — тестовая заглушка, открыт — настоящее фото
-                const cardImg = (LEVELS[levelTab].name === 'Перегородки' && !realPartImgs) ? partTest : c.image;
+                // Перегородки: кнопки 1/2/3 выбирают настоящее фото или одну из тестовых заглушек
+                const testImg = partImgMode === 2 ? partTest1 : partImgMode === 3 ? partTest2 : null;
+                const cardImg = (LEVELS[levelTab].name === 'Перегородки' && testImg) ? testImg : c.image;
                 return (
                   <div
                     key={`${levelTab}-${j}`}
