@@ -77,7 +77,7 @@ import part40 from '../../assets/categories-1/partitions/40_Office_LOFT_Partitio
 import part41 from '../../assets/categories-1/partitions/41_Restaurant_HoReCa_Partitions.webp';
 import part42 from '../../assets/categories-1/partitions/42_Retail_Showroom_Partitions.webp';
 import part43 from '../../assets/categories-1/partitions/43_Special_Technical_LOFT_Systems.webp';
-// TEST: временная картинка для всех карточек вкладки «Перегородки»
+// Тестовая заглушка для карточек «Перегородки» — переключается глазиком в блоке
 import partTest from '../../assets/categories-1/partitions/tesr.jpg';
 
 const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
@@ -337,9 +337,7 @@ const FOOTER_COLS = [
 
 const CAT1_IMGS = [catImg0, catImg1, catImg2, catImg2, catImg4, catImg6, catImg6, catImg7, catImg8, catImg9, catImg10, catImg11, catImg11, catImg14, catImg14, catImg15];
 
-// TEST: все перегородки временно показывают tesr.jpg. Оригинал ниже — раскомментировать для возврата.
-const PARTITION_IMGS = Array(43).fill(partTest);
-// const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
+const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
 
 const LEVELS_ENTRY = { 'Перегородки': 'partitions', 'Зеркала': 'mirrors', 'Лестницы': 'stairs', 'Мебель': 'catalog' };
 
@@ -531,6 +529,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
   ];
 
   const [levelTab, setLevelTab] = useState(0);
+  // false — карточки перегородок показывают тестовую заглушку, true — настоящие фото
+  const [realPartImgs, setRealPartImgs] = useState(false);
   const [lvlPos, setLvlPos] = useState(0);
   const pageRef = useRef(null);
 
@@ -1217,6 +1217,26 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
       {/* ── Продукция которую мы производим ── */}
       <section style={{ padding: '96px 48px 0', position: 'relative', zIndex: 1 }}>
+        <div
+          onClick={() => setRealPartImgs(v => !v)}
+          title={realPartImgs ? 'Показать тестовую картинку' : 'Показать настоящие фото'}
+          style={{ position: 'absolute', top: 96, right: 48, zIndex: 5, width: 44, height: 44, borderRadius: '50%', background: realPartImgs ? '#1a1a18' : 'rgba(26,26,24,.08)', color: realPartImgs ? '#fff' : 'rgba(26,26,24,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'background .28s ease, color .28s ease' }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            {realPartImgs ? (
+              <>
+                <path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12Z" />
+                <circle cx="12" cy="12" r="3.2" />
+              </>
+            ) : (
+              <>
+                <path d="M9.9 5.8A8.9 8.9 0 0 1 12 5.5c7 0 10.5 6.5 10.5 6.5a18.6 18.6 0 0 1-2.4 3.4M6.3 7.6A18.9 18.9 0 0 0 1.5 12S5 18.5 12 18.5a9.4 9.4 0 0 0 3.9-.8" />
+                <path d="M10.1 10.2a2.7 2.7 0 0 0 3.8 3.8" />
+                <path d="M3 3l18 18" />
+              </>
+            )}
+          </svg>
+        </div>
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
           <h2 style={{ margin: '0 0 10px', fontSize: 40, fontWeight: 500, letterSpacing: '-.03em' }}>Продукция которую мы производим</h2>
           <div style={{ fontSize: 15, color: '#8b877f' }}>Выберите категорию — покажем разделы каталога и поможем с выбором</div>
@@ -1252,6 +1272,8 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                 // Грузим картинку только у видимых карточек + соседей про запас.
                 // Иначе браузер качает все 43 изображения раздела сразу.
                 const loadImg = ad <= 2;
+                // Перегородки: глазик закрыт — тестовая заглушка, открыт — настоящее фото
+                const cardImg = (LEVELS[levelTab].name === 'Перегородки' && !realPartImgs) ? partTest : c.image;
                 return (
                   <div
                     key={`${levelTab}-${j}`}
@@ -1272,7 +1294,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                       transition: 'transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease, box-shadow .5s ease',
                     }}
                   >
-                    {c.image && loadImg && <img src={c.image} alt={c.name} decoding="async" loading={hot ? 'eager' : 'lazy'} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
+                    {cardImg && loadImg && <img src={cardImg} alt={c.name} decoding="async" loading={hot ? 'eager' : 'lazy'} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />}
                     <div style={{ position: 'relative', zIndex: 2, marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(10,10,8,.85) 28%)', padding: '48px 30px 0' }}>
                       <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '.02em', color: 'rgba(255,255,255,.5)', marginBottom: 8 }}>{c.count}</div>
                       <h3 style={{ margin: '0 0 8px', fontSize: 32, lineHeight: 1.06, fontWeight: 600, letterSpacing: '-.03em' }}>{c.name}</h3>
