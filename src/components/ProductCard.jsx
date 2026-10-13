@@ -33,7 +33,7 @@ function PriceDisplay({ price, priceType, oldPrice }) {
   );
 }
 
-export default function ProductCard({ product, onAddToCart, isInCompare, onToggleCompare }) {
+export default function ProductCard({ product, onAddToCart, onOpen, isInCompare, onToggleCompare }) {
   const img = product.images?.[0]?.filename;
   const chars = product.characteristics || [];
 
@@ -41,14 +41,16 @@ export default function ProductCard({ product, onAddToCart, isInCompare, onToggl
   const discount = getChar(chars, 'скидка', 'discount');
   const badge = getChar(chars, 'badge', 'метка', 'ярлык');
 
-  const tags = chars
-    .filter(c => !['старая цена', 'old price', 'скидка', 'discount', 'badge', 'метка', 'ярлык', 'цена до'].some(k => c.name.toLowerCase().includes(k)))
-    .slice(0, 3)
-    .map(c => c.value)
-    .filter(Boolean);
+  const tags = product.tags?.length
+    ? product.tags.slice(0, 3).map(t => t.name)
+    : chars
+      .filter(c => !['старая цена', 'old price', 'скидка', 'discount', 'badge', 'метка', 'ярлык', 'цена до'].some(k => c.name.toLowerCase().includes(k)))
+      .slice(0, 3)
+      .map(c => c.value)
+      .filter(Boolean);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, cursor: 'pointer' }}>
+    <div onClick={() => onOpen && onOpen(product)} style={{ display: 'flex', flexDirection: 'column', gap: 12, cursor: 'pointer' }}>
       <div style={{
         position: 'relative', aspectRatio: '3/4', borderRadius: 4,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -90,7 +92,7 @@ export default function ProductCard({ product, onAddToCart, isInCompare, onToggl
       )}
 
       <button
-        onClick={e => e.stopPropagation()}
+        onClick={e => { e.stopPropagation(); onAddToCart && onAddToCart(product); }}
         style={{ marginTop: 'auto', padding: '10px 16px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 13, color: '#33322e', cursor: 'pointer', background: '#fff', transition: 'background .18s, color .18s, border-color .18s' }}
         onMouseEnter={e => { e.currentTarget.style.background = '#1a1a18'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#1a1a18'; }}
         onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = '#33322e'; e.currentTarget.style.borderColor = '#e0dcd5'; }}

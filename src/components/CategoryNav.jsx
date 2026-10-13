@@ -63,7 +63,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
           .cat-sub-row.open   { background: #f7f5f1 !important; }
           .cat-leaf-row:hover { background: #f7f5f1 !important; }
         `}</style>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '22px 40px 0', flexWrap: 'wrap', position: 'relative', zIndex: 25 }}>
+        <div className="cat-chips" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '22px 40px 0', flexWrap: 'wrap', position: 'relative', zIndex: 25 }}>
           {/* ─── Каталог (акцентная белая кнопка) ─── */}
           <button
             onClick={onOpenPanel}
@@ -279,7 +279,7 @@ export default function CategoryNav({ section, subsection, subsubsection, onPick
         .sub-chip-leaf:hover { background: #f7f5f1 !important; }
         .sub-chip-see-all:hover { background: #33322e !important; }
       `}</style>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '18px 40px 0', flexWrap: 'wrap', position: 'relative', zIndex: 20 }}>
+      <div className="cat-chips" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '18px 40px 0', flexWrap: 'wrap', position: 'relative', zIndex: 20 }}>
         {subcats.map(name => {
           const on = subsection === name;
           const leaves = sectionTree[name] || [];

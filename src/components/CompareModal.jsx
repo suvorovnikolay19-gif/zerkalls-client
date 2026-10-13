@@ -16,7 +16,7 @@ export default function CompareModal({ items, onClose, onRemove, onClear }) {
   const count = items.length;
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 75, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 30 }}>
+    <div className="cmp" style={{ position: 'fixed', inset: 0, zIndex: 75, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 30 }}>
       <div
         onClick={onClose}
         style={{ position: 'absolute', inset: 0, background: 'rgba(26,26,24,.42)', animation: 'dcFade .18s ease' }}

@@ -30,7 +30,7 @@ export default function CheckoutPage({ onGoHome, onGoStore, cartCount }) {
   const accent = '#1a1a18';
 
   return (
-    <div style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#f7f6f3', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
+    <div className="co" style={{ fontFamily: "'Golos Text', Helvetica, sans-serif", color: '#1a1a18', background: '#f7f6f3', minHeight: '100vh', WebkitFontSmoothing: 'antialiased' }}>
 
       {/* Breadcrumbs */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '20px 40px 0', fontSize: 13, color: '#a8a39a' }}>

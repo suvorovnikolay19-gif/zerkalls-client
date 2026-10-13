@@ -1,7 +1,7 @@
 export default function FilterBar({ chips, chipStates, onToggleChip, activeCount, filteredCount, totalCount, onOpenPanel, applied, onReset, compareCount, onOpenCompare }) {
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(251,250,248,.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #ece9e4' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 40px', overflowX: 'auto' }}>
+      <div className="fb-row" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 40px', overflowX: 'auto' }}>
         <button
           onClick={onOpenPanel}
           style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 20px', borderRadius: 999, background: '#1a1a18', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap', flex: 'none', border: 'none' }}

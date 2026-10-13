@@ -61,13 +61,13 @@ export default function FilterPanel({
   };
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column' }}>
+    <div className="fp" style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column' }}>
       <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(26,26,24,.34)', animation: 'dcFade .18s ease' }} />
 
       <div style={{ position: 'relative', margin: '0 auto', width: '100%', maxWidth: 1520, height: '100%', display: 'flex', flexDirection: 'column', background: '#fff', boxShadow: '0 30px 80px rgba(26,26,24,.2)', animation: 'dcPop .22s cubic-bezier(.2,.8,.2,1)' }}>
 
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '20px 34px', borderBottom: '1px solid #ece9e4' }}>
+        <div className="fp-head" style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '20px 34px', borderBottom: '1px solid #ece9e4' }}>
           <div style={{ fontSize: 21, fontWeight: 500, letterSpacing: '-.02em' }}>Фильтры</div>
           <div style={{ fontSize: 13, color: '#8b877f' }}>{filteredCount} товаров</div>
           <button
@@ -75,7 +75,7 @@ export default function FilterPanel({
             style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, padding: '11px 18px', borderRadius: 999, background: '#1a1a18', color: '#fff', fontSize: 14, cursor: 'pointer', border: 'none' }}
           >
             <span style={{ fontSize: 13 }}>✦</span>
-            Умный подбор с AI ассистентом
+            <span className="fp-ai-lbl">Умный подбор с AI ассистентом</span>
             <span style={{ color: 'rgba(255,255,255,.6)' }}>→</span>
           </button>
           <button
@@ -85,10 +85,10 @@ export default function FilterPanel({
         </div>
 
         {/* Body */}
-        <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+        <div className="fp-body" style={{ flex: 1, display: 'flex', minHeight: 0 }}>
 
           {/* Left sidebar */}
-          <div style={{ width: 320, flexShrink: 0, overflowY: 'auto', background: '#faf9f7', borderRight: '1px solid #ece9e4', padding: '14px 0' }}>
+          <div className="fp-side" style={{ width: 320, flexShrink: 0, overflowY: 'auto', background: '#faf9f7', borderRight: '1px solid #ece9e4', padding: '14px 0' }}>
             {FILTER_CATS.map(c => {
               const on = filterCat === c.name;
               const n = countForCat(c.name);
@@ -136,8 +136,8 @@ export default function FilterPanel({
           </div>
 
           {/* Right content */}
-          <div style={{ flex: 1, minWidth: 0, overflowY: 'auto', padding: '30px 40px 34px' }}>
-            <div style={{ columns: 4, columnGap: 40 }}>
+          <div className="fp-main" style={{ flex: 1, minWidth: 0, overflowY: 'auto', padding: '30px 40px 34px' }}>
+            <div className="fp-cols" style={{ columns: 4, columnGap: 40 }}>
 
               {activeCat.groups.map(g => (
                 <div key={g.name} style={{ breakInside: 'avoid', marginBottom: 34 }}>
@@ -211,7 +211,7 @@ export default function FilterPanel({
         </div>
 
         {/* Footer */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 34px', borderTop: '1px solid #ece9e4', background: '#fff' }}>
+        <div className="fp-foot" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '18px 34px', borderTop: '1px solid #ece9e4', background: '#fff' }}>
           <button onClick={onReset} style={{ padding: '14px 24px', borderRadius: 999, border: '1px solid #e0dcd5', fontSize: 14, color: '#6b6862', cursor: 'pointer', background: 'none' }}>
             Сбросить
           </button>

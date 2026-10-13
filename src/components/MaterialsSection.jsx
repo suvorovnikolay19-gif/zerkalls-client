@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const RAW = [
+export const RAW = [
   { s: 'Стекло', g: 'Прозрачное безопасное стекло', tone: 'Светлый', items: [
     ['GT05', 'Соле', 'linear-gradient(135deg,#f2f2f0,#dcdcd8 60%,#c9c9c4)'],
     ['GT01', 'Прозрачное', 'linear-gradient(135deg,#f7f8f8,#e7eae9 60%,#dfe3e2)'],
@@ -58,7 +58,7 @@ RAW.forEach(g => g.items.forEach(it => FLAT.push({
   code: it[0], name: it[1], css: it[2], group: g.g, section: g.s, tone: g.tone,
 })));
 
-const FILTERS = [
+export const FILTERS = [
   { key: 'section', label: 'Категория', options: ['Все категории', 'Стекло', 'Отделки профилей'] },
   { key: 'group',   label: 'Тип',       options: ['Любой тип', 'Прозрачное безопасное стекло', 'Матовое безопасное стекло', 'Зеркало', 'Алюминиевые поверхности', 'Отделки МДФ'] },
   { key: 'tone',    label: 'Тон',       options: ['Любой тон', 'Светлый', 'Тёмный', 'Бронза'] },

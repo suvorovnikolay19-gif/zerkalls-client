@@ -81,9 +81,9 @@ import part43 from '../../assets/categories-1/partitions/43_Special_Technical_LO
 import partTest1 from '../../assets/categories-1/partitions/tesr.jpg';
 import partTest2 from '../../assets/categories-1/partitions/test-v2.png';
 
-const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
+export const FAN_IMGS = [testImg, test2Img, test3Img, test4Img];
 
-const SLIDES = [
+export const SLIDES = [
   { title: 'Перегородки', text: 'Граница, которую почти не замечаешь.', cta: 'Перегородки', entry: 'partitions', image: hero2Img },
   { title: 'Лестницы', text: 'Лестницы, которые задают уровень интерьеру.', cta: 'Лестницы', entry: 'stairs', image: hero3Img },
   { title: 'Зеркала', text: 'У каждого интерьера — своё отражение. Найдите зеркало, которое станет частью вашей истории.', cta: 'Зеркала', entry: 'mirrors', image: heroImg },
@@ -121,7 +121,7 @@ const SLIDE_CATS = {
   ],
 };
 
-const MENU = [
+export const MENU = [
   { name: 'Перегородки', cta: 'Все перегородки', entry: 'partitions', groups: [
     { name: 'Тип конструкции', options: ['Раздвижные', 'Распашные', 'Стационарные', 'Гармошка'] },
     { name: 'Материал', options: ['Дерево', 'Металл', 'Стекло', 'Ротанг'] },
@@ -147,7 +147,7 @@ const MENU = [
   ]},
 ];
 
-const SERVICES = [
+export const SERVICES = [
   { name: 'Лазерная резка металла', text: 'Раскрой листа до 25 мм по вашим чертежам — точность 0,1 мм.', tags: ['Сталь', 'Нержавейка', 'Алюминий', 'Латунь'], tint: 'rgba(58,62,64,.34)', entry: 'catalog', image: service1Img },
   { name: 'Лазерный труборез', text: 'Резка круглой и профильной трубы, готовые узлы под сварку.', tags: ['Труба', 'Профиль', 'Фаска', 'Гравировка'], tint: 'rgba(74,58,44,.34)', entry: 'catalog', image: service2Img },
   { name: 'Лазерная сварка', text: 'Аккуратный шов без поводок — сборка каркасов и рам.', tags: ['Сталь', 'Нержавейка', 'Без зачистки', 'Тонкий шов'], tint: 'rgba(46,54,66,.34)', entry: 'catalog', image: service3Img },
@@ -162,7 +162,7 @@ const FAN_CARDS = [
 
 const DESC = 'Каркас из профильной стали с порошковым покрытием, стекло 8 мм закалённое. Замер и монтаж входят в стоимость.';
 
-const CARDS_V2_DATA = [
+export const CARDS_V2_DATA = [
   { title: 'Лестницы', cta: 'Смотреть все', entry: 'stairs',
     items: [
       { name: 'Винтовые лестницы', desc: 'Элегантные конструкции для любого проёма — металл, дуб, нержавеющая сталь под заказ.' },
@@ -199,14 +199,14 @@ const CARDS_V2_DATA = [
 
 const CARDS_V2_OFFSETS = ['0px', '-56px', '34px', '-24px'];
 
-const HOME_SUBCATS = {
+export const HOME_SUBCATS = {
   'Лестницы':    ['Винтовые', 'Маршевые', 'Модульные', 'Из дуба', 'На металлокаркасе', 'Для мансарды'],
   'Перегородки': ['Раздвижные', 'Распашные', 'Лофт', 'Реечные', 'Стационарные', 'Декоративные'],
   'Зеркала':     ['Круглые', 'Овальные', 'Арочные', 'С подсветкой', 'Во весь рост', 'Нестандартные'],
   'Мебель':      ['Столы', 'Консоли', 'Стеллажи', 'Тумбы', 'Ширмы', 'Из массива'],
 };
 
-const PAGE_NAV = [
+export const PAGE_NAV = [
   { name: 'О компании', href: '#footer' },
   { name: 'Дилерам', href: '#footer' },
   { name: 'Портфолио', href: '#collections' },
@@ -226,7 +226,7 @@ const BESTSELLERS = [
   { title: 'Стеллаж Frame, дуб', price: 'от 74 000 ₽', meta: 'Дуб, металл', badge: 'Выбор дизайнеров', hot: true, rating: '4,9' },
 ];
 
-const FIT_FILTERS = {
+export const FIT_FILTERS = {
   'Тип': ['Раздвижная', 'Распашная', 'Стационарная', 'Гармошка'],
   'Цвет': ['Графит', 'Латунь', 'Дуб натуральный', 'Белый'],
   'Размер': ['700×2000', '900×2100', '1200×2400', 'По размеру'],
@@ -235,7 +235,7 @@ const FIT_FILTERS = {
   'Бюджет': ['до 60 000 ₽', '60–120 000 ₽', '120 000+ ₽'],
 };
 
-const FIT_ITEMS = [
+export const FIT_ITEMS = [
   { title: 'Перегородка Grid', price: 'от 96 000 ₽' },
   { title: 'Перегородка Loft Black', price: 'от 78 000 ₽' },
   { title: 'Ширма Reed, дуб', price: 'от 54 000 ₽' },
@@ -243,7 +243,7 @@ const FIT_ITEMS = [
   { title: 'Ширма Fold, гармошка', price: 'от 67 200 ₽' },
 ];
 
-const BANNERS = [
+export const BANNERS = [
   { kicker: 'Подбор по задаче', title: 'ПЕРЕГОРОДКИ, КОТОРЫЕ РЕШАЮТ ЗАДАЧУ', text: 'Скажите, для чего нужна перегородка — предложим 2–3 готовых решения с ценой и сроком.', tint: 'rgba(38,46,52,.6)', bg: 'linear-gradient(135deg, #2a3038 0%, #1a2028 100%)',
     options: [['Студии / маленькой квартиры', '2 кейса'], ['Офиса / переговорной', '2 кейса'], ['Дома / межкомнатной', '3 кейса'], ['Душа / влажной зоны', '1 кейс'], ['Не знаю размер — определить по фото', '']] },
   { kicker: 'Лестницы', title: 'ЛЕСТНИЦА В ЛЮБОЙ ПРОЁМ', text: 'Пришлите высоту и проём — конструктор посчитает вариант за один день.', tint: 'rgba(52,42,32,.6)', bg: 'linear-gradient(135deg, #302820 0%, #201810 100%)',
@@ -315,7 +315,7 @@ const COLLECTIONS = [
   { name: 'Для ванной', count: '14 товаров', span: { gridColumn: 'span 2' }, bg: '#283038' },
 ];
 
-const FAQ = [
+export const FAQ = [
   { q: 'Какие сроки доставки в моём городе?', a: 'По Москве и области — 2–4 дня, по России — 5–12 дней транспортной компанией. Точный срок называем при оформлении.' },
   { q: 'Можно ли сделать изделие по своим размерам?', a: 'Да, это основной формат работы: присылаете размеры проёма или фото, конструктор готовит чертёж и смету за один день.' },
   { q: 'Как вернуть или обменять товар?', a: 'Серийные позиции — 14 дней без объяснения причин. Изделия по индивидуальным размерам возврату не подлежат, кроме случаев брака.' },
@@ -330,7 +330,7 @@ const FAQ = [
   { q: 'Что с безопасностью стекла?', a: 'Используем закалённое стекло 8–10 мм или триплекс. При ударе оно не даёт травмоопасных осколков.' },
 ];
 
-const FOOTER_COLS = [
+export const FOOTER_COLS = [
   { title: 'Информация', links: ['О компании', 'Дизайнерам', 'Дилерам', 'Презентация', 'Контакты', 'Холдинг'] },
   { title: 'Каталог', links: ['Лестницы', 'Зеркала', 'Перегородки', 'Ширмы', 'Стеклянные доски', 'Комплектующие'] },
   { title: 'Помощь', links: ['Гарантия', 'Доставка и монтаж', 'Возврат', 'Карта сайта'] },
@@ -340,9 +340,9 @@ const CAT1_IMGS = [catImg0, catImg1, catImg2, catImg2, catImg4, catImg6, catImg6
 
 const PARTITION_IMGS = [part01, part02, part03, part04, part05, part06, part07, part08, part09, part10, part11, part12, part13, part14, part15, part16, part17, part18, part19, part20, part21, part22, part23, part24, part25, part26, part27, part28, part29, part30, part31, part32, part33, part34, part35, part36, part37, part38, part39, part40, part41, part42, part43];
 
-const LEVELS_ENTRY = { 'Перегородки': 'partitions', 'Зеркала': 'mirrors', 'Лестницы': 'stairs', 'Мебель': 'catalog' };
+export const LEVELS_ENTRY = { 'Перегородки': 'partitions', 'Зеркала': 'mirrors', 'Лестницы': 'stairs', 'Мебель': 'catalog' };
 
-const LEVELS = [
+export const LEVELS = [
   { name: 'Перегородки', cards: [
     { name: 'Стационарные LOFT-перегородки', count: '61 модель', price: 'от 54 000 ₽', image: PARTITION_IMGS[0] },
     { name: 'Перегородки с распашными дверями', count: '52 модели', price: 'от 48 000 ₽', image: PARTITION_IMGS[1] },
@@ -426,7 +426,7 @@ const PT_BANNERS = [
   { kicker: 'Партнёрам', title: 'Проект ведёт один человек', text: 'От эскиза и сметы до монтажа — личный менеджер, приоритет в производстве и защита проекта на 90 дней.', tags: ['Скидка до 32%', 'Отсрочка 45 дней', 'Гарантия 5 лет'], stat: '9 400', statLabel: 'сданных проектов', align: 'left', tint: 'rgba(18,20,22,.72)' },
 ];
 
-const PT_PRIVILEGES = [
+export const PT_PRIVILEGES = [
   'Дилерская скидка до 32% и защита проекта на 90 дней',
   'Агентское вознаграждение дизайнерам — до 15% с заказа',
   'Приоритет в производстве и отдельная линия срочных заказов',
@@ -435,13 +435,13 @@ const PT_PRIVILEGES = [
   'Персональный менеджер и техподдержка на монтаже',
 ];
 
-const PT_STATS = [
+export const PT_STATS = [
   { value: '32%', label: 'дилерская скидка' },
   { value: '10', label: 'дней производство' },
   { value: '240', label: 'активных партнёров' },
 ];
 
-const PT_ROLES = ['Дизайнер', 'Стройка', 'Салон', 'Подрядчик'];
+export const PT_ROLES = ['Дизайнер', 'Стройка', 'Салон', 'Подрядчик'];
 
 const SLIDE_MS = 7000;
 
@@ -848,6 +848,19 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
                   }
                 }}
                 onMouseLeave={() => setTriggerHover(false)}
+                onClick={() => {
+                  // На тач-устройствах наведения нет — открываем дерево по тапу
+                  if (heroTreeActive) return;
+                  const btn = triggerBtnRef.current;
+                  const hero = heroSectionRef.current;
+                  if (btn && hero) {
+                    const br = btn.getBoundingClientRect();
+                    const hr = hero.getBoundingClientRect();
+                    heroTreeRef.current?.openTree(br.left + br.width / 2 - hr.left, br.top + br.height / 2 - hr.top);
+                  } else {
+                    heroTreeRef.current?.openTree();
+                  }
+                }}
                 style={{
                   padding: '19px 52px', borderRadius: 999,
                   background: (triggerHover || heroTreeActive) ? '#fff' : 'rgba(22,21,15,0.34)',

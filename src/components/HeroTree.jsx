@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 
-const TREE = {
+export const TREE = {
   start: { q: 'Что сейчас важнее', a: [
     { t: 'Зеркала',      to: 'mirror' },
     { t: 'Перегородки',  to: 'part'   },
@@ -48,6 +48,7 @@ const ENTRY = { mirror: 'mirrors', part: 'partitions', stairs: 'stairs', furn: '
 
 function half(text, per, pad) { return (text.length * per + pad) / 2; }
 
+const MOBILE_SCALE = 0.56; // синхронно с .ht-pivot в mobile.css
 const CARD = [-Math.PI / 2, 0, Math.PI / 2, Math.PI]; // вверх, вправо, вниз, влево
 const angDiff = (a, b) => {
   const d = Math.abs(((a - b) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2));
@@ -81,7 +82,9 @@ function buildLevels(chain, h, w) {
       for (let j = 0; j < k; j++) {
         const ang = cardAngles[j];
         const c = Math.abs(Math.cos(ang)), s = Math.abs(Math.sin(ang));
-        const r = (qHalf + halves[j]) * c + 50 * s + clear;
+        let r = (qHalf + halves[j]) * c + 50 * s + clear;
+        // На телефоне дерево уменьшено CSS-масштабом (.ht-pivot), боковые ответы держим в пределах экрана
+        if (w < 768) r = Math.min(r, Math.max(60, (w / 2 - 10) / MOBILE_SCALE - halves[j]));
         const dx = Math.cos(ang) * r, dy = Math.sin(ang) * r * 0.78;
         lvl.answers.push({
           ...node.a[j], j, ang,
@@ -231,7 +234,7 @@ const HeroTree = forwardRef(function HeroTree({ onNavigateToCatalog, onActiveCha
     <>
       {/* Tree stage — pointerEvents off when inactive so hero arrows remain clickable */}
       <div ref={stageRefCb} style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 5, pointerEvents: active ? 'auto' : 'none' }}>
-        <div style={{ position: 'absolute', left: pivotX + 'px', top: pivotY + 'px', width: 0, height: 0 }}>
+        <div className="ht-pivot" style={{ position: 'absolute', left: pivotX + 'px', top: pivotY + 'px', width: 0, height: 0 }}>
           <div style={{
             position: 'absolute', left: 0, top: 0, width: 0, height: 0,
             transform: `translate(${-last.x}px,${-last.y}px)`,

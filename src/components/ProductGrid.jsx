@@ -5,17 +5,20 @@ function formatPrice(price) {
   return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
 }
 
-function ProductListRow({ product, onAddToCart, compareIds, onToggleCompare }) {
+function ProductListRow({ product, onAddToCart, onOpen, compareIds, onToggleCompare }) {
   const img = product.images?.[0]?.filename;
   const chars = product.characteristics || [];
-  const tags = chars
-    .filter(c => !['старая цена', 'old price', 'скидка', 'discount', 'badge', 'метка', 'ярлык', 'цена до'].some(k => c.name.toLowerCase().includes(k)))
-    .slice(0, 2)
-    .map(c => c.value)
-    .filter(Boolean);
+  const tags = product.tags?.length
+    ? product.tags.slice(0, 2).map(t => t.name)
+    : chars
+      .filter(c => !['старая цена', 'old price', 'скидка', 'discount', 'badge', 'метка', 'ярлык', 'цена до'].some(k => c.name.toLowerCase().includes(k)))
+      .slice(0, 2)
+      .map(c => c.value)
+      .filter(Boolean);
   const isInCompare = compareIds?.includes(product.id);
   return (
     <div
+      onClick={() => onOpen && onOpen(product)}
       style={{
         display: 'grid',
         gridTemplateColumns: '72px minmax(0,1fr) auto auto',
@@ -71,13 +74,12 @@ function ProductListRow({ product, onAddToCart, compareIds, onToggleCompare }) {
   );
 }
 
-export default function ProductGrid({ products, loading, viewMode = 'grid', onAddToCart, compareIds, onToggleCompare }) {
-  const cols = viewMode === 'large' ? 2 : 4;
-  const gap = viewMode === 'large' ? '32px 28px' : '26px 24px';
+export default function ProductGrid({ products, loading, viewMode = 'grid', onAddToCart, onOpen, compareIds, onToggleCompare }) {
+  const gridClass = viewMode === 'large' ? 'pg-grid pg-grid--large' : 'pg-grid';
 
   if (loading) {
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, gap }}>
+      <div className={gridClass}>
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={{ aspectRatio: '3/4', borderRadius: 4, background: 'linear-gradient(90deg, #f0ede8 25%, #e4e0d8 50%, #f0ede8 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.4s infinite' }} />
@@ -105,6 +107,7 @@ export default function ProductGrid({ products, loading, viewMode = 'grid', onAd
             key={p.id}
             product={p}
             onAddToCart={onAddToCart}
+            onOpen={onOpen}
             compareIds={compareIds}
             onToggleCompare={onToggleCompare}
           />
@@ -114,12 +117,13 @@ export default function ProductGrid({ products, loading, viewMode = 'grid', onAd
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, gap }}>
+    <div className={gridClass}>
       {products.map(p => (
         <ProductCard
           key={p.id}
           product={p}
           onAddToCart={onAddToCart}
+          onOpen={onOpen}
           isInCompare={compareIds?.includes(p.id)}
           onToggleCompare={onToggleCompare}
         />

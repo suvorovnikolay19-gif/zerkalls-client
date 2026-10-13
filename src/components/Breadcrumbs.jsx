@@ -315,6 +315,7 @@ export default function Breadcrumbs({
       <div
         ref={rootRef}
         data-bc-root=""
+        className="bc-root"
         style={{ position: 'relative', alignSelf: 'flex-start', maxWidth: '100%', padding: '22px 40px 0' }}
       >
         <nav

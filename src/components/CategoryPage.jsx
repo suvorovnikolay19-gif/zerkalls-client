@@ -4,6 +4,14 @@ import { ITEMS, CAT_TREE } from '../data/catalog.js';
 import catNobg1       from '../../assets/categories-nobg/1.webp';
 const DEFAULT_LEAVES = ['Стандартные размеры', 'По индивидуальному проекту', 'С монтажом'];
 
+function pluralItems(n) {
+  if (n % 100 >= 11 && n % 100 <= 19) return 'позиций';
+  const r = n % 10;
+  if (r === 1) return 'позиция';
+  if (r >= 2 && r <= 4) return 'позиции';
+  return 'позиций';
+}
+
 const FAQ = [
   { q: 'Какие сроки доставки в моём городе?', a: 'По Москве и области — 2–4 дня, по России — 5–12 дней транспортной компанией. Точный срок называем при оформлении.' },
   { q: 'Можно ли сделать изделие по своим размерам?', a: 'Да, это основной формат работы: присылаете размеры проёма или фото, конструктор готовит чертёж и смету за один день.' },
@@ -19,36 +27,55 @@ const FAQ = [
   { q: 'Что с безопасностью стекла?', a: 'Используем закалённое стекло 8–10 мм или триплекс. При ударе оно не даёт травмоопасных осколков.' },
 ];
 
-function subCount(name) { return 6 + (name.length * 7) % 34; }
-
-export default function CategoryPage({ section, onPickSubsection }) {
+// Страница выбора категории. Без subsection — список подкатегорий раздела (уровень 2),
+// с subsection — список вложенных категорий этой подкатегории (уровень 3).
+export default function CategoryPage({ section, subsection = null, products = [], onPickSubsection }) {
   const [hover, setHover] = useState(null);
   const [flip, setFlip] = useState(false);
   const [openFaq, setOpenFaq] = useState(-1);
   const [pinged, setPinged] = useState(null);
-  const [items, setItems] = useState(ITEMS[section] || []);
+  const [items, setItems] = useState(subsection ? [] : (ITEMS[section] || []));
   const hoverTimer = useRef(null);
   const pingTimer = useRef(null);
   const stripRef = useRef(null);
   const itemRefs = useRef([]);
+  const title = subsection || section;
 
   useEffect(() => {
-    setItems(ITEMS[section] || []);
+    setItems(subsection ? [] : (ITEMS[section] || []));
     fetchAllCategories({ limit: 500 })
       .then(all => {
-        const parent = all.find(c => c.name === section && !c.parent);
+        const root = all.find(c => c.name === section && !c.parent);
+        if (!root) return;
+        const parent = subsection ? all.find(c => c.parent === root.id && c.name === subsection) : root;
         if (!parent) return;
         const children = all.filter(c => c.parent === parent.id);
         if (children.length === 0) return;
         const localItems = ITEMS[section] || [];
+        // картинка: своя из локального списка по имени, для 3-го уровня — картинка родителя
+        const localByName = Object.fromEntries(localItems.map(i => [i.name, i.img]));
+        const parentImg = subsection ? localByName[subsection] : null;
+        // число товаров в категории и всех вложенных
+        const countFor = (id) => {
+          const ids = new Set([id]);
+          let frontier = [id];
+          while (frontier.length) {
+            const next = all.filter(c => frontier.includes(c.parent)).map(c => c.id);
+            next.forEach(x => ids.add(x));
+            frontier = next;
+          }
+          return products.filter(p => p.category && ids.has(p.category.id)).length;
+        };
         setItems(children.map((c, i) => ({
           name: c.name,
           slug: c.slug,
-          img: (localItems[i] ?? localItems[0] ?? { img: [] }).img,
+          img: localByName[c.name] ?? parentImg ?? (localItems[i] ?? localItems[0] ?? { img: [] }).img,
+          leaves: all.filter(x => x.parent === c.id).map(x => x.name),
+          count: countFor(c.id),
         })));
       })
       .catch(() => {});
-  }, [section]);
+  }, [section, subsection, products]);
 
   const pingCard = (i) => {
     clearTimeout(pingTimer.current);
@@ -93,7 +120,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
   };
 
   return (
-    <div style={{ padding: '28px 40px 60px', fontFamily: "'Golos Text', Helvetica, sans-serif" }}>
+    <div className="cp" style={{ padding: '28px 40px 60px', fontFamily: "'Golos Text', Helvetica, sans-serif" }}>
       <style>{`
         @keyframes cpPreviewIn { from { opacity:0; transform:translateY(6px) scale(.93) } to { opacity:1; transform:translateY(0) scale(1) } }
         @keyframes cpCardPop  { 0%{transform:scale(1)} 30%{transform:scale(1.1)} 100%{transform:scale(1)} }
@@ -111,7 +138,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
 
       {/* Заголовок */}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 22 }}>
-        <h2 style={{ margin: 0, fontSize: 28, fontWeight: 500, letterSpacing: '-.02em', color: '#1a1a18' }}>{section}</h2>
+        <h2 style={{ margin: 0, fontSize: 28, fontWeight: 500, letterSpacing: '-.02em', color: '#1a1a18' }}>{title}</h2>
         <span style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
           fontSize: 11, letterSpacing: '.05em', textTransform: 'uppercase', color: '#8b877f',
@@ -132,7 +159,8 @@ export default function CategoryPage({ section, onPickSubsection }) {
         {items.map((item, i) => {
           const isHov = hover === i;
           const num = String(i + 1).padStart(2, '0');
-          const leaves = (tree[item.name] && tree[item.name].length > 0) ? tree[item.name] : DEFAULT_LEAVES;
+          // вложенные из базы; на 3-м уровне вложенных уже нет — список не показываем
+          const leaves = item.leaves ? item.leaves : (subsection ? [] : ((tree[item.name] && tree[item.name].length > 0) ? tree[item.name] : DEFAULT_LEAVES));
 
           return (
             <div
@@ -253,7 +281,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
 
       {/* ─── Скролл-стрип карточек ─── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <span style={{ fontSize: 14, fontWeight: 500, color: '#1a1a18' }}>{section}</span>
+        <span style={{ fontSize: 14, fontWeight: 500, color: '#1a1a18' }}>{title}</span>
         <span style={{ fontSize: 12, color: '#b0ab9f' }}>листайте →</span>
       </div>
 
@@ -326,7 +354,7 @@ export default function CategoryPage({ section, onPickSubsection }) {
                 }}>{item.name}</div>
               </div>
               <div className="cp-card-label" style={{ fontSize: 12.5, color: '#a8a39a', transition: 'color .15s', paddingLeft: 2 }}>
-                {subCount(item.name)} позиций
+                {item.count == null ? '' : `${item.count} ${pluralItems(item.count)}`}
               </div>
             </div>
             );

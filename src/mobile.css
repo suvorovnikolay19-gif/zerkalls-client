@@ -1,0 +1,217 @@
+/* ============================================================
+   Мобильная адаптация. Компоненты сверстаны inline-стилями,
+   поэтому здесь переопределения с !important по классам корней
+   и по характерным фрагментам inline-стиля ([style*="…"]).
+   Десктоп (от 768px) не затрагивается.
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+  /* ---------- Общее ---------- */
+  html, body { overflow-x: hidden; }
+  .site-foot { flex-direction: column !important; gap: 8px !important; padding: 24px 16px !important; }
+
+  /* ---------- Главная ---------- */
+  /* Секции: боковые отступы 48 → 16, вертикальные 96 → 56 */
+  .home-hover section[style*="padding: 96px 48px"] { padding: 56px 16px 0 !important; }
+  .home-hover section[style*="padding: 100px 48px"] { padding: 56px 16px 0 !important; }
+  .home-hover section[style*="padding: 52px 48px"] { padding: 40px 16px 0 !important; }
+  .home-hover section[style*="padding: 48px 48px 80px"] { padding: 40px 16px 56px !important; }
+  .home-hover h2[style*="font-size: 40px"] { font-size: 28px !important; letter-spacing: -.02em !important; }
+  .home-hover [style*="text-align: center"] > div[style*="font-size: 15px"] { font-size: 14px !important; }
+
+  /* Hero */
+  .home-hover > section:first-of-type { height: 620px !important; }
+  .home-hover > section:first-of-type h1 { max-width: 100% !important; font-size: 44px !important; }
+  .home-hover > section:first-of-type [style*="padding: 60px 48px 0"] { padding: 90px 20px 0 !important; }
+  .home-hover > section:first-of-type header { padding: 14px 16px !important; gap: 10px 12px !important; }
+  .home-hover > section:first-of-type header > div:first-child { flex: 0 0 auto !important; font-size: 20px !important; }
+  .home-hover > section:first-of-type header > div:nth-child(2) { order: 3; flex: 1 1 100% !important; align-items: stretch !important; }
+  .home-hover > section:first-of-type header nav { justify-content: flex-start !important; overflow-x: auto; scrollbar-width: none; }
+  .home-hover > section:first-of-type header nav::-webkit-scrollbar { display: none; }
+  .home-hover > section:first-of-type header nav > div { padding: 9px 13px !important; font-size: 12px !important; }
+  .home-hover > section:first-of-type header > div:nth-child(3) { flex: 1 1 auto !important; gap: 10px !important; }
+  .home-hover > section:first-of-type header > div:nth-child(3) button { display: none !important; }
+  .home-hover > section:first-of-type header > div:nth-child(3) a { font-size: 15px !important; }
+
+  /* Дерево подбора в hero: уменьшаем вокруг активного узла, иначе боковые ответы уходят за экран */
+  .ht-pivot { transform: scale(.56); transform-origin: 0 0; }
+
+  /* Липкое меню разделов — горизонтальная лента */
+  .home-hover nav[style*="padding: 18px 48px"] { flex-wrap: nowrap !important; justify-content: flex-start !important; overflow-x: auto; padding: 10px 16px !important; scrollbar-width: none; }
+  .home-hover nav[style*="padding: 18px 48px"]::-webkit-scrollbar { display: none; }
+  .home-hover nav[style*="padding: 18px 48px"] > span { font-size: 15px !important; padding: 9px 16px !important; }
+
+  /* Категории: 4 колонки → 1, без веерных смещений, фон-луг не закрывает заголовки */
+  .home-hover article[class^="cat-card"] { margin-top: 0 !important; animation: none !important; }
+  .home-hover img[src*="meadow"] { display: none !important; }
+  .home-hover [style*="repeat(4,"][style*="padding-top: 72px"] { grid-template-columns: 1fr !important; padding-top: 16px !important; gap: 18px !important; }
+  /* Услуги / производство / FAQ: 3 колонки → 1 */
+  .home-hover [style*="repeat(3,"] { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .home-hover [style*="height: 520px"][style*="border-radius: 22px"] { height: 400px !important; }
+  .home-hover h3[style*="font-size: 34px"] { font-size: 26px !important; }
+  /* Новинки: 4 → 2 */
+  .home-hover [style*="repeat(4,"]:not([style*="padding-top"]) { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; gap: 12px !important; }
+  .home-hover [style*="repeat(2,"] > div[style*="padding: 18px"] { padding: 12px !important; }
+  .home-hover img[style*="height: 210px"] { height: 150px !important; }
+
+  /* Карусель «Продукция» */
+  .home-hover [style*="padding: 20px 44px 60px"] { padding: 0 0 36px !important; }
+  .home-hover [style*="left: -22px"] { left: 2px !important; }
+  .home-hover [style*="right: -22px"] { right: 2px !important; }
+  .home-hover [style*="top: 96px"][style*="right: 48px"] { display: none !important; }
+  .home-hover [style*="height: 580px"] { height: 500px !important; }
+  .home-hover [style*="height: 560px"][style*="border-radius: 22px"] { height: 480px !important; width: 86% !important; }
+  .home-hover h3[style*="font-size: 32px"] { font-size: 24px !important; }
+
+  /* Примерочная */
+  .home-hover [style*="padding: 0px 80px"], .home-hover [style*="padding: 0 80px"] { padding: 0 8px !important; gap: 12px !important; }
+
+  /* Партнёры */
+  .home-hover [style*="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))"] { grid-template-columns: 1fr !important; padding: 22px 18px 24px !important; gap: 22px !important; }
+  .home-hover [style*="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))"] > div:nth-child(2) { display: none !important; }
+  .home-hover h2[style*="font-size: 34px"] { font-size: 26px !important; }
+
+  /* Баннер-слайдер */
+  .home-hover [style*="margin: 12px -48px 0"], .home-hover [style*="margin: 0px -48px"], .home-hover [style*="margin: 0 -48px"] { margin-left: -16px !important; margin-right: -16px !important; }
+  .home-hover [style*="height: 620px"][style*="margin: 0px 48px"], .home-hover [style*="height: 620px"][style*="margin: 0 48px"] { height: 520px !important; margin: 0 16px !important; }
+  .home-hover [style*="padding: 72px 100px"] { padding: 40px 22px 70px !important; max-width: 100% !important; }
+  .home-hover h3[style*="font-size: 48px"] { font-size: 30px !important; }
+  .home-hover [style*="min-width: 340px"] { min-width: 0 !important; width: 100%; }
+  .home-hover [style*="min-width: 340px"][style*="bottom: calc(100% + 8px)"] { width: calc(100vw - 76px); }
+
+  /* Стрелки баннера — вниз, чтобы не перекрывали текст */
+  .home-hover [style*="height: 620px"] > div[style*="width: 52px"] { top: auto !important; bottom: 54px !important; margin-top: 0 !important; width: 42px !important; height: 42px !important; }
+  /* Примерочная: строка фильтров прокручивается, кнопка не ужимается */
+  .home-hover [style*="flex-wrap: nowrap"][style*="border-radius: 20px"] { overflow-x: auto !important; scrollbar-width: none; }
+  .home-hover [style*="flex-wrap: nowrap"][style*="border-radius: 20px"]::-webkit-scrollbar { display: none; }
+  .home-hover [style*="flex-wrap: nowrap"][style*="border-radius: 20px"] > button { margin-left: 12px !important; padding: 12px 18px !important; }
+  .home-hover [style*="padding: 22px 24px 26px"] { padding: 14px 12px 16px !important; }
+  /* Материалы: карточка на всю ширину, образцы в 3 колонки */
+  .home-hover [style*="flex: 0 1 28%"] { flex: 1 1 100% !important; min-height: 380px !important; }
+  .home-hover [style*="repeat(5,"] { grid-template-columns: repeat(3, minmax(0px, 1fr)) !important; gap: 8px !important; }
+
+  /* Футер */
+  .home-hover footer [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 24px !important; padding: 40px 16px !important; }
+  .home-hover footer [style*="1.4fr"] { grid-template-columns: 1fr 1fr !important; gap: 28px 20px !important; padding: 36px 16px 32px !important; }
+  .home-hover footer [style*="1.4fr"] > div:first-child { grid-column: 1 / -1; }
+  .home-hover footer [style*="padding: 26px 48px 34px"] { flex-wrap: wrap; gap: 18px 24px !important; padding: 22px 16px 28px !important; }
+  .home-hover footer [style*="padding: 26px 48px 34px"] > div:last-child { margin-left: 0 !important; }
+  .home-hover footer [style*="display: flex; gap: 12px"] { flex-direction: column; }
+
+  /* Плавающие кнопки ниже панелей и модалок (60+) */
+  .home-hover > div[style*="position: fixed"][style*="z-index: 90"] { z-index: 55 !important; left: auto; }
+  .home-hover > div[style*="position: fixed"][style*="left: 26px"] { left: 14px !important; bottom: 14px !important; }
+  .home-hover > div[style*="position: fixed"][style*="right: 26px"] { right: 14px !important; bottom: 14px !important; }
+
+  /* ---------- Каталог ---------- */
+  .bc-root { padding: 14px 16px 0 !important; }
+  .fb-row { padding: 12px 16px !important; gap: 8px !important; }
+  .fb-row > button:first-child { padding: 10px 16px !important; font-size: 13px !important; }
+  .fb-row > button { padding: 9px 14px 9px 10px !important; font-size: 13px !important; }
+
+  /* Страница раздела (CategoryPage) */
+  .cp { padding: 20px 16px 48px !important; }
+  .cp > div:first-of-type h2 { font-size: 24px !important; }
+  .cp [style*="repeat(6,"] { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; gap: 0 12px !important; }
+  .cp [style*="repeat(3,"] { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .cp h2[style*="font-size: 40px"] { font-size: 28px !important; }
+  .cp [style*="margin-top: 80px"] { margin-top: 48px !important; padding-top: 40px !important; }
+
+  /* ---------- Оформление заказа ---------- */
+  .co { overflow-x: hidden; }
+  .co span[style*="font-family: monospace"] { display: none !important; }
+  .co input, .co textarea, .co select { min-width: 0; width: 100%; font-size: 16px !important; }
+  .co [style*="padding: 20px 40px 0"] { padding: 16px 16px 0 !important; }
+  .co main { grid-template-columns: 1fr !important; padding: 16px 16px 48px !important; gap: 18px !important; }
+  .co h1 { font-size: 30px !important; }
+  .co [style*="repeat(3,"] { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .co [style*="repeat(2,"] { grid-template-columns: 1fr !important; gap: 18px !important; }
+  .co [style*="padding: 28px 30px 30px"] { padding: 20px 16px !important; }
+  .co [style*="padding: 32px 34px 34px"] { padding: 20px 16px !important; }
+  .co [style*="padding: 40px 40px 38px"] { flex-direction: column; align-items: flex-start !important; padding: 24px 18px !important; gap: 18px !important; }
+  .co h2[style*="font-size: 30px"] { font-size: 24px !important; }
+  .co h2[style*="font-size: 26px"] { font-size: 22px !important; }
+  .co [style*="padding: 18px 28px"] { padding: 14px 18px !important; flex: 1; justify-content: center; }
+  .co [style*="padding: 22px 22px 24px"] { padding: 16px !important; }
+  .co [style*="width: 54px"] { width: 44px !important; height: 44px !important; font-size: 17px !important; }
+
+  /* ---------- Панель фильтров ---------- */
+  .fp-head { padding: 14px 16px !important; gap: 12px !important; }
+  .fp-head > div:first-child { font-size: 18px !important; }
+  .fp-head button[style*="margin-left: auto"] { padding: 9px 12px !important; font-size: 13px !important; gap: 8px !important; }
+  .fp-ai-lbl { display: none; }
+  .fp-body { flex-direction: column !important; }
+  .fp-side { width: 100% !important; flex: none !important; display: flex; overflow-x: auto !important; overflow-y: hidden !important; border-right: 0 !important; border-bottom: 1px solid #ece9e4; padding: 10px 12px !important; gap: 6px; scrollbar-width: none; }
+  .fp-side::-webkit-scrollbar { display: none; }
+  .fp-side > div { flex: none; padding: 8px 12px !important; border: 1px solid #e0dcd5 !important; border-radius: 999px; margin-right: 0 !important; font-size: 14px !important; gap: 8px !important; }
+  .fp-side > div[style*="font-weight: 600"] { background: #1a1a18 !important; color: #fff !important; border-color: #1a1a18 !important; }
+  .fp-side > div img { width: 22px !important; height: 22px !important; }
+  .fp-side > div span[style*="flex-shrink: 0"] { display: none !important; }
+  .fp-main { padding: 18px 16px 24px !important; }
+  .fp-cols { columns: 1 !important; }
+  .fp-cols > div { margin-bottom: 22px !important; }
+  .fp-foot { padding: 12px 16px max(12px, env(safe-area-inset-bottom)) !important; gap: 10px !important; }
+  .fp-foot > div { display: none; }
+  .fp-foot > button { flex: 1; padding: 14px 16px !important; white-space: nowrap; }
+
+  /* ---------- Квиз ---------- */
+  .qz { padding: 0 !important; align-items: flex-end !important; }
+  .qz > div:last-child { width: 100% !important; max-width: 100% !important; max-height: 94dvh !important; border-radius: 22px 22px 0 0 !important; padding: 18px 16px max(20px, env(safe-area-inset-bottom)) !important; }
+  .qz h3 { font-size: 22px !important; }
+  .qz [style*="repeat(3,"] { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; gap: 10px !important; }
+  .qz [style*="1.6fr"] { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .qz [style*="height: 116px"] { height: 92px !important; }
+
+  /* ---------- Сравнение ---------- */
+  .cmp { padding: 0 !important; align-items: flex-end !important; }
+  .cmp > div:last-child { max-height: 94dvh !important; border-radius: 22px 22px 0 0 !important; }
+  .cmp [style*="padding: 22px 30px"] { padding: 14px 16px !important; gap: 10px !important; flex-wrap: wrap; }
+  .cmp [style*="padding: 22px 30px"] > div:first-child { font-size: 18px !important; }
+  .cmp [style*="padding: 26px 30px 30px"] { padding: 16px 16px 24px !important; }
+  .cmp [style*="grid-template-columns: 180px repeat("] { grid-template-columns: 84px repeat(2, minmax(0px, 1fr)) !important; gap: 10px !important; }
+  .cmp [style*="grid-template-columns: 180px repeat("] > div[style*="font-size: 13px"] { font-size: 12px !important; }
+  .cmp [style*="font-size: 15px"] { font-size: 13.5px !important; }
+}
+
+@media (max-width: 420px) {
+  .home-hover > section:first-of-type h1 { font-size: 38px !important; }
+}
+
+/* ============================================================
+   Планшет 768–1023px: убираем то, что ломается, остальное — десктоп
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-hover section[style*="padding: 96px 48px"] { padding: 72px 28px 0 !important; }
+  .home-hover section[style*="padding: 100px 48px"] { padding: 72px 28px 0 !important; }
+  .home-hover section[style*="padding: 52px 48px"] { padding: 48px 28px 0 !important; }
+  .home-hover section[style*="padding: 48px 48px 80px"] { padding: 40px 28px 64px !important; }
+  .home-hover h2[style*="font-size: 40px"] { font-size: 34px !important; }
+  .home-hover [style*="repeat(4,"][style*="padding-top: 72px"] { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; padding-top: 24px !important; }
+  .home-hover article[class^="cat-card"] { margin-top: 0 !important; }
+  .home-hover [style*="repeat(4,"]:not([style*="padding-top"]) { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; }
+  .home-hover section[id="faq"] [style*="repeat(3,"] { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; }
+  .home-hover [style*="repeat(auto-fit, minmax(320px, 1fr))"] > div:nth-child(2) { display: none !important; }
+  .home-hover [style*="padding: 72px 100px"] { padding: 56px 48px !important; }
+  .home-hover footer [style*="1.4fr"] { grid-template-columns: 1fr 1fr !important; padding: 40px 28px !important; }
+  .home-hover footer [style*="1.4fr"] > div:first-child { grid-column: 1 / -1; }
+  .home-hover footer [style*="grid-template-columns: 1fr 1fr"] { padding: 48px 28px !important; gap: 32px !important; }
+  .home-hover [style*="margin: 12px -48px 0"], .home-hover [style*="margin: 0px -48px"] { margin-left: -28px !important; margin-right: -28px !important; }
+  .home-hover [style*="height: 620px"][style*="margin: 0px 48px"] { margin: 0 28px !important; }
+
+  .bc-root { padding: 18px 28px 0 !important; }
+  .fb-row { padding: 14px 28px !important; }
+  .cat-chips { padding-left: 28px !important; padding-right: 28px !important; }
+  .catalog-main { padding: 40px 28px 80px !important; }
+  .cp { padding: 24px 28px 56px !important; }
+  .cp [style*="repeat(6,"] { grid-template-columns: repeat(3, minmax(0px, 1fr)) !important; }
+  .cp [style*="repeat(3,"]:not([style*="gap: 0px 22px"]) { grid-template-columns: repeat(2, minmax(0px, 1fr)) !important; }
+
+  .co main { grid-template-columns: 1fr !important; padding: 20px 28px 56px !important; }
+  .co [style*="padding: 20px 40px 0"] { padding: 18px 28px 0 !important; }
+
+  .fp-side { width: 240px !important; }
+  .fp-cols { columns: 2 !important; }
+  .fp-main { padding: 24px 28px !important; }
+  .fp-ai-lbl { display: none; }
+}

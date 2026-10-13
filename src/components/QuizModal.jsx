@@ -185,7 +185,7 @@ export default function QuizModal({ products, onClose }) {
   const selectedMat = answers[4] ? MATERIALS.find(m => m.id === answers[4])?.name : null;
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 32 }}>
+    <div className="qz" style={{ position: 'fixed', inset: 0, zIndex: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 32 }}>
       <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(26,26,24,.44)', animation: 'dcFade .18s ease' }} />
       <div style={{
         position: 'relative', width: modalWidth, maxWidth: '100%', maxHeight: '90vh',
