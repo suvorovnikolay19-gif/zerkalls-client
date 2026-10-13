@@ -888,7 +888,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
           onMouseLeave={() => setActiveMenu(null)}
           style={{ position: 'relative', zIndex: 6, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '16px 24px', padding: '22px clamp(16px, 3vw, 48px)', color: '#fff' }}
         >
-          <div style={{ flex: 1, fontSize: 24, fontWeight: 600, letterSpacing: '-.02em' }}>objects</div>
+          <div style={{ flex: 1, fontSize: 24, fontWeight: 600, letterSpacing: '-.02em' }}>LoftGlass</div>
 
           <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <nav style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', justifyContent: 'center', gap: 4, padding: 6, borderRadius: 999, background: 'rgba(26,26,24,.62)', backdropFilter: 'blur(10px)' }}>
@@ -1814,10 +1814,10 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr repeat(3, minmax(0, 1fr))', gap: 40, padding: '46px 48px 40px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, alignSelf: 'flex-start', padding: '8px 14px', background: '#fff', color: '#1a1a18', fontSize: 17, fontWeight: 700, letterSpacing: '-.01em' }}>objects</div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, alignSelf: 'flex-start', padding: '8px 14px', background: '#fff', color: '#1a1a18', fontSize: 17, fontWeight: 700, letterSpacing: '-.01em' }}>LoftGlass</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontSize: 13 }}>
               <div><span style={{ color: 'rgba(255,255,255,.5)' }}>Рабочее время:</span><br />Будни 9:00–18:00</div>
-              <div><span style={{ color: 'rgba(255,255,255,.5)' }}>Почта:</span><br />info@objects.ru</div>
+              <div><span style={{ color: 'rgba(255,255,255,.5)' }}>Почта:</span><br />info@loftglass.ru</div>
               <div><span style={{ color: 'rgba(255,255,255,.5)' }}>Телефон:</span><br />+7 985 434-11-33</div>
               <div><span style={{ color: 'rgba(255,255,255,.5)' }}>Адрес:</span><br />142000, Московская область, г. Домодедово, микрорайон Западный, территория ИНТЕГРА, строение 3</div>
             </div>
@@ -1833,7 +1833,7 @@ export default function HomePage({ onNavigateToCatalog, cartCount, onOpenCart, o
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 40, padding: '26px 48px 34px', borderTop: '1px solid rgba(255,255,255,.1)', fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
-          <div>© objects 2022–2026. Все права защищены.<br />Интернет-магазин дизайнерской мебели</div>
+          <div>© LoftGlass 2022–2026. Все права защищены.<br />Интернет-магазин дизайнерской мебели</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <span style={{ cursor: 'pointer', color: 'rgba(255,255,255,.45)' }}>Политика конфиденциальности</span>
             <span style={{ cursor: 'pointer', color: 'rgba(255,255,255,.45)' }}>Публичная оферта</span>

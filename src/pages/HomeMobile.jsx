@@ -502,7 +502,7 @@ export default function HomeMobile({ onNavigateToCatalog, cartCount, onOpenCart,
           ))}
         </div>
         <div className="hm-top">
-          <span className="logo">objects</span>
+          <span className="logo">LoftGlass</span>
           <div className="acts">
             <a className="ico" href="tel:+79854341133" aria-label="Позвонить +7 985 434-11-33"><Ic d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" s={18} w={1.8} /></a>
             <button className="ico" onClick={() => setMenuOpen(true)} aria-label="Меню"><Ic d="M4 7h16M4 12h16M4 17h16" s={18} /></button>
@@ -568,7 +568,7 @@ export default function HomeMobile({ onNavigateToCatalog, cartCount, onOpenCart,
       {treeOpen && (
         <div className="hm-tree" role="dialog" aria-label="Подбор решения">
           <div className="hm-top">
-            <span className="logo">objects</span>
+            <span className="logo">LoftGlass</span>
             <button className="ico" onClick={() => setTreeOpen(false)} aria-label="Закрыть подбор"><Ic d="M6 6l12 12M18 6L6 18" /></button>
           </div>
           <div className="body">
@@ -862,11 +862,11 @@ export default function HomeMobile({ onNavigateToCatalog, cartCount, onOpenCart,
           <label className="agree"><input type="checkbox" /><span>Я принимаю политику конфиденциальности и даю согласие на отправку рекламных материалов</span></label>
         </div>
         <div className="info">
-          <span className="brand">objects</span>
+          <span className="brand">LoftGlass</span>
           <div className="cont">
             <div><small>Рабочее время</small><span>Будни 9:00–18:00</span></div>
             <div><small>Телефон</small><a href="tel:+79854341133">+7 985 434-11-33</a></div>
-            <div><small>Почта</small><a href="mailto:info@objects.ru">info@objects.ru</a></div>
+            <div><small>Почта</small><a href="mailto:info@loftglass.ru">info@loftglass.ru</a></div>
             <div><small>Адрес</small><span>Домодедово, территория ИНТЕГРА, стр. 3</span></div>
           </div>
           <div className="cols">
@@ -877,7 +877,7 @@ export default function HomeMobile({ onNavigateToCatalog, cartCount, onOpenCart,
           </div>
         </div>
         <div className="low">
-          <span>© objects 2022–2026. Все права защищены. Интернет-магазин дизайнерской мебели</span>
+          <span>© LoftGlass 2022–2026. Все права защищены. Интернет-магазин дизайнерской мебели</span>
           <div><a href="#footer">Политика конфиденциальности</a><a href="#footer">Публичная оферта</a></div>
         </div>
       </footer>
@@ -892,7 +892,7 @@ export default function HomeMobile({ onNavigateToCatalog, cartCount, onOpenCart,
       {menuOpen && (
         <div className="hm-menu" role="dialog" aria-label="Меню">
           <div className="hm-top" style={{ color: '#1a1a18' }}>
-            <span className="logo">objects</span>
+            <span className="logo">LoftGlass</span>
             <button className="ico" style={{ border: '1px solid #e0dcd5', background: '#fff', color: '#1a1a18' }} onClick={() => setMenuOpen(false)} aria-label="Закрыть меню"><Ic d="M6 6l12 12M18 6L6 18" /></button>
           </div>
           <div className="body">
